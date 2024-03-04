@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,8 +52,8 @@ public class MemberService {
 		return memberRepository.getMember(id);
 	}
 	
-	public void setMember(int id, String loginPw, String mname, String cellphoneNum, String email, String address) {
-		memberRepository.setMember(id, loginPw, mname, cellphoneNum, email, address);
+	public void setMember(int id, String mname, String birth, String cellphoneNum, String email, String address) {
+		memberRepository.setMember(id, mname, birth, cellphoneNum, email, address);
 	}
 
 	public ResultData<Integer> membership(String loginId, int lv, String membercode, String type) {
@@ -71,5 +72,11 @@ public class MemberService {
 	public int getMemberBylevel(String loginId) {
 		return memberRepository.getMemberBylevel(loginId);
 	}
+
+//	public ResultData modifyWithoutPw(int loginedMemberId, String name, String nickname, String cellphoneNum,
+//			String email, String address) {
+//		memberRepository.modifyWithoutPw(loginedMemberId, name, nickname, cellphoneNum, email, address);
+//		return ResultData.from("S-1", "회원정보 수정 완료");
+//	}
 
 }

@@ -182,16 +182,35 @@ public class UsrMemberController {
 	
 	@RequestMapping("/usr/member/doModify")
 	@ResponseBody
-	public String doModify(HttpServletRequest req, String loginPw, String mname,
+	public String doModify(HttpServletRequest req, String loginPw, String birth, String mname,
 			String cellphoneNum, String email, String address) {
 		
 		Rq rq = (Rq) req.getAttribute("rq");
 		int id = rq.getLoginedMemberId();
+		String loginId = rq.getLoginedMember().getLoginId();
 		
-		memberService.setMember(id, loginPw, mname, cellphoneNum, email, address);
-//		req.setAttribute(nickname, nickname);
+		System.out.println("#$#$#$#$#$#" + loginPw);
+		System.out.println("#$#$#$#$#$#" + address);
 		
-		return Ut.jsReplace("S-1", "회원정보가 수정되었습니다", "/");
+		Member member = memberService.getMemberByLoginId(loginId);
+
+		if (member.getLoginPw().equals(loginPw) == false) {
+			return Ut.jsHistoryBack("F-1", Ut.f("비밀번호가 일치하지 않습니다"));
+		} else {
+			memberService.setMember(id, loginPw, mname, cellphoneNum, email, address);
+			
+			return Ut.jsReplace("S-1", "회원정보가 수정되었습니다", "/");
+		}
+		
+//		ResultData modifyRd;
+//
+//		if (Ut.isNullOrEmpty(loginPw)) {
+//			modifyRd = memberService.modifyWithoutPw(rq.getLoginedMemberId(), birth, mname, cellphoneNum, email, address);
+//		} else {
+//			modifyRd = memberService.modify(rq.getLoginedMemberId(), birth, loginPw, mname, cellphoneNum, email, address);
+//		}
+//		
+//		return Ut.jsReplace("S-1", "회원정보가 수정되었습니다", "/");
 	}
 	@RequestMapping("/usr/member/findId")
 	public String showFindId(HttpServletRequest req) {

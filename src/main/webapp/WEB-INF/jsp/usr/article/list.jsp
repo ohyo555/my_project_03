@@ -2,46 +2,75 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="pageTitle" value="#{board.code } ARTICLE LIST"></c:set>
 <link rel="stylesheet" href="/resource/background.css" />
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-<body>
-
 <%@ include file="../common/head.jspf"%>
+
+ <style>
+
+        .board-container {
+            max-width: 800px;
+            margin: 0px auto;
+            background-color: white;
+			position: relative; /* relative position 설정 */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd; 
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+        
+      /* 검색창 스타일 */
+		form {
+		    margin: 10px;
+		    display: flex;
+		    align-items: center;
+		}
+
+		.search-bar {
+            width: 800px;
+            margin: 0px auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+</style>
 
 <section class="mt-3 text-xl px-4">
 	<input type="hidden" name="id" value="${article.id }" />
 	<div class="mx-auto overflow-x-auto">
-		<div class="badge badge-outline">${articlesCount }개</div>
-		<div class="mt-3 mb-3">
-			<form action="">
-				<input type="hidden" name="boardId" value="${param.boardId }" /> <select class="text-base"
-					name="searchKeywordTypeCode">
-					<%-- 	<select data-value="${param.searchKeywordTypeCode }" class="select select-bordered select-sm w-full max-w-xs"
-					name="searchKeywordTypeCode"> --%>
-					<option value="title" ${searchKeywordTypeCode.equals("title") ? 'selected="selected"' : '' }>제목</option>
-					<option value="body" ${searchKeywordTypeCode.equals("body") ? 'selected="selected"' : '' }>내용</option>
-				</select> <input value="${param.searchKeyword }" type="text" placeholder="검색어를 입력하세요"
-					class="input input-bordered w-full max-w-xs" name="searchKeyword" />
-				<button class="btn btn-outline" type="submit">검색</button>
+		<div class="search-bar">
+		    <div class="badge badge-outline">${articlesCount }개</div>
+	        <form action="">
+	            <input type="hidden" name="boardId" value="${param.boardId }" /> 
+	            <select class="text-sm mr-3" name="searchKeywordTypeCode">
+	                <option value="title" ${searchKeywordTypeCode.equals("title") ? 'selected="selected"' : '' }>제목</option>
+	                <option value="body" ${searchKeywordTypeCode.equals("body") ? 'selected="selected"' : '' }>내용</option>
+	                <option value="extra__writer" ${searchKeywordTypeCode.equals("extra__writer") ? 'selected="selected"' : '' }>작성자</option>
+	            </select> 
+	            <input value="${param.searchKeyword }" type="text" placeholder="검색어를 입력하세요" class="input input-bordered mr-3" style="font-size: 12px; height: 30px;" name="searchKeyword" />
+	            <button class="btn btn-sm btn-outline" type="submit">검색</button>
+	        </form>
 		</div>
-
-		<table class="table-box-1 table" border="1">
-			<colgroup>
-				<col style="width: 10%" />
-				<col style="width: 20%" />
-				<col style="width: 60%" />
-				<col style="width: 10%" />
-			</colgroup>
-
+		<div class="board-container">
+		<table>
 			<thead>
 				<tr>
 					<th>번호</th>
-					<th>날짜</th>
-					<th>제목</th>
-					<th>작성자</th>
-					<th>조회</th>
-					<th>좋아요</th>
-					<th>싫어요</th>
+	                <th>날짜</th>
+	                <th>제목</th>
+	                <th>작성자</th>
+	                <th>조회수</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -55,22 +84,22 @@
 				<c:forEach var="article" items="${articles }">
 					<tr class="hover">
 						<td>${article.id }</td>
-						<td>${article.regDate.substring(0,10) }</td>
+						
 						<c:if test="${article.cnt == 0}">
 							<td><a href="detail?id=${article.id }">${article.title }</a></td>
 						</c:if>
+						<td>${article.regDate.substring(0,10) }</td>
 						<c:if test="${article.cnt != 0}">
 							<td><a href="detail?id=${article.id }">${article.title }</a>
 							<div class="inline-block" style="color: #e0316e">[${article.cnt }]</div></td>
 						</c:if>
 						<td>${article.memberId }</td>
 						<td>${article.hitCount }</td>
-						<td>${article.goodReactionPoint }</td>
-						<td>${article.badReactionPoint }</td>
 					</tr>
 				</c:forEach>
 			</tbody>
-		</table>
+			</table>
+		</div>
 	</div>
 	<div class="pagination flex justify-center mt-3">
 		<c:set var="paginationLen" value="3" />
@@ -99,6 +128,7 @@
 
 	</form>
 </section>
-	
-</body>
+
+
+
 <%@ include file="../common/foot.jspf"%>

@@ -27,6 +27,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <style>
+
+
 #my_modal {
 	display: none;
 	width: 300px;
@@ -50,7 +52,8 @@
 }
 
 .modal_button {
-        margin: 0px 25px;
+        margin: 0px 20px;
+        font-size: 12px;
     }
   
 #my_modal .modal_close_btn {
@@ -71,7 +74,7 @@
     background-repeat: no-repeat; /* 배경 이미지 반복 없음 */
     border: none; /* 테두리 없음 */
     cursor: pointer; /* 마우스 포인터 모양 변경 */
-    margin: 5px;
+    margin: 7px;
 }
 
 #popup_open_btn:focus {
@@ -91,7 +94,7 @@
 				<c:if test="${rq.loginedMemberId != 0}">
 					<%-- <li>${rq.loginedId } 님 <i class="fa-solid fa-face-smile fa-sm fa-spin" style="color: #efdf2e;"></i></li> --%>
 				</c:if>
-				<li><a class="hover:underline" href="../article/list?boardId=1&page=1"><i class="fa-solid fa-list"></i></a>
+				<li class = "mt-3" style="position: relative; z-index: 999;"><a class="hover:underline" href="../article/list?boardId=1&page=1"><i class="fa-solid fa-list"></i></a>
 					<ul>
 						<li><a class="hover:underline" href="../member/membership">membership</a></li>
 						<li><a class="hover:underline" href="../game/calendar">Game Schedule</a></li>
@@ -118,8 +121,8 @@
 						</div>
 						<a class="modal_close_btn" onclick="closeModal()">닫기</a>
 						<div class="modal_content">
-						    <button class="modal_button" onclick="changeModalContent()">Setting</button>
-						    <button class="modal_button" onclick="logout()">Logout</button>
+						    <button class="modal_button" onclick="changeModalContent()">회원정보 수정</button>
+						    <button class="modal_button" onclick="logout()">로그아웃</button>
 					    </div>
 					</div>
 					
@@ -139,16 +142,21 @@
 					        	modalHistory.push(modalContentText.innerHTML);
 					        	// 새로운 모달 내용 설정
 					            modalContentText.innerHTML = '<div>' +
-					            '<label for="username">아이디: </label>' +
+					            '<label for="loginId">아이디: </label>' +
 					            '${rq.loginedMember.loginId}' +
 					            '</div>' +
 					            '<div>' +
-					            '<label for="birth">생년월일: </label>' +
-					            '${rq.loginedMember.birth}' +
+					            '<label for="loginPw">비밀번호 확인: </label>' +
+					            '<input type="text" class="input input-ghost w-full max-w-xs autocomplete="off" name="loginPw" style="height: 25px; width: 145px;" required/>' +
+					            '<div class = "text-xs text-blue-500">* 회원정보 수정 시 비밀번호를 입력해야합니다.</div>' +
 					            '</div>' +
 					            '<div>' +
-					            '<label for="name">이름: </label>' +
-					            '${rq.loginedMember.mname}' +
+					            '<label for="birth">생년월일: </label>' +
+					            '<input type="date" class="input input-ghost w-full max-w-xs autocomplete="off" name="birth" value="${rq.loginedMember.birth}" style="height: 25px; width: 170px;"/>' +
+					            '</div>' +
+					            '<div>' +
+					            '<label for="mname">이름: </label>' +
+					            '<input type="text" class="input input-ghost w-full max-w-xs autocomplete="off" name="mname" value="${rq.loginedMember.mname}" style="height: 25px; width: 200px;"/>' +
 					            '</div>' +
 					            '<div>' +
 					            '<label for="lv">등급/코드: </label>' +
@@ -157,19 +165,20 @@
 					            '</div>' +
 					            '<div>' +
 					            '<label for="cellphoneNum">전화번호: </label>' +
-					            '${rq.loginedMember.cellphoneNum}' +
+					            '<input type="text" class="input input-ghost w-full max-w-xs autocomplete="off" name="cellphoneNum" value="${rq.loginedMember.cellphoneNum}" style="height: 25px; width: 170px;"/>' +
 					            '</div>' +
 					            '<div>' +
 					            '<label for="email">이메일: </label>' +
-					            '${rq.loginedMember.email}' +
+					            '<input type="text" class="input input-ghost w-full max-w-xs autocomplete="off" name="email" value="${rq.loginedMember.email}" style="height: 25px; width: 200px;"/>' +
 					            '</div>' +
 					            '<div>' +
 					            '<label for="address">주소: </label>' +
-					            '${rq.loginedMember.address}' +
+					            '<input type="text" class="input input-ghost w-full max-w-xs autocomplete="off" name="address" value="${rq.loginedMember.address}" style="height: 25px; width: 200px;"/>' +
 					            '</div>' +
 					            '<a class="modal_close_btn" onclick="closeModal()">닫기</a>' +
 					            '<div class="modal_content">' +
-					            '<button class="modal_button" onclick="logout()">Logout</button>' +
+					            '<button class="modal_button" onclick="modify()">수정</button>' +
+					            '<button class="modal_button" onclick="logout()">로그아웃</button>' +
 					            '<button class="modal_button" onclick="goBack()">뒤로가기</button>' +
 					            '</div>';
 					        }
@@ -243,6 +252,10 @@
 			                if (bg) {
 			                    bg.remove();
 			                }
+			            }
+			            
+			            function modify() {
+			            	window.location.href = '../member/doModify';
 			            }
 			            
 			            function goBack() {

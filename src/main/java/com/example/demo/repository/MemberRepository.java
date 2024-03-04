@@ -20,7 +20,7 @@ public interface MemberRepository {
 	@Select("""
 			SELECT *
 			FROM `member`
-			WHERE mname = #{mname} 
+			WHERE mname = #{mname}
 			AND email = #{email}
 			""")
 	public Member getMemberByNameAndEmail(String mname, String email);
@@ -38,7 +38,8 @@ public interface MemberRepository {
 			email = #{email},
 			address = #{address}
 			""")
-	public void join(String loginId, String loginPw, String birth, String mname, String cellphoneNum, String email, String address);
+	public void join(String loginId, String loginPw, String birth, String mname, String cellphoneNum, String email,
+			String address);
 
 	@Select("SELECT LAST_INSERT_ID()")
 	public int getLastInsertId();
@@ -52,7 +53,8 @@ public interface MemberRepository {
 			WHERE loginId = #{loginId}
 			""")
 	public String login(String loginId, String loginPw);
-	
+
+
 	@Update("""
 			<script>
 			UPDATE member
@@ -68,7 +70,7 @@ public interface MemberRepository {
 			</script>
 			""")
 	public void setMember(int id, String loginPw, String mname, String cellphoneNum, String email, String address);
-
+	
 	@Update("""
 			<script>
 			UPDATE member
@@ -85,8 +87,9 @@ public interface MemberRepository {
 			WHERE loginId = #{loginId}
 			</script>
 			""")
-	public void setMember2(String loginId, String mname, String cellphoneNum, String email, String address, int lv, String membercode, String type);
-	
+	public void setMember2(String loginId, String mname, String cellphoneNum, String email, String address, int lv,
+			String membercode, String type);
+
 	@Insert("""
 			INSERT INTO
 			membership SET
