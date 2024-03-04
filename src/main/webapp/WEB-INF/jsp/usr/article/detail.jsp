@@ -1,49 +1,68 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="pageTitle" value="ARTICLE DETAIL"></c:set>
-<%@ include file="../common/head.jspf"%>
 <link rel="stylesheet" href="/resource/background.css" />
+<%@ include file="../common/head.jspf"%>
+
 <!-- <iframe src="http://localhost:8081/usr/article/doIncreaseHitCountRd?id=372" frameborder="0"></iframe> -->
 <style>
 /* 2차메뉴 */
-
+    
 body, ul, li {
-  margin:0;
-  padding:0;
-  list-style:none;
+	margin: 0;
+	padding: 0;
+	list-style: none;
 }
 
 a {
-  color:inherit;
-  text-decoration:none;
+	color: inherit;
+	text-decoration: none;
+}
+
+.reaction {
+	display: inline;
 }
 
 .rr {
 	width: 100%;
 }
 
-.rr >ul>li {
+.rr ul {
+	z-index: 2;
+}
+
+.rr>ul>li {
 	margin-right: 0px;
 	margin-left: auto;
 	position: relative;
 }
 
-.comment ul>li>ul {
+.option {
+	position: absolute;
+	right: 0;
+}
+
+.option ul {
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.option ul>li:hover>ul>li>a {
+	background-color: white;
+	white-space: nowrap;
+	padding: 5px;
+	font-size: 1rem;
+}
+
+.option>ul ul {
 	display: none;
 	position: absolute;
-	left: auto;
-	right: 20px;
-	background-color: white;
 }
 
-.comment ul>li:hover>ul {
+.option ul>li:hover ul {
 	display: block;
-	width: 100%;
-	white-space:nowrap;
-}
-
-.reaction {
-	display: inline;
+	cursor: pointer;
 }
 </style>
 
@@ -52,40 +71,33 @@ a {
 	const params = {};
 	params.id = parseInt('${param.id}');
 	
-	var isAlreadyAddGoodRp = ${isAlreadyAddGoodRp}; // 이미 좋아요가 눌린상태
-	var isAlreadyAddBadRp = ${isAlreadyAddBadRp}; // 이미 싫어요가 눌린상태
+	var isAlreadyAddGoodRp = ${isAlreadyAddGoodRp};
+	var isAlreadyAddBadRp = ${isAlreadyAddBadRp};
 </script>
 
 <!-- 조회수 -->
-<script> // 로컬 스토리지를 사용하여 해당 게시물의 조회 여부 추적
+<script>
 	function ArticleDetail__doIncreaseHitCount() {
-		
-		// 로컬 스토리지 관련 부분
-		const localStorageKey = 'article__' + params.id + '__alreadyView'; // 현재 게시물의 좋아요 여부 파악을 위한 로컬스토리지 키
+		const localStorageKey = 'article__' + params.id + '__alreadyView';
 
 		if (localStorage.getItem(localStorageKey)) {
 			return;
 		}
 
-		localStorage.setItem(localStorageKey, true); // 로컬 스토리지에 기록
+		localStorage.setItem(localStorageKey, true);
 
-		// 서버로의 ajax 요청 부분
 		$.get('../article/doIncreaseHitCountRd', {
 			id : params.id,
-			ajaxMode : 'Y' //id, ajaxMode 데이터까지 전송
-		}, function(data) { // 반환 데이터 처리
-			$('.article-detail__hit-count').empty().html(data.data1); // 해당 클래스를 가진 요소의 내용을 비우고, 조회수를 나타내는 데이터로 채움
+			ajaxMode : 'Y'
+		}, function(data) {
+			$('.article-detail__hit-count').empty().html(data.data1);
 		}, 'json');
 	}
 
 	$(function() {
 		// 		ArticleDetail__doIncreaseHitCount();
-		setTimeout(ArticleDetail__doIncreaseHitCount, 2000); // 페이지가 로드된 후 2초 뒤에 조회수 증가하도록
+		setTimeout(ArticleDetail__doIncreaseHitCount, 2000);
 	});
-	
-	// 로컬 스토리지를 사용하여 이미 조회한 게시물인지 확인하고, 
-	// 조회되지 않은 경우 서버로 Ajax 요청을 보내 조회수를 증가시키며,
-	// 최종적으로 해당 데이터를 HTML 요소에 출력
 </script>
 
 <!-- 좋아요 싫어요  -->
@@ -241,7 +253,7 @@ a {
 </script>
 
 <!-- 댓글 -->
-	<script>
+<script>
 		var CommentWrite__submitDone = false;
 		function CommentWrite__submit(form) {
 			if (CommentWrite__submitDone) {
@@ -265,16 +277,44 @@ a {
 
 <!-- 댓글 수정, 삭제 -->
 <script>
-	function doModify(commentId) {
-		if(isAlreadyAddGoodRp == true){
-			$('#likeButton').toggleClass('btn-outline');
-		}else if(isAlreadyAddBadRp == true){
-			$('#DislikeButton').toggleClass('btn-outline');
-		}else {
-			return;
-		}
+	function toggleModifybtn(commentId) {
+		$('#modify-btn-'+commentId).hide();
+		$('#save-btn-'+commentId).show();
+		$('#comment-'+commentId).hide();
+		$('#modify-form-'+commentId).show();
 	}
+		
+	function doModifyComment(commentId) {
+		 console.log(commentId); // 디버깅을 위해 replyId를 콘솔에 출력
+		    
+		    // form 요소를 정확하게 선택
+		    var form = $('#modify-form-' + commentId);
+		    console.log(form); // 디버깅을 위해 form을 콘솔에 출력
 
+		    // form 내의 input 요소의 값을 가져옵니다
+		    var text = form.find('input[name="comment-text-' + commentId + '"]').val();
+		    console.log(text); // 디버깅을 위해 text를 콘솔에 출력
+
+		    // form의 action 속성 값을 가져옵니다
+		    var action = form.attr('action');
+		    console.log(action); // 디버깅을 위해 action을 콘솔에 출력
+		
+	    $.post({
+	    	url: '/usr/comment/doModify', // 수정된 URL
+	        type: 'POST', // GET에서 POST로 변경
+	        data: { id: commentId, comment: text }, // 서버에 전송할 데이터
+	        success: function(data) {
+	        	$('#modify-form-'+commentId).hide();
+	        	$('#comment-'+commentId).text(data);
+	        	$('#comment-'+commentId).show();
+	        	$('#save-btn-'+commentId).hide();
+	        	$('#modify-btn-'+commentId).show();
+	        },
+	        error: function(xhr, status, error) {
+	            alert('댓글 수정에 실패했습니다: ' + error);
+	        }
+		})
+	}
 </script>
 
 <section class="mt-8 text-xl px-4">
@@ -294,10 +334,6 @@ a {
 					<td>${article.updateDate }</td>
 				</tr>
 				<tr>
-					<th>작성자</th>
-					<td>${article.memberId }</td>
-				</tr>
-				<tr>
 					<th>좋아요</th>
 					<td id="likeCount">${article.goodReactionPoint }</td>
 				</tr>
@@ -307,30 +343,8 @@ a {
 				</tr>
 				<tr>
 					<th>추천</th>
-					<%-- 	<td><c:choose>
-							<c:when test="${isAlreadyAddGoodRp}">
-								<a href="/usr/reactionPoint/doGoodReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.currentUri}"
-									class="reaction btn btn-success">▲</a>&nbsp;&nbsp; <a
-									href="/usr/reactionPoint/doBadReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.currentUri}"
-									class="reaction btn btn-outline btn-error">▼</a>
-							</c:when>
-							<c:when test="${isAlreadyAddBadRp}">
-								<a href="/usr/reactionPoint/doGoodReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.currentUri}"
-									class="reaction btn btn-outline btn-success">▲</a>&nbsp;&nbsp; <a
-									href="/usr/reactionPoint/doBadReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.currentUri}"
-									class="reaction btn btn-error">▼</a>
-							</c:when>
-							<c:otherwise>
-								<a href="/usr/reactionPoint/doGoodReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.currentUri}"
-									class="reaction btn btn-outline btn-success">▲</a>&nbsp;&nbsp; <a
-									href="/usr/reactionPoint/doBadReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.currentUri}"
-									class="reaction btn btn-outline btn-error">▼</a>
-							</c:otherwise>
-						</c:choose></td> --%>
 					<td>
-						<!-- href="/usr/reactionPoint/doGoodReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.currentUri}" -->
 						<button id="likeButton" class="btn btn-outline btn-success" onclick="doGoodReaction(${param.id})">▲</button>
-
 						<button id="DislikeButton" class="btn btn-outline btn-error" onclick="doBadReaction(${param.id})">▼</button>
 					</td>
 				</tr>
@@ -355,7 +369,8 @@ a {
 				<a class="btn btn-outline" href="../article/modify?id=${article.id }">수정</a>
 			</c:if>
 			<c:if test="${article.userCanDelete }">
-				<a class="btn btn-outline" onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;" href="../article/doDelete?id=${article.id }">삭제</a>
+				<a class="btn btn-outline" onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;"
+					href="../article/doDelete?id=${article.id }">삭제</a>
 			</c:if>
 		</div>
 	</div>
@@ -372,14 +387,16 @@ a {
 								src="https://health.chosun.com/site/data/img_dir/2023/07/17/2023071701753_0.jpg" />
 						</div>
 					</div>
+					<%-- <div class="comment">${rq.loginedMemberNickname }</div> --%>
 				</div>
 				<div class="flex-none gap-2 m-3 ">
 					<div class="form-control">
-						<textarea name="comment" placeholder="댓글을 입력해주세요" class="textarea textarea-bordered h-24"></textarea>
+						<textarea class="input input-bordered input-primary w-full max-w-xs" autocomplete="off" placeholder="댓글을 입력해주세요" name="body"></textarea>
 					</div>
 				</div>
 				<button class="btn btn-outline m-3" type="submit">댓글등록</button>
 			</label>
+			</form>
 	</c:if>
 	<c:if test="${!rq.isLogined() }">
 		<a class="btn btn-outline btn-ghost" href="../member/login">LOGIN</a> 하고 댓글 써
@@ -394,31 +411,45 @@ a {
 					</div>
 				</div>
 				<div class="chat-header">
-					${comments.memberId }
+					${comments.id }
 					<time class="text-xs opacity-50">${comments.updateDate.substring(0,10) }</time>
 				</div>
-				<div class = "rr">
-				<div class="chat-bubble">${comments.comment }</div>
-				<button id="likeButton" onclick="doCommentGoodReaction(${param.id},)" style="color:#e0316e" class = "reaction text-xl">♡</button>
-				<c:if test="${comments.goodReactionPoint > 0}"><div class = "reaction" style="color:#e0316e" >[${comments.sum }]</div></c:if>
-				<c:if test="${comments.memberId == rq.loginedMemberId }">
-				<div>${CommentGoodCnt }</div>
-					<ul class="flex">
-						<li><a class="hover:underline" href="#">···</a>
+				<div class="rr">
+					<span class="chat-bubble" id="comment-${comments.id }">${comments.comment }</span>
+					<form method="POST" id="modify-form-${comments.id }" style="display: none;" action="/usr/comment/doModify">
+						<input class="chat-bubble" type="text" value="${comments.comment }" name="comment-text-${comments.id }" />
+					</form>
+					<button id="likeButton" onclick="doCommentGoodReaction(${param.id},)" style="color: #e0316e"
+						class="reaction text-xl">♡</button>
+					<c:if test="${comments.goodReactionPoint > 0}">
+						<div class="reaction" style="color: #e0316e">[${comments.sum }]</div>
+					</c:if>
+					<div>${CommentGoodCnt }</div>
+					<c:if test="${comments.memberId == rq.loginedMemberId }">
+						<nav class="option">
 							<ul>
-								<li><button onclick="doModify(${comments.id })">수정</button></li>
-								<li><a onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;" href="../comment/doDelete?id=${comments.id }">삭제</a></li>
-							</ul></li>
-					</ul>
-				</c:if>
+								<li><a class="hover:underline" href="#">···</a>
+									<ul>
+										<c:if test="${comments.userCanModify }">
+											<li><a onclick="toggleModifybtn('${comments.id}');" style="white-space: nowrap;"
+												id="modify-btn-${comments.id }">수정</a></li>
+											<li><a onclick="doModifyComment('${comments.id}');" style="white-space: nowrap; display: none;"
+												id="save-btn-${comments.id }">저장</a></li>
+										</c:if>
+										<c:if test="${comments.userCanDelete }">
+											<li><a onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;"
+												href="../comment/doDelete?id=${comments.id }">삭제</a></li>
+										</c:if>
+									</ul>
+								</li>
+							</ul>
+						</nav>
+					</c:if>
 				</div>
 			</div>
 		</c:forEach>
 	</div>
 </section>
-
-
-</div>
 
 
 <%@ include file="../common/foot.jspf"%>

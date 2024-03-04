@@ -3,23 +3,42 @@
 <c:set var="pageTitle" value="ARTICLE WRITE"></c:set>
 <link rel="stylesheet" href="/resource/background.css" />
 <%@ include file="../common/head.jspf"%>
+<%@ include file="../common/toastUiEditorLib.jspf"%>
+
+<!-- Article write 관련 -->
+<script type="text/javascript">
+	let ArticleWrite__submitFormDone = false;
+	function ArticleWrite__submit(form) {
+		if (ArticleWrite__submitFormDone) {
+			return;
+		}
+		form.title.value = form.title.value.trim();
+		if (form.title.value == 0) {
+			alert('제목을 입력해주세요');
+			return;
+		}
+		const editor = $(form).find('.toast-ui-editor').data(
+				'data-toast-editor');
+		const markdown = editor.getMarkdown().trim();
+		if (markdown.length == 0) {
+			alert('내용 써라');
+			editor.focus();
+			return;
+		}
+		form.body.value = markdown;
+		ArticleWrite__submitFormDone = true;
+		form.submit();
+	}
+</script>
 
 <section class="mt-8 text-xl px-4">
 	<div class="mx-auto">
-		<form action="../article/doWrite" method="POST">
+		<form action="../article/doWrite" method="POST" onsubmit="ArticleWrite__submit(this); return false;">
+			<input type="hidden" name="comment">
 			<table class="write-box table-box-1" border="1">
 				<tbody>
 					<div class = "mb-5">
-						<div class="form-check"> 
-					 			<!-- <input type="checkbox" id="notice"  name="boardId" class="form-check-input">
-					 			<input type="hidden" name="_open" value="1"> 
-					 			<label for="open" class="form-check-label mr-5 text-base">공지사항</label> 
-					 			<input type="checkbox" id="list"  name="boardId" class="form-check-input">
-					 			<input type="hidden" name="_open" value="2"> 
-					 			<label for="open" class="form-check-label text-base mr-5">자유게시판</label>
-					 			<input type="checkbox" id="notice"  name="boardId" class="form-check-input">
-					 			<input type="hidden" name="_open" value="3"> 
-					 			<label for="open" class="form-check-label mr-5 text-base">질의응답</label>  -->
+						<div class="form-check">
 					 			<select class = "text-base h-8" name = "boardId">
 								<option value = "1"}>공지사항</option>
 								<option value = "2"}>자유게시판</option>
@@ -35,16 +54,17 @@
 					</tr>
 					<tr>
 						<th>내용</th>
-						<td><textarea autocomplete="off" type="text" placeholder="내용을 입력해주세요" name="body" /></textarea></td>
+						<td style="background-color: white;"><div class="toast-ui-editor">
+								<script type="text/x-template"></script>
+							</div></td>
 					</tr>
 			</tbody>
 		</table>
 		
 		<div class="btns mt-5 text-base">
 			<button class="btn btn-outline" type="button" onclick="history.back();">뒤로가기</button>
-			<button class="btn btn-outline" type="submit" >등록</button>
+			<button class="btn btn-outline btn-info" type="submit" value="작성">작성</button>
 		</div>
-		
 	</div>
 </section>
 

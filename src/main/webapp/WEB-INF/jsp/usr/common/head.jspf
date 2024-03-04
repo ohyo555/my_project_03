@@ -17,23 +17,60 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/daisyui/4.6.1/full.css" />
 
 <!-- flaticon 불러오기 -->
-<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+<link rel='stylesheet'
+	href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
 
 <!-- 폰트어썸 불러오기 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-  
+
 <!-- 제이쿼리 불러오기 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
+<style>
+#my_modal {
+	display: none;
+	width: 300px;
+	padding: 20px;
+	background-color: #fefefe;
+	border: 1px solid #888;
+	border-radius: 10px;
+	font-size: 1rem;
+}
+
+#my_modal label{
+	font-weight: 700;
+}
+
+.modal_content {
+      /* 다른 스타일 속성들... */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%; /* 모달 내용을 세로 중앙 정렬하기 위한 스타일 */
+}
+
+.modal_button {
+        margin: 0px 25px;
+    }
+  
+#my_modal .modal_close_btn {
+	position: absolute;
+	top: 5px;
+	right: 20px;
+	cursor: pointer; /* 추가: 마우스 포인터 모양 변경 */
+}
+</style>
+
 </head>
+
 <body>
 	<header>
-		<div class="h-20 flex items-center text-3xl">
+		<div class="h-100% flex items-center text-3xl">
 			<a class="hover:underline" href="/"><i class="fa-solid fa-house-chimney"></i></a>
 			<div class="flex-grow"></div>
 			<ul class="flex">
 				<c:if test="${rq.loginedMemberId != 0}">
-				<%-- <li>${rq.loginedId } 님 <i class="fa-solid fa-face-smile fa-sm fa-spin" style="color: #efdf2e;"></i></li> --%>
+					<%-- <li>${rq.loginedId } 님 <i class="fa-solid fa-face-smile fa-sm fa-spin" style="color: #efdf2e;"></i></li> --%>
 				</c:if>
 				<li><a class="hover:underline" href="../article/list?boardId=1&page=1"><i class="fa-solid fa-list"></i></a>
 					<ul>
@@ -43,18 +80,131 @@
 						<li><a class="hover:underline" href="../article/list?boardId=2&page=1">FREE</a></li>
 						<li><a class="hover:underline" href="../article/list?boardId=3&page=1">QnA</a></li>
 						<c:if test="${rq.loginedMemberId != 0}">
-		 				<li><a class="hover:underline" href="../article/write">write</a></li>
-						<li><a class="hover:underline" href="../member/mypage">mypage</a></li>
+							<li><a class="hover:underline" href="../article/write">write</a></li>
+							<li><a class="hover:underline" href="../member/mypage">mypage</a></li>
 						</c:if>
 					</ul></li>
 				<c:if test="${rq.loginedMemberId == 0}">
-				<li><a class="hover:underline" href="../member/login">LOGIN</a></li>
+					<li><a class="hover:underline" href="../member/login">LOGIN</a></li>
 				</c:if>
 				<c:if test="${rq.loginedMemberId != 0}">
-				<li><a onclick="if(confirm('로그아웃 할래?') == false) return false;" class="hover:underline"
-							href="../member/doLogout">LOGOUT</a></li>
+					<div id="my_modal">
+						<div>
+							<label for="username">아이디:</label>
+							${rq.loginedMember.loginId }
+						</div>
+						<div>
+							<label for="birth">생년월일:</label> 
+							${rq.loginedMember.birth }
+						</div>
+						<div>
+							<label for="name">이름:</label> 
+							${rq.loginedMember.mname }
+						</div>
+						<div>
+							<label for="name">등급/코드:</label> 
+							<c:choose>
+								<c:when test="${member.authLevel == 1}">골드/${rq.loginedMember.membercode }</c:when>
+								<c:when test="${member.authLevel == 2}">실버/${rq.loginedMember.membercode }</c:when>
+								<c:when test="${member.authLevel == 7}">관리자</c:when>
+								<c:otherwise>일반</c:otherwise>
+							</c:choose>
+						</div>
+						<div>
+							<label for="cellphoneNum">전화번호:</label>
+							${rq.loginedMember.cellphoneNum }
+						</div>
+
+						<div>
+							<label for="email">이메일:</label>
+							${rq.loginedMember.email }
+						</div>
+						
+						<div>
+							<label for="address">주소:</label>
+							${rq.loginedMember.address }
+						</div>
+						<a class="modal_close_btn">닫기</a>
+						<div class="modal_content">
+						    <button class="modal_button" onclick="changeModalContent()">Setting</button>
+						    <button class="modal_button">Logout</button>
+					    </div>
+					</div>
+					
+					<button id="popup_open_btn" class="btn btn-outline" type="button">my</button>
+
+					<script>
+					
+					 	function changeModalContent() {
+					 	// 모달 내용을 변경하는 코드 예제
+					        var modalContentText = document.getElementById('my_modal');
+
+					        // 요소가 존재하는지 확인
+					        if (modalContentText) {
+					            modalContentText.innerHTML = '111';
+					        }
+					    }
+
+			            function modal(id) {
+			                var zIndex = 9999;
+			                var modal = document.getElementById(id);
+			
+			                // 모달 div 뒤에 희끄무레한 레이어
+			                var bg = document.createElement('div');
+			                bg.setStyle({
+			                    position: 'fixed',
+			                    zIndex: zIndex,
+			                    left: '0px',
+			                    top: '0px',
+			                    width: '100%',
+			                    height: '100%',
+			                    overflow: 'auto',
+			                    // 레이어 색갈은 여기서 바꾸면 됨
+			                    backgroundColor: 'rgba(0,0,0,0.3)'
+			                });
+			                document.body.append(bg);
+			
+			                // 닫기 버튼 처리, 시꺼먼 레이어와 모달 div 지우기
+			               modal.querySelector('.modal_close_btn').addEventListener('click', function() {
+							    bg.remove();
+							    modal.style.display = 'none';
+							});
+			
+			                modal.setStyle({
+			                    position: 'fixed',
+			                    display: 'block',
+			                    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+			
+			                    // 시꺼먼 레이어 보다 한칸 위에 보이기
+			                    zIndex: zIndex + 1,
+			
+			                    // div center 정렬
+			                    top: '50%',
+			                    left: '50%',
+			                    transform: 'translate(-50%, -50%)',
+			                    msTransform: 'translate(-50%, -50%)',
+			                    webkitTransform: 'translate(-50%, -50%)'
+			                });
+			            }
+			
+			            // Element 에 style 한번에 오브젝트로 설정하는 함수 추가
+			            Element.prototype.setStyle = function(styles) {
+			                for (var k in styles) this.style[k] = styles[k];
+			                return this;
+			            };
+			
+			            document.getElementById('popup_open_btn').addEventListener('click', function() {
+			                // 모달창 띄우기
+			                modal('my_modal');
+			            });
+			        </script>
+
+					<li><a onclick="if(confirm('로그아웃 할래?') == false) return false;" class="hover:underline"
+						href="../member/doLogout">LOGOUT</a></li>
 				</c:if>
 			</ul>
 		</div>
 	</header>
-	<%-- <h1>${pageTitle }</h1> --%>
+</body>
+
+<%-- <h1>${pageTitle }</h1> --%>

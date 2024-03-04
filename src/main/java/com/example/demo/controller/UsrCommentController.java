@@ -103,5 +103,4 @@ public class UsrCommentController {
 		
 		return Ut.jsReplace(loginedMemberCanDeleteRd.getResultCode(), loginedMemberCanDeleteRd.getMsg(), replaceUri);
 	}
-
 }
