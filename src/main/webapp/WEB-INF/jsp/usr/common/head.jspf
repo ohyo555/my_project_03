@@ -59,6 +59,25 @@
 	right: 20px;
 	cursor: pointer; /* 추가: 마우스 포인터 모양 변경 */
 }
+
+#popup_open_btn {
+    display: inline-block;
+    width: 50px; /* 원하는 너비로 설정 */
+    height: 50px; /* 원하는 높이로 설정 */
+    border-radius: 50%; /* 동그란 모양으로 설정 */
+    background-image: url('https://cdn.pixabay.com/photo/2017/06/13/12/54/profile-2398783_960_720.png'); /* 이미지 경로 설정 */
+    background-size: cover; /* 배경 이미지를 커버로 설정 */
+    background-position: center; /* 배경 이미지를 가운데 정렬 */
+    background-repeat: no-repeat; /* 배경 이미지 반복 없음 */
+    border: none; /* 테두리 없음 */
+    cursor: pointer; /* 마우스 포인터 모양 변경 */
+    margin: 5px;
+}
+
+#popup_open_btn:focus {
+    outline: none; /* 포커스 효과 제거 */
+}
+
 </style>
 
 </head>
@@ -94,46 +113,21 @@
 							${rq.loginedMember.loginId }
 						</div>
 						<div>
-							<label for="birth">생년월일:</label> 
+							<label for="aaaaa">예매내역:</label> 
 							${rq.loginedMember.birth }
 						</div>
-						<div>
-							<label for="name">이름:</label> 
-							${rq.loginedMember.mname }
-						</div>
-						<div>
-							<label for="name">등급/코드:</label> 
-							<c:choose>
-								<c:when test="${member.authLevel == 1}">골드/${rq.loginedMember.membercode }</c:when>
-								<c:when test="${member.authLevel == 2}">실버/${rq.loginedMember.membercode }</c:when>
-								<c:when test="${member.authLevel == 7}">관리자</c:when>
-								<c:otherwise>일반</c:otherwise>
-							</c:choose>
-						</div>
-						<div>
-							<label for="cellphoneNum">전화번호:</label>
-							${rq.loginedMember.cellphoneNum }
-						</div>
-
-						<div>
-							<label for="email">이메일:</label>
-							${rq.loginedMember.email }
-						</div>
-						
-						<div>
-							<label for="address">주소:</label>
-							${rq.loginedMember.address }
-						</div>
-						<a class="modal_close_btn">닫기</a>
+						<a class="modal_close_btn" onclick="closeModal()">닫기</a>
 						<div class="modal_content">
 						    <button class="modal_button" onclick="changeModalContent()">Setting</button>
-						    <button class="modal_button">Logout</button>
+						    <button class="modal_button" onclick="logout()">Logout</button>
 					    </div>
 					</div>
 					
-					<button id="popup_open_btn" class="btn btn-outline" type="button">my</button>
+					<button id="popup_open_btn" class="btn btn-outline" type="button"></button>
 
 					<script>
+					
+					var modalHistory = []; // 모달 내용을 저장할 배열
 					
 					 	function changeModalContent() {
 					 	// 모달 내용을 변경하는 코드 예제
@@ -141,7 +135,43 @@
 
 					        // 요소가 존재하는지 확인
 					        if (modalContentText) {
-					            modalContentText.innerHTML = '111';
+					        	// 이전 모달 내용 저장
+					        	modalHistory.push(modalContentText.innerHTML);
+					        	// 새로운 모달 내용 설정
+					            modalContentText.innerHTML = '<div>' +
+					            '<label for="username">아이디: </label>' +
+					            '${rq.loginedMember.loginId}' +
+					            '</div>' +
+					            '<div>' +
+					            '<label for="birth">생년월일: </label>' +
+					            '${rq.loginedMember.birth}' +
+					            '</div>' +
+					            '<div>' +
+					            '<label for="name">이름: </label>' +
+					            '${rq.loginedMember.mname}' +
+					            '</div>' +
+					            '<div>' +
+					            '<label for="lv">등급/코드: </label>' +
+					            '${rq.loginedMember.type}' + '/' +
+					            '${rq.loginedMember.membercode}' +
+					            '</div>' +
+					            '<div>' +
+					            '<label for="cellphoneNum">전화번호: </label>' +
+					            '${rq.loginedMember.cellphoneNum}' +
+					            '</div>' +
+					            '<div>' +
+					            '<label for="email">이메일: </label>' +
+					            '${rq.loginedMember.email}' +
+					            '</div>' +
+					            '<div>' +
+					            '<label for="address">주소: </label>' +
+					            '${rq.loginedMember.address}' +
+					            '</div>' +
+					            '<a class="modal_close_btn" onclick="closeModal()">닫기</a>' +
+					            '<div class="modal_content">' +
+					            '<button class="modal_button" onclick="logout()">Logout</button>' +
+					            '<button class="modal_button" onclick="goBack()">뒤로가기</button>' +
+					            '</div>';
 					        }
 					    }
 
@@ -151,6 +181,7 @@
 			
 			                // 모달 div 뒤에 희끄무레한 레이어
 			                var bg = document.createElement('div');
+			                bg.className = 'modal_bg'; // 클래스 추가
 			                bg.setStyle({
 			                    position: 'fixed',
 			                    zIndex: zIndex,
@@ -192,15 +223,43 @@
 			                for (var k in styles) this.style[k] = styles[k];
 			                return this;
 			            };
-			
+			            
 			            document.getElementById('popup_open_btn').addEventListener('click', function() {
 			                // 모달창 띄우기
 			                modal('my_modal');
 			            });
+			            
+			            function closeModal() {
+			                // 모달과 배경 요소를 찾기
+			                var modal = document.getElementById('my_modal');
+			                
+			             // 모달이 존재하는지 확인 후 제거
+			                if (modal) {
+			                    modal.style.display = 'none';
+			                }
+
+			                // 수정: 반환된 배경 요소 제거
+			                var bg = document.querySelector('.modal_bg');
+			                if (bg) {
+			                    bg.remove();
+			                }
+			            }
+			            
+			            function goBack() {
+			                // 브라우저 히스토리에서 뒤로가기를 누를 때 이전 모달 내용을 불러와서 설정
+			                var modalContentText = document.getElementById('my_modal');
+			                if (modalHistory.length > 0) {
+			                    modalContentText.innerHTML = modalHistory.pop();
+			                }
+			            }
+
+			            function logout() {
+			                if (confirm('로그아웃 할래?')) {
+			                    window.location.href = '../member/doLogout';
+			                }
+			            }
 			        </script>
 
-					<li><a onclick="if(confirm('로그아웃 할래?') == false) return false;" class="hover:underline"
-						href="../member/doLogout">LOGOUT</a></li>
 				</c:if>
 			</ul>
 		</div>

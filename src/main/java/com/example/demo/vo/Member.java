@@ -24,5 +24,7 @@ public class Member {
 	private String updateDate;
 	private boolean delStatus;
 	private String delDate;
+	private String type;
+	
 
 }

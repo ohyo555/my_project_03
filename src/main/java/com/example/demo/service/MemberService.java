@@ -64,8 +64,8 @@ public class MemberService {
 		return ResultData.from("S-1", "멤버쉽가입이 완료되었습니다.", "id", id);
 	}
 
-	public void setMember2(String loginId, String mname, String cellphoneNum, String email, String address, int lv, String membercode) {
-		memberRepository.setMember2(loginId, mname, cellphoneNum, email, address, lv, membercode);
+	public void setMember2(String loginId, String mname, String cellphoneNum, String email, String address, int lv, String membercode, String type) {
+		memberRepository.setMember2(loginId, mname, cellphoneNum, email, address, lv, membercode, type);
 	}
 
 	public int getMemberBylevel(String loginId) {

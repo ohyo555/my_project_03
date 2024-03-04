@@ -78,13 +78,14 @@ public interface MemberRepository {
 			<if test="email != null and email != ''">email = #{email},</if>
 			<if test="address != null and address != ''">address = #{address},</if>
 			<if test="lv != null and lv != ''">`authLevel` = #{lv},</if>
+			type = #{type},
 			membercode = #{membercode},
 			updateDate = NOW()
 			</set>
 			WHERE loginId = #{loginId}
 			</script>
 			""")
-	public void setMember2(String loginId, String mname, String cellphoneNum, String email, String address, int lv, String membercode);
+	public void setMember2(String loginId, String mname, String cellphoneNum, String email, String address, int lv, String membercode, String type);
 	
 	@Insert("""
 			INSERT INTO

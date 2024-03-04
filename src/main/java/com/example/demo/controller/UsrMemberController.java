@@ -290,7 +290,7 @@ public class UsrMemberController {
 
 		ResultData<Integer> membershipRd = memberService.membership(loginId, lv, membercode, type);
 		
-		memberService.setMember2(loginId, mname, cellphoneNum, email, address, lv, membercode);
+		memberService.setMember2(loginId, mname, cellphoneNum, email, address, lv, membercode, type);
 		
 		if (membershipRd.isFail()) {
 			return Ut.jsHistoryBack(membershipRd.getResultCode(), membershipRd.getMsg());
