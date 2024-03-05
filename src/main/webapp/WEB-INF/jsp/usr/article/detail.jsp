@@ -334,6 +334,10 @@ a {
 					<td>${article.updateDate }</td>
 				</tr>
 				<tr>
+					<th>작성자</th>
+					<td>${article.loginId }</td>
+				</tr>
+				<tr>
 					<th>좋아요</th>
 					<td id="likeCount">${article.goodReactionPoint }</td>
 				</tr>
@@ -391,7 +395,7 @@ a {
 				</div>
 				<div class="flex-none gap-2 m-3 ">
 					<div class="form-control">
-						<textarea class="input input-bordered input-primary w-full max-w-xs" autocomplete="off" placeholder="댓글을 입력해주세요" name="body"></textarea>
+						<textarea name="comment" placeholder="댓글을 입력해주세요" class="textarea textarea-bordered h-24"></textarea>
 					</div>
 				</div>
 				<button class="btn btn-outline m-3" type="submit">댓글등록</button>
@@ -410,8 +414,8 @@ a {
 							src="https://health.chosun.com/site/data/img_dir/2023/07/17/2023071701753_0.jpg" />
 					</div>
 				</div>
-				<div class="chat-header">
-					${comments.id }
+				<div class="chat-header font-semibold">
+					${comments.loginId }
 					<time class="text-xs opacity-50">${comments.updateDate.substring(0,10) }</time>
 				</div>
 				<div class="rr">

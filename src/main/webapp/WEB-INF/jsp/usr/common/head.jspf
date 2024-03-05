@@ -28,11 +28,10 @@
 
 <style>
 
-
 #my_modal {
 	display: none;
-	width: 300px;
-	padding: 20px;
+	width: 350px;
+	padding: 30px 30px 20px 30px;
 	background-color: #fefefe;
 	border: 1px solid #888;
 	border-radius: 10px;
@@ -51,6 +50,27 @@
       height: 100%; /* 모달 내용을 세로 중앙 정렬하기 위한 스타일 */
 }
 
+.square-box {
+        background-color: lightgray;
+        height: 200px;
+        width: 130px;
+        display: inline-block; /* 인라인 요소로 배치하여 한 줄에 표시되도록 함 */
+        margin: 3px;
+        background-size: contain; /* 또는 cover */
+   	 	background-repeat: no-repeat;
+   	 	position: relative;
+    }
+
+.square-box img {
+        width: 100%;
+        height: auto;
+        max-width: 150px; /* 원하는 최대 너비 설정 */
+        max-height: 100px; /* 원하는 최대 높이 설정 */
+        position: absolute;
+        bottom: 0;
+    }
+    
+    
 .modal_button {
         margin: 0px 20px;
         font-size: 12px;
@@ -98,16 +118,16 @@
 					<ul>
 						<li><a class="hover:underline" href="../member/membership">membership</a></li>
 						<li><a class="hover:underline" href="../game/calendar">Game Schedule</a></li>
+						<li><a class="hover:underline" href="../game/map">map</a></li>
 						<li><a class="hover:underline" href="../article/list?boardId=1&page=1">NOTICE</a></li>
 						<li><a class="hover:underline" href="../article/list?boardId=2&page=1">FREE</a></li>
 						<li><a class="hover:underline" href="../article/list?boardId=3&page=1">QnA</a></li>
 						<c:if test="${rq.loginedMemberId != 0}">
 							<li><a class="hover:underline" href="../article/write">write</a></li>
-							<li><a class="hover:underline" href="../member/mypage">mypage</a></li>
 						</c:if>
 					</ul></li>
 				<c:if test="${rq.loginedMemberId == 0}">
-					<li><a class="hover:underline" href="../member/login">LOGIN</a></li>
+					<li class = "mt-3"><a class="hover:underline" href="../member/login">LOGIN</a></li>
 				</c:if>
 				<c:if test="${rq.loginedMemberId != 0}">
 					<div id="my_modal">
@@ -116,9 +136,28 @@
 							${rq.loginedMember.loginId }
 						</div>
 						<div>
+							<label for="player">응원선수:</label> 
+							<select name="favoritePlayer">
+								<option value="" selected disabled>선택하세요</option>
+					            <option value="player1">이소영</option>
+					            <option value="player2">안예림</option>
+					            <option value="player3">염혜선</option>
+					            <option value="player4">김세인</option>
+					            <option value="player5">노란</option>
+					            <option value="player6">박은진</option>
+					            <option value="player7">이예솔</option>
+					            <option value="player8">메가</option>
+					         </select>
+						</div>
+						<div>
 							<label for="aaaaa">예매내역:</label> 
 							${rq.loginedMember.birth }
 						</div>
+						<div class="modal_content">
+						<div class="square-box reservation"></div>
+    					<div class="square-box player" style="background-image: url('https://kovostoragedev.blob.core.windows.net/kovo-prod/player/female/kgc/shoulder/%E1%84%8B%E1%85%B5%E1%84%89%E1%85%A9%E1%84%8B%E1%85%A7%E1%86%BC_%E1%84%82%E1%85%AE%E1%84%81%E1%85%B5.png');"></div>
+    					<div class="square-box"><img src=https://kovostoragedev.blob.core.windows.net/kovo-prod/player/female/kgc/shoulder/%E1%84%8B%E1%85%B5%E1%84%89%E1%85%A9%E1%84%8B%E1%85%A7%E1%86%BC_%E1%84%82%E1%85%AE%E1%84%81%E1%85%B5.png' alt="이미지 설명"></div>
+    					</div>
 						<a class="modal_close_btn" onclick="closeModal()">닫기</a>
 						<div class="modal_content">
 						    <button class="modal_button" onclick="changeModalContent()">회원정보 수정</button>
@@ -126,7 +165,7 @@
 					    </div>
 					</div>
 					
-					<button id="popup_open_btn" class="btn btn-outline" type="button"></button>
+					<button id="popup_open_btn" class="btn btn-outline" type="button"></button> <!--회원정보-->
 
 					<script>
 					
@@ -238,6 +277,42 @@
 			                modal('my_modal');
 			            });
 			            
+			            function modify() {
+			                // 모달 내용에서 필요한 값들을 가져옴
+			                var loginPw = document.getElementsByName("loginPw")[0].value;
+			                var birth = document.getElementsByName("birth")[0].value;
+			                var mname = document.getElementsByName("mname")[0].value;
+			                var cellphoneNum = document.getElementsByName("cellphoneNum")[0].value;
+			                var email = document.getElementsByName("email")[0].value;
+			                var address = document.getElementsByName("address")[0].value;
+
+			                // AJAX를 이용하여 서버에 데이터 전송
+			                var xhr = new XMLHttpRequest();
+			                xhr.open("POST", '../member/doModify', true);
+			                xhr.setRequestHeader("Content-Type", "application/json");
+
+			                // 전송할 데이터를 JSON 형태로 변환
+			                var data = JSON.stringify({
+			                    loginPw: loginPw,
+			                    birth: birth,
+			                    mname: mname,
+			                    cellphoneNum: cellphoneNum,
+			                    email: email,
+			                    address: address
+			                });
+
+			                xhr.onreadystatechange = function () {
+			                    if (xhr.readyState == 4 && xhr.status == 200) {
+			                        // 서버에서의 응답 처리
+			                       /*  console.log(xhr.responseText); */
+			                        alert(xhr.responseText);
+			                    }
+			                };
+
+			                // 데이터 전송
+			                xhr.send(data);
+			            }
+			            
 			            function closeModal() {
 			                // 모달과 배경 요소를 찾기
 			                var modal = document.getElementById('my_modal');
@@ -254,9 +329,9 @@
 			                }
 			            }
 			            
-			            function modify() {
+			           /*  function modify() {
 			            	window.location.href = '../member/doModify';
-			            }
+			            } */
 			            
 			            function goBack() {
 			                // 브라우저 히스토리에서 뒤로가기를 누를 때 이전 모달 내용을 불러와서 설정

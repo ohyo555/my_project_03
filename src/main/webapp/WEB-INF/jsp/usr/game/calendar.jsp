@@ -25,7 +25,6 @@
 
     th, td {
       border: 1px solid #dddddd;
-      background-color: white;
       text-align: center;
       padding: 24px; /* 날짜 부분의 패딩을 3배로 크게 설정 */
       font-size: 15px; /* 날짜 부분의 글꼴 크기 조절 */
@@ -60,11 +59,20 @@
       margin: 30 auto; /* 가운데 정렬 */
       max-width: 800px; /* 최대 너비 지정 */
     }
+    
+    .other-month {
+      color: rgba(0, 0, 0, 0.3); /* 현재 월이 아닌 경우 투명도 추가 */
+    } 
+    
+     .highlight {
+        background-color: blue; /* 특정 날짜에 대한 배경색으로 지정 */
+        color: white; /* 글자색을 흰색 또는 다른 색상으로 지정 (필요에 따라) */
+    }
   </style>
 </head>
 <body>
 
-  <h2 id="currentMonth">간단한 달력</h2>
+   <h2 id="currentMonth">간단한 달력</h2>
 
   <table id="calendar">
     <thead>
@@ -108,7 +116,11 @@
           dayCell.textContent = currentDay.getDate();
 
           if (currentDay.getMonth() !== currentDate.getMonth()) {
-            dayCell.classList.add("other-month");
+            dayCell.classList.add("other-month"); // 현재 월의 날짜인지 여부를 체크
+          } 
+          
+          if (isToday(currentDay)) {
+              dayCell.classList.add("highlight");
           }
           
           // 일요일은 빨간색, 토요일은 파란색
@@ -127,29 +139,36 @@
     }
 
     function prevMonth() {
-      const currentDate = new Date();
-      currentDate.setMonth(currentDate.getMonth() - 1);
-      displayCalendar(currentDate);
+      const currentDisplayedDate = new Date(document.getElementById("currentMonth").textContent);
+      currentDisplayedDate.setMonth(currentDisplayedDate.getMonth() - 1);
+      displayCalendar(currentDisplayedDate);
     }
 
     function nextMonth() {
-      const currentDate = new Date();
-      currentDate.setMonth(currentDate.getMonth() + 1);
-      displayCalendar(currentDate);
+      const currentDisplayedDate = new Date(document.getElementById("currentMonth").textContent);
+      currentDisplayedDate.setMonth(currentDisplayedDate.getMonth() + 1);
+      displayCalendar(currentDisplayedDate);
     }
     
     function getMonthName(month) {
-        const monthNames = [
-          "1월", "2월", "3월", "4월", "5월", "6월",
-          "7월", "8월", "9월", "10월", "11월", "12월"
-        ];
-        return monthNames[month];
-     }
+      const monthNames = [
+        "1월", "2월", "3월", "4월", "5월", "6월",
+        "7월", "8월", "9월", "10월", "11월", "12월"
+      ];
+      return monthNames[month];
+    }
 
+    function isToday(date) {
+        const today = new Date();
+        return (
+            date.getDate() === today.getDate() &&
+            date.getMonth() === today.getMonth() &&
+            date.getFullYear() === today.getFullYear()
+        );
+    }
     // 최초 로딩 시 달력 표시
     displayCalendar();
   </script>
-
 </body>
 </html>
 

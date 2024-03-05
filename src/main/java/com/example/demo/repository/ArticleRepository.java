@@ -48,8 +48,10 @@ public interface ArticleRepository {
 	
 	@Select("""
 			<script>
-			SELECT *
+			SELECT *, M.loginId AS loginId
 			FROM article AS A
+			INNER JOIN `member` AS M
+			ON A.memberId = M.id
 			WHERE A.id = #{id}
 			GROUP BY A.id
 			</script>
@@ -80,8 +82,10 @@ public interface ArticleRepository {
 	
 //	@Select("SELECT * FROM article ORDER BY id DESC")
 	@Select("""
-			SELECT *
+			SELECT A.*, M.loginId AS loginId
 			FROM article AS A
+			INNER JOIN `member` AS M
+			ON A.memberId = M.id
 			ORDER BY A.id DESC
 			""")
 	public List<Article> getArticles();
@@ -90,6 +94,8 @@ public interface ArticleRepository {
 			<script>
 			SELECT COUNT(*) AS cnt
 			FROM article AS A
+			INNER JOIN `member` AS M
+			ON A.memberId = M.id
 			WHERE 1
 			<if test="boardId != 0">
 				AND boardId = #{boardId}
@@ -102,21 +108,26 @@ public interface ArticleRepository {
 					<when test="searchKeywordTypeCode == 'body'">
 						AND A.body LIKE CONCAT('%',#{searchKeyword},'%')
 					</when>
+					<when test="searchKeywordTypeCode == 'memberId'">
+						AND M.loginId LIKE CONCAT('%',#{searchKeyword},'%')
+					</when>
 					<otherwise>
 						AND A.title LIKE CONCAT('%',#{searchKeyword},'%')
 						OR A.body LIKE CONCAT('%',#{searchKeyword},'%')
 					</otherwise>
 				</choose>
 			</if>
-			ORDER BY id DESC
+			ORDER BY A.id DESC
 			</script>
 			""")
 	public int getArticlesCount(int boardId, String searchKeywordTypeCode, String searchKeyword);
 	
 	@Select("""
 			<script>
-			SELECT A.*, IFNULL(COUNT(C.id),0) AS cnt
+			SELECT A.*, M.loginId AS loginId, IFNULL(COUNT(C.id),0) AS cnt
 			FROM article AS A
+			INNER JOIN `member` AS M
+			ON A.memberId = M.id
 			LEFT JOIN `comment` AS C
 			ON A.id = C.relId
 			WHERE 1
@@ -130,6 +141,9 @@ public interface ArticleRepository {
 					</when>
 					<when test="searchKeywordTypeCode == 'body'">
 						AND A.body LIKE CONCAT('%',#{searchKeyword},'%')
+					</when>
+					<when test="searchKeywordTypeCode == 'memberId'">
+						AND M.loginId LIKE CONCAT('%',#{searchKeyword},'%')
 					</when>
 					<otherwise>
 						AND A.title LIKE CONCAT('%',#{searchKeyword},'%')

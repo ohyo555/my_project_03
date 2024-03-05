@@ -1,0 +1,282 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>${pageTitle }</title>
+<link rel="stylesheet" href="/resource/common.css" />
+<script src="/resource/common.js" defer="defer"></script>
+
+<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+
+<!-- 테일윈드 불러오기 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" />
+
+<!-- daisy ui 불러오기 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/daisyui/4.6.1/full.css" />
+
+<!-- flaticon 불러오기 -->
+<link rel='stylesheet'
+	href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+
+<!-- 폰트어썸 불러오기 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+
+<!-- 제이쿼리 불러오기 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<style>
+
+
+#my_modal {
+	display: none;
+	width: 300px;
+	padding: 20px;
+	background-color: #fefefe;
+	border: 1px solid #888;
+	border-radius: 10px;
+	font-size: 1rem;
+}
+
+#my_modal label{
+	font-weight: 700;
+}
+
+.modal_content {
+      /* 다른 스타일 속성들... */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%; /* 모달 내용을 세로 중앙 정렬하기 위한 스타일 */
+}
+
+.modal_button {
+        margin: 0px 20px;
+        font-size: 12px;
+    }
+  
+#my_modal .modal_close_btn {
+	position: absolute;
+	top: 5px;
+	right: 20px;
+	cursor: pointer; /* 추가: 마우스 포인터 모양 변경 */
+}
+
+#popup_open_btn {
+    display: inline-block;
+    width: 50px; /* 원하는 너비로 설정 */
+    height: 50px; /* 원하는 높이로 설정 */
+    border-radius: 50%; /* 동그란 모양으로 설정 */
+    background-image: url('https://cdn.pixabay.com/photo/2017/06/13/12/54/profile-2398783_960_720.png'); /* 이미지 경로 설정 */
+    background-size: cover; /* 배경 이미지를 커버로 설정 */
+    background-position: center; /* 배경 이미지를 가운데 정렬 */
+    background-repeat: no-repeat; /* 배경 이미지 반복 없음 */
+    border: none; /* 테두리 없음 */
+    cursor: pointer; /* 마우스 포인터 모양 변경 */
+    margin: 7px;
+}
+
+#popup_open_btn:focus {
+    outline: none; /* 포커스 효과 제거 */
+}
+
+</style>
+
+</head>
+
+<body>
+	<header>
+		<div class="h-100% flex items-center text-3xl">
+			<a class="hover:underline" href="/"><i class="fa-solid fa-house-chimney"></i></a>
+			<div class="flex-grow"></div>
+			<ul class="flex">
+				<c:if test="${rq.loginedMemberId != 0}">
+					<%-- <li>${rq.loginedId } 님 <i class="fa-solid fa-face-smile fa-sm fa-spin" style="color: #efdf2e;"></i></li> --%>
+				</c:if>
+				<li class = "mt-3" style="position: relative; z-index: 999;"><a class="hover:underline" href="../article/list?boardId=1&page=1"><i class="fa-solid fa-list"></i></a>
+					<ul>
+						<li><a class="hover:underline" href="../member/membership">membership</a></li>
+						<li><a class="hover:underline" href="../game/calendar">Game Schedule</a></li>
+						<li><a class="hover:underline" href="../article/list?boardId=1&page=1">NOTICE</a></li>
+						<li><a class="hover:underline" href="../article/list?boardId=2&page=1">FREE</a></li>
+						<li><a class="hover:underline" href="../article/list?boardId=3&page=1">QnA</a></li>
+						<c:if test="${rq.loginedMemberId != 0}">
+							<li><a class="hover:underline" href="../article/write">write</a></li>
+							<li><a class="hover:underline" href="../member/mypage">mypage</a></li>
+						</c:if>
+					</ul></li>
+				<c:if test="${rq.loginedMemberId == 0}">
+					<li><a class="hover:underline" href="../member/login">LOGIN</a></li>
+				</c:if>
+				<c:if test="${rq.loginedMemberId != 0}">
+					<div id="my_modal">
+						<div>
+							<label for="username">아이디:</label>
+							${rq.loginedMember.loginId }
+						</div>
+						<div>
+							<label for="aaaaa">예매내역:</label> 
+							${rq.loginedMember.birth }
+						</div>
+						<a class="modal_close_btn" onclick="closeModal()">닫기</a>
+						<div class="modal_content">
+						    <button class="modal_button" onclick="changeModalContent()">회원정보 수정</button>
+						    <button class="modal_button" onclick="logout()">로그아웃</button>
+					    </div>
+					</div>
+					
+					<button id="popup_open_btn" class="btn btn-outline" type="button"></button>
+
+					<script>
+					
+					var modalHistory = []; // 모달 내용을 저장할 배열
+					
+					 	function changeModalContent() {
+					 	// 모달 내용을 변경하는 코드 예제
+					        var modalContentText = document.getElementById('my_modal');
+
+					        // 요소가 존재하는지 확인
+					        if (modalContentText) {
+					        	// 이전 모달 내용 저장
+					        	modalHistory.push(modalContentText.innerHTML);
+					        	// 새로운 모달 내용 설정
+					            modalContentText.innerHTML = '<div>' +
+					            '<label for="loginId">아이디: </label>' +
+					            '${rq.loginedMember.loginId}' +
+					            '</div>' +
+					            '<div>' +
+					            '<label for="loginPw">비밀번호 확인: </label>' +
+					            '<input type="text" class="input input-ghost w-full max-w-xs autocomplete="off" name="loginPw" style="height: 25px; width: 145px;" required/>' +
+					            '<div class = "text-xs text-blue-500">* 회원정보 수정 시 비밀번호를 입력해야합니다.</div>' +
+					            '</div>' +
+					            '<div>' +
+					            '<label for="birth">생년월일: </label>' +
+					            '<input type="date" class="input input-ghost w-full max-w-xs autocomplete="off" name="birth" value="${rq.loginedMember.birth}" style="height: 25px; width: 170px;"/>' +
+					            '</div>' +
+					            '<div>' +
+					            '<label for="mname">이름: </label>' +
+					            '<input type="text" class="input input-ghost w-full max-w-xs autocomplete="off" name="mname" value="${rq.loginedMember.mname}" style="height: 25px; width: 200px;"/>' +
+					            '</div>' +
+					            '<div>' +
+					            '<label for="lv">등급/코드: </label>' +
+					            '${rq.loginedMember.type}' + '/' +
+					            '${rq.loginedMember.membercode}' +
+					            '</div>' +
+					            '<div>' +
+					            '<label for="cellphoneNum">전화번호: </label>' +
+					            '<input type="text" class="input input-ghost w-full max-w-xs autocomplete="off" name="cellphoneNum" value="${rq.loginedMember.cellphoneNum}" style="height: 25px; width: 170px;"/>' +
+					            '</div>' +
+					            '<div>' +
+					            '<label for="email">이메일: </label>' +
+					            '<input type="text" class="input input-ghost w-full max-w-xs autocomplete="off" name="email" value="${rq.loginedMember.email}" style="height: 25px; width: 200px;"/>' +
+					            '</div>' +
+					            '<div>' +
+					            '<label for="address">주소: </label>' +
+					            '<input type="text" class="input input-ghost w-full max-w-xs autocomplete="off" name="address" value="${rq.loginedMember.address}" style="height: 25px; width: 200px;"/>' +
+					            '</div>' +
+					            '<a class="modal_close_btn" onclick="closeModal()">닫기</a>' +
+					            '<div class="modal_content">' +
+					            '<button class="modal_button" onclick="modify()">수정</button>' +
+					            '<button class="modal_button" onclick="logout()">로그아웃</button>' +
+					            '<button class="modal_button" onclick="goBack()">뒤로가기</button>' +
+					            '</div>';
+					        }
+					    }
+
+			            function modal(id) {
+			                var zIndex = 9999;
+			                var modal = document.getElementById(id);
+			
+			                // 모달 div 뒤에 희끄무레한 레이어
+			                var bg = document.createElement('div');
+			                bg.className = 'modal_bg'; // 클래스 추가
+			                bg.setStyle({
+			                    position: 'fixed',
+			                    zIndex: zIndex,
+			                    left: '0px',
+			                    top: '0px',
+			                    width: '100%',
+			                    height: '100%',
+			                    overflow: 'auto',
+			                    // 레이어 색갈은 여기서 바꾸면 됨
+			                    backgroundColor: 'rgba(0,0,0,0.3)'
+			                });
+			                document.body.append(bg);
+			
+			                // 닫기 버튼 처리, 시꺼먼 레이어와 모달 div 지우기
+			               modal.querySelector('.modal_close_btn').addEventListener('click', function() {
+							    bg.remove();
+							    modal.style.display = 'none';
+							});
+			
+			                modal.setStyle({
+			                    position: 'fixed',
+			                    display: 'block',
+			                    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+			
+			                    // 시꺼먼 레이어 보다 한칸 위에 보이기
+			                    zIndex: zIndex + 1,
+			
+			                    // div center 정렬
+			                    top: '50%',
+			                    left: '50%',
+			                    transform: 'translate(-50%, -50%)',
+			                    msTransform: 'translate(-50%, -50%)',
+			                    webkitTransform: 'translate(-50%, -50%)'
+			                });
+			            }
+			
+			            // Element 에 style 한번에 오브젝트로 설정하는 함수 추가
+			            Element.prototype.setStyle = function(styles) {
+			                for (var k in styles) this.style[k] = styles[k];
+			                return this;
+			            };
+			            
+			            document.getElementById('popup_open_btn').addEventListener('click', function() {
+			                // 모달창 띄우기
+			                modal('my_modal');
+			            });
+			            
+			            function closeModal() {
+			                // 모달과 배경 요소를 찾기
+			                var modal = document.getElementById('my_modal');
+			                
+			             // 모달이 존재하는지 확인 후 제거
+			                if (modal) {
+			                    modal.style.display = 'none';
+			                }
+
+			                // 수정: 반환된 배경 요소 제거
+			                var bg = document.querySelector('.modal_bg');
+			                if (bg) {
+			                    bg.remove();
+			                }
+			            }
+			            
+			            function modify() {
+			            	window.location.href = '../member/doModify';
+			            }
+			            
+			            function goBack() {
+			                // 브라우저 히스토리에서 뒤로가기를 누를 때 이전 모달 내용을 불러와서 설정
+			                var modalContentText = document.getElementById('my_modal');
+			                if (modalHistory.length > 0) {
+			                    modalContentText.innerHTML = modalHistory.pop();
+			                }
+			            }
+
+			            function logout() {
+			                if (confirm('로그아웃 할래?')) {
+			                    window.location.href = '../member/doLogout';
+			                }
+			            }
+			        </script>
+
+				</c:if>
+			</ul>
+		</div>
+	</header>
+</body>
+
+<%-- <h1>${pageTitle }</h1> --%>

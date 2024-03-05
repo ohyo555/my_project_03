@@ -19,7 +19,7 @@ public class Comment {
 	private int badReactionPoint;
 	private int sum;
 	
-	private String extra__writer;
+	private String loginId;
 	
 	private boolean userCanModify;
 	private boolean userCanDelete;

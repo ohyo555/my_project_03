@@ -1,5 +1,5 @@
 body{
-  background: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url('/resource/KakaoTalk_20240229_134355371.jpg') center/cover no-repeat;
+  background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url('/resource/KakaoTalk_20240229_134355371.jpg') center/cover no-repeat;
   /* background-image: url("/resource/KakaoTalk_20240229_134355371.jpg"); 배경 이미지 URL로 변경 */
 /*   background-size: cover;
   background-position: center;

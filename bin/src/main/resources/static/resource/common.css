@@ -1,0 +1,62 @@
+/* 폰트 */
+@font-face {
+    font-family: 'SUITE-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+.SUITE-Regular * {
+	font-family: 'SUITE-Regular', sans-serif;
+}
+
+html>body {
+	font-family: 'SUITE-Regular', sans-serif;
+}
+
+/* 라이브러리 */
+
+/* 커스텀 */
+
+/* body {
+  background-image: url('KakaoTalk_20240229_134355371.jpg'); 배경 이미지 URL로 변경
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+ */
+header>div>a {
+ 	margin-left: 20px;
+}
+
+header>div>ul>li {
+/* 	margin-left: 10px; */
+	margin-right: 30px;
+}
+
+.join-box>tbody>tr:nth-child(7)>td>input  {
+	padding-left: 0;
+}
+
+.modify-box>tbody>tr:nth-child(5)>td>input, .modify-box>tbody>tr:nth-child(6)>td>input{
+	border-radius: 3px;
+	border: 1px solid red;
+}
+
+.table-box-1 th, .table-box-1 td {
+	border: 1px solid black;
+	padding: 10px;
+	text-align: center;
+}
+
+
+/*네비게이션 2차메뉴 */
+header>div>ul>li>ul {
+	display: none;
+	position: absolute;
+	background-color: white;
+}
+
+header>div>ul>li:hover>ul {
+	display: block;
+}
