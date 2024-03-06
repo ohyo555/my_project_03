@@ -35,13 +35,13 @@
     /* 구단 */
     .team {
     position:absolute;
-    bottom: 130px;
-    right: 70px;
+    bottom: 20px;
+    right: 20px;
     width:30px;
     height: 213px;
     overflow:hidden;
     padding: 3px 0;
-    z-index:1;
+    z-index:99;
     background-color: #dae5ed;
     box-sizing: border-box; /* 테두리 밖으로 그리기 */
   	border-radius: 5px;
@@ -70,12 +70,12 @@
     /* 확대/축소 스타일 */
     .custom_zoomcontrol {
     position:absolute;
-    top: 60px; /* 조절 가능한 상단 여백 값 */
-    right: 70px; /* 조절 가능한 우측 여백 값 */
+    top: 20px; /* 조절 가능한 상단 여백 값 */
+    right: 20px; /* 조절 가능한 우측 여백 값 */
     width:30px;
     height:60px;
     overflow:hidden;
-    z-index:1;
+    z-index:99;
     background-color:#dae5ed;
     box-sizing: border-box; /* 테두리 밖으로 그리기 */
   	border-radius: 5px;
@@ -105,25 +105,27 @@
 <body>
 <div class="map_wrap" >
     
-    <div id="map"></div>
+    <div id="map">
     
-    <!-- 지도 확대, 축소 컨트롤 div 입니다 -->
-    <div class="custom_zoomcontrol radius_border"> 
-         <span onclick="zoomIn()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png" alt="확대"></span>  
-         <span onclick="zoomOut()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png" alt="축소"></span>
+	    <!-- 지도 확대, 축소 컨트롤 div 입니다 -->
+	    <div class="custom_zoomcontrol radius_border"> 
+	         <span onclick="zoomIn()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png" alt="확대"></span>  
+	         <span onclick="zoomOut()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png" alt="축소"></span>
+	    </div>
+	    
+	    <!-- 구단 이동 -->
+	    <div class="team">
+	    	<span onclick="gokgc()"><img src="/resource/정관장.png" alt="kgc"></span>
+	    	<span onclick="gohk()"><img src="/resource/흥국.png" alt="heungkuk"></span>  
+	        <span onclick="gohd()"><img src="/resource/현대.png" alt="hyundai"></span>
+	        <span onclick="goibk()"><img src="/resource/IBK.png" alt="ibk"></span>  
+	        <span onclick="gohp()"><img src="/resource/한국도로공사.png" alt="hipass"></span>
+	        <span onclick="gopp()"><img src="/resource/페퍼.png" alt="pepper"></span>  
+	        <span onclick="gogs()"><img src="/resource/GS.png" alt="gs"></span>
+	    </div>
+    
     </div>
-    
-    <!-- 구단 이동 -->
-    <div class="team">
-    	<span onclick="gokgc()"><img src="/resource/정관장.png" alt="kgc"></span>
-    	<span onclick="gohk()"><img src="/resource/흥국.png" alt="heungkuk"></span>  
-        <span onclick="gohd()"><img src="/resource/현대.png" alt="hyundai"></span>
-        <span onclick="goibk()"><img src="/resource/IBK.png" alt="ibk"></span>  
-        <span onclick="gohp()"><img src="/resource/한국도로공사.png" alt="hipass"></span>
-        <span onclick="gopp()"><img src="/resource/페퍼.png" alt="pepper"></span>  
-        <span onclick="gogs()"><img src="/resource/GS.png" alt="gs"></span>
-    </div>
-    
+
     <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=19cf78438548356f5de2f18b79f43362"></script>
    <script>
         var lat = ${team.latitude};
