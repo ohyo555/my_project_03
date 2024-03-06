@@ -123,6 +123,7 @@
 						<li><a class="hover:underline" href="../article/list?boardId=1&page=1">NOTICE</a></li>
 						<li><a class="hover:underline" href="../article/list?boardId=2&page=1">FREE</a></li>
 						<li><a class="hover:underline" href="../article/list?boardId=3&page=1">QnA</a></li>
+						<li><a class="hover:underline" href="../article/mylist?page=1">MY LIST</a></li>
 						<c:if test="${rq.loginedMemberId != 0}">
 							<li><a class="hover:underline" href="../article/write">write</a></li>
 						</c:if>
@@ -151,9 +152,10 @@
 					         </select>
 						</div>
 						<div>
-							<label for="aaaaa">예매내역:</label> 
-							${rq.loginedMember.birth }
-						</div>
+				            <label for="lv">등급/코드: </label>
+				            <c:if test="${rq.loginedMember.type == null}">일반 / </c:if>
+				            <c:if test="${rq.loginedMember.type != null}">${rq.loginedMember.type} / ${rq.loginedMember.membercode}</c:if>
+					    </div>
 						<div class="modal_content">
 						<div class="square-box reservation"></div>
     					<div class="square-box player" style="background-image: url('https://kovostoragedev.blob.core.windows.net/kovo-prod/player/female/kgc/shoulder/%E1%84%8B%E1%85%B5%E1%84%89%E1%85%A9%E1%84%8B%E1%85%A7%E1%86%BC_%E1%84%82%E1%85%AE%E1%84%81%E1%85%B5.png');"></div>
@@ -209,11 +211,6 @@
 					            '<div>' +
 					            '<label for="mname">이름: </label>' +
 					            '<input type="text" class="input input-ghost w-full max-w-xs autocomplete="off" name="mname" value="${rq.loginedMember.mname}" style="height: 25px; width: 200px;"/>' +
-					            '</div>' +
-					            '<div>' +
-					            '<label for="lv">등급/코드: </label>' +
-					            '${rq.loginedMember.type}' + '/' +
-					            '${rq.loginedMember.membercode}' +
 					            '</div>' +
 					            '<div>' +
 					            '<label for="cellphoneNum">전화번호: </label>' +

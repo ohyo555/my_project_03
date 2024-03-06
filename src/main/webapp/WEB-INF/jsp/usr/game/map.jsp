@@ -12,38 +12,38 @@
 <title>지도 이동시키기</title>
 <style>
 	body, html {
+		height: 100%;
 	    overflow: hidden;
 	    margin: 0;
 	}
 
 	.map_wrap {
-	position:relative;
-	overflow:hidden;
-	width:100%;
-	height: 100%;
+		position:relative;
+		width:100%;
+		height:100vh; /* 뷰포트 높이에 따라 조절 */
+		display: flex;
+		align-items: center;
+	    justify-content: center;
 	}
 
     #map {
-        position: fixed;
-      	top: 80px; /* 헤더의 높이 */
-        right: 0;
-        width: 80%;
-        margin: 30px;
-        height: 85% /* 화면 아래 끝까지 나오도록 조정 */
+        width: 80%; /* 원하는 가로 크기로 조절 */
+        height: 80vh; /* 원하는 세로 크기로 조절 */
+        margin-bottom: 70px;
     }
 
     /* 구단 */
     .team {
     position:absolute;
-    bottom: 110px;
-    right: 40px;
-    width:34px;
-    height: 217px;
+    bottom: 130px;
+    right: 70px;
+    width:30px;
+    height: 213px;
     overflow:hidden;
+    padding: 3px 0;
     z-index:1;
-    background-color:#f5f5f5;
+    background-color: #dae5ed;
     box-sizing: border-box; /* 테두리 밖으로 그리기 */
-  	border: 3px solid #bfbfbf;
   	border-radius: 5px;
   	display: flex; /* Flex 컨테이너로 설정 */
     flex-direction: column; /* 수직 방향으로 아이템 정렬 */
@@ -56,7 +56,7 @@
 	}
 	
 	.team span img{
-    	width: 28px; 
+    	width: 30px;
 	}
 	
 	/* 커스텀 라벨 */
@@ -70,15 +70,14 @@
     /* 확대/축소 스타일 */
     .custom_zoomcontrol {
     position:absolute;
-    top:55px;
-    right:40px;
-    width:35px;
-    height:65px;
+    top: 60px; /* 조절 가능한 상단 여백 값 */
+    right: 70px; /* 조절 가능한 우측 여백 값 */
+    width:30px;
+    height:60px;
     overflow:hidden;
     z-index:1;
-    background-color:#f5f5f5;
+    background-color:#dae5ed;
     box-sizing: border-box; /* 테두리 밖으로 그리기 */
-  	border: 3px solid #bfbfbf;
   	border-radius: 5px;
     } 
     

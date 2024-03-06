@@ -9,11 +9,13 @@
 <style>
 
 .signup-form {
-	width: 30%;
+	width: 400px; 
 	background-color: rgba(255, 255, 255, 0.4);
 	margin: 100px auto;
 	padding: 20px;
 	border-radius: 8px;
+	overflow-x: auto;
+	overflow-y: auto;
 	}
 
 .signup-form .form{

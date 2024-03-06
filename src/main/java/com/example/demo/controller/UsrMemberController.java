@@ -261,12 +261,20 @@ public class UsrMemberController {
 	}
 
 	@RequestMapping("/usr/member/membership")
+	@ResponseBody
 	public String membership(HttpServletRequest req, Model model) {
 
 		Rq rq = (Rq) req.getAttribute("rq");
 
 		int id = rq.getLoginedMemberId();
+		String loginId = rq.getLoginedMember().getLoginId();
+		
+		int memberlevel = memberService.getMemberBylevel(loginId);
 
+		if (memberlevel == 1 || memberlevel == 2) {
+			return Ut.jsHistoryBack("F-1", "이미 멤버쉽이 등록되었습니다.");
+		}
+		
 		Member member = memberService.getMember(id);
 
 		model.addAttribute("member", member);
@@ -279,11 +287,11 @@ public class UsrMemberController {
 	public String doMembership(HttpServletRequest req, Model model, String loginId, String mname, String cellphoneNum,
 			String email, String address, String level) {
 
-		int memberlevel = memberService.getMemberBylevel(loginId);
-
-		if (memberlevel == 1 || memberlevel == 2) {
-			return Ut.jsHistoryBack("F-1", "이미 멤버쉽이 등록되었습니다.");
-		}
+//		int memberlevel = memberService.getMemberBylevel(loginId);
+//
+//		if (memberlevel == 1 || memberlevel == 2) {
+//			return Ut.jsHistoryBack("F-1", "이미 멤버쉽이 등록되었습니다.");
+//		}
 
 		int lv = Integer.parseInt(level);
 
@@ -307,7 +315,7 @@ public class UsrMemberController {
 			return Ut.jsHistoryBack(membershipRd.getResultCode(), membershipRd.getMsg());
 		}
 
-		return Ut.jsReplace(membershipRd.getResultCode(), membershipRd.getMsg(), "../member/mypage");
+		return Ut.jsHistoryBack(membershipRd.getResultCode(), membershipRd.getMsg());
 
 	}
 	
