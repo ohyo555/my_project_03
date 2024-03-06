@@ -174,6 +174,21 @@
             }
         }
 
+     	// 커스텀 오버레이를 표시하는 함수
+        function showCustomOverlay(map, title, lat, lon) {
+        	
+        	var content = '<div class ="label"><span class="left"></span><span class="center">' + title + '</span><span class="right"></span></div>';
+
+            // 커스텀 오버레이를 생성합니다
+            var customOverlay = new kakao.maps.CustomOverlay({
+            	position: new kakao.maps.LatLng(lat, lon),
+                content: content
+            });
+
+            // 커스텀 오버레이를 지도에 표시합니다
+            customOverlay.setMap(map);
+        }
+     
         // 지도 확대, 축소 컨트롤에서 확대 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
         function zoomIn() {
             map.setLevel(map.getLevel() - 1);
@@ -188,36 +203,43 @@
         function gokgc() {
             var moveLatLon = new kakao.maps.LatLng(36.3179809, 127.4304347);
             map.panTo(moveLatLon);
+            showCustomOverlay(map, "대전충무체육관", 36.3179809, 127.4304347);
             addMarker(map, '배구장', 36.3179809, 127.4304347);
         }
         function gohd() {
             var moveLatLon = new kakao.maps.LatLng(37.2983182, 127.0090137);
             map.panTo(moveLatLon);
+            showCustomOverlay(map, "수원실내체육관", 37.2983182, 127.0090137);
             addMarker(map, '배구장', 37.2983182, 127.0090137);
         }
 		function goibk() { 
 		    var moveLatLon = new kakao.maps.LatLng(37.1382754, 126.9227018);
 		    map.panTo(moveLatLon);   
+		    showCustomOverlay(map, "화성종합경기타운 실내체육관", 37.1382754, 126.9227018);
 		    addMarker(map, '배구장', 37.1382754, 126.9227018);
 		}  
 		function gohp() { 
 		    var moveLatLon = new kakao.maps.LatLng(36.1430267, 128.0868359);
 		    map.panTo(moveLatLon);
+		    showCustomOverlay(map, "김천실내체육관", 36.1430267, 128.0868359);
 		    addMarker(map, '배구장', 36.1430267, 128.0868359);
 		}  
 		function gogs() { 
 		    var moveLatLon = new kakao.maps.LatLng(37.5581571, 127.0068191);
 		    map.panTo(moveLatLon); 
+		    showCustomOverlay(map, "수원실내체육관", 37.5581571, 127.0068191);
 		    addMarker(map, '배구장', 37.5581571, 127.0068191);
 		}  
 		function gohk() { 
 		    var moveLatLon = new kakao.maps.LatLng(37.5076162, 126.7376084);
-		    map.panTo(moveLatLon);    
+		    map.panTo(moveLatLon);
+		    showCustomOverlay(map, "인천산삼월드체육관", 37.5076162, 126.7376084);
 		    addMarker(map, '배구장', 37.5076162, 126.7376084);
 		} 
 		function gopp() { 
 		    var moveLatLon = new kakao.maps.LatLng(35.1352826, 126.8789211);
 		    map.panTo(moveLatLon);
+		    showCustomOverlay(map, "페퍼스타디움", 35.1352826, 126.8789211);
 		    addMarker(map, '배구장', 35.1352826, 126.8789211);
 		} 
 		
