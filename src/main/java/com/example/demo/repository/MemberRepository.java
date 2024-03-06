@@ -2,6 +2,7 @@ package com.example.demo.repository;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -36,7 +37,8 @@ public interface MemberRepository {
 			mname = #{mname},
 			cellphoneNum = #{cellphoneNum},
 			email = #{email},
-			address = #{address}
+			address = #{address},
+			image = "/resource/profile.png"
 			""")
 	public void join(String loginId, String loginPw, String birth, String mname, String cellphoneNum, String email,
 			String address);
@@ -105,5 +107,8 @@ public interface MemberRepository {
 
 	@Select("SELECT `authLevel` FROM `member` WHERE loginId = #{loginId}")
 	public int getMemberBylevel(String loginId);
+
+	@Update("UPDATE `member` SET image = #{relativePath} WHERE id = #{id}")
+	public void upload(@Param("relativePath") String relativePath, @Param("id") int id);
 
 }

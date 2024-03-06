@@ -48,6 +48,7 @@
       align-items: center;
       justify-content: center;
       height: 100%; /* 모달 내용을 세로 중앙 정렬하기 위한 스타일 */
+      background-size: cover;
 }
 
 .square-box {
@@ -88,7 +89,7 @@
     width: 50px; /* 원하는 너비로 설정 */
     height: 50px; /* 원하는 높이로 설정 */
     border-radius: 50%; /* 동그란 모양으로 설정 */
-    background-image: url('https://cdn.pixabay.com/photo/2017/06/13/12/54/profile-2398783_960_720.png'); /* 이미지 경로 설정 */
+    background-image: url('${rq.loginedMember.image }'); /* 이미지 경로 설정 */
     background-size: cover; /* 배경 이미지를 커버로 설정 */
     background-position: center; /* 배경 이미지를 가운데 정렬 */
     background-repeat: no-repeat; /* 배경 이미지 반복 없음 */
@@ -131,7 +132,7 @@
 				</c:if>
 				<c:if test="${rq.loginedMemberId != 0}">
 					<div id="my_modal">
-						<div>
+						<div id="defaultModalContent">
 							<label for="username">아이디:</label>
 							${rq.loginedMember.loginId }
 						</div>
@@ -156,11 +157,12 @@
 						<div class="modal_content">
 						<div class="square-box reservation"></div>
     					<div class="square-box player" style="background-image: url('https://kovostoragedev.blob.core.windows.net/kovo-prod/player/female/kgc/shoulder/%E1%84%8B%E1%85%B5%E1%84%89%E1%85%A9%E1%84%8B%E1%85%A7%E1%86%BC_%E1%84%82%E1%85%AE%E1%84%81%E1%85%B5.png');"></div>
-    					<div class="square-box"><img src=https://kovostoragedev.blob.core.windows.net/kovo-prod/player/female/kgc/shoulder/%E1%84%8B%E1%85%B5%E1%84%89%E1%85%A9%E1%84%8B%E1%85%A7%E1%86%BC_%E1%84%82%E1%85%AE%E1%84%81%E1%85%B5.png' alt="이미지 설명"></div>
+    					<div class="square-box" style="background-image: url('${rq.loginedMember.image }');"></div>
     					</div>
 						<a class="modal_close_btn" onclick="closeModal()">닫기</a>
 						<div class="modal_content">
 						    <button class="modal_button" onclick="changeModalContent()">회원정보 수정</button>
+						    <button class="modal_button" onclick="changeprofileContent()">프로필 수정</button>
 						    <button class="modal_button" onclick="logout()">로그아웃</button>
 					    </div>
 					</div>
@@ -171,6 +173,17 @@
 					
 					var modalHistory = []; // 모달 내용을 저장할 배열
 					
+						var defaultModalContent = document.getElementById('defaultModalContent').innerHTML;
+	
+				        function openModal() {
+				            var modalContentText = document.getElementById('my_modal');
+	
+				            // 모달이 열릴 때 기본 내용으로 초기화
+				            modalContentText.innerHTML = defaultModalContent;
+	
+				            // 모달 열기 로직 추가...
+				        }
+			        
 					 	function changeModalContent() {
 					 	// 모달 내용을 변경하는 코드 예제
 					        var modalContentText = document.getElementById('my_modal');
@@ -222,7 +235,61 @@
 					            '</div>';
 					        }
 					    }
+					
+					 	function changeprofileContent() {
+						 	// 모달 내용을 변경하는 코드 예제
+						        var modalContentText = document.getElementById('my_modal');
 
+						        // 요소가 존재하는지 확인
+						        if (modalContentText) {
+						        	// 이전 모달 내용 저장
+						        	modalHistory.push(modalContentText.innerHTML);
+						        	// 새로운 모달 내용 설정
+						            modalContentText.innerHTML =  '<form action="../member/upload" method="post" enctype="multipart/form-data">' +
+						            '<input type="file" id="photoInput" name="photoInput" accept="image/*">' +
+						            '<button type="button" onclick="uploadPhoto()">사진 업로드</button>' + 
+						        	'</form>' + 
+						    		'<canvas id="myCanvas" width="100" height="100"></canvas>' +
+						            '<a class="modal_close_btn" onclick="closeModal()">닫기</a>';
+						        }
+						    }
+					 	
+					 	function uploadPhoto() {
+					 	    var fileInput = document.getElementById('photoInput');
+					 	    var file = fileInput.files[0];
+
+					 	    if (file) {
+					 	        var formData = new FormData();
+					 	        formData.append('photo', file);
+
+					 	       fetch('../member/upload', {
+					 	    	    method: 'POST',
+					 	    	    body: formData
+					 	    	})
+					 	    	.then(response => {
+					 	    	    // HTTP 상태 코드가 200번대가 아닌 경우
+					 	    	    if (!response.ok) {
+					 	    	        throw new Error(`HTTP error! Status: ${response.status}`);
+					 	    	    }
+
+					 	    	    // 텍스트 형식으로 응답 내용을 받아옴
+					 	    	    return response.text();
+					 	    	})
+					 	    	.then(data => {
+					 	    		alert(data);
+					 	    		closeModal();
+
+					 	    	    // 응답 내용을 그대로 사용하거나 처리
+					 	    	    // 예를 들어, HTML 형식의 응답을 모달에 표시하는 등의 작업을 수행할 수 있습니다.
+					 	    	})
+					 	    	.catch(error => {
+					 	    		alert(error);
+					 	    	});
+					 	    } else {
+					 	        alert('Please select a photo to upload.');
+					 	    }
+					 	}
+					 	
 			            function modal(id) {
 			                var zIndex = 9999;
 			                var modal = document.getElementById(id);
@@ -327,6 +394,7 @@
 			                if (bg) {
 			                    bg.remove();
 			                }
+			                window.location.reload();
 			            }
 			            
 			           /*  function modify() {

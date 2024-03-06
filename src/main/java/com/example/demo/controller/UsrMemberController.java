@@ -6,7 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.service.MemberService;
 import com.example.demo.util.Ut;
@@ -308,5 +310,19 @@ public class UsrMemberController {
 		return Ut.jsReplace(membershipRd.getResultCode(), membershipRd.getMsg(), "../member/mypage");
 
 	}
+	
+	@RequestMapping("/usr/member/upload")
+	@ResponseBody
+	public String handleFileUpload(HttpServletRequest req, @RequestParam("photo") MultipartFile file) {
+        // 여기에 파일 저장 또는 처리 로직을 추가합니다.
+        // 예: 파일을 서버의 특정 경로에 저장하거나, 데이터베이스에 저장합니다.
+		Rq rq = (Rq) req.getAttribute("rq");
+		
+		int id = rq.getLoginedMemberId();
+		memberService.upload(file, id);
+		
+        // 이후 페이지로 리다이렉트 또는 다른 처리를 수행할 수 있습니다.
+        return "이미지가 업로드되었습니다.";
+    }
 
 }

@@ -25,6 +25,6 @@ public class Member {
 	private boolean delStatus;
 	private String delDate;
 	private String type;
-	
+	private String image;
 
 }

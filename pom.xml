@@ -122,11 +122,17 @@
 						<builder>paketobuildpacks/builder-jammy-base:latest</builder>
 					</image>
 					<excludes>
+					>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+					<resources>
+				            <resource>
+				                <directory>src/main/resources</directory>
+				            </resource>
+				    </resources>
 				</configuration>
 			</plugin>
 		</plugins>

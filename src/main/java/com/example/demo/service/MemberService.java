@@ -1,8 +1,14 @@
 package com.example.demo.service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.UUID;
+
 import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.util.Ut;
@@ -73,6 +79,51 @@ public class MemberService {
 		return memberRepository.getMemberBylevel(loginId);
 	}
 
+	public void upload(MultipartFile file, int id) {
+        try {
+            // 파일의 실제 이름을 얻어옴
+            String originalFileName = file.getOriginalFilename();
+
+            // 파일의 확장자를 얻어옴
+            String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+
+            // 유니크한 파일명 생성
+            String uniqueFileName = UUID.randomUUID().toString() + fileExtension;
+
+            byte[] fileBytes = file.getBytes();
+
+            // 파일 저장
+            // (여기에서는 데이터베이스에 직접 저장하지 않고, 파일 경로만 저장하도록 수정)
+            String filePath = saveFile(uniqueFileName, fileBytes);
+            String resourcesPath = "src\\main\\resources\\static";
+            String unixStylePath = null;
+            
+	         // "src/main/resources/" 다음의 부분을 추출
+	         int index = filePath.indexOf(resourcesPath);
+	         if (index != -1) {
+	        	 String relativePath = filePath.substring(index + resourcesPath.length());
+	        	 unixStylePath = relativePath.replaceAll("\\\\", "/");
+	         } 
+//	         else {
+//	             System.out.println("문자열에서 /images/를 찾을 수 없습니다.");
+//	         }
+         
+            memberRepository.upload(unixStylePath, id);
+            
+            // 여기에 데이터베이스에 파일 정보를 저장하는 로직을 추가할 수 있습니다.
+        } catch (IOException e) {
+            e.printStackTrace();
+            // 파일 처리 중 예외가 발생한 경우 처리
+        }
+    }
+
+	private String saveFile(String fileName, byte[] fileBytes) throws IOException {
+        // 파일을 실제 경로에 저장하는 로직 추가
+        // (여기에서는 간단하게 파일명으로 저장하는 것으로 예제 작성)
+        String filePath = "C:\\work\\sts-4.21.0.RELEASE-workspace\\myproject\\src\\main\\resources\\static\\resource\\" + fileName;
+        Files.write(Paths.get(filePath), fileBytes);
+        return filePath;
+    }
 //	public ResultData modifyWithoutPw(int loginedMemberId, String name, String nickname, String cellphoneNum,
 //			String email, String address) {
 //		memberRepository.modifyWithoutPw(loginedMemberId, name, nickname, cellphoneNum, email, address);
