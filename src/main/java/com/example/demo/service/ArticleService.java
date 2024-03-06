@@ -213,5 +213,18 @@ public class ArticleService {
 		return articleRepository.getBadRP(relId);
 	}
 
+	public int getMyArticlesCount(int id, String searchKeywordTypeCode, String searchKeyword) {
+		return articleRepository.getMyArticlesCount(id, searchKeywordTypeCode, searchKeyword);
+	}
+
+	public List<Article> getForPrintMyArticles(int id, int itemsInAPage, int page, String searchKeywordTypeCode,
+			String searchKeyword) {
+		int limitFrom = (page - 1) * itemsInAPage;
+		int limitTake = itemsInAPage;
+
+		return articleRepository.getForPrintMyArticles(id, limitFrom, limitTake, searchKeywordTypeCode, searchKeyword);
+	}
+
+
 
 }

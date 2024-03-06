@@ -67,9 +67,8 @@
 	<input type="hidden" name="id" value="${article.id }" />
 	<div class="mx-auto overflow-x-auto">
 		<div class="search-bar">
-		    <div class="badge badge-outline">${articlesCount }개</div>
+		    <div class="badge badge-outline">${myarticlesCount }개</div>
 	        <form action="">
-	            <input type="hidden" name="boardId" value="${param.boardId }" /> 
 	            <select class="text-sm mr-3" name="searchKeywordTypeCode">
 	                <option value="title" ${searchKeywordTypeCode.equals("title") ? 'selected="selected"' : '' }>제목</option>
 	                <option value="body" ${searchKeywordTypeCode.equals("body") ? 'selected="selected"' : '' }>내용</option>
@@ -83,8 +82,9 @@
 		<table>
 			<colgroup>
 				<col style="width: 10%" />
+				<col style="width: 10%" />
 				<col style="width: 20%" />
-				<col style="width: 50%" />
+				<col style="width: 40%" />
 				<col style="width: 10%" />
 				<col style="width: 10%" />
 			</colgroup>
@@ -92,6 +92,7 @@
 			<thead>
 				<tr>
 					<th>번호</th>
+					<th>구분</th>
 	                <th>날짜</th>
 	                <th>제목</th>
 	                <th>작성자</th>
@@ -100,15 +101,16 @@
 			</thead>
 			<tbody>
 
-				<c:if test="${articles.size() == 0 }">
+				<c:if test="${myarticles.size() == 0 }">
 					<tr>
 						<td colspan="7">게시글 없습니다.</td>
 					</tr>
 				</c:if>
 
-				<c:forEach var="article" items="${articles }">
+				<c:forEach var="article" items="${myarticles }">
 					<tr class="hover">
 						<td>${article.id }</td>
+						<td>${article.type }</td>
 						<td>${article.regDate.substring(0,10) }</td>
 						<c:if test="${article.cnt == 0}">
 							<td><a href="detail?id=${article.id }">${article.title }</a></td>

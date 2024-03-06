@@ -241,4 +241,73 @@ public interface ArticleRepository {
 			""")
 	public int getBadRP(int relId);
 
+	@Select("""
+			<script>
+			SELECT COUNT(*) AS cnt
+			FROM article AS A
+			INNER JOIN `member` AS M
+			ON A.memberId = M.id
+			WHERE 1 
+			AND M.id = #{id}
+			<if test="searchKeyword != ''">
+				<choose>
+					<when test="searchKeywordTypeCode == 'title'">
+						AND A.title LIKE CONCAT('%',#{searchKeyword},'%')
+					</when>
+					<when test="searchKeywordTypeCode == 'body'">
+						AND A.body LIKE CONCAT('%',#{searchKeyword},'%')
+					</when>
+					<when test="searchKeywordTypeCode == 'memberId'">
+						AND M.loginId LIKE CONCAT('%',#{searchKeyword},'%')
+					</when>
+					<otherwise>
+						AND A.title LIKE CONCAT('%',#{searchKeyword},'%')
+						OR A.body LIKE CONCAT('%',#{searchKeyword},'%')
+					</otherwise>
+				</choose>
+			</if>
+			ORDER BY A.id DESC
+			</script>
+			""")
+	public int getMyArticlesCount(int id, String searchKeywordTypeCode, String searchKeyword);
+
+	@Select("""
+			<script>
+			SELECT A.*, M.loginId AS loginId, B.name AS type, IFNULL(COUNT(C.id),0) AS cnt
+			FROM article AS A
+			INNER JOIN `member` AS M
+			ON A.memberId = M.id
+			LEFT JOIN `comment` AS C
+			ON A.id = C.relId
+			LEFT JOIN board AS B
+			ON A.boardId = B.id
+			WHERE 1
+			AND M.id = #{id}
+			<if test="searchKeyword != ''">
+				<choose>
+					<when test="searchKeywordTypeCode == 'title'">
+						AND A.title LIKE CONCAT('%',#{searchKeyword},'%')
+					</when>
+					<when test="searchKeywordTypeCode == 'body'">
+						AND A.body LIKE CONCAT('%',#{searchKeyword},'%')
+					</when>
+					<when test="searchKeywordTypeCode == 'memberId'">
+						AND M.loginId LIKE CONCAT('%',#{searchKeyword},'%')
+					</when>
+					<otherwise>
+						AND A.title LIKE CONCAT('%',#{searchKeyword},'%')
+						OR A.body LIKE CONCAT('%',#{searchKeyword},'%')
+					</otherwise>
+				</choose>
+			</if>
+			GROUP BY A.id
+			ORDER BY A.id DESC
+			<if test="limitFrom >= 0 ">
+				LIMIT #{limitFrom}, #{limitTake}
+			</if>
+			</script>
+			""")
+	public List<Article> getForPrintMyArticles(int id, int limitFrom, int limitTake, String searchKeywordTypeCode,
+			String searchKeyword);
+
 }

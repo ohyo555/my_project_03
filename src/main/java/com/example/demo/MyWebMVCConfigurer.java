@@ -55,7 +55,6 @@ public class MyWebMVCConfigurer implements WebMvcConfigurer {
 		ir.addPathPatterns("/usr/article/doDelete");
 
 //		회원관련
-		ir.addPathPatterns("/usr/member/myPage");
 		ir.addPathPatterns("/usr/member/checkPw");
 		ir.addPathPatterns("/usr/member/doCheckPw");
 		ir.addPathPatterns("/usr/member/modify");

@@ -109,6 +109,32 @@ public class UsrArticleController {
 		return "usr/article/detail";
 	}
 	
+	@RequestMapping("/usr/article/mylist")
+	public String showMyList(HttpServletRequest req, Model model, @RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "title,body") String searchKeywordTypeCode,
+			@RequestParam(defaultValue = "") String searchKeyword) {
+
+		Rq rq = (Rq) req.getAttribute("rq");
+		int id = rq.getLoginedMemberId();
+		
+		int articlesCount = articleService.getMyArticlesCount(id, searchKeywordTypeCode, searchKeyword);
+		
+		int itemsInAPage = 15;
+		
+		int pagesCount = (int) Math.ceil(articlesCount / (double) itemsInAPage);
+		
+		List<Article> myarticles = articleService.getForPrintMyArticles(id, itemsInAPage, page, searchKeywordTypeCode, searchKeyword);
+		
+		model.addAttribute("page", page);
+		model.addAttribute("pagesCount", pagesCount);
+		model.addAttribute("searchKeywordTypeCode", searchKeywordTypeCode);
+		model.addAttribute("searchKeyword", searchKeyword);
+		model.addAttribute("articlesCount", articlesCount);
+		model.addAttribute("myarticles", myarticles);
+
+		return "usr/article/mylist";
+	}
+	
 	@RequestMapping("/usr/article/doIncreaseHitCountRd")
 	@ResponseBody
 	public ResultData doIncreaseHitCountRd(int id) {
