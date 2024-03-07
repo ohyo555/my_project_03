@@ -109,6 +109,37 @@ public class UsrArticleController {
 		return "usr/article/detail";
 	}
 	
+	@RequestMapping("/usr/article/detail2")
+	public String showDetail2(HttpServletRequest req, Model model, int id) {
+		Rq rq = (Rq) req.getAttribute("rq");
+		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
+		
+		ResultData usersReactionRd = reactionPointService.usersReaction(rq.getLoginedMemberId(), "article", id);
+		
+		if (usersReactionRd.isSuccess()) {
+			model.addAttribute("userCanMakeReaction", usersReactionRd.isSuccess());
+		}
+		
+		List<Comment> comments = commentService.getForPrintComments(rq.getLoginedMemberId(), "article", id);
+		
+//		ResultData usersCommentReactionRd = reactionPointService.usersReaction(rq.getLoginedMemberId(), "comment", id);
+		
+		if (usersReactionRd.isSuccess()) {
+			model.addAttribute("userCanMakeReaction", usersReactionRd.isSuccess());
+		}
+		
+		int commentsCount = comments.size();
+	
+		model.addAttribute("loginedMember", rq.getLoginedMemberId());
+		model.addAttribute("article", article);
+		model.addAttribute("comments", comments);
+		model.addAttribute("commentsCount", commentsCount);
+		model.addAttribute("isAlreadyAddGoodRp",reactionPointService.isAlreadyAddGoodRp(rq.getLoginedMemberId(), id, "article"));
+		model.addAttribute("isAlreadyAddBadRp",reactionPointService.isAlreadyAddBadRp(rq.getLoginedMemberId(), id, "article"));
+
+		return "usr/article/detail2";
+	}
+	
 	@RequestMapping("/usr/article/mylist")
 	public String showMyList(HttpServletRequest req, Model model, @RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "title,body") String searchKeywordTypeCode,

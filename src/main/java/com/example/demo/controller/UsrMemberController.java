@@ -215,7 +215,9 @@ public class UsrMemberController {
 
 		if (!findmember.getLoginPw().equals(member.getLoginPw())) {
 			return "비밀번호가 일치하지 않습니다";
-		} else {
+		} else if(findmember.getLoginPw().equals(member.getNew_loginPw())){
+			return "기존 비밀번호와 동일합니다, 변경할 비밀번호를 입력하세요.";
+		} else{
 			memberService.setMember(id, member.getNew_loginPw());
 			return "회원정보가 수정되었습니다";
 		}

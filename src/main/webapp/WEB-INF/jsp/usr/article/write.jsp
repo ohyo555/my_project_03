@@ -8,6 +8,7 @@
 <!-- Article write 관련 -->
 <script type="text/javascript">
 	let ArticleWrite__submitFormDone = false;
+	
 	function ArticleWrite__submit(form) {
 		if (ArticleWrite__submitFormDone) {
 			return;
@@ -54,9 +55,11 @@
 					</tr>
 					<tr>
 						<th>내용</th>
-						<td style="background-color: white;"><div class="toast-ui-editor">
+						<td>
+						 <div class="toast-ui-editor">
 								<script type="text/x-template"></script>
-							</div></td>
+						</div>
+						</td>
 					</tr>
 			</tbody>
 		</table>
