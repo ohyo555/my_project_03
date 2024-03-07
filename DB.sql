@@ -16,6 +16,8 @@ CREATE TABLE article(
     updateDate DATETIME NOT NULL
 );
 
+
+
 # testdata 생성
 INSERT INTO article
 SET regDate = NOW(),
@@ -68,6 +70,13 @@ FROM (
         (SELECT 0 AS N UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9) c
     ) AS numbers;
     
+SELECT COUNT(*) AS cnt
+FROM article AS A
+INNER JOIN `member` AS M
+ON A.memberId = M.id
+WHERE M.loginId = 'test1'
+			
+			
 SELECT *
 FROM article;  
 SELECT *
@@ -92,6 +101,13 @@ CREATE TABLE `member`(
     delDate DATETIME COMMENT '탈퇴 날짜'
 );
 
+ALTER TABLE `member` ADD COLUMN fplayer INT(10) AFTER membercode;
+ALTER TABLE `member` ADD COLUMN image LONGTEXT AFTER membercode;
+
+ALTER TABLE `member`
+DROP COLUMN image;
+
+UPDATE `member` SET image = "/resource/profile.png" WHERE image IS NULL;
 # testdata 생성
 INSERT INTO `member`
 SET loginId = 'admin',
@@ -153,14 +169,14 @@ email = 'oioi@gmail.com',
 regDate = NOW(),
 updateDate = NOW();
 
-DROP TABLE `member`;
+drop table `member`;
 
-SELECT *
-FROM `member`;
+select *
+from `member`;
 
-UPDATE `member`
-SET `authLevel` = 3
-WHERE loginId != 'admin';
+update `member`
+set `authLevel` = 3
+where loginId != 'admin';
 
 #---------------------------------------------------------------------------
 
@@ -184,7 +200,7 @@ membercode = '0123456',
 regDate = NOW(),
 updateDate = NOW(),
 endDate = '2024-04-26';
-END
+end
 INSERT INTO membership
 SET loginId = 'silver',
 `authLevel` = 2,
@@ -193,23 +209,23 @@ regDate = NOW(),
 updateDate = NOW(),
 endDate = '2024-04-26';
 
-ALTER TABLE MEMBER ADD COLUMN `type` CHAR(10) AFTER `authLevel`;
+ALTER TABLE member ADD COLUMN `type` char(10) AFTER `authLevel`;
 
-SELECT *
-FROM membership;
+select *
+from membership;
 
 SELECT *
 FROM `member`;
 
-DELETE FROM membership
-WHERE loginId = 'test1';
+delete from membership
+where loginId = 'test1';
 
 
 SELECT `authLevel` FROM `member` WHERE loginId = 'test1'
 
-UPDATE `member`
-SET `type` = '실버'
-WHERE id = 1 OR id = 2;
+update `member`
+set `type` = '실버'
+where id = 1 or id = 2;
 #---------------------------------------------------------------------------
 
 # team 테이블 생성
@@ -251,13 +267,15 @@ stadium = '화성종합운동장',
 regDate = NOW(),
 updateDate = NOW();
 
+select *
+from team;
 # schedule 테이블 생성
 CREATE TABLE `schedule`(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     team1 CHAR(20) NOT NULL,
     team2 CHAR(20) NOT NULL,
     `date` DATETIME NOT NULL,
-    `round` INT NOT NULL
+    `round` int NOT NULL
 );
 
 # testdata 생성
@@ -278,11 +296,11 @@ team2 = 4,
 # game 테이블 생성
 CREATE TABLE game(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    tid INT(10) NOT NULL,
+    tid int(10) NOT NULL,
     result TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '만료 여부 (0=패, 1=승)',
     `date` DATETIME NOT NULL,
     `round` INT(10) NOT NULL,
-    sumset INT(10) NOT NULL,
+    sumset int(10) not null,
     getset INT(10) NOT NULL,
     attack INT(10) NOT NULL,
     attack_rate INT(10) NOT NULL,
@@ -371,6 +389,8 @@ CREATE TABLE board(
     delDate DATETIME COMMENT '삭제 날짜'
 );
 
+delete from board where id = 4;
+
 # board TD 생성
 
 INSERT INTO board
@@ -390,6 +410,12 @@ SET regDate = NOW(),
 updateDate = NOW(),
 `code` = 'QnA',
 `name` = '질의응답';
+
+INSERT INTO board
+SET regDate = NOW(),
+updateDate = NOW(),
+`code` = 'Myboard',
+`name` = '나의게시판';
 
 #---------------------------------------------------------------------------
 
@@ -467,7 +493,7 @@ CREATE TABLE `comment`(
     `comment` TEXT NOT NULL,
     memberId INT(10) UNSIGNED NOT NULL,
     # `level` INT(10) UNSIGNED NOT NULL,
-    goodReactionPoint INT NOT NULL DEFAULT 0,
+    goodReactionPoint int not null DEFAULT 0,
     relTypeCode CHAR(50) NOT NULL COMMENT '관련 데이터 타입 코드',
     relId INT(10) NOT NULL COMMENT '관련 데이터 번호',
     regDate DATETIME NOT NULL,
@@ -493,14 +519,14 @@ relId = 1;
 #---------------------------------------------------------------------------
 
 # team 테이블 생성
-DROP TABLE team
-SELECT *
-FROM team;
+drop table team
+select *
+from team;
 CREATE TABLE team(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     tname CHAR(20) NOT NULL,
     stadium CHAR(20) NOT NULL,
-    address CHAR(50) NOT NULL,
+    address CHAR(50) not null,
     latitude DOUBLE NOT NULL,
     longitude DOUBLE NOT NULL,
     regDate DATETIME NOT NULL,
@@ -570,6 +596,105 @@ latitude = 37.5581571,
 longitude = 127.0068191,
 regDate = NOW(),
 updateDate = NOW();
+
+#---------------------------------------------------------------------------
+
+# team 테이블 생성
+DROP TABLE player
+SELECT image
+FROM player
+where id = 1;
+CREATE TABLE player(
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    pname CHAR(20) NOT NULL,
+    `position` CHAR(20) NOT NULL,
+    `number` INT(10) NOT NULL,
+    startDate DATE NOT NULL,
+    endDate DATE,
+    image CHAR(200) NOT NULL,
+    regDate DATETIME NOT NULL,
+    updateDate DATETIME NOT NULL
+);
+
+# Outside Hitter: 외곽 공격수
+# Middle Blocker: 중앙 블로커
+# Opposite Hitter (Right Side Hitter): 상대편 공격수 (오른쪽 공격수)
+# Setter: 세터
+# Libero: 리베로
+
+# testdata 생성
+INSERT INTO player
+SET pname = '이소영',
+`position` = 'Outside Hitter',
+`number` = 1,
+startDate = '2021-04-15',
+image = 'https://kovostoragedev.blob.core.windows.net/kovo-prod/player/female/kgc/shoulder/%E1%84%8B%E1%85%B5%E1%84%89%E1%85%A9%E1%84%8B%E1%85%A7%E1%86%BC_%E1%84%82%E1%85%AE%E1%84%81%E1%85%B5.png',
+regDate = NOW(),
+updateDate = NOW();
+
+INSERT INTO player
+SET pname = '안예림',
+`position` = 'Setter',
+`number` = 2,
+startDate = '2023.08.25',
+image = 'https://kovostoragedev.blob.core.windows.net/kovo-prod/player/female/kgc/shoulder/%E1%84%8B%E1%85%A1%E1%86%AB%E1%84%8B%E1%85%A8%E1%84%85%E1%85%B5%E1%86%B7_%E1%84%82%E1%85%AE%E1%84%81%E1%85%B5.png',
+regDate = NOW(),
+updateDate = NOW();
+
+INSERT INTO player
+SET pname = '염혜선',
+`position` = 'Setter',
+`number` = 3,
+startDate = '2019.06.14',
+image = 'https://kovostoragedev.blob.core.windows.net/kovo-prod/player/female/kgc/shoulder/%E1%84%8B%E1%85%A7%E1%86%B7%E1%84%92%E1%85%A8%E1%84%89%E1%85%A5%E1%86%AB_%E1%84%82%E1%85%AE%E1%84%81%E1%85%B5.png',
+regDate = NOW(),
+updateDate = NOW();
+
+INSERT INTO player
+SET pname = '김세인',
+`position` = 'Outside Hitter',
+`number` = 4,
+startDate = '2023.08.25',
+image = 'https://kovostoragedev.blob.core.windows.net/kovo-prod/player/female/kgc/shoulder/%E1%84%80%E1%85%B5%E1%86%B7%E1%84%89%E1%85%A6%E1%84%8B%E1%85%B5%E1%86%AB_%E1%84%82%E1%85%AE%E1%84%81%E1%85%B5.png',
+regDate = NOW(),
+updateDate = NOW();
+
+INSERT INTO player
+SET pname = '노란',
+`position` = 'LIBERO',
+`number` = 5,
+startDate = '2018.07.03',
+image = 'https://kovostoragedev.blob.core.windows.net/kovo-prod/player/female/kgc/shoulder/%E1%84%82%E1%85%A9%E1%84%85%E1%85%A1%E1%86%AB_%E1%84%82%E1%85%AE%E1%84%81%E1%85%B5.png',
+regDate = NOW(),
+updateDate = NOW();
+
+INSERT INTO player
+SET pname = '박은진',
+`position` = 'MIDDLE BLOCKER',
+`number` = 6,
+startDate = '2018.10.23',
+image = 'https://kovostoragedev.blob.core.windows.net/kovo-prod/player/female/kgc/shoulder/%E1%84%87%E1%85%A1%E1%86%A8%E1%84%8B%E1%85%B3%E1%86%AB%E1%84%8C%E1%85%B5%E1%86%AB_%E1%84%82%E1%85%AE%E1%84%81%E1%85%B5.png',
+regDate = NOW(),
+updateDate = NOW();
+
+INSERT INTO player
+SET pname = '이예솔',
+`position` = 'OPPOSITE SPIKER',
+`number` = 7,
+startDate = '2018.10.23',
+image = 'https://kovostoragedev.blob.core.windows.net/kovo-prod/player/female/kgc/shoulder/%E1%84%8B%E1%85%B5%E1%84%8B%E1%85%A8%E1%84%89%E1%85%A9%E1%86%AF_%E1%84%82%E1%85%AE%E1%84%81%E1%85%B5.png',
+regDate = NOW(),
+updateDate = NOW();
+
+INSERT INTO player
+SET pname = '메가',
+`position` = 'OPPOSITE SPIKER',
+`number` = 8,
+startDate = '2023.10.16',
+image = 'https://kovostoragedev.blob.core.windows.net/kovo-prod/player/female/kgc/shoulder/%E1%84%86%E1%85%A6%E1%84%80%E1%85%A1_%E1%84%82%E1%85%AE%E1%84%81%E1%85%B5.png',
+regDate = NOW(),
+updateDate = NOW();
+
 
 
 ###############################################
