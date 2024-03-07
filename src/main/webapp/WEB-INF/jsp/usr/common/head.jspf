@@ -42,6 +42,10 @@
 	font-weight: 700;
 }
 
+#my_modal > div{
+	padding: 3px;
+}
+
 .modal_content {
       /* 다른 스타일 속성들... */
       display: flex;
@@ -100,6 +104,10 @@
 
 #popup_open_btn:focus {
     outline: none; /* 포커스 효과 제거 */
+}
+
+.pwmodify_button {
+	margin: 0;
 }
 
 </style>
@@ -189,7 +197,6 @@
 					 	function changeModalContent() {
 					 	// 모달 내용을 변경하는 코드 예제
 					        var modalContentText = document.getElementById('my_modal');
-
 					        // 요소가 존재하는지 확인
 					        if (modalContentText) {
 					        	// 이전 모달 내용 저장
@@ -202,11 +209,12 @@
 					            '<div>' +
 					            '<label for="loginPw">비밀번호 확인: </label>' +
 					            '<input type="text" class="input input-ghost w-full max-w-xs autocomplete="off" name="loginPw" style="height: 25px; width: 145px;" required/>' +
-					            '<div class = "text-xs text-blue-500">* 회원정보 수정 시 비밀번호를 입력해야합니다.</div>' +
+					            '<button class="modal_button pwmodify_button" onclick="modal_pwmodify()">변경</button>' +
+					            '<div class = "text-xs" style="color: #a32222">※ 회원정보 수정 시 비밀번호를 입력해야합니다.</div>' +
 					            '</div>' +
 					            '<div>' +
 					            '<label for="birth">생년월일: </label>' +
-					            '<input type="date" class="input input-ghost w-full max-w-xs autocomplete="off" name="birth" value="${rq.loginedMember.birth}" style="height: 25px; width: 170px;"/>' +
+					            '<input type="date" id = "birth" class="input input-ghost w-full max-w-xs autocomplete="off" name="birth" value="${rq.loginedMember.birth}" max="" onchange="updateMaxDate()" style="height: 25px; width: 170px;"/>' +
 					            '</div>' +
 					            '<div>' +
 					            '<label for="mname">이름: </label>' +
@@ -214,7 +222,8 @@
 					            '</div>' +
 					            '<div>' +
 					            '<label for="cellphoneNum">전화번호: </label>' +
-					            '<input type="text" class="input input-ghost w-full max-w-xs autocomplete="off" name="cellphoneNum" value="${rq.loginedMember.cellphoneNum}" style="height: 25px; width: 170px;"/>' +
+					            '<input type="text" class="input input-ghost w-full max-w-xs autocomplete="off" name="cellphoneNum" value="${rq.loginedMember.cellphoneNum}" oninput="validateContactNumber(this)" maxlength="11" style="height: 25px; width: 170px;"/>' +
+					            '<div class = "text-xs" style="color: #a32222">※ -없이 숫자만 입력가능합니다.</div>' +
 					            '</div>' +
 					            '<div>' +
 					            '<label for="email">이메일: </label>' +
@@ -230,6 +239,8 @@
 					            '<button class="modal_button" onclick="logout()">로그아웃</button>' +
 					            '<button class="modal_button" onclick="goBack()">뒤로가기</button>' +
 					            '</div>';
+					            
+					            updateMaxDate();
 					        }
 					    }
 					
@@ -377,6 +388,60 @@
 			                xhr.send(data);
 			            }
 			            
+			            function modal_pwmodify() {
+			            	// 모달 내용을 변경하는 코드 예제
+					        var modalContentText = document.getElementById('my_modal');
+					        
+					        // 요소가 존재하는지 확인
+					        if (modalContentText) {
+					        	// 이전 모달 내용 저장
+					        	modalHistory.push(modalContentText.innerHTML);
+					        	// 새로운 모달 내용 설정
+					            modalContentText.innerHTML = '<div>' +
+					            '<label for="loginPw">기존 비밀번호: </label>' +
+					            '<input type="text" class="input input-ghost w-full max-w-xs autocomplete="off" name="loginPw" style="height: 25px; width: 145px;" required/>' +
+					            '</div>' +
+					            '<div>' +
+					            '<label for="new_loginPw">새로운 비밀번호: </label>' +
+					            '<input type="text" class="input input-ghost w-full max-w-xs autocomplete="off" name="new_loginPw" style="height: 25px; width: 170px;" required/>' +
+					            '</div>' +
+					            '<a class="modal_close_btn" onclick="closeModal()">닫기</a>' +
+					            '<div class="modal_content">' +
+					            '<button class="modal_button" onclick="pwmodify()">수정</button>' +
+					            '<button class="modal_button" onclick="goBack()">뒤로가기</button>' +
+					            '</div>';
+					        }
+					    }
+			            
+			            function pwmodify() {
+			                // 모달 내용에서 필요한 값들을 가져옴
+			                var loginPw = document.getElementsByName("loginPw")[0].value;
+			                var new_loginPw = document.getElementsByName("new_loginPw")[0].value;
+			                
+			                // AJAX를 이용하여 서버에 데이터 전송
+			                var xhr = new XMLHttpRequest();
+			                xhr.open("POST", '../member/dopwModify', true);
+			                xhr.setRequestHeader("Content-Type", "application/json");
+
+			                // 전송할 데이터를 JSON 형태로 변환
+			                var data = JSON.stringify({
+			                    loginPw: loginPw,
+			                    new_loginPw: new_loginPw,
+			                });
+
+			                xhr.onreadystatechange = function () {
+			                    if (xhr.readyState == 4 && xhr.status == 200) {
+			                        // 서버에서의 응답 처리
+			                       /*  console.log(xhr.responseText); */
+			                        alert(xhr.responseText);
+			                    }
+			                };
+
+			                // 데이터 전송
+			                xhr.send(data);
+			                closeModal();
+			            }
+			            
 			            function closeModal() {
 			                // 모달과 배경 요소를 찾기
 			                var modal = document.getElementById('my_modal');
@@ -411,6 +476,27 @@
 			                    window.location.href = '../member/doLogout';
 			                }
 			            }
+			            
+			         	// 전화번호 입력 시 숫자만 입력 가능하고 최대 11자리 가능
+			            function validateContactNumber(input) {
+			                // 숫자만 포함된 정규표현식
+			                var regex = /^[0-9]+$/;
+
+			                // 입력된 값에서 숫자만 추출
+			                var numericValue = input.value.replace(/\D/g, '');
+
+			                // 정규표현식에 맞지 않는 경우 입력값을 재설정
+			                if (!regex.test(numericValue)) {
+			                    input.value = numericValue.substring(0, numericValue.length - 1);
+			                }
+			            }
+			            
+			    		// 오늘 날짜 이후 선택 불가능
+			            function updateMaxDate() {
+			                var today = new Date().toISOString().split('T')[0];
+			                document.getElementById('birth').max = today;
+			            }
+			  
 			        </script>
 
 				</c:if>

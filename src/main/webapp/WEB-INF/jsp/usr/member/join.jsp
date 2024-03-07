@@ -20,6 +20,7 @@
 	font-size: 0.7rem;
 	/* text-align: right; */
 	margin-left: 15rem;
+	color: #a32222;
 }
 
 .signup-form div {
@@ -40,11 +41,15 @@
 }
 
 .signup-form input {
-	padding: 8px;
-	margin-bottom: 16px;
+	padding: 5px;
+	margin-bottom: 10px;
 	border: 1px solid #ccc;
 	border-radius: 4px;
 	box-sizing: border-box;
+}
+
+.signup-form .cellphoneNum {
+	margin-bottom: 0px;
 }
 
 .signup-form button {
@@ -61,6 +66,12 @@
 	background-color: #260301;
 }
 
+/* 안내문구 */
+
+.signup-form .info {
+	font-size: 0.75rem;
+	color: #a32222;
+}
 </style>
 
 <script>
@@ -104,19 +115,19 @@
 			</div>
 
 			<div>
-				<label for="birth">*생년월일:</label> <input type="date" id="birth" name="birth" required>
+				<label for="birth">*생년월일:</label> <input type="date" id="birth" name="birth" required max="" onchange="updateMaxDate()">
 			</div>
 
 			<div>
-				<label for="name">*이름:</label> <input type="text" id="mname" name="mname" autocomplete="off" required>
+				<label for="name">*이름:</label> <input type="text" id="text" name="mname" autocomplete="off" required>
 			</div>
 
 			<div>
-				<label for="cellphoneNum">전화번호:</label> <input type="tel" id="cellphoneNum" name="cellphoneNum" autocomplete="off">
+				<label for="cellphoneNum">전화번호:</label> <input class = "cellphoneNum" type="text" id="cellphoneNum" name="cellphoneNum" autocomplete="off" oninput="validateContactNumber(this)" maxlength="11">
 			</div>
-
+			<div class = "info">※ -없이 숫자만 입력가능합니다.</div>
 			<div>
-				<label for="email">이메일:</label> <input type="email" id="email" name="email" autocomplete="off">
+				<label for="email">이메일:</label> <input type="text" id="email" name="email" autocomplete="off">
 			</div>
 
 			<div>
@@ -129,6 +140,29 @@
 			</div>
 		</form>
 
+	<script>
+	
+		// 전화번호 입력 시 숫자만 입력 가능하고 최대 11자리 가능
+        function validateContactNumber(input) {
+            // 숫자만 포함된 정규표현식
+            var regex = /^[0-9]+$/;
+
+            // 입력된 값에서 숫자만 추출
+            var numericValue = input.value.replace(/\D/g, '');
+
+            // 정규표현식에 맞지 않는 경우 입력값을 재설정
+            if (!regex.test(numericValue)) {
+                input.value = numericValue.substring(0, numericValue.length - 1);
+            }
+        }
+        
+		// 오늘 날짜 이후 선택 불가능
+        function updateMaxDate() {
+            var today = new Date().toISOString().split('T')[0];
+            document.getElementById('birth').max = today;
+        }
+		
+    </script>
 	</div>
 </section>
 

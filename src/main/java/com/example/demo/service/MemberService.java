@@ -58,10 +58,15 @@ public class MemberService {
 		return memberRepository.getMember(id);
 	}
 	
+	// 회원정보 수정
 	public void setMember(int id, String mname, String birth, String cellphoneNum, String email, String address) {
 		memberRepository.setMember(id, mname, birth, cellphoneNum, email, address);
 	}
-
+	
+	// 비밀번호 변경
+	public void setMember(int id, String new_loginPw) {
+		memberRepository.setMember_pw(id, new_loginPw);
+	}
 	public ResultData<Integer> membership(String loginId, int lv, String membercode, String type) {
 		
 		memberRepository.membership(loginId, lv, membercode, type);

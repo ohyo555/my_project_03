@@ -56,7 +56,7 @@ public interface MemberRepository {
 			""")
 	public String login(String loginId, String loginPw);
 
-
+	// 회원정보 수정
 	@Update("""
 			<script>
 			UPDATE member
@@ -73,6 +73,20 @@ public interface MemberRepository {
 			""")
 	public void setMember(int id, String loginPw, String mname, String cellphoneNum, String email, String address);
 	
+	// 비밀번호 변경
+	@Update("""
+			<script>
+			UPDATE member
+			<set>
+			<if test="new_loginPw != null and new_loginPw != ''">loginPw = #{new_loginPw},</if>
+			updateDate = NOW()
+			</set>
+			WHERE id = #{id}
+			</script>
+			""")
+	public void setMember_pw(int id, String new_loginPw);
+	
+	// 멤버쉽 등록하고 나서 멤버테이블 변경
 	@Update("""
 			<script>
 			UPDATE member

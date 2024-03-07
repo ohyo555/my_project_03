@@ -25,9 +25,11 @@
 .signup-form .text{
 	font-size: 0.7rem;
 	text-align: right; /* 오른쪽 정렬 추가 */
-    margin-left: -3rem;
+    margin-left: -5rem;
+    color: #a32222;
     position: relative; /* 상대 위치 설정 */
 }
+
 
 .signup-form div {
 	display: inline-block;
@@ -47,8 +49,8 @@
 }
 
 .signup-form input {
-	padding: 8px;
-	margin-bottom: 16px;
+	padding: 5px;
+	margin-bottom: 10px;
 	border: 1px solid #ccc;
 	border-radius: 4px;
 	box-sizing: border-box;
@@ -72,6 +74,19 @@
     width: 90px;
     height: 15px; /* 원하는 크기로 설정하세요 */
     margin: 0; /* 기본 마진 제거 */
+}
+
+/* 안내문구 */
+
+.signup-form .info {
+	font-size: 0.75rem;
+	color: #a32222;
+	text-align: left; /* 오른쪽 정렬 추가 */
+	padding-left: 42px;
+}
+
+.signup-form .cellphoneNum {
+	margin-bottom: 0px;
 }
 </style>
 
@@ -134,8 +149,9 @@ window.onload = setMembershipCheckbox;
 				<label for="name">*이름:</label> <input type="text" id="mname" name="mname" autocomplete="off" value="${member.mname }" required>
 			</div>
 			<div>
-				<label for="cellphoneNum">*전화번호:</label> <input type="tel" id="cellphoneNum" name="cellphoneNum" autocomplete="off" value="${member.cellphoneNum }" required>
+				<label for="cellphoneNum">*전화번호:</label> <input class = "cellphoneNum" type="tel" id="cellphoneNum" name="cellphoneNum" autocomplete="off" value="${member.cellphoneNum }" required>
 			</div>
+			<div class = "info">※ -없이 숫자만 입력가능합니다.</div>
 			<div>
 				<label for="email">*이메일:</label> <input type="email" id="email" name="email" autocomplete="off" value="${member.email }" required>
 			</div>

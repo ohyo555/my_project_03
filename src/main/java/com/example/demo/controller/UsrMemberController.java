@@ -189,7 +189,6 @@ public class UsrMemberController {
 		String loginId = rq.getLoginedMember().getLoginId();
 
 		System.out.println("#$#$#$#$#$#" + member.getLoginPw());
-//        System.out.println("#$#$#$#$#$#" + memberModifyRequest.getAddress());
 
 		Member findmember = memberService.getMemberByLoginId(loginId);
 
@@ -204,6 +203,24 @@ public class UsrMemberController {
 		}
 	}
 
+	@PostMapping("/usr/member/dopwModify")
+	@ResponseBody
+	public String dopwModify(@RequestBody Member member, HttpServletRequest req) {
+		Rq rq = (Rq) req.getAttribute("rq");
+		int id = rq.getLoginedMemberId();
+		String loginId = rq.getLoginedMember().getLoginId();
+	
+		System.out.println(member.getNew_loginPw() + "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		Member findmember = memberService.getMemberByLoginId(loginId);
+
+		if (!findmember.getLoginPw().equals(member.getLoginPw())) {
+			return "비밀번호가 일치하지 않습니다";
+		} else {
+			memberService.setMember(id, member.getNew_loginPw());
+			return "회원정보가 수정되었습니다";
+		}
+	}
+	
 	@RequestMapping("/usr/member/findId")
 	public String showFindId(HttpServletRequest req) {
 
@@ -261,9 +278,7 @@ public class UsrMemberController {
 	}
 
 	@RequestMapping("/usr/member/membership")
-	@ResponseBody
 	public String membership(HttpServletRequest req, Model model) {
-
 		Rq rq = (Rq) req.getAttribute("rq");
 
 		int id = rq.getLoginedMemberId();
@@ -276,10 +291,11 @@ public class UsrMemberController {
 		}
 		
 		Member member = memberService.getMember(id);
-
+		
 		model.addAttribute("member", member);
-
+		
 		return "usr/member/membership";
+		
 	}
 
 	@RequestMapping("/usr/member/doMembership")

@@ -198,7 +198,7 @@ public class UsrArticleController {
 	@ResponseBody
 	public String doWrite(HttpServletRequest req, Model model, String title, String body, int boardId) {
 		Rq rq = (Rq) req.getAttribute("rq");
-		
+		System.out.println("###################################################");
 		if (Ut.isNullOrEmpty(title)) {
 			return Ut.jsHistoryBack("F-1", "제목을 입력해주세요");
 		}

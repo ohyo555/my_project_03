@@ -27,4 +27,5 @@ public class Member {
 	private String type;
 	private String image;
 
+	private String new_loginPw;
 }

@@ -39,7 +39,7 @@
 				<tbody>
 					<div class = "mb-5">
 						<div class="form-check">
-					 			<select class = "text-base h-8" name = "boardId">
+					 		<select class = "text-base h-8" name = "boardId">
 								<option value = "1"}>공지사항</option>
 								<option value = "2"}>자유게시판</option>
 								<option value = "3"}>질의응답</option>
@@ -60,6 +60,7 @@
 					</tr>
 			</tbody>
 		</table>
+		</form>
 		
 		<div class="btns mt-5 text-base">
 			<button class="btn btn-outline" type="button" onclick="history.back();">뒤로가기</button>
