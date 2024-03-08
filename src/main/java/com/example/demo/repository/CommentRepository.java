@@ -21,10 +21,10 @@ public interface CommentRepository {
 			FROM `comment` AS C
 			INNER JOIN `member` AS M
 			ON C.memberId = M.id
-			WHERE C.relId = #{relId}
+			WHERE C.relId = #{id}
 			GROUP BY C.id
 			""")
-	List<Comment> getForPrintComments(int loginedMemberId, String relTypeCode, int relId);
+	List<Comment> getForPrintComments(int loginedMemberId, String relTypeCode, int id);
 
 	@Insert("""
 			INSERT INTO `comment`

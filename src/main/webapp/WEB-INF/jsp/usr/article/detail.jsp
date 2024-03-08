@@ -19,9 +19,25 @@ body {
 	background-color: #f4f4f4;
 }
 
+.backbutton_div {
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 0 10px;
+}
+
+.backbutton {
+	width: 60px;
+	height: 30px;
+	text-align:center;
+	padding:0 3px;
+	font-size: 12px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+
 .post-container {
 	max-width: 800px;
-	margin: 20px auto;
+	margin: 0 auto;
 	background-color: #fff;
 	padding: 20px;
 }
@@ -45,9 +61,9 @@ body {
 
 /* 좋아요 */
 .post-actions {
-	margin-top: 10px;
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
 }
 
 .like-btn {
@@ -58,6 +74,9 @@ body {
 	margin-right: 10px;
 }
 
+.likeCount {
+	align-items: center;
+}
 .content {
 	margin: 10px;
 	padding: 10px 0 30px 0;
@@ -280,7 +299,7 @@ body {
 			
 		});
 	}
-	
+	/* 
 		function asc(articleId) {
 			
 			$.ajax({
@@ -359,7 +378,7 @@ function desc(articleId) {
 				}
 				
 			});
-		}
+		} */
 </script>
 
 <!-- 댓글 -->
@@ -455,7 +474,9 @@ function desc(articleId) {
 
 </head>
 <body>
-	<button class="button" onclick="history.back();">뒤로가기</button>
+	<div class="backbutton_div">
+	<button class="backbutton btn-outline"  onclick="history.back();">뒤로가기</button>
+	</div>
 	<div class="post-container">
 		<div class="post-header">
 			<%-- 			<h1>${article.type }</h1> --%>
@@ -471,11 +492,22 @@ function desc(articleId) {
 				</div>
 			</div>
 		</div>
-
+		<!-- 좋아요, 수정, 삭제 -->
 		<div class="post-actions">
-			<button id="likeButton" class="btn btn-outline btn-error text-xl"
-				style="border: none; background-color: transparent;" onclick="doGoodReaction(${param.id})">♡</button>
-			<div id="likeCount">${article.goodReactionPoint }</div>
+			<div style="display: flex;">
+				<button id="likeButton" class="btn btn-outline btn-error text-xl"
+					style="border: none; background-color: transparent;" onclick="doGoodReaction(${param.id})">♡</button>
+				<div id="likeCount">${article.goodReactionPoint }</div>
+			</div>
+			<div>
+				<c:if test="${article.userCanModify }">
+					<a class="btn btn-outline text-xs" style="border: none; background-color: transparent;" href="../article/modify?id=${article.id }">수정</a>
+				</c:if>
+				<c:if test="${article.userCanDelete }">
+					<a class="btn btn-outline text-xs" style="border: none; background-color: transparent;" onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;"
+						href="../article/doDelete?id=${article.id }">삭제</a>
+				</c:if>
+			</div>
 		</div>
 
 		<div class="content">

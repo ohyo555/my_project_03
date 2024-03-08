@@ -82,11 +82,12 @@ public class UsrArticleController {
 	public String showDetail(HttpServletRequest req, Model model, int id) {
 		Rq rq = (Rq) req.getAttribute("rq");
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
-		
+
 		ResultData usersReactionRd = reactionPointService.usersReaction(rq.getLoginedMemberId(), "article", id);
 		
 		if (usersReactionRd.isSuccess()) {
 			model.addAttribute("userCanMakeReaction", usersReactionRd.isSuccess());
+			System.out.println("1111111111111111111111111111111");
 		}
 		
 		List<Comment> comments = commentService.getForPrintComments(rq.getLoginedMemberId(), "article", id);
@@ -105,7 +106,8 @@ public class UsrArticleController {
 		model.addAttribute("commentsCount", commentsCount);
 		model.addAttribute("isAlreadyAddGoodRp",reactionPointService.isAlreadyAddGoodRp(rq.getLoginedMemberId(), id, "article"));
 		model.addAttribute("isAlreadyAddBadRp",reactionPointService.isAlreadyAddBadRp(rq.getLoginedMemberId(), id, "article"));
-
+		
+		System.out.println("#$#$#$##$#$##$#$#$#$#4");
 		return "usr/article/detail";
 	}
 	

@@ -20,11 +20,10 @@ public class CommentService {
 	public CommentService(CommentRepository commentRepository) {
 		this.commentRepository = commentRepository;
 	}
-
-	public List<Comment> getForPrintComments(int loginedMemberId, String relTypeCode, int relId) {
+	public List<Comment> getForPrintComments(int loginedMemberId, String relTypeCode, int id) {
 //		return commentRepository.getForPrintComments(loginedMemberId, relTypeCode, relId);
-	
-		List<Comment> comments = commentRepository.getForPrintComments(loginedMemberId, relTypeCode, relId);
+		
+		List<Comment> comments = commentRepository.getForPrintComments(loginedMemberId, relTypeCode, id);
 
 		for (Comment comment : comments) {
 			controlForPrintData(loginedMemberId, comment);

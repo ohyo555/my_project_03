@@ -18,7 +18,7 @@ public interface ReactionPointRepository {
 			SELECT IFNULL(SUM(RP.point),0)
 			FROM reactionPoint AS RP
 			WHERE RP.relTypeCode = #{relTypeCode}
-			AND RP.relId = #{relId}
+			AND RP.relId = #{id}
 			AND RP.memberId = #{memberId}
 			""")
 	public int getSumReactionPoint(int memberId, String relTypeCode, int id);
