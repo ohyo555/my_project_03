@@ -48,10 +48,18 @@ public interface ArticleRepository {
 	
 	@Select("""
 			<script>
-			SELECT *, M.loginId AS loginId
+			SELECT A.*, M.loginId AS loginId, M.loginId, B.name AS `type`, CASE 
+		        WHEN M.authLevel = 1 THEN '골드'
+		        WHEN M.authLevel = 2 THEN '실버'
+		        WHEN M.authLevel = 7 THEN '관리자'
+		        ELSE '일반'
+		    END AS userLevel,
+		    DATE_FORMAT(A.updateDate, '%Y-%m-%d') AS formattedUpdateDate
 			FROM article AS A
 			INNER JOIN `member` AS M
 			ON A.memberId = M.id
+			INNER JOIN board AS B
+			ON A.boardId = B.id
 			WHERE A.id = #{id}
 			GROUP BY A.id
 			</script>

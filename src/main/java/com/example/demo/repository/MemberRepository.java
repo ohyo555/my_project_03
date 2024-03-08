@@ -125,4 +125,7 @@ public interface MemberRepository {
 	@Update("UPDATE `member` SET image = #{relativePath} WHERE id = #{id}")
 	public void upload(@Param("relativePath") String relativePath, @Param("id") int id);
 
+	@Update("UPDATE `member` SET delStatus = 1, delDate = NOW() WHERE id = #{id}")
+	public void delMember(int id);
+
 }

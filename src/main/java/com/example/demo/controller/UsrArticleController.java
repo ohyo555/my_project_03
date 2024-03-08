@@ -113,7 +113,7 @@ public class UsrArticleController {
 	public String showDetail2(HttpServletRequest req, Model model, int id) {
 		Rq rq = (Rq) req.getAttribute("rq");
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
-		
+		System.out.println("@#@#@#@#@#@#@#@" + article.getType());
 		ResultData usersReactionRd = reactionPointService.usersReaction(rq.getLoginedMemberId(), "article", id);
 		
 		if (usersReactionRd.isSuccess()) {

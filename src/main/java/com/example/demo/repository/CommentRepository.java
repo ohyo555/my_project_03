@@ -20,8 +20,6 @@ public interface CommentRepository {
 			FROM `comment` AS C
 			INNER JOIN `member` AS M
 			ON C.memberId = M.id
-			LEFT JOIN reactionPoint AS R
-			ON C.id = R.commentId
 			WHERE C.relId = #{relId}
 			GROUP BY C.id
 			ORDER BY regDate DESC

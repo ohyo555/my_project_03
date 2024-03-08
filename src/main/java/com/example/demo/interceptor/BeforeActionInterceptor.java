@@ -15,10 +15,7 @@ public class BeforeActionInterceptor implements HandlerInterceptor {
 
 	@Autowired
 	private Rq rq;
-	
-//	@Autowired
-//	private Player player;
-//	
+		
 	@Override
 	public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object handler) throws Exception {
 

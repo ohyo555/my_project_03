@@ -135,4 +135,8 @@ public class MemberService {
 //		return ResultData.from("S-1", "회원정보 수정 완료");
 //	}
 
+	public void delMember(int id) {
+		memberRepository.delMember(id);
+	}
+
 }

@@ -132,6 +132,11 @@ $(function() {
         }
     }
 
+    var alertMessage = "${alertMessage}";
+    if (alertMessage) {
+        alert(alertMessage);
+    }
+    
 // 페이지 로딩 시 실행 (예시)
 window.onload = setMembershipCheckbox;
 </script>

@@ -80,7 +80,11 @@ public class UsrMemberController {
 		if (member.getLoginPw().equals(loginPw) == false) {
 			return Ut.jsHistoryBack("F-4", Ut.f("비밀번호가 일치하지 않습니다"));
 		}
-
+		
+		if (member.isDelStatus()) {
+			return Ut.jsHistoryBack("F-5", Ut.f("%s(은)는 탈퇴 계정입니다.", loginId));
+		} // boolean값이 0이면 false, 1이면 true
+		
 		rq.login(member);
 
 		return Ut.jsReplace("S-1", Ut.f("%s님 환영합니다", member.getLoginId()), "/");
@@ -209,8 +213,7 @@ public class UsrMemberController {
 		Rq rq = (Rq) req.getAttribute("rq");
 		int id = rq.getLoginedMemberId();
 		String loginId = rq.getLoginedMember().getLoginId();
-	
-		System.out.println(member.getNew_loginPw() + "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+
 		Member findmember = memberService.getMemberByLoginId(loginId);
 
 		if (!findmember.getLoginPw().equals(member.getLoginPw())) {
@@ -220,6 +223,23 @@ public class UsrMemberController {
 		} else{
 			memberService.setMember(id, member.getNew_loginPw());
 			return "회원정보가 수정되었습니다";
+		}
+	}
+	
+	@PostMapping("/usr/member/dodel")
+	@ResponseBody
+	public String dodel(@RequestBody Member member, HttpServletRequest req) {
+		Rq rq = (Rq) req.getAttribute("rq");
+		int id = rq.getLoginedMemberId();
+		String loginId = rq.getLoginedMember().getLoginId();
+
+		Member findmember = memberService.getMemberByLoginId(loginId);
+
+		if (!findmember.getLoginPw().equals(member.getLoginPw())) {
+			return "비밀번호가 일치하지 않습니다";
+		} else{
+			memberService.delMember(id);
+			return "탈퇴되었습니다.";
 		}
 	}
 	
@@ -289,6 +309,7 @@ public class UsrMemberController {
 		int memberlevel = memberService.getMemberBylevel(loginId);
 
 		if (memberlevel == 1 || memberlevel == 2) {
+			
 			return Ut.jsHistoryBack("F-1", "이미 멤버쉽이 등록되었습니다.");
 		}
 		
@@ -304,12 +325,6 @@ public class UsrMemberController {
 	@ResponseBody
 	public String doMembership(HttpServletRequest req, Model model, String loginId, String mname, String cellphoneNum,
 			String email, String address, String level) {
-
-//		int memberlevel = memberService.getMemberBylevel(loginId);
-//
-//		if (memberlevel == 1 || memberlevel == 2) {
-//			return Ut.jsHistoryBack("F-1", "이미 멤버쉽이 등록되었습니다.");
-//		}
 
 		int lv = Integer.parseInt(level);
 
