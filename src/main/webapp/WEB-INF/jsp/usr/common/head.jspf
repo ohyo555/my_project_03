@@ -133,10 +133,7 @@
 			<a class="hover:underline" href="/"><i class="fa-solid fa-house-chimney"></i></a>
 			<div class="flex-grow"></div>
 			<ul class="flex">
-				<c:if test="${rq.loginedMemberId != 0}">
-					<%-- <li>${rq.loginedId } 님 <i class="fa-solid fa-face-smile fa-sm fa-spin" style="color: #efdf2e;"></i></li> --%>
-				</c:if>
-				<li class="mt-3" style="position: relative; z-index: 999;"><a class="hover:underline"
+				<li class="mt-5" style="position: relative; z-index: 999;"><a class="hover:underline"
 					href="../article/list?boardId=1&page=1"><img width="24" height="24" src="https://img.icons8.com/material-outlined/24/circled-menu.png" alt="circled-menu"/></a>
 					<ul>
 						<li><a class="hover:underline" href="../member/membership">membership</a></li>

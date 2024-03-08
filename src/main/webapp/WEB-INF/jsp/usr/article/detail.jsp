@@ -1,51 +1,132 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:set var="pageTitle" value="ARTICLE DETAIL"></c:set>
+<c:set var="pageTitle" value="ARTICLE WRITE"></c:set>
 <link rel="stylesheet" href="/resource/background.css" />
 <%@ include file="../common/head.jspf"%>
+<%@ include file="../common/toastUiEditorLib.jspf"%>
 
-<!-- <iframe src="http://localhost:8081/usr/article/doIncreaseHitCountRd?id=372" frameborder="0"></iframe> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Post Detail</title>
 <style>
-/* 2차메뉴 */
-    
-body, ul, li {
+body {
+	font-family: 'Arial', sans-serif;
 	margin: 0;
 	padding: 0;
-	list-style: none;
+	background-color: #f4f4f4;
 }
 
-a {
-	color: inherit;
-	text-decoration: none;
+.post-container {
+	max-width: 800px;
+	margin: 20px auto;
+	background-color: #fff;
+	padding: 20px;
 }
 
-.reaction {
-	display: inline;
+.post-header {
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 10px;
+	margin-bottom: 20px;
 }
 
-.rr {
+.post-header h1 {
+	margin: 0;
+	font-size: 24px;
+	color: #333;
+}
+
+.post-meta {
+	font-size: 14px;
+	color: #777;
+}
+
+/* 좋아요 */
+.post-actions {
+	margin-top: 10px;
+	display: flex;
+	align-items: center;
+}
+
+.like-btn {
+	color: #fff;
+	padding: 8px 12px;
+	border: none;
+	cursor: pointer;
+	margin-right: 10px;
+}
+
+.content {
+	margin: 10px;
+	padding: 10px 0 30px 0;
+	border-bottom: 1px solid #ccc;
+}
+
+.content p {
+	background-color: rgb(251, 243, 238);
+	line-height: 5; /* 글꼴 크기의 배수 */
+	padding: 0 30px;
+	height: 40%;
+}
+
+/* 댓글 */
+.comment {
+	margin: 20px 10px 10px 10px;
+}
+
+.commentbar {
 	width: 100%;
 }
 
-.rr ul {
+.commentbar ul {
 	z-index: 2;
 }
 
-.rr>ul>li {
+.commentbar>ul>li {
 	margin-right: 0px;
 	margin-left: auto;
 	position: relative;
 }
 
+.chat {
+	padding: 0px;
+}
+
+#member_img {
+	display: inline-block;
+	width: 50px; /* 원하는 너비로 설정 */
+	height: 50px; /* 원하는 높이로 설정 */
+	border-radius: 50%; /* 동그란 모양으로 설정 */
+	background-image: url('${rq.loginedMember.image }'); /* 이미지 경로 설정 */
+	background-size: cover; /* 배경 이미지를 커버로 설정 */
+	background-position: center; /* 배경 이미지를 가운데 정렬 */
+	background-repeat: no-repeat; /* 배경 이미지 반복 없음 */
+	border: none; /* 테두리 없음 */
+	cursor: pointer; /* 마우스 포인터 모양 변경 */
+	margin: 3px 12px;
+}
+
+.c_option {
+	display: flex;
+	align-items: center;
+	padding-right: 13px;
+}
+/* 댓글 수정/삭제 */
 .option {
-	position: absolute;
-	right: 0;
+	margin-left: auto;
+
+	/* position: absolute;
+	right: 0; */
 }
 
 .option ul {
-	position: absolute;
+	margin-left: auto; /* 가장 오른쪽으로 이동하게 함 */
+
+	/* position: absolute;
 	right: 0;
-	top: 0;
+	top: 0; */
 }
 
 .option ul>li:hover>ul>li>a {
@@ -105,9 +186,7 @@ a {
 	<!-- 좋아요 싫어요 버튼	-->
 	function checkRP() {
 		if(isAlreadyAddGoodRp == true){
-			$('#likeButton').toggleClass('btn-outline');
-		}else if(isAlreadyAddBadRp == true){
-			$('#DislikeButton').toggleClass('btn-outline');
+			$('#likeButton').html('♥');
 		}else {
 			return;
 		}
@@ -130,20 +209,17 @@ a {
 				if(data.resultCode.startsWith('S-')){
 					var likeButton = $('#likeButton');
 					var likeCount = $('#likeCount');
-					var DislikeButton = $('#DislikeButton');
+					/* var DislikeButton = $('#DislikeButton');
 					var DislikeCount = $('#DislikeCount');
-					
+					 */
 					if(data.resultCode == 'S-1'){
-						likeButton.toggleClass('btn-outline');
-						likeCount.text(data.data1);
-					}else if(data.resultCode == 'S-2'){
-						DislikeButton.toggleClass('btn-outline');
-						DislikeCount.text(data.data2);
-						likeButton.toggleClass('btn-outline');
-						likeCount.text(data.data1);
-					}else {
-						likeButton.toggleClass('btn-outline');
-						likeCount.text(data.data1);
+						if(data.msg == '좋아요!'){
+							likeButton.html('♥');
+							likeCount.text(data.data1);
+						} else {
+							likeButton.html('♡');
+							likeCount.text(data.data1);
+						}
 					}
 					
 				}else {
@@ -154,52 +230,6 @@ a {
 			error: function(jqXHR,textStatus,errorThrown) {
 				alert('좋아요 오류 발생 : ' + textStatus);
 
-			}
-			
-		});
-	}
-	
-	
-	
-	function doBadReaction(articleId) {
-		
-	 $.ajax({
-			url: '/usr/reactionPoint/doBadReaction',
-			type: 'POST',
-			data: {relTypeCode: 'article', relId: articleId},
-			dataType: 'json',
-			success: function(data){
-				console.log(data);
-				console.log('data.data1Name : ' + data.data1Name);
-				console.log('data.data1 : ' + data.data1);
-				console.log('data.data2Name : ' + data.data2Name);
-				console.log('data.data2 : ' + data.data2);
-				if(data.resultCode.startsWith('S-')){
-					var likeButton = $('#likeButton');
-					var likeCount = $('#likeCount');
-					var DislikeButton = $('#DislikeButton');
-					var DislikeCount = $('#DislikeCount');
-					
-					if(data.resultCode == 'S-1'){
-						DislikeButton.toggleClass('btn-outline');
-						DislikeCount.text(data.data2);
-					}else if(data.resultCode == 'S-2'){
-						likeButton.toggleClass('btn-outline');
-						likeCount.text(data.data1);
-						DislikeButton.toggleClass('btn-outline');
-						DislikeCount.text(data.data2);
-		
-					}else {
-						DislikeButton.toggleClass('btn-outline');
-						DislikeCount.text(data.data2);
-					}
-			
-				}else {
-					alert(data.msg);
-				}
-			},
-			error: function(jqXHR,textStatus,errorThrown) {
-				alert('싫어요 오류 발생 : ' + textStatus);
 			}
 			
 		});
@@ -250,6 +280,86 @@ a {
 			
 		});
 	}
+	
+		function asc(articleId) {
+			
+			$.ajax({
+				url: '/usr/article/detail',
+				type: 'POST',
+				data: {relTypeCode: 'article', relId: articleId, orderType: 'asc'},
+				dataType: 'json',
+				success: function(data){
+					console.log(data);
+					console.log('data.data1Name : ' + data.data1Name);
+					console.log('data.data1 : ' + data.data1);
+					console.log('data.data2Name : ' + data.data2Name);
+					console.log('data.data2 : ' + data.data2);
+					if (data.resultCode.startsWith('S-')) {
+		                var comments = data.comments;
+
+		                // 댓글을 표시할 <div id="commentsContainer"> 요소가 있다고 가정
+		                var commentsContainer = $('#commentsContainer');
+
+		                // 기존 댓글을 지움
+		                commentsContainer.empty();
+
+		                // 각 댓글을 컨테이너에 추가
+		                comments.forEach(function (comment) {
+		                    var commentElement = $('<div>').text(comment.content);
+		                    commentsContainer.append(commentElement);
+		                });
+		            } else {
+		                alert(data.msg);
+		            }
+			
+				},
+				error: function(jqXHR,textStatus,errorThrown) {
+					alert('오류 발생 : ' + textStatus);
+
+				}
+				
+			});
+		}
+		
+function desc(articleId) {
+			
+			$.ajax({
+				url: '/usr/article/detail',
+				type: 'POST',
+				data: {relTypeCode: 'article', relId: articleId, orderType: 'desc'},
+				dataType: 'json',
+				success: function(data){
+					console.log(data);
+					console.log('data.data1Name : ' + data.data1Name);
+					console.log('data.data1 : ' + data.data1);
+					console.log('data.data2Name : ' + data.data2Name);
+					console.log('data.data2 : ' + data.data2);
+					if (data.resultCode.startsWith('S-')) {
+		                var comments = data.comments;
+
+		                // 댓글을 표시할 <div id="commentsContainer"> 요소가 있다고 가정
+		                var commentsContainer = $('#commentsContainer');
+
+		                // 기존 댓글을 지움
+		                commentsContainer.empty();
+
+		                // 각 댓글을 컨테이너에 추가
+		                comments.forEach(function (comment) {
+		                    var commentElement = $('<div>').text(comment.content);
+		                    commentsContainer.append(commentElement);
+		                });
+		            } else {
+		                alert(data.msg);
+		            }
+			
+				},
+				error: function(jqXHR,textStatus,errorThrown) {
+					alert('오류 발생 : ' + textStatus);
+
+				}
+				
+			});
+		}
 </script>
 
 <!-- 댓글 -->
@@ -277,13 +387,38 @@ a {
 
 <!-- 댓글 수정, 삭제 -->
 <script>
+	//댓글 수정 시 창 조정
+	function resizeCommentInput(commentId) {
+		// 너비와 높이를 설정할 input 요소의 ID
+	    var widthInputId = 'comment-width-input-' + commentId;
+	    // var heightInputId = 'comment-height-input-' + commentId;
+
+	    // 입력된 값을 가져옵니다
+	    var newWidth = $('#' + widthInputId).val() || '100%'; // 값이 입력되지 않은 경우 기본값은 '100%'
+	    // var newHeight = $('#' + heightInputId).val() || '100%';
+
+	    // 댓글 편집 입력 창의 ID를 선택합니다
+	    var inputElement = $('#modify-form-' + commentId).find('input[name="comment-text-' + commentId + '"]');
+
+	    // 댓글 편집 입력 창의 너비와 높이를 설정합니다
+	    inputElement.width(newWidth);
+	    // inputElement.height(newHeight);
+	    
+	 	// 입력 창의 텍스트가 너비를 초과하면 다음 줄로 줄바꿈되도록 설정
+	    inputElement.css('white-space', 'normal');
+	}
+
 	function toggleModifybtn(commentId) {
 		$('#modify-btn-'+commentId).hide();
 		$('#save-btn-'+commentId).show();
 		$('#comment-'+commentId).hide();
 		$('#modify-form-'+commentId).show();
-	}
 		
+		// 크기 조절
+	    resizeCommentInput(commentId);
+	}
+
+	
 	function doModifyComment(commentId) {
 		 console.log(commentId); // 디버깅을 위해 replyId를 콘솔에 출력
 		    
@@ -317,143 +452,119 @@ a {
 	}
 </script>
 
-<section class="mt-8 text-xl px-4">
-	<div class="mx-auto">
-		<table class="table-box-1" border="1">
-			<tbody>
-				<tr>
-					<th>번호</th>
-					<td>${article.id }${goodRP}${badRP}</td>
-				</tr>
-				<tr>
-					<th>작성날짜</th>
-					<td>${article.regDate }</td>
-				</tr>
-				<tr>
-					<th>수정날짜</th>
-					<td>${article.updateDate }</td>
-				</tr>
-				<tr>
-					<th>작성자</th>
-					<td>${article.loginId }</td>
-				</tr>
-				<tr>
-					<th>좋아요</th>
-					<td id="likeCount">${article.goodReactionPoint }</td>
-				</tr>
-				<tr>
-					<th>싫어요</th>
-					<td id="DislikeCount">${article.badReactionPoint }</td>
-				</tr>
-				<tr>
-					<th>추천</th>
-					<td>
-						<button id="likeButton" class="btn btn-outline btn-success" onclick="doGoodReaction(${param.id})">▲</button>
-						<button id="DislikeButton" class="btn btn-outline btn-error" onclick="doBadReaction(${param.id})">▼</button>
-					</td>
-				</tr>
-				<tr>
-					<th>제목</th>
-					<td>${article.title }</td>
-				</tr>
-				<tr>
-					<th>내용</th>
-					<td>${article.body }</td>
-				</tr>
-				<tr>
-					<th>조회수</th>
-					<td><span class="article-detail__hit-count">${article.hitCount }</span></td>
-				</tr>
-			</tbody>
-		</table>
 
-		<div class="btns mt-5 text-base">
-			<button class="btn btn-outline" type="button" onclick="history.back();">뒤로가기</button>
-			<c:if test="${article.userCanModify }">
-				<a class="btn btn-outline" href="../article/modify?id=${article.id }">수정</a>
-			</c:if>
-			<c:if test="${article.userCanDelete }">
-				<a class="btn btn-outline" onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;"
-					href="../article/doDelete?id=${article.id }">삭제</a>
-			</c:if>
-		</div>
-	</div>
-</section>
-<section>
-	<c:if test="${rq.isLogined() }">
-		<form action="../comment/doWrite" method="POST" onsubmit="ReplyWrite__submit(this); return false;">
-			<input type="hidden" name="relTypeCode" value="article" /> <input type="hidden" name="relId" value="${article.id }" />
-			<label class="form-control">
-				<div class="comment dropdown dropdown-end ">
-					<div tabindex="0" role="button" class="comment btn btn-ghost btn-circle avatar">
-						<div class="w-10 rounded-full text-base">
-							<img alt="Tailwind CSS Navbar component"
-								src="https://health.chosun.com/site/data/img_dir/2023/07/17/2023071701753_0.jpg" />
-						</div>
-					</div>
-					<%-- <div class="comment">${rq.loginedMemberNickname }</div> --%>
+</head>
+<body>
+	<button class="button" onclick="history.back();">뒤로가기</button>
+	<div class="post-container">
+		<div class="post-header">
+			<%-- 			<h1>${article.type }</h1> --%>
+			<div class="post-meta">
+				<div style="display: flex; justify-content: space-between;">
+					<!-- ${article.id }${goodRP}${badRP} 글번호 -->
+					<p class="p-1">${article.type }</p>
+					<p class="p-1">조회 ${article.hitCount } / ${article.regDate.substring(0,10) }</p>
 				</div>
-				<div class="flex-none gap-2 m-3 ">
-					<div class="form-control">
-						<textarea name="comment" placeholder="댓글을 입력해주세요" class="textarea textarea-bordered h-24"></textarea>
-					</div>
-				</div>
-				<button class="btn btn-outline m-3" type="submit">댓글등록</button>
-			</label>
-			</form>
-	</c:if>
-	<c:if test="${!rq.isLogined() }">
-		<a class="btn btn-outline btn-ghost" href="../member/login">LOGIN</a> 하고 댓글 써
-	</c:if>
-	<div class="comment">
-		<c:forEach var="comments" items="${comments }">
-			<div class="chat chat-start">
-				<div class="chat-image avatar">
-					<div class="w-10 rounded-full">
-						<img alt="Tailwind CSS Navbar component"
-							src="https://health.chosun.com/site/data/img_dir/2023/07/17/2023071701753_0.jpg" />
-					</div>
-				</div>
-				<div class="chat-header font-semibold">
-					${comments.loginId }
-					<time class="text-xs opacity-50">${comments.updateDate.substring(0,10) }</time>
-				</div>
-				<div class="rr">
-					<span class="chat-bubble" id="comment-${comments.id }">${comments.comment }</span>
-					<form method="POST" id="modify-form-${comments.id }" style="display: none;" action="/usr/comment/doModify">
-						<input class="chat-bubble" type="text" value="${comments.comment }" name="comment-text-${comments.id }" />
-					</form>
-					<button id="likeButton" onclick="doCommentGoodReaction(${param.id},)" style="color: #e0316e"
-						class="reaction text-xl">♡</button>
-					<c:if test="${comments.goodReactionPoint > 0}">
-						<div class="reaction" style="color: #e0316e">[${comments.sum }]</div>
-					</c:if>
-					<div>${CommentGoodCnt }</div>
-					<c:if test="${comments.memberId == rq.loginedMemberId }">
-						<nav class="option">
-							<ul>
-								<li><a class="hover:underline" href="#">···</a>
-									<ul>
-										<c:if test="${comments.userCanModify }">
-											<li><a onclick="toggleModifybtn('${comments.id}');" style="white-space: nowrap;"
-												id="modify-btn-${comments.id }">수정</a></li>
-											<li><a onclick="doModifyComment('${comments.id}');" style="white-space: nowrap; display: none;"
-												id="save-btn-${comments.id }">저장</a></li>
-										</c:if>
-										<c:if test="${comments.userCanDelete }">
-											<li><a onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;"
-												href="../comment/doDelete?id=${comments.id }">삭제</a></li>
-										</c:if>
-									</ul>
-								</li>
-							</ul>
-						</nav>
-					</c:if>
+				<div style="display: flex; justify-content: space-between; align-items: center;">
+					<p class="p-1 text-4xl" style="font-weight: bold;">${article.title }</p>
+					<p class="p-1 h-7">${article.loginId }(${article.userLevel })</p>
 				</div>
 			</div>
-		</c:forEach>
-	</div>
-</section>
+		</div>
 
+		<div class="post-actions">
+			<button id="likeButton" class="btn btn-outline btn-error text-xl"
+				style="border: none; background-color: transparent;" onclick="doGoodReaction(${param.id})">♡</button>
+			<div id="likeCount">${article.goodReactionPoint }</div>
+		</div>
+
+		<div class="content">
+			<p>${article.body }</p>
+			<!-- Add more content here -->
+		</div>
+
+		<!-- 등록된 댓글 -->
+		<div class="comment">
+			<div class="button mb-5">
+				<button id = "asc" class="mr-2" onclick="asc();">등록순</button>
+				<button id = "desc" onclick="desc();">최신순</button>
+			</div>
+			<c:forEach var="comments" items="${comments }">
+				<!-- 각 댓글을 나타내는 부분 -->
+				<div class="chat chat-start">
+					<!-- 댓글 작성자의 이미지와 정보 -->
+					<div class="chat-image avatar">
+						<div class="w-10 rounded-full">
+							<img alt="Tailwind CSS Navbar component" src="${comments.image }" />
+						</div>
+					</div>
+					<!-- 댓글 작성자 정보와 작성 날짜 -->
+					<div class="chat-header font-semibold">
+						${comments.loginId }
+						<time class="text-xs opacity-50">${comments.updateDate.substring(0,10) }</time>
+					</div>
+					<!-- 댓글 내용과 수정 폼, 리액션 옵션 -->
+					<div class="commentbar">
+						<span style="background-color: #777" class="chat-bubble" id="comment-${comments.id }">${comments.comment }</span>
+						<form method="POST" id="modify-form-${comments.id }" style="display: none;" action="/usr/comment/doModify">
+							<input class="chat-bubble" type="text" value="${comments.comment }" name="comment-text-${comments.id }" />
+						</form>
+						<!-- 좋아요 버튼과 리액션 정보 -->
+						<div class="c_option">
+							<button id="likeButton" onclick="doCommentGoodReaction(${param.id},)" style="color: #e0316e"
+								class="reaction text-xl">♡</button>
+							<c:if test="${comments.goodReactionPoint > 0}">
+								<div class="reaction" style="color: #e0316e">[${comments.sum }]</div>
+								<div>${CommentGoodCnt }</div>
+							</c:if>
+							<c:if test="${comments.memberId == rq.loginedMemberId }">
+								<!-- 수정 및 삭제 옵션 -->
+								<nav class="option">
+									<ul>
+										<li><a class="hover:underline" href="#">···</a>
+											<ul>
+												<c:if test="${comments.userCanModify }">
+													<li><a onclick="toggleModifybtn('${comments.id}');" style="white-space: nowrap;"
+														id="modify-btn-${comments.id }">수정</a></li>
+													<li><a onclick="doModifyComment('${comments.id}');" style="white-space: nowrap; display: none;"
+														id="save-btn-${comments.id }">저장</a></li>
+												</c:if>
+												<c:if test="${comments.userCanDelete }">
+													<li><a onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;"
+														href="../comment/doDelete?id=${comments.id }">삭제</a></li>
+												</c:if>
+											</ul></li>
+									</ul>
+								</nav>
+							</c:if>
+						</div>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
+
+		<!-- 댓글 등록 -->
+		<c:if test="${rq.isLogined() }">
+			<form action="../comment/doWrite" method="POST" onsubmit="ReplyWrite__submit(this); return false;">
+				<input type="hidden" name="relTypeCode" value="article" /> <input type="hidden" name="relId" value="${article.id }" />
+				<label class="form-control"> <!-- 회원정보 버튼 -->
+					<div class="flex-none gap-2 m-3 ">
+						<div class="form-control">
+							<textarea name="comment" placeholder="댓글을 입력해주세요" class="textarea textarea-bordered h-24"></textarea>
+						</div>
+					</div>
+					<button class="btn btn-outline m-3" type="submit">댓글등록</button>
+				</label>
+			</form>
+		</c:if>
+		<c:if test="${!rq.isLogined() }">
+			<a class="btn btn-outline btn-ghost" href="../member/login">LOGIN</a> 하고 댓글 써
+		</c:if>
+	</div>
+
+
+
+</body>
+</html>
 
 <%@ include file="../common/foot.jspf"%>

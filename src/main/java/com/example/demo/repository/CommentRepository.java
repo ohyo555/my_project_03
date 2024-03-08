@@ -1,6 +1,7 @@
 package com.example.demo.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -22,7 +23,6 @@ public interface CommentRepository {
 			ON C.memberId = M.id
 			WHERE C.relId = #{relId}
 			GROUP BY C.id
-			ORDER BY regDate DESC
 			""")
 	List<Comment> getForPrintComments(int loginedMemberId, String relTypeCode, int relId);
 

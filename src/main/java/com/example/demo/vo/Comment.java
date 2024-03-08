@@ -21,6 +21,7 @@ public class Comment {
 	
 	private String loginId;
 	private String image;
+	private String orderType;
 	
 	private boolean userCanModify;
 	private boolean userCanDelete;

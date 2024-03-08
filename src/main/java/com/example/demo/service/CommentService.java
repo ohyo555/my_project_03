@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class CommentService {
 
 	public List<Comment> getForPrintComments(int loginedMemberId, String relTypeCode, int relId) {
 //		return commentRepository.getForPrintComments(loginedMemberId, relTypeCode, relId);
-		
+	
 		List<Comment> comments = commentRepository.getForPrintComments(loginedMemberId, relTypeCode, relId);
 
 		for (Comment comment : comments) {
@@ -87,4 +88,5 @@ public class CommentService {
 		commentRepository.deleteComment(id);
 		return ResultData.from("S-1", Ut.f("%d번 댓글을 삭제했습니다", id));
 	}
+
 }

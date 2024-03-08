@@ -1,6 +1,7 @@
 package com.example.demo.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -20,7 +21,7 @@ public interface ReactionPointRepository {
 			AND RP.relId = #{relId}
 			AND RP.memberId = #{memberId}
 			""")
-	public int getSumReactionPoint(int memberId, String relTypeCode, int relId);
+	public int getSumReactionPoint(int memberId, String relTypeCode, int id);
 
 	@Insert("""
 			INSERT INTO reactionPoint

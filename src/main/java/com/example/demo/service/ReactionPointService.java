@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,14 +25,14 @@ public class ReactionPointService {
 
 	
 
-	public ResultData usersReaction(int loginedMemberId, String relTypeCode, int relId) {
+	public ResultData usersReaction(int loginedMemberId, String relTypeCode, int id) {
 
 		if (loginedMemberId == 0) {
 			return ResultData.from("F-L", "로그인 하고 써야해");
 		}
 
 		int sumReactionPointByMemberId = reactionPointRepository.getSumReactionPoint(loginedMemberId, relTypeCode,
-				relId);
+				id);
 
 		if (sumReactionPointByMemberId != 0) {
 			return ResultData.from("F-1", "추천 불가능", "sumReactionPointByMemberId", sumReactionPointByMemberId);
@@ -98,8 +99,8 @@ public class ReactionPointService {
 		return ResultData.from("S-1", "싫어요 취소 됨");
 	}
 
-	public boolean isAlreadyAddGoodRp(int memberId, int relId, String relTypeCode) {
-		int getPointTypeCodeByMemberId = reactionPointRepository.getSumReactionPoint(memberId, relTypeCode, relId);
+	public boolean isAlreadyAddGoodRp(int memberId, int id, String relTypeCode) {
+		int getPointTypeCodeByMemberId = reactionPointRepository.getSumReactionPoint(memberId, relTypeCode, id);
 
 		if (getPointTypeCodeByMemberId > 0) {
 			return true;
@@ -108,8 +109,8 @@ public class ReactionPointService {
 		return false;
 	}
 
-	public boolean isAlreadyAddBadRp(int memberId, int relId, String relTypeCode) {
-		int getPointTypeCodeByMemberId = reactionPointRepository.getSumReactionPoint(memberId, relTypeCode, relId);
+	public boolean isAlreadyAddBadRp(int memberId, int id, String relTypeCode) {
+		int getPointTypeCodeByMemberId = reactionPointRepository.getSumReactionPoint(memberId, relTypeCode, id);
 
 		if (getPointTypeCodeByMemberId < 0) {
 			return true;

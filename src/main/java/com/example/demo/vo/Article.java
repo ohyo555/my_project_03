@@ -22,6 +22,8 @@ public class Article {
 	private int badReactionPoint;
 	private String userLevel;
 	
+	private String orderType;
+	
 	private boolean userCanModify;
 	private boolean userCanDelete;
 

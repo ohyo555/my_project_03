@@ -16,8 +16,6 @@ CREATE TABLE article(
     updateDate DATETIME NOT NULL
 );
 
-
-
 # testdata 생성
 INSERT INTO article
 SET regDate = NOW(),
@@ -81,6 +79,23 @@ SELECT *
 FROM article;  
 SELECT *
 FROM `member`; 
+SELECT *
+FROM board;  
+
+SELECT A.*, M.loginId AS loginId, B.name AS `type`, CASE 
+        WHEN M.authLevel = 1 THEN '골드'
+        WHEN M.authLevel = 2 THEN '실버'
+        WHEN M.authLevel = 7 THEN '관리자'
+        ELSE '일반'  -- 다른 경우에 대한 기본값 설정 (optional)
+    END AS userLevel
+FROM article AS A
+INNER JOIN `member` AS M
+ON A.memberId = M.id
+INNER JOIN board AS B
+ON A.boardId = B.id
+WHERE A.id = 1003
+GROUP BY A.id
+			
 #---------------------------------------------------------------------------
 
 # member 테이블 생성
@@ -169,14 +184,14 @@ email = 'oioi@gmail.com',
 regDate = NOW(),
 updateDate = NOW();
 
-drop table `member`;
+DROP TABLE `member`;
 
-select *
-from `member`;
+SELECT *
+FROM `member`;
 
-update `member`
-set `authLevel` = 3
-where loginId != 'admin';
+UPDATE `member`
+SET `authLevel` = 3
+WHERE loginId != 'admin';
 
 #---------------------------------------------------------------------------
 
@@ -200,7 +215,7 @@ membercode = '0123456',
 regDate = NOW(),
 updateDate = NOW(),
 endDate = '2024-04-26';
-end
+END
 INSERT INTO membership
 SET loginId = 'silver',
 `authLevel` = 2,
@@ -209,23 +224,30 @@ regDate = NOW(),
 updateDate = NOW(),
 endDate = '2024-04-26';
 
-ALTER TABLE member ADD COLUMN `type` char(10) AFTER `authLevel`;
+ALTER TABLE MEMBER ADD COLUMN `type` CHAR(10) AFTER `authLevel`;
 
-select *
-from membership;
+SELECT *
+FROM membership;
 
 SELECT *
 FROM `member`;
 
-delete from membership
-where loginId = 'test1';
+DELETE FROM membership
+WHERE loginId = 'test1';
 
+SELECT C.*, M.loginId AS loginId, M.image AS image, SUM(C.goodreactionPoint) AS `sum`
+FROM `comment` AS C
+INNER JOIN `member` AS M
+ON C.memberId = M.id
+WHERE C.relId = 1003
+GROUP BY C.id
+ORDER BY regDate ASC
 
 SELECT `authLevel` FROM `member` WHERE loginId = 'test1'
 
-update `member`
-set `type` = '실버'
-where id = 1 or id = 2;
+UPDATE `member`
+SET `type` = '실버'
+WHERE id = 1 OR id = 2;
 #---------------------------------------------------------------------------
 
 # team 테이블 생성
@@ -267,15 +289,15 @@ stadium = '화성종합운동장',
 regDate = NOW(),
 updateDate = NOW();
 
-select *
-from team;
+SELECT *
+FROM team;
 # schedule 테이블 생성
 CREATE TABLE `schedule`(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     team1 CHAR(20) NOT NULL,
     team2 CHAR(20) NOT NULL,
     `date` DATETIME NOT NULL,
-    `round` int NOT NULL
+    `round` INT NOT NULL
 );
 
 # testdata 생성
@@ -296,11 +318,11 @@ team2 = 4,
 # game 테이블 생성
 CREATE TABLE game(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    tid int(10) NOT NULL,
+    tid INT(10) NOT NULL,
     result TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '만료 여부 (0=패, 1=승)',
     `date` DATETIME NOT NULL,
     `round` INT(10) NOT NULL,
-    sumset int(10) not null,
+    sumset INT(10) NOT NULL,
     getset INT(10) NOT NULL,
     attack INT(10) NOT NULL,
     attack_rate INT(10) NOT NULL,
@@ -389,7 +411,8 @@ CREATE TABLE board(
     delDate DATETIME COMMENT '삭제 날짜'
 );
 
-delete from board where id = 4;
+UPDATE board SET `name` = '자유게시판' WHERE `name` = '자유';
+DELETE FROM board WHERE id = 4;
 
 # board TD 생성
 
@@ -418,18 +441,40 @@ updateDate = NOW(),
 `name` = '나의게시판';
 
 #---------------------------------------------------------------------------
+SELECT *
+FROM reactionPoint;
 
 # reactionPoint 테이블 생성
+SELECT *
+FROM reactionPoint
+
+ALTER TABLE reactionPoint
+DROP COLUMN commentId;
+
 CREATE TABLE reactionPoint(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     memberId INT(10) UNSIGNED NOT NULL,
-    commentId INT(10) UNSIGNED NOT NULL,
+    # commentId INT(10) UNSIGNED NOT NULL,
     relTypeCode CHAR(50) NOT NULL COMMENT '관련 데이터 타입 코드',
     relId INT(10) NOT NULL COMMENT '관련 데이터 번호',
     `point` INT(10) NOT NULL,
     regDate DATETIME NOT NULL,
     updateDate DATETIME NOT NULL
 );
+
+# update join -> 기존 게시물의 good,bad RP 값을 RP 테이블에서 가져온 데이터로 채운다
+UPDATE article AS A
+INNER JOIN (
+    SELECT RP.relTypeCode,RP.relId,
+    SUM(IF(RP.point > 0, RP.point, 0)) AS goodReactionPoint,
+    SUM(IF(RP.point < 0, RP.point * -1, 0)) AS badReactionPoint
+    FROM reactionPoint AS RP
+    GROUP BY RP.relTypeCode, RP.relId
+) AS RP_SUM
+ON A.id = RP_SUM.relId
+SET A.goodReactionPoint = RP_SUM.goodReactionPoint,
+A.badReactionPoint = RP_SUM.badReactionPoint;
+
 
 # reactionPoint 테스트 데이터 생성
 # 1번 회원이 1번 글에 싫어요
@@ -493,7 +538,7 @@ CREATE TABLE `comment`(
     `comment` TEXT NOT NULL,
     memberId INT(10) UNSIGNED NOT NULL,
     # `level` INT(10) UNSIGNED NOT NULL,
-    goodReactionPoint int not null DEFAULT 0,
+    goodReactionPoint INT NOT NULL DEFAULT 0,
     relTypeCode CHAR(50) NOT NULL COMMENT '관련 데이터 타입 코드',
     relId INT(10) NOT NULL COMMENT '관련 데이터 번호',
     regDate DATETIME NOT NULL,
@@ -519,14 +564,14 @@ relId = 1;
 #---------------------------------------------------------------------------
 
 # team 테이블 생성
-drop table team
-select *
-from team;
+DROP TABLE team
+SELECT *
+FROM team;
 CREATE TABLE team(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     tname CHAR(20) NOT NULL,
     stadium CHAR(20) NOT NULL,
-    address CHAR(50) not null,
+    address CHAR(50) NOT NULL,
     latitude DOUBLE NOT NULL,
     longitude DOUBLE NOT NULL,
     regDate DATETIME NOT NULL,
@@ -603,7 +648,7 @@ updateDate = NOW();
 DROP TABLE player
 SELECT image
 FROM player
-where id = 1;
+WHERE id = 1;
 CREATE TABLE player(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     pname CHAR(20) NOT NULL,
