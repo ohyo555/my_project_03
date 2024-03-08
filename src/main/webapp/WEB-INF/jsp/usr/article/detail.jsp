@@ -116,7 +116,6 @@ a {
 
 	function doGoodReaction(articleId) {
 		
-		console.log("!!!!!!!!!!!!!!!" + articleId);
 		$.ajax({
 			url: '/usr/reactionPoint/doGoodReaction',
 			type: 'POST',

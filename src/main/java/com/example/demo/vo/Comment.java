@@ -20,6 +20,7 @@ public class Comment {
 	private int sum;
 	
 	private String loginId;
+	private String image;
 	
 	private boolean userCanModify;
 	private boolean userCanDelete;

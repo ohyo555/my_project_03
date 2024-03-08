@@ -43,12 +43,14 @@ body {
 	color: #777;
 }
 
+/* 좋아요 */
 .post-actions {
 	margin-top: 10px;
+	display: flex;
+	align-items: center;
 }
 
-.like-btn, .dislike-btn {
-	background-color: #3498db;
+.like-btn {
 	color: #fff;
 	padding: 8px 12px;
 	border: none;
@@ -57,12 +59,24 @@ body {
 }
 
 .content {
+	margin: 10px;
+	padding: 10px 0 30px 0;
+	border-bottom: 1px solid #ccc;
+}
+
+.content p {
+	background-color: rgba(232, 218, 218, 0.3);
 	line-height: 5; /* 글꼴 크기의 배수 */
+	padding: 0 30px;
 	height: 40%;
 }
 
-
 /* 댓글 */
+
+.comment {
+	margin: 20px 10px 10px 10px;
+}
+
 .commentbar {
 	width: 100%;
 }
@@ -79,6 +93,58 @@ body {
 
 .chat {
 	padding: 0px;
+}
+
+#member_img {
+	display: inline-block;
+	width: 50px; /* 원하는 너비로 설정 */
+	height: 50px; /* 원하는 높이로 설정 */
+	border-radius: 50%; /* 동그란 모양으로 설정 */
+	background-image: url('${rq.loginedMember.image }'); /* 이미지 경로 설정 */
+	background-size: cover; /* 배경 이미지를 커버로 설정 */
+	background-position: center; /* 배경 이미지를 가운데 정렬 */
+	background-repeat: no-repeat; /* 배경 이미지 반복 없음 */
+	border: none; /* 테두리 없음 */
+	cursor: pointer; /* 마우스 포인터 모양 변경 */
+	margin: 3px 12px;
+}
+
+.c_option {
+	display: flex;
+	align-items: center;
+	padding-right: 13px;
+}
+/* 댓글 수정/삭제 */
+.option {
+	margin-left: auto;
+
+	/* position: absolute;
+	right: 0; */
+}
+
+.option ul {
+	margin-left: auto; /* 가장 오른쪽으로 이동하게 함 */
+
+	/* position: absolute;
+	right: 0;
+	top: 0; */
+}
+
+.option ul>li:hover>ul>li>a {
+	background-color: white;
+	white-space: nowrap;
+	padding: 5px;
+	font-size: 1rem;
+}
+
+.option>ul ul {
+	display: none;
+	position: absolute;
+}
+
+.option ul>li:hover ul {
+	display: block;
+	cursor: pointer;
 }
 </style>
 
@@ -121,9 +187,7 @@ body {
 	<!-- 좋아요 싫어요 버튼	-->
 	function checkRP() {
 		if(isAlreadyAddGoodRp == true){
-			$('#likeButton').toggleClass('btn-outline');
-		}else if(isAlreadyAddBadRp == true){
-			$('#DislikeButton').toggleClass('btn-outline');
+			$('#likeButton').html('♥');
 		}else {
 			return;
 		}
@@ -146,20 +210,17 @@ body {
 				if(data.resultCode.startsWith('S-')){
 					var likeButton = $('#likeButton');
 					var likeCount = $('#likeCount');
-					var DislikeButton = $('#DislikeButton');
+					/* var DislikeButton = $('#DislikeButton');
 					var DislikeCount = $('#DislikeCount');
-					
+					 */
 					if(data.resultCode == 'S-1'){
-						likeButton.toggleClass('btn-outline');
-						likeCount.text(data.data1);
-					}else if(data.resultCode == 'S-2'){
-						DislikeButton.toggleClass('btn-outline');
-						DislikeCount.text(data.data2);
-						likeButton.toggleClass('btn-outline');
-						likeCount.text(data.data1);
-					}else {
-						likeButton.toggleClass('btn-outline');
-						likeCount.text(data.data1);
+						if(data.msg == '좋아요!'){
+							likeButton.html('♥');
+							likeCount.text(data.data1);
+						} else {
+							likeButton.html('♡');
+							likeCount.text(data.data1);
+						}
 					}
 					
 				}else {
@@ -175,7 +236,7 @@ body {
 		});
 	}
 	
-	
+	/* 
 	
 	function doBadReaction(articleId) {
 		
@@ -220,7 +281,7 @@ body {
 			
 		});
 	}
-	
+	 */
 	$(function() {
 		checkRP();
 	});
@@ -293,13 +354,38 @@ body {
 
 <!-- 댓글 수정, 삭제 -->
 <script>
+	//댓글 수정 시 창 조정
+	function resizeCommentInput(commentId) {
+		// 너비와 높이를 설정할 input 요소의 ID
+	    var widthInputId = 'comment-width-input-' + commentId;
+	    // var heightInputId = 'comment-height-input-' + commentId;
+
+	    // 입력된 값을 가져옵니다
+	    var newWidth = $('#' + widthInputId).val() || '100%'; // 값이 입력되지 않은 경우 기본값은 '100%'
+	    // var newHeight = $('#' + heightInputId).val() || '100%';
+
+	    // 댓글 편집 입력 창의 ID를 선택합니다
+	    var inputElement = $('#modify-form-' + commentId).find('input[name="comment-text-' + commentId + '"]');
+
+	    // 댓글 편집 입력 창의 너비와 높이를 설정합니다
+	    inputElement.width(newWidth);
+	    // inputElement.height(newHeight);
+	    
+	 	// 입력 창의 텍스트가 너비를 초과하면 다음 줄로 줄바꿈되도록 설정
+	    inputElement.css('white-space', 'normal');
+	}
+
 	function toggleModifybtn(commentId) {
 		$('#modify-btn-'+commentId).hide();
 		$('#save-btn-'+commentId).show();
 		$('#comment-'+commentId).hide();
 		$('#modify-form-'+commentId).show();
-	}
 		
+		// 크기 조절
+	    resizeCommentInput(commentId);
+	}
+
+	
 	function doModifyComment(commentId) {
 		 console.log(commentId); // 디버깅을 위해 replyId를 콘솔에 출력
 		    
@@ -339,24 +425,24 @@ body {
 
 	<div class="post-container">
 		<div class="post-header">
-<%-- 			<h1>${article.type }</h1> --%>
+			<%-- 			<h1>${article.type }</h1> --%>
 			<div class="post-meta">
 				<div style="display: flex; justify-content: space-between;">
-				<!-- ${article.id }${goodRP}${badRP} 글번호 -->
-					<p class = "p-1">${article.type }</p>
-					<p class = "p-1" >조회 ${article.hitCount } / ${article.formattedUpdateDate }</p>
+					<!-- ${article.id }${goodRP}${badRP} 글번호 -->
+					<p class="p-1">${article.type }</p>
+					<p class="p-1">조회 ${article.hitCount } / ${article.regDate.substring(0,10) }</p>
 				</div>
 				<div style="display: flex; justify-content: space-between; align-items: center;">
-					<p class = "p-1 text-4xl" style = "font-weight: bold;">${article.title }</p>
-					<p class = "p-1 h-7" >${article.loginId }(${article.userLevel })</p>
+					<p class="p-1 text-4xl" style="font-weight: bold;">${article.title }</p>
+					<p class="p-1 h-7">${article.loginId }(${article.userLevel })</p>
 				</div>
 			</div>
 		</div>
 
 		<div class="post-actions">
-			<button id="likeButton" class="btn btn-outline btn-success" onclick="doGoodReaction(${param.id})">▲</button>
-			<button id="DislikeButton" class="btn btn-outline btn-error" onclick="doBadReaction(${param.id})">▼</button>
-			<span>Likes: ${article.goodReactionPoint }</span> <span>Dislikes: ${article.badReactionPoint }</span>
+			<button id="likeButton" class="btn btn-outline btn-error text-xl"
+				style="border: none; background-color: transparent;" onclick="doGoodReaction(${param.id})">♡</button>
+			<div id="likeCount">${article.goodReactionPoint }</div>
 		</div>
 
 		<div class="content">
@@ -369,8 +455,7 @@ body {
 				<div class="chat chat-start">
 					<div class="chat-image avatar">
 						<div class="w-10 rounded-full">
-							<img alt="Tailwind CSS Navbar component"
-								src="https://health.chosun.com/site/data/img_dir/2023/07/17/2023071701753_0.jpg" />
+							<img alt="Tailwind CSS Navbar component" src="${comments.image }" />
 						</div>
 					</div>
 					<div class="chat-header font-semibold">
@@ -382,35 +467,54 @@ body {
 						<form method="POST" id="modify-form-${comments.id }" style="display: none;" action="/usr/comment/doModify">
 							<input class="chat-bubble" type="text" value="${comments.comment }" name="comment-text-${comments.id }" />
 						</form>
-						<button id="likeButton" onclick="doCommentGoodReaction(${param.id},)" style="color: #e0316e"
-							class="reaction text-xl">♡</button>
-						<c:if test="${comments.goodReactionPoint > 0}">
-							<div class="reaction" style="color: #e0316e">[${comments.sum }]</div>
-						</c:if>
-						<div>${CommentGoodCnt }</div>
-						<c:if test="${comments.memberId == rq.loginedMemberId }">
-							<nav class="option">
-								<ul>
-									<li><a class="hover:underline" href="#">···</a>
-										<ul>
-											<c:if test="${comments.userCanModify }">
-												<li><a onclick="toggleModifybtn('${comments.id}');" style="white-space: nowrap;"
-													id="modify-btn-${comments.id }">수정</a></li>
-												<li><a onclick="doModifyComment('${comments.id}');" style="white-space: nowrap; display: none;"
-													id="save-btn-${comments.id }">저장</a></li>
-											</c:if>
-											<c:if test="${comments.userCanDelete }">
-												<li><a onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;"
-													href="../comment/doDelete?id=${comments.id }">삭제</a></li>
-											</c:if>
-										</ul></li>
-								</ul>
-							</nav>
-						</c:if>
+						<div class="c_option">
+							<button id="likeButton" onclick="doCommentGoodReaction(${param.id},)" style="color: #e0316e"
+								class="reaction text-xl">♡</button>
+							<c:if test="${comments.goodReactionPoint > 0}">
+								<div class="reaction" style="color: #e0316e">[${comments.sum }]</div>
+								<div>${CommentGoodCnt }</div>
+							</c:if>
+							<c:if test="${comments.memberId == rq.loginedMemberId }">
+								<nav class="option">
+									<ul>
+										<li><a class="hover:underline" href="#">···</a>
+											<ul>
+												<c:if test="${comments.userCanModify }">
+													<li><a onclick="toggleModifybtn('${comments.id}');" style="white-space: nowrap;"
+														id="modify-btn-${comments.id }">수정</a></li>
+													<li><a onclick="doModifyComment('${comments.id}');" style="white-space: nowrap; display: none;"
+														id="save-btn-${comments.id }">저장</a></li>
+												</c:if>
+												<c:if test="${comments.userCanDelete }">
+													<li><a onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;"
+														href="../comment/doDelete?id=${comments.id }">삭제</a></li>
+												</c:if>
+											</ul></li>
+									</ul>
+								</nav>
+							</c:if>
+						</div>
 					</div>
 				</div>
 			</c:forEach>
 		</div>
+		
+		<c:if test="${rq.isLogined() }">
+			<form action="../comment/doWrite" method="POST" onsubmit="ReplyWrite__submit(this); return false;">
+				<input type="hidden" name="relTypeCode" value="article" /> <input type="hidden" name="relId" value="${article.id }" />
+				<label class="form-control"> <!-- 회원정보 버튼 -->
+					<div class="flex-none gap-2 m-3 ">
+						<div class="form-control">
+							<textarea name="comment" placeholder="댓글을 입력해주세요" class="textarea textarea-bordered h-24"></textarea>
+						</div>
+					</div>
+					<button class="btn btn-outline m-3" type="submit">댓글등록</button>
+				</label>
+			</form>
+		</c:if>
+		<c:if test="${!rq.isLogined() }">
+			<a class="btn btn-outline btn-ghost" href="../member/login">LOGIN</a> 하고 댓글 써
+		</c:if>
 	</div>
 
 

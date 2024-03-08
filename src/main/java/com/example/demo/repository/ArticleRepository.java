@@ -53,8 +53,7 @@ public interface ArticleRepository {
 		        WHEN M.authLevel = 2 THEN '실버'
 		        WHEN M.authLevel = 7 THEN '관리자'
 		        ELSE '일반'
-		    END AS userLevel,
-		    DATE_FORMAT(A.updateDate, '%Y-%m-%d') AS formattedUpdateDate
+		    END AS userLevel
 			FROM article AS A
 			INNER JOIN `member` AS M
 			ON A.memberId = M.id

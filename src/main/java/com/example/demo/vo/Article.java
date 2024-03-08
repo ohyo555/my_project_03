@@ -21,7 +21,6 @@ public class Article {
 	private int goodReactionPoint;
 	private int badReactionPoint;
 	private String userLevel;
-	private String formattedUpdateDate;
 	
 	private boolean userCanModify;
 	private boolean userCanDelete;
