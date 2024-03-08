@@ -65,7 +65,7 @@ body {
 }
 
 .content p {
-	background-color: rgba(232, 218, 218, 0.3);
+	background-color: rgb(251,243,238);
 	line-height: 5; /* 글꼴 크기의 배수 */
 	padding: 0 30px;
 	height: 40%;
@@ -463,7 +463,7 @@ body {
 						<time class="text-xs opacity-50">${comments.updateDate.substring(0,10) }</time>
 					</div>
 					<div class="commentbar">
-						<span class="chat-bubble" id="comment-${comments.id }">${comments.comment }</span>
+						<span style="background-color:#777" class="chat-bubble" id="comment-${comments.id }">${comments.comment }</span>
 						<form method="POST" id="modify-form-${comments.id }" style="display: none;" action="/usr/comment/doModify">
 							<input class="chat-bubble" type="text" value="${comments.comment }" name="comment-text-${comments.id }" />
 						</form>

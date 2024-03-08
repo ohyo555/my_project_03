@@ -42,7 +42,7 @@
     overflow:hidden;
     padding: 3px 0;
     z-index:99;
-    background-color: #dae5ed;
+    background-color: rgb(251,243,238);
     box-sizing: border-box; /* 테두리 밖으로 그리기 */
   	border-radius: 5px;
   	display: flex; /* Flex 컨테이너로 설정 */
@@ -76,7 +76,7 @@
     height:60px;
     overflow:hidden;
     z-index:99;
-    background-color:#dae5ed;
+    background-color:rgb(251,243,238);
     box-sizing: border-box; /* 테두리 밖으로 그리기 */
   	border-radius: 5px;
     } 
