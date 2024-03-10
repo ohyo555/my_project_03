@@ -51,6 +51,7 @@
 	padding: 6px 0;
 	text-align: center;
 	cursor: pointer;
+	font-size: 0.7rem;
 }
 
 #category li.on {
@@ -79,30 +80,6 @@
 	background:
 		url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png)
 		no-repeat;
-}
-
-#category li .bank {
-	background-position: -10px 0;
-}
-
-#category li .mart {
-	background-position: -10px -36px;
-}
-
-#category li .pharmacy {
-	background-position: -10px -72px;
-}
-
-#category li .oil {
-	background-position: -10px -108px;
-}
-
-#category li .cafe {
-	background-position: -10px -144px;
-}
-
-#category li .store {
-	background-position: -10px -180px;
 }
 
 #category li.on .category_bg {
@@ -187,30 +164,24 @@
 <body>
 
 	<div class="map_wrap">
-		<div id="map"></div>
+		<div id="map">
 		<ul id="category">
 			<li id="PK6" data-order="0">
-				<span class="category_bg bank"></span>
 				주차장
 			</li>
-			<li id="CS2" data-order="1">
-				<span class="category_bg store"></span>
+			<li id="CS2" data-order="5">
 				편의점
 			</li>
-			<li id="CE7" data-order="2">
-				<span class="category_bg cafe"></span>
+			<li id="CE7" data-order="4">
 				카페
 			</li>
-			<li id="FD6" data-order="3">
-				<span class="category_bg cafe"></span>
+			<li id="FD6" data-order="1">
 				음식점
 			</li>
-			<li id="OL7" data-order="4">
-				<span class="category_bg oil"></span>
+			<li id="OL7" data-order="3">
 				주유소
 			</li>
-
-		</ul>
+		</ul></div>
 	</div>
 
 	<script type="text/javascript"
