@@ -21,7 +21,7 @@ body {
 
 .backbutton_div {
 	max-width: 800px;
-	margin: 0 auto;
+	margin: 10px auto 0 auto;
 	padding: 0 10px;
 }
 
@@ -30,6 +30,16 @@ body {
 	height: 30px;
 	text-align:center;
 	padding:0 3px;
+	font-size: 12px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+
+.loginbutton {
+	width: 60px;
+	height: 30px;
+	text-align:center;
+	padding:5px;
 	font-size: 12px;
 	border: 1px solid #ccc;
 	border-radius: 5px;
@@ -44,8 +54,8 @@ body {
 
 .post-header {
 	border-bottom: 1px solid #ccc;
-	padding-bottom: 10px;
-	margin-bottom: 20px;
+	padding-bottom: 5px;
+	margin-bottom: 10px;
 }
 
 .post-header h1 {
@@ -61,9 +71,14 @@ body {
 
 /* 좋아요 */
 .post-actions {
+	height: 30px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+}
+
+.post-actions a:hover {
+	color:red;
 }
 
 .like-btn {
@@ -74,12 +89,10 @@ body {
 	margin-right: 10px;
 }
 
-.likeCount {
-	align-items: center;
-}
+/* 내용 */
 .content {
 	margin: 10px;
-	padding: 10px 0 30px 0;
+	padding: 0 0 30px 0;
 	border-bottom: 1px solid #ccc;
 }
 
@@ -163,6 +176,10 @@ body {
 .option ul>li:hover ul {
 	display: block;
 	cursor: pointer;
+}
+
+.option ul>li>ul>li:hover>a {
+	color:red;
 }
 </style>
 
@@ -494,11 +511,12 @@ function desc(articleId) {
 		</div>
 		<!-- 좋아요, 수정, 삭제 -->
 		<div class="post-actions">
-			<div style="display: flex;">
-				<button id="likeButton" class="btn btn-outline btn-error text-xl"
-					style="border: none; background-color: transparent;" onclick="doGoodReaction(${param.id})">♡</button>
-				<div id="likeCount">${article.goodReactionPoint }</div>
-			</div>
+		<div style="display: flex; align-items: center;">
+			<button id="likeButton" class="btn btn-outline btn-error text-xl"
+					style="border: none; background-color: transparent;" onclick="doGoodReaction(${param.id})">♡</button>			
+			<div id="likeCount" class="text-xs">${article.goodReactionPoint }</div>
+		</div>
+			
 			<div>
 				<c:if test="${article.userCanModify }">
 					<a class="btn btn-outline text-xs" style="border: none; background-color: transparent;" href="../article/modify?id=${article.id }">수정</a>
@@ -517,7 +535,7 @@ function desc(articleId) {
 
 		<!-- 등록된 댓글 -->
 		<div class="comment">
-			<div class="button mb-5">
+			<div class="button mb-2">
 				<button id = "asc" class="mr-2" onclick="asc();">등록순</button>
 				<button id = "desc" onclick="desc();">최신순</button>
 			</div>
@@ -585,12 +603,14 @@ function desc(articleId) {
 							<textarea name="comment" placeholder="댓글을 입력해주세요" class="textarea textarea-bordered h-24"></textarea>
 						</div>
 					</div>
-					<button class="btn btn-outline m-3" type="submit">댓글등록</button>
+					<button class="btn btn-outline m-3"  type="submit">댓글등록</button>
 				</label>
 			</form>
 		</c:if>
 		<c:if test="${!rq.isLogined() }">
-			<a class="btn btn-outline btn-ghost" href="../member/login">LOGIN</a> 하고 댓글 써
+			<div class = "backbutton_div">
+				<a class="loginbutton btn-outline"  href="../member/login">LOGIN</a> 후 이용해주세요.
+			</div>
 		</c:if>
 	</div>
 

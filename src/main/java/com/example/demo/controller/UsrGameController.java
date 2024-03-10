@@ -40,4 +40,16 @@ public class UsrGameController {
 		return "/usr/game/aaaa";
 	}
 
+	@RequestMapping("/usr/game/findmap")
+	public String showfindmap(Model model) {
+		
+		int id = 1; // 정관장이 중심이라 정관장 아이디 고정
+		
+		Game team = teamService.getTeam(id);
+		
+		model.addAttribute("team", team);
+		
+		return "/usr/game/findmap";
+	}
+	
 }
