@@ -106,7 +106,7 @@ public class UsrMemberController {
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody
 	public String doJoin(HttpServletRequest req, String loginId, String loginPw, String birth, String mname,
-			String cellphoneNum, String email, String address) {
+			String cellphoneNum, String email, String postcode, String address, String detailAddress, String extraAddress) {
 
 		Rq rq = (Rq) req.getAttribute("rq");
 		if (rq.isLogined()) {
@@ -124,11 +124,10 @@ public class UsrMemberController {
 		if (Ut.isNullOrEmpty(birth)) {
 			return Ut.jsHistoryBack("F-4", "생년월일을 입력해주세요");
 		}
-		if (Ut.isNullOrEmpty(email)) {
-			return Ut.jsHistoryBack("F-5", "이메일을 입력해주세요");
-		}
 
-		ResultData<Integer> joinRd = memberService.join(loginId, loginPw, birth, mname, cellphoneNum, email, address);
+		String fulladdress = address + detailAddress + extraAddress;
+		
+		ResultData<Integer> joinRd = memberService.join(loginId, loginPw, birth, mname, cellphoneNum, email, postcode, fulladdress);
 
 		if (joinRd.isFail()) {
 			return Ut.jsHistoryBack(joinRd.getResultCode(), joinRd.getMsg());
@@ -309,11 +308,12 @@ public class UsrMemberController {
 		
 		int memberlevel = memberService.getMemberBylevel(loginId);
 
-		if (memberlevel == 1 || memberlevel == 2) {
-			
-			return Ut.jsHistoryBack("F-1", "이미 멤버쉽이 등록되었습니다.");
-		}
-		
+//		if (memberlevel == 1 || memberlevel == 2) {
+//			
+////			return Ut.jsHistoryBack("F-1", "이미 멤버쉽이 등록되었습니다.");
+//			return "alredy registered";
+//		}
+//		
 		Member member = memberService.getMember(id);
 		
 		model.addAttribute("member", member);

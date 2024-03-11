@@ -9,27 +9,26 @@
 <meta charset="utf-8">
 <title>카테고리별 장소 검색하기</title>
 <style>
+body, html {
+	height: 100%;
+	overflow: hidden;
+	margin: 0;
+}
 
-	body, html {
-		height: 100%;
-	    overflow: hidden;
-	    margin: 0;
-	}
+.map_wrap {
+	position: relative;
+	width: 100%;
+	height: 100vh; /* 뷰포트 높이에 따라 조절 */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 
-	.map_wrap {
-		position:relative;
-		width:100%;
-		height:100vh; /* 뷰포트 높이에 따라 조절 */
-		display: flex;
-		align-items: center;
-	    justify-content: center;
-	}
-
-    #map {
-        width: 80%; /* 원하는 가로 크기로 조절 */
-        height: 80vh; /* 원하는 세로 크기로 조절 */
-        margin-bottom: 70px;
-    }
+#map {
+	width: 80%; /* 원하는 가로 크기로 조절 */
+	height: 80vh; /* 원하는 세로 크기로 조절 */
+	margin-bottom: 70px;
+}
 
 #category {
 	position: absolute;
@@ -78,7 +77,7 @@
 
 #category li .category_bg {
 	background:
-		url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png)
+		url(https://github.com/ohyo555/my_project_03/assets/153146836/5594d10f-faf4-4785-9e48-25e3b10a2dd8)
 		no-repeat;
 }
 
@@ -165,23 +164,14 @@
 
 	<div class="map_wrap">
 		<div id="map">
-		<ul id="category">
-			<li id="PK6" data-order="0">
-				주차장
-			</li>
-			<li id="CS2" data-order="5">
-				편의점
-			</li>
-			<li id="CE7" data-order="4">
-				카페
-			</li>
-			<li id="FD6" data-order="1">
-				음식점
-			</li>
-			<li id="OL7" data-order="3">
-				주유소
-			</li>
-		</ul></div>
+			<ul id="category">
+				<li id="PK6" data-order="2">주차장</li>
+				<li id="CS2" data-order="4">편의점</li>
+				<li id="CE7" data-order="1">카페</li>
+				<li id="FD6" data-order="3">음식점</li>
+				<li id="OL7" data-order="0">주유소</li>
+			</ul>
+		</div>
 	</div>
 
 	<script type="text/javascript"
@@ -335,7 +325,7 @@
 
 		// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
 		function addMarker(position, order) {
-			var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
+			var imageSrc = 'https://github.com/ohyo555/my_project_03/assets/153146836/5594d10f-faf4-4785-9e48-25e3b10a2dd8', // 마커 이미지 url, 스프라이트 이미지를 씁니다
 			imageSize = new kakao.maps.Size(27, 28), // 마커 이미지의 크기
 			imgOptions = {
 				spriteSize : new kakao.maps.Size(72, 208), // 스프라이트 이미지의 크기

@@ -229,8 +229,12 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public String doWrite(HttpServletRequest req, String title, String body, int boardId) {
+	public String doWrite(HttpServletRequest req, String title, String body, Integer boardId) {
 
+		System.out.println("!!!!!!!!!!!!" + title);
+		System.out.println("!!!!!!!!!!!!" + body);
+		System.out.println("!!!!!!!!!!!!" + boardId);
+		
 		Rq rq = (Rq) req.getAttribute("rq");
 
 		if (Ut.isNullOrEmpty(title)) {

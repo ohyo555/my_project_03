@@ -17,6 +17,7 @@ public class Member {
 	private String mname;
 	private String cellphoneNum;
 	private String email;
+	private int postcode;
 	private String address;
 	private int authLevel;
 	private String membercode;

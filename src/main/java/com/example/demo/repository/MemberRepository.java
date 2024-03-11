@@ -37,11 +37,12 @@ public interface MemberRepository {
 			mname = #{mname},
 			cellphoneNum = #{cellphoneNum},
 			email = #{email},
-			address = #{address},
+			postcode = #{postcode},
+			address = #{fulladdress},
 			image = "/resource/profile.png"
 			""")
 	public void join(String loginId, String loginPw, String birth, String mname, String cellphoneNum, String email,
-			String address);
+			String postcode, String fulladdress);
 
 	@Select("SELECT LAST_INSERT_ID()")
 	public int getLastInsertId();
@@ -127,5 +128,6 @@ public interface MemberRepository {
 
 	@Update("UPDATE `member` SET delStatus = 1, delDate = NOW() WHERE id = #{id}")
 	public void delMember(int id);
+
 
 }

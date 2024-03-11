@@ -25,7 +25,7 @@ public class MemberService {
 	}
 
 	public ResultData<Integer> join(String loginId, String loginPw, String birth, String mname, String cellphoneNum, 
-			String email, String address) {
+			String email, String postcode, String fulladdress) {
 		Member existsMember = getMemberByLoginId(loginId);
 
 		if (existsMember != null) {
@@ -38,7 +38,7 @@ public class MemberService {
 			return ResultData.from("F-8", Ut.f("이미 사용중인 이름(%s)과 이메일(%s)입니다", mname, email));
 		}
 
-		memberRepository.join(loginId, loginPw, birth, mname, cellphoneNum, email, address);
+		memberRepository.join(loginId, loginPw, birth, mname, cellphoneNum, email, postcode, fulladdress);
 
 		int id = memberRepository.getLastInsertId();
 
