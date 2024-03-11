@@ -21,7 +21,7 @@ public class Article {
 	private int goodReactionPoint;
 	private int badReactionPoint;
 	private String userLevel;
-	
+	private int boardId;
 	private String orderType;
 	
 	private boolean userCanModify;

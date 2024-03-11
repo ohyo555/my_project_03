@@ -75,6 +75,10 @@ public class UsrArticleController {
 		model.addAttribute("articlesCount", articlesCount);
 		model.addAttribute("articles", articles);
 
+		if(boardId == 3) {
+			return "usr/article/qnlist";
+		}
+		
 		return "usr/article/list";
 	}
 	
@@ -87,7 +91,6 @@ public class UsrArticleController {
 		
 		if (usersReactionRd.isSuccess()) {
 			model.addAttribute("userCanMakeReaction", usersReactionRd.isSuccess());
-			System.out.println("1111111111111111111111111111111");
 		}
 		
 		List<Comment> comments = commentService.getForPrintComments(rq.getLoginedMemberId(), "article", id);
@@ -107,7 +110,10 @@ public class UsrArticleController {
 		model.addAttribute("isAlreadyAddGoodRp",reactionPointService.isAlreadyAddGoodRp(rq.getLoginedMemberId(), id, "article"));
 		model.addAttribute("isAlreadyAddBadRp",reactionPointService.isAlreadyAddBadRp(rq.getLoginedMemberId(), id, "article"));
 		
-		System.out.println("#$#$#$##$#$##$#$#$#$#4");
+		if(article.getBoardId() == 3) {
+			return "usr/article/qndetail";
+		}
+		
 		return "usr/article/detail";
 	}
 	

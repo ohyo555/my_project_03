@@ -90,6 +90,13 @@
 	bottom: 0;
 }
 
+.modal_btn {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 5px;
+}
+
 .modal_button {
 	margin: 0px 10px;
 	font-size: 12px;
@@ -203,7 +210,7 @@
 
 						</div>
 						<a class="modal_close_btn" onclick="closeModal()">Χ</a>
-						<div class="modal_content">
+						<div class="modal_btn">
 							<button class="modal_button" onclick="changeModalContent()">회원정보 수정</button>
 							<button class="modal_button" onclick="logout()">로그아웃</button>
 							<button class="modal_button" onclick="del()">탈퇴</button>
@@ -274,7 +281,7 @@
 								'<input type="text" class="input input-ghost max-w-xs" style="height: 25px; width: 90px;" id="extraAddress" name="extraAddress" autocomplete="off" placeholder="참고항목">' + 
 					            '</div>' +
 					            '<a class="modal_close_btn" onclick="closeModal()">Χ</a>' +
-					            '<div class="modal_content">' +
+					            '<div class="modal_btn">' +
 					            '<button class="modal_button" onclick="modify()">수정</button>' +
 					            '<button class="modal_button" onclick="logout()">로그아웃</button>' +
 					            '<button class="modal_button" onclick="goBack()">뒤로가기</button>' +
