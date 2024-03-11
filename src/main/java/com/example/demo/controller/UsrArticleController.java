@@ -222,31 +222,34 @@ public class UsrArticleController {
 	}
 	
 	@RequestMapping("/usr/article/write")
-	public String showWrite(HttpServletRequest req, Model model) {
+	public String showJoin(HttpServletRequest req) {
 
 		return "usr/article/write";
 	}
-	
+
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public String doWrite(HttpServletRequest req, Model model, String title, String body, int boardId) {
+	public String doWrite(HttpServletRequest req, String title, String body, int boardId) {
+
 		Rq rq = (Rq) req.getAttribute("rq");
-		System.out.println("###################################################");
+
 		if (Ut.isNullOrEmpty(title)) {
 			return Ut.jsHistoryBack("F-1", "제목을 입력해주세요");
 		}
 		if (Ut.isNullOrEmpty(body)) {
-			return Ut.jsHistoryBack("F-1", "내용을 입력해주세요");
+			return Ut.jsHistoryBack("F-2", "내용을 입력해주세요");
 		}
-		
+
 		ResultData<Integer> writeArticleRd = articleService.writeArticle(rq.getLoginedMemberId(), title, body, boardId);
+
 		int id = (int) writeArticleRd.getData1();
 
 		Article article = articleService.getArticle(id);
 
 		return Ut.jsReplace(writeArticleRd.getResultCode(), writeArticleRd.getMsg(), "../article/detail?id=" + id);
-	}
 
+	}
+	
 	// 로그인 체크 -> 유무 체크 -> 권한 체크 -> 수정
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody

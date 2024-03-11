@@ -24,7 +24,8 @@ public class NeedLoginInterceptor implements HandlerInterceptor {
 			System.out.println("==============로그인 하고 써============");
 //			resp.getWriter().append("<script>~~~")
 
-			rq.printHistoryBack("로그인 하고 써라");
+			String afterLoginUri = rq.getEncodedCurrentUri();
+			rq.jsprintReplace("F-A", "로그인 후 이용해주세요", "../member/login?afterLoginUri=" + afterLoginUri);
 
 			return false;
 

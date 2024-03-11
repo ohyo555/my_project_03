@@ -34,7 +34,7 @@
 <section class="mt-8 text-xl px-4">
 	<div class="mx-auto">
 		<form action="../article/doModify" method="POST" onsubmit="ArticleModify__submit(this); return false;">
-			<input type="hidden" name="comment">
+			<input type="hidden" name="body">
 			<input type="hidden" name="id" value="${article.id }" />
 			<table class="modify-box table-box-1" border="1">
 				<tbody>
@@ -66,7 +66,7 @@
 						<td>
 							<%-- 								<textarea class="input input-bordered w-full max-w-xs" type="text" name="body" placeholder="내용을 입력해주세요" />${article.body }</textarea> --%>
 							<div class="toast-ui-editor">
-								<script type="text/x-template">${article.body }
+								<script type="text/x-template" >${article.body }
       </script>
 							</div>
 						</td>

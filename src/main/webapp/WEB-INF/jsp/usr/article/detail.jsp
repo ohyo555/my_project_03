@@ -316,86 +316,7 @@ body {
 			
 		});
 	}
-	/* 
-		function asc(articleId) {
-			
-			$.ajax({
-				url: '/usr/article/detail',
-				type: 'POST',
-				data: {relTypeCode: 'article', relId: articleId, orderType: 'asc'},
-				dataType: 'json',
-				success: function(data){
-					console.log(data);
-					console.log('data.data1Name : ' + data.data1Name);
-					console.log('data.data1 : ' + data.data1);
-					console.log('data.data2Name : ' + data.data2Name);
-					console.log('data.data2 : ' + data.data2);
-					if (data.resultCode.startsWith('S-')) {
-		                var comments = data.comments;
 
-		                // 댓글을 표시할 <div id="commentsContainer"> 요소가 있다고 가정
-		                var commentsContainer = $('#commentsContainer');
-
-		                // 기존 댓글을 지움
-		                commentsContainer.empty();
-
-		                // 각 댓글을 컨테이너에 추가
-		                comments.forEach(function (comment) {
-		                    var commentElement = $('<div>').text(comment.content);
-		                    commentsContainer.append(commentElement);
-		                });
-		            } else {
-		                alert(data.msg);
-		            }
-			
-				},
-				error: function(jqXHR,textStatus,errorThrown) {
-					alert('오류 발생 : ' + textStatus);
-
-				}
-				
-			});
-		}
-		
-function desc(articleId) {
-			
-			$.ajax({
-				url: '/usr/article/detail',
-				type: 'POST',
-				data: {relTypeCode: 'article', relId: articleId, orderType: 'desc'},
-				dataType: 'json',
-				success: function(data){
-					console.log(data);
-					console.log('data.data1Name : ' + data.data1Name);
-					console.log('data.data1 : ' + data.data1);
-					console.log('data.data2Name : ' + data.data2Name);
-					console.log('data.data2 : ' + data.data2);
-					if (data.resultCode.startsWith('S-')) {
-		                var comments = data.comments;
-
-		                // 댓글을 표시할 <div id="commentsContainer"> 요소가 있다고 가정
-		                var commentsContainer = $('#commentsContainer');
-
-		                // 기존 댓글을 지움
-		                commentsContainer.empty();
-
-		                // 각 댓글을 컨테이너에 추가
-		                comments.forEach(function (comment) {
-		                    var commentElement = $('<div>').text(comment.content);
-		                    commentsContainer.append(commentElement);
-		                });
-		            } else {
-		                alert(data.msg);
-		            }
-			
-				},
-				error: function(jqXHR,textStatus,errorThrown) {
-					alert('오류 발생 : ' + textStatus);
-
-				}
-				
-			});
-		} */
 </script>
 
 <!-- 댓글 -->
@@ -609,7 +530,7 @@ function desc(articleId) {
 		</c:if>
 		<c:if test="${!rq.isLogined() }">
 			<div class = "backbutton_div">
-				<a class="loginbutton btn-outline"  href="../member/login">LOGIN</a> 후 이용해주세요.
+				<a class="loginbutton btn-outline"  href="${rq.loginUri }">LOGIN</a> 후 이용해주세요.
 			</div>
 		</c:if>
 	</div>

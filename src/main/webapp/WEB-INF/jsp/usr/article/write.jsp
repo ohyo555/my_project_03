@@ -4,11 +4,9 @@
 <link rel="stylesheet" href="/resource/background.css" />
 <%@ include file="../common/head.jspf"%>
 <%@ include file="../common/toastUiEditorLib.jspf"%>
-
 <!-- Article write 관련 -->
 <script type="text/javascript">
 	let ArticleWrite__submitFormDone = false;
-	
 	function ArticleWrite__submit(form) {
 		if (ArticleWrite__submitFormDone) {
 			return;
@@ -35,40 +33,42 @@
 <section class="mt-8 text-xl px-4">
 	<div class="mx-auto">
 		<form action="../article/doWrite" method="POST" onsubmit="ArticleWrite__submit(this); return false;">
-			<input type="hidden" name="comment">
+			<input type="hidden" name="body">
 			<table class="write-box table-box-1" border="1">
 				<tbody>
-					<div class = "mb-5">
+					<div class="mb-5">
 						<div class="form-check">
-					 		<select class = "text-base h-8" name = "boardId">
-								<option value = "1"}>공지사항</option>
-								<option value = "2"}>자유게시판</option>
-								<option value = "3"}>질의응답</option>
+							<select class="text-base h-8" name="boardId">
+								<option value="1"}>공지사항</option>
+								<option value="2"}>자유게시판</option>
+								<option value="3"}>질의응답</option>
 							</select>
-					 			<!-- 체크박스 미선택 시, open은 null이지만 hidden 필드는 on -->
-						</div> 
+							<!-- 체크박스 미선택 시, open은 null이지만 hidden 필드는 on -->
+						</div>
 					</div>
-					
 					<tr>
 						<th>제목</th>
-						<td><input autocomplete="off" type="text" placeholder="제목을 입력해주세요" name="title" /></td>
+						<td><input class="input input-bordered input-primary w-full max-w-xs" autocomplete="off" type="text"
+							placeholder="제목을 입력해주세요" name="title" /></td>
 					</tr>
 					<tr>
 						<th>내용</th>
 						<td>
-						 <div class="toast-ui-editor">
-								<script type="text/x-template"></script>
-						</div>
+							<div class="toast-ui-editor">
+								<script type="text/x-template">
+      </script>
+							</div>
 						</td>
 					</tr>
-			</tbody>
-		</table>
+					<div class="btns mt-5 text-base">
+						<button class="btn btn-outline btn-info" type="submit" value="작성">작성</button>
+					</div>
+
+				</tbody>
+			</table>
 		</form>
-		
-		<div class="btns mt-5 text-base">
-			<button class="btn btn-outline" type="button" onclick="history.back();">뒤로가기</button>
-			<button class="btn btn-outline btn-info" type="submit" value="작성">작성</button>
-		</div>
+		<button class="btn btn-outline" type="button" onclick="history.back();">뒤로가기</button>
+
 	</div>
 </section>
 
