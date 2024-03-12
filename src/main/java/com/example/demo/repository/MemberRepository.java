@@ -129,5 +129,8 @@ public interface MemberRepository {
 	@Update("UPDATE `member` SET delStatus = 1, delDate = NOW() WHERE id = #{id}")
 	public void delMember(int id);
 
+	@Update("UPDATE `member` SET fplayer = #{player} WHERE loginId = #{loginId}")
+	public void setfplayer(String loginId, String player);
+
 
 }

@@ -139,4 +139,8 @@ public class MemberService {
 		memberRepository.delMember(id);
 	}
 
+	public void setfplayer(String loginId, String player) {
+		memberRepository.setfplayer(loginId, player);
+	}
+
 }

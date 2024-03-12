@@ -28,5 +28,7 @@ public class Member {
 	private String type;
 	private String image;
 
+	private int fplayer;
+	
 	private String new_loginPw;
 }

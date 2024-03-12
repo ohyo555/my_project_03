@@ -192,8 +192,6 @@ public class UsrMemberController {
 		int id = rq.getLoginedMemberId();
 		String loginId = rq.getLoginedMember().getLoginId();
 
-		System.out.println("#$#$#$#$#$#" + member.getLoginPw());
-
 		Member findmember = memberService.getMemberByLoginId(loginId);
 
 		if (member.getLoginPw() == null || member.getLoginPw() == "") {
@@ -352,7 +350,21 @@ public class UsrMemberController {
 		return Ut.jsHistoryBack(membershipRd.getResultCode(), membershipRd.getMsg());
 
 	}
-	
+
+	@RequestMapping("/usr/member/selectplayer")
+	@ResponseBody
+	public String doselectplayer(String player, HttpServletRequest req) {
+		Rq rq = (Rq) req.getAttribute("rq");
+
+		String loginId = rq.getLoginedMember().getLoginId();
+
+		Member findmember = memberService.getMemberByLoginId(loginId);
+
+		memberService.setfplayer(loginId, player);
+		return "응원선수 선택이 완료되었습니다.";
+
+	}
+
 	@RequestMapping("/usr/member/upload")
 	@ResponseBody
 	public String handleFileUpload(HttpServletRequest req, @RequestParam("photo") MultipartFile file) {

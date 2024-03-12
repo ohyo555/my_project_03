@@ -23,6 +23,8 @@ public class Article {
 	private String userLevel;
 	private int boardId;
 	private String orderType;
+	private int password;
+	
 	
 	private boolean userCanModify;
 	private boolean userCanDelete;

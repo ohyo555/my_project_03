@@ -66,6 +66,13 @@
 
 .profile_button {
 	padding: 3px;
+	margin-left: 3px;
+	font-size: 12px;
+	height: 25px;
+}
+
+.register_button {
+	padding: 3px;
 	font-size: 12px;
 	height: 25px;
 }
@@ -94,7 +101,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	margin-top: 5px;
+	margin-top: 20px;
 }
 
 .modal_button {
@@ -184,20 +191,22 @@
 								<label for="username">아이디:</label> ${rq.loginedMember.loginId }
 							</div>
 							<div>
-								<label for="player">응원선수:</label> <select name="favoritePlayer">
+								<label for="player">응원선수:</label> 
+								<select select id="favoritePlayer" name="favoritePlayer">
 									<option value="" selected disabled>선택하세요</option>
-									<option value="player1">이소영</option>
-									<option value="player2">안예림</option>
-									<option value="player3">염혜선</option>
-									<option value="player4">김세인</option>
-									<option value="player5">노란</option>
-									<option value="player6">박은진</option>
-									<option value="player7">이예솔</option>
-									<option value="player8">메가</option>
+									<option value="1">이소영</option>
+									<option value="2">안예림</option>
+									<option value="3">염혜선</option>
+									<option value="4">김세인</option>
+									<option value="5">노란</option>
+									<option value="6">박은진</option>
+									<option value="7">이예솔</option>
+									<option value="8">메가</option>
 								</select>
+								<button class="register_button" onclick="register()">등록</button>
 							</div>
 							<div>
-								<label for="lv">등급/코드: </label>
+								<label for="lv">등급/코드:</label>
 								<c:if test="${rq.loginedMember.type == null}">일반 / </c:if>
 								<c:if test="${rq.loginedMember.type != null}">${rq.loginedMember.type} / ${rq.loginedMember.membercode}</c:if>
 							</div>
@@ -206,8 +215,7 @@
 						<div class="modal_content">
 							<div class="square-box reservation"></div>
 							<div class="square-box player"
-								style="background-image: url('https://kovostoragedev.blob.core.windows.net/kovo-prod/player/female/kgc/shoulder/%E1%84%8B%E1%85%B5%E1%84%89%E1%85%A9%E1%84%8B%E1%85%A7%E1%86%BC_%E1%84%82%E1%85%AE%E1%84%81%E1%85%B5.png');"></div>
-
+								style="background-image: url('${rq.player.image }');"></div>
 						</div>
 						<a class="modal_close_btn" onclick="closeModal()">Χ</a>
 						<div class="modal_btn">
@@ -220,18 +228,25 @@
 					<!--회원정보-->
 
 					<script>
-					
+					 $(document).ready(function() {
+					        // 페이지가 로드될 때 선택된 선수가 있으면 select box에 설정
+					        var selectedPlayer = getSelectedPlayerFromLocalStorage();
+					        if (selectedPlayer) {
+					            $("#favoritePlayer").val(selectedPlayer);
+					        }
+					    });
+					 
 					var modalHistory = []; // 모달 내용을 저장할 배열
 					
 						var defaultModalContent = document.getElementById('defaultModalContent').innerHTML;
 	
 				        function openModal() {
 				            var modalContentText = document.getElementById('my_modal');
-	
+
 				            // 모달이 열릴 때 기본 내용으로 초기화
-				            modalContentText.innerHTML = defaultModalContent;
-	
-				            // 모달 열기 로직 추가...
+				            // modalContentText.innerHTML = defaultModalContent;
+				            // $("#myModal #favoritePlayer").val(selectedPlayer);
+				            
 				        }
 			        
 					 	function changeModalContent() {
@@ -291,6 +306,83 @@
 					        }
 					    }
 					
+					 	function register() {
+
+					 	    var selectedPlayer = $("#favoritePlayer").val();
+					 	    console.log(selectedPlayer);
+
+					 	   $("#selectedPlayerInfo").text(getSelectedPlayerInfo(selectedPlayer));
+					 	   
+					 	    $.ajax({
+					 	        type: "POST",
+					 	        url: "/usr/member/selectplayer", 
+					 	        data: { player: selectedPlayer },
+					 	        success: function(response) {
+					 	            console.log("Registration successful:", response);
+					 	           	saveSelectedPlayerToLocalStorage(selectedPlayer);
+					 	            updatePlayerImageRealTime(selectedPlayerId);
+					 	            alert(response);
+					 	        },
+					 	        error: function(error) {
+					 	            console.error("Error during registration:", error);
+					 	        }
+					 	    });
+					 	    
+					 	}
+					 	
+					    function getSelectedPlayerInfo(playerId) {
+					        // 선택한 선수에 대한 정보를 얻는 함수
+					        switch (playerId) {
+					        case "1":
+				                return "이소영";
+				            case "2":
+				                return "안예림";
+				            case "3":
+				                return "염혜선";
+				            case "4":
+				                return "김세인";
+				            case "5":
+				                return "노란";
+				            case "6":
+				                return "박은진";
+				            case "7":
+				                return "이예솔";
+				            case "8":
+				                return "메가";
+				            default:
+				                return "선택된 선수 정보 없음";
+					        }
+					    }
+					    
+					    function updatePlayerImageRealTime(selectedPlayer) {
+					        // 선수 이미지를 가져오는 Ajax 요청
+					        $.ajax({
+					            type: "GET",
+					            url: "${rq.player.image}",  // 선수 이미지를 가져오는 엔드포인트로 수정
+					            data: { playerId: playerId },
+					            success: function (image) {
+					                // 선수 요소의 배경 이미지 업데이트
+					                $(".square-box.player").css("background-image", "url('" + image + "')");
+
+					                // 선수 이미지를 저장
+					                sessionStorage.setItem("selectedPlayerImage", image);
+					            },
+					            error: function (error) {
+					                console.error("Error getting player image:", error);
+					            }
+					        });
+					    }
+					    
+					    function saveSelectedPlayerToLocalStorage(playerId) {
+					        // 선택한 선수를 로컬 스토리지에 저장하는 함수
+					        localStorage.setItem("selectedPlayer", playerId);
+					    }
+
+					    function getSelectedPlayerFromLocalStorage() {
+					        // 로컬 스토리지에서 선택한 선수를 가져오는 함수
+					        return localStorage.getItem("selectedPlayer");
+					    }
+					    
 					 	function changeprofileContent() {
 						 	// 모달 내용을 변경하는 코드 예제
 						        var modalContentText = document.getElementById('my_modal');
@@ -520,6 +612,10 @@
 			                if (modalHistory.length > 0) {
 			                    modalContentText.innerHTML = modalHistory.pop();
 			                }
+			                var selectedPlayer = getSelectedPlayerFromLocalStorage();
+					        if (selectedPlayer) {
+					            $("#favoritePlayer").val(selectedPlayer);
+					        }
 			            }
 
 			            // 로그아웃

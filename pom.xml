@@ -25,8 +25,8 @@
 		    <artifactId>selenium-java</artifactId>
 		    <version>4.9.0</version>
 		</dependency>
- 
-		<dependency>
+		<!-- CDP -->
+    	<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
