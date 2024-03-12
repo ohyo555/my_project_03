@@ -26,10 +26,32 @@
 	    justify-content: center;
 	}
 
-    #map {
-        width: 80%; /* 원하는 가로 크기로 조절 */
-        height: 80vh; /* 원하는 세로 크기로 조절 */
+	.form {
+		position: relative; /* 부모 요소를 상대 위치로 설정 .findmap때매*/
+	 	width: 90%;
+        height: 80vh;
         margin-bottom: 70px;
+        padding: 20px;
+        background-color: rgb(251,243,238);
+    }
+    
+    #map {
+        width: 98%; /* 원하는 가로 크기로 조절 */
+        height: 74vh; /* 원하는 세로 크기로 조절 */
+    }
+    
+    /* 주변 지도 */
+    .findmap {
+    	position: absolute; /* 자식 요소를 절대 위치로 설정 */
+    	height: 15px;
+    	width: 5px;
+        bottom: 10px; /* 원하는 바닥 여백 값으로 조절 */
+        right: 10px; /* 원하는 우측 여백 값으로 조절 */
+        top: 20px;
+        right: 20px;
+        z-index: 99;
+        background-color: rgb(251, 243, 238);
+        cursor: pointer;
     }
 
     /* 구단 */
@@ -104,27 +126,28 @@
 </head>
 <body>
 <div class="map_wrap" >
-    
-    <div id="map">
-    
-	    <!-- 지도 확대, 축소 컨트롤 div 입니다 -->
-	    <div class="custom_zoomcontrol radius_border"> 
-	         <span onclick="zoomIn()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png" alt="확대"></span>  
-	         <span onclick="zoomOut()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png" alt="축소"></span>
+    <div class = "form">
+	    <div id ="map">
+			    <!-- 지도 확대, 축소 컨트롤 div 입니다 -->
+			    <div class="custom_zoomcontrol radius_border"> 
+			         <span onclick="zoomIn()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png" alt="확대"></span>  
+			         <span onclick="zoomOut()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png" alt="축소"></span>
+			    </div>
+			    
+			    <!-- 구단 이동 -->
+			    <div class="team">
+			    	<span onclick="gokgc()"><img src="/resource/정관장.png" alt="kgc"></span>
+			    	<span onclick="gohk()"><img src="/resource/흥국.png" alt="heungkuk"></span>  
+			        <span onclick="gohd()"><img src="/resource/현대.png" alt="hyundai"></span>
+			        <span onclick="goibk()"><img src="/resource/IBK.png" alt="ibk"></span>  
+			        <span onclick="gohp()"><img src="/resource/한국도로공사.png" alt="hipass"></span>
+			        <span onclick="gopp()"><img src="/resource/페퍼.png" alt="pepper"></span>  
+			        <span onclick="gogs()"><img src="/resource/GS.png" alt="gs"></span>
+			    </div>	    
 	    </div>
-	    
-	    <!-- 구단 이동 -->
-	    <div class="team">
-	    	<span onclick="gokgc()"><img src="/resource/정관장.png" alt="kgc"></span>
-	    	<span onclick="gohk()"><img src="/resource/흥국.png" alt="heungkuk"></span>  
-	        <span onclick="gohd()"><img src="/resource/현대.png" alt="hyundai"></span>
-	        <span onclick="goibk()"><img src="/resource/IBK.png" alt="ibk"></span>  
-	        <span onclick="gohp()"><img src="/resource/한국도로공사.png" alt="hipass"></span>
-	        <span onclick="gopp()"><img src="/resource/페퍼.png" alt="pepper"></span>  
-	        <span onclick="gogs()"><img src="/resource/GS.png" alt="gs"></span>
-	    </div>
-    
+	    <button class = "findmap" onclick="findNearbyAmenities()">편의시설</button>
     </div>
+	    
 
     <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=19cf78438548356f5de2f18b79f43362"></script>
    <script>
@@ -244,6 +267,9 @@
 		    addMarker(map, '배구장', 35.1352826, 126.8789211);
 		} 
 		
+	    function findNearbyAmenities() {
+	        window.location.href = '/usr/game/findmap';
+	    }
     </script>
     
     </div>

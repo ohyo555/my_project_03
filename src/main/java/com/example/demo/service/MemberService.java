@@ -112,7 +112,7 @@ public class MemberService {
 //	         else {
 //	             System.out.println("문자열에서 /images/를 찾을 수 없습니다.");
 //	         }
-         
+         System.out.println(unixStylePath + "@@@@@@@@@@@@@@@" + "id");
             memberRepository.upload(unixStylePath, id);
             
             // 여기에 데이터베이스에 파일 정보를 저장하는 로직을 추가할 수 있습니다.

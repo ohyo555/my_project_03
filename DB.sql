@@ -67,20 +67,6 @@ FROM (
         (SELECT 0 AS N UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9) b,
         (SELECT 0 AS N UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9) c
     ) AS numbers;
-    
-SELECT COUNT(*) AS cnt
-FROM article AS A
-INNER JOIN `member` AS M
-ON A.memberId = M.id
-WHERE M.loginId = 'test1'
-			
-			
-SELECT *
-FROM article;  
-SELECT *
-FROM `member`; 
-SELECT *
-FROM board;  
 
 SELECT A.*, M.loginId AS loginId, B.name AS `type`, CASE 
         WHEN M.authLevel = 1 THEN '골드'
@@ -110,19 +96,14 @@ CREATE TABLE `member`(
     address CHAR(50),
     `authLevel` SMALLINT(2) UNSIGNED DEFAULT 3 COMMENT '권한 레벨 (1=골드, 2= 실버, 3=일반, 7=관리자)',
     membercode CHAR(20),
+    fplayer CHAR(10),
+    image CHAR(100) NOT NULL DEFAULT "/resource/profile.png",
     regDate DATETIME NOT NULL,
     updateDate DATETIME NOT NULL,
     delStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '탈퇴 여부 (0=탈퇴 전, 1=탈퇴 후)',
     delDate DATETIME COMMENT '탈퇴 날짜'
 );
 
-ALTER TABLE `member` ADD COLUMN fplayer INT(10) AFTER membercode;
-ALTER TABLE `member` ADD COLUMN image LONGTEXT AFTER membercode;
-
-ALTER TABLE `member`
-DROP COLUMN image;
-
-UPDATE `member` SET image = "/resource/profile.png" WHERE image IS NULL;
 # testdata 생성
 INSERT INTO `member`
 SET loginId = 'admin',
@@ -137,28 +118,24 @@ regDate = NOW(),
 updateDate = NOW();
 
 INSERT INTO `member`
-SET loginId = 'gold',
-loginPw = 'gold',
+SET loginId = '123',
+loginPw = '123',
 birth = '2000-02-26',
 mname = '골드회원',
 cellphoneNum = '01076070000',
 email = '123@gmail.com',
 address = '서울특별시',
-`authLevel` = 1,
-membercode = '0123456',
 regDate = NOW(),
 updateDate = NOW();
 
 INSERT INTO `member`
-SET loginId = 'silver',
-loginPw = 'silver',
+SET loginId = '999',
+loginPw = '999',
 birth = '2000-02-26',
 mname = '실버회원',
 cellphoneNum = '01056780000',
 email = 'zxzx@gmail.com',
 address = '대구광역시',
-`authLevel` = 2,
-membercode = '07654321',
 regDate = NOW(),
 updateDate = NOW();
 
@@ -169,7 +146,6 @@ birth = '2000-02-26',
 mname = '회원1',
 cellphoneNum = '01043214321',
 email = 'abcde@gmail.com',
-`authLevel` = 3,
 regDate = NOW(),
 updateDate = NOW();
 
@@ -180,18 +156,9 @@ birth = '2000-02-26',
 mname = '회원2',
 cellphoneNum = '01098746513',
 email = 'oioi@gmail.com',
-`authLevel` = 3,
 regDate = NOW(),
 updateDate = NOW();
 
-DROP TABLE `member`;
-
-SELECT *
-FROM `member`;
-
-UPDATE `member`
-SET `authLevel` = 3
-WHERE loginId != 'admin';
 
 #---------------------------------------------------------------------------
 
@@ -199,98 +166,17 @@ WHERE loginId != 'admin';
 CREATE TABLE membership(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     loginId CHAR(20) NOT NULL,
-    `authLevel` SMALLINT(2) UNSIGNED DEFAULT 3 COMMENT '권한 레벨 (1=골드, 2= 실버)',
-    membercode CHAR(20),
+    `authLevel` SMALLINT(2) UNSIGNED NOT NULL DEFAULT 3 COMMENT '권한 레벨 (1=골드, 2= 실버)',
+    `type` CHAR(10) NOT NULL,
+    membercode CHAR(20) NOT NULL,
     regDate DATETIME NOT NULL,
     updateDate DATETIME NOT NULL,
     endStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '만료 여부 (0=만료 전, 1=만료 됨)',
     endDate DATE COMMENT '만료일'
 );
 
-# testdata 생성
-INSERT INTO membership
-SET loginId = 'gold',
-`authLevel` = 1,
-membercode = '0123456',
-regDate = NOW(),
-updateDate = NOW(),
-endDate = '2024-04-26';
-END
-INSERT INTO membership
-SET loginId = 'silver',
-`authLevel` = 2,
-membercode = '07654321',
-regDate = NOW(),
-updateDate = NOW(),
-endDate = '2024-04-26';
-
-ALTER TABLE MEMBER ADD COLUMN `type` CHAR(10) AFTER `authLevel`;
-
-SELECT *
-FROM membership;
-
-SELECT *
-FROM `member`;
-
-DELETE FROM membership
-WHERE loginId = 'test1';
-
-SELECT C.*, M.loginId AS loginId, M.image AS image, SUM(C.goodreactionPoint) AS `sum`
-FROM `comment` AS C
-INNER JOIN `member` AS M
-ON C.memberId = M.id
-WHERE C.relId = 1003
-GROUP BY C.id
-ORDER BY regDate ASC
-
-SELECT `authLevel` FROM `member` WHERE loginId = 'test1'
-
-UPDATE `member`
-SET `type` = '실버'
-WHERE id = 1 OR id = 2;
 #---------------------------------------------------------------------------
 
-# team 테이블 생성
-CREATE TABLE team(
-    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    tname CHAR(20) NOT NULL,
-    address CHAR(50) NOT NULL,
-    stadium CHAR(20) NOT NULL,
-    regDate DATETIME NOT NULL,
-    updateDate DATETIME NOT NULL
-);
-
-# testdata 생성
-INSERT INTO team
-SET tname = '정관장',
-address = '대전광역시',
-stadium = '대전충무체육관',
-regDate = NOW(),
-updateDate = NOW();
-
-INSERT INTO team
-SET tname = '흥국생명',
-address = '인천광역시',
-stadium = '인천삼산체육관',
-regDate = NOW(),
-updateDate = NOW();
-
-INSERT INTO team
-SET tname = 'GS칼텍스',
-address = '서울특별시',
-stadium = '장충체육관',
-regDate = NOW(),
-updateDate = NOW();
-
-INSERT INTO team
-SET tname = 'IBK기업은행',
-address = '화성시',
-stadium = '화성종합운동장',
-regDate = NOW(),
-updateDate = NOW();
-
-SELECT *
-FROM team;
 # schedule 테이블 생성
 CREATE TABLE `schedule`(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -411,16 +297,13 @@ CREATE TABLE board(
     delDate DATETIME COMMENT '삭제 날짜'
 );
 
-UPDATE board SET `name` = '자유게시판' WHERE `name` = '자유';
-DELETE FROM board WHERE id = 4;
-
 # board TD 생성
 
 INSERT INTO board
 SET regDate = NOW(),
 updateDate = NOW(),
 `code` = 'FREE',
-`name` = '자유';
+`name` = '자유게시판';
 
 INSERT INTO board
 SET regDate = NOW(),
@@ -441,20 +324,12 @@ updateDate = NOW(),
 `name` = '나의게시판';
 
 #---------------------------------------------------------------------------
-SELECT *
-FROM reactionPoint;
 
 # reactionPoint 테이블 생성
-SELECT *
-FROM reactionPoint
-
-ALTER TABLE reactionPoint
-DROP COLUMN commentId;
 
 CREATE TABLE reactionPoint(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     memberId INT(10) UNSIGNED NOT NULL,
-    # commentId INT(10) UNSIGNED NOT NULL,
     relTypeCode CHAR(50) NOT NULL COMMENT '관련 데이터 타입 코드',
     relId INT(10) NOT NULL COMMENT '관련 데이터 번호',
     `point` INT(10) NOT NULL,
@@ -475,61 +350,6 @@ ON A.id = RP_SUM.relId
 SET A.goodReactionPoint = RP_SUM.goodReactionPoint,
 A.badReactionPoint = RP_SUM.badReactionPoint;
 
-
-# reactionPoint 테스트 데이터 생성
-# 1번 회원이 1번 글에 싫어요
-INSERT INTO reactionPoint
-SET regDate = NOW(),
-updateDate = NOW(),
-memberId = 1,
-relTypeCode = 'article',
-relId = 1,
-`point` = -1;
-
-# 1번 회원이 2번 글에 좋아요
-INSERT INTO reactionPoint
-SET regDate = NOW(),
-updateDate = NOW(),
-memberId = 1,
-relTypeCode = 'article',
-relId = 2,
-`point` = 1;
-
-# 2번 회원이 1번 글에 싫어요
-INSERT INTO reactionPoint
-SET regDate = NOW(),
-updateDate = NOW(),
-memberId = 2,
-relTypeCode = 'article',
-relId = 1,
-`point` = -1;
-
-# 2번 회원이 2번 글에 싫어요
-INSERT INTO reactionPoint
-SET regDate = NOW(),
-updateDate = NOW(),
-memberId = 2,
-relTypeCode = 'article',
-relId = 2,
-`point` = -1;
-
-# 3번 회원이 1번 글에 좋아요
-INSERT INTO reactionPoint
-SET regDate = NOW(),
-updateDate = NOW(),
-memberId = 3,
-relTypeCode = 'article',
-relId = 1,
-`point` = 1;
-
-INSERT INTO reactionPoint
-SET regDate = NOW(),
-updateDate = NOW(),
-memberId = 3,
-relTypeCode = 'comment',
-relId = 1,
-`point` = 1;
-
 #---------------------------------------------------------------------------
 
 # coment 테이블 생성
@@ -537,7 +357,6 @@ CREATE TABLE `comment`(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `comment` TEXT NOT NULL,
     memberId INT(10) UNSIGNED NOT NULL,
-    # `level` INT(10) UNSIGNED NOT NULL,
     goodReactionPoint INT NOT NULL DEFAULT 0,
     relTypeCode CHAR(50) NOT NULL COMMENT '관련 데이터 타입 코드',
     relId INT(10) NOT NULL COMMENT '관련 데이터 번호',
@@ -545,28 +364,10 @@ CREATE TABLE `comment`(
     updateDate DATETIME NOT NULL
 );
 
-INSERT INTO `comment`
-SET regDate = NOW(),
-updateDate = NOW(),
-`comment` = '댓글1',
-memberId = 4,
-relTypeCode = 'article',
-relId = 1;
-
-INSERT INTO `comment`
-SET regDate = NOW(),
-updateDate = NOW(),
-`comment` = '댓글2',
-memberId = 3,
-relTypeCode = 'article',
-relId = 1;
-
 #---------------------------------------------------------------------------
 
 # team 테이블 생성
-DROP TABLE team
-SELECT *
-FROM team;
+
 CREATE TABLE team(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     tname CHAR(20) NOT NULL,
@@ -644,11 +445,8 @@ updateDate = NOW();
 
 #---------------------------------------------------------------------------
 
-# team 테이블 생성
-DROP TABLE player
-SELECT image
-FROM player
-WHERE id = 1;
+# player 테이블 생성
+
 CREATE TABLE player(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     pname CHAR(20) NOT NULL,
@@ -741,16 +539,18 @@ regDate = NOW(),
 updateDate = NOW();
 
 
-
 ###############################################
 
 SHOW FULL COLUMNS FROM `member`;
 DESC `member`;
 
 SELECT *
-FROM article;
+FROM article; 
+ 
+SELECT *
+FROM `member`; 
 
 SELECT *
-FROM `member`;
+FROM board; 
 
 SELECT LAST_INSERT_ID();

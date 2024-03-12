@@ -123,8 +123,8 @@ public interface MemberRepository {
 	@Select("SELECT `authLevel` FROM `member` WHERE loginId = #{loginId}")
 	public int getMemberBylevel(String loginId);
 
-	@Update("UPDATE `member` SET image = #{relativePath} WHERE id = #{id}")
-	public void upload(@Param("relativePath") String relativePath, @Param("id") int id);
+	@Update("UPDATE `member` SET image = #{unixStylePath} WHERE id = #{id}")
+	public void upload(String unixStylePath, int id);
 
 	@Update("UPDATE `member` SET delStatus = 1, delDate = NOW() WHERE id = #{id}")
 	public void delMember(int id);

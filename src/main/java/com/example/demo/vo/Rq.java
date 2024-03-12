@@ -45,7 +45,6 @@ public class Rq {
 			loginedMemberId = (int) httpSession.getAttribute("loginedMemberId");
 			loginedMember = memberService.getMember(loginedMemberId);
 			player = gameService.getPlayer(loginedMember.getFplayer());
-			System.out.println(player.getImage() + "####");
 		}
 
 		this.req.setAttribute("rq", this);

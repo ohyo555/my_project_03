@@ -67,7 +67,7 @@
 	<input type="hidden" name="id" value="${article.id }" />
 	<div class="mx-auto overflow-x-auto">
 		<div class="search-bar">
-		    <div class="badge badge-outline">${myarticlesCount }개</div>
+		    <div class="badge badge-outline">${articlesCount }개</div>
 	        <form action="">
 	            <select class="text-sm mr-3" name="searchKeywordTypeCode">
 	                <option value="title" ${searchKeywordTypeCode.equals("title") ? 'selected="selected"' : '' }>제목</option>

@@ -305,13 +305,7 @@ public class UsrMemberController {
 		String loginId = rq.getLoginedMember().getLoginId();
 		
 		int memberlevel = memberService.getMemberBylevel(loginId);
-
-//		if (memberlevel == 1 || memberlevel == 2) {
-//			
-////			return Ut.jsHistoryBack("F-1", "이미 멤버쉽이 등록되었습니다.");
-//			return "alredy registered";
-//		}
-//		
+		
 		Member member = memberService.getMember(id);
 		
 		model.addAttribute("member", member);
