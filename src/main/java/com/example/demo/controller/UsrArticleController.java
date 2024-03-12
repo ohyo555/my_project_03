@@ -76,7 +76,7 @@ public class UsrArticleController {
 		model.addAttribute("articles", articles);
 
 		if(boardId == 3) {
-			return "usr/article/qnlist";
+			return "usr/article/qnalist";
 		}
 		
 		return "usr/article/list";
@@ -111,7 +111,7 @@ public class UsrArticleController {
 		model.addAttribute("isAlreadyAddBadRp",reactionPointService.isAlreadyAddBadRp(rq.getLoginedMemberId(), id, "article"));
 		
 		if(article.getBoardId() == 3) {
-			return "usr/article/qndetail";
+			return "usr/article/qnadetail";
 		}
 		
 		return "usr/article/detail";
@@ -237,10 +237,6 @@ public class UsrArticleController {
 	@ResponseBody
 	public String doWrite(HttpServletRequest req, String title, String body, Integer boardId) {
 
-		System.out.println("!!!!!!!!!!!!" + title);
-		System.out.println("!!!!!!!!!!!!" + body);
-		System.out.println("!!!!!!!!!!!!" + boardId);
-		
 		Rq rq = (Rq) req.getAttribute("rq");
 
 		if (Ut.isNullOrEmpty(title)) {
