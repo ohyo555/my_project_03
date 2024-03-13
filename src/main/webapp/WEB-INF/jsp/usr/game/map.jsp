@@ -11,146 +11,180 @@
 <meta charset="utf-8">
 <title>지도 이동시키기</title>
 <style>
-	body, html {
-		height: 100%;
-	    overflow: hidden;
-	    margin: 0;
-	}
+body, html {
+	height: 100%;
+	overflow: hidden;
+	margin: 0;
+}
 
-	.map_wrap {
-		position:relative;
-		width:100%;
-		height:100vh; /* 뷰포트 높이에 따라 조절 */
-		display: flex;
-		align-items: center;
-	    justify-content: center;
-	}
+.map_wrap {
+	position: relative;
+	width: 100%;
+	height: 100vh; /* 뷰포트 높이에 따라 조절 */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 
-	.form {
-		position: relative; /* 부모 요소를 상대 위치로 설정 .findmap때매*/
-	 	width: 90%;
-        height: 80vh;
-        margin-bottom: 70px;
-        padding: 20px;
-        background-color: rgb(251,243,238);
-    }
-    
-    #map {
-        width: 98%; /* 원하는 가로 크기로 조절 */
-        height: 74vh; /* 원하는 세로 크기로 조절 */
-    }
-    
-    /* 주변 지도 */
-    .findmap {
-    	position: absolute; /* 자식 요소를 절대 위치로 설정 */
-    	height: 15px;
-    	width: 5px;
-        bottom: 10px; /* 원하는 바닥 여백 값으로 조절 */
-        right: 10px; /* 원하는 우측 여백 값으로 조절 */
-        top: 20px;
-        right: 20px;
-        z-index: 99;
-        background-color: rgb(251, 243, 238);
-        cursor: pointer;
-    }
+.form {
+	position: relative; /* 부모 요소를 상대 위치로 설정 .findmap때매*/
+	width: 90%;
+	height: 90vh;
+	margin-bottom: 100px;
+	padding: 20px;
+	background-color: rgb(251, 243, 238);
+}
 
-    /* 구단 */
-    .team {
-    position:absolute;
-    bottom: 20px;
-    right: 20px;
-    width:30px;
-    height: 213px;
-    overflow:hidden;
-    padding: 3px 0;
-    z-index:99;
-    background-color: rgb(251,243,238);
-    box-sizing: border-box; /* 테두리 밖으로 그리기 */
-  	border-radius: 5px;
-  	display: flex; /* Flex 컨테이너로 설정 */
-    flex-direction: column; /* 수직 방향으로 아이템 정렬 */
-    }
-    
-    .team span {
-    display: block;
-    height: 20px; /* 이미지 비율을 유지하면서 크기 조절 */
-    margin-bottom: 10px;
-	}
-	
-	.team span img{
-    	width: 30px;
-	}
-	
-	/* 커스텀 라벨 */
-	
-	.label {margin-bottom: 120px;}
-	.label * {display: inline-block;vertical-align: top;}
-	.label .left {background: url("https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_l.png") no-repeat;display: inline-block;height: 24px;overflow: hidden;vertical-align: top;width: 7px;}
-	.label .center {background: url(https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_bg.png) repeat-x;display: inline-block;height: 24px;font-size: 12px;line-height: 24px;}
-	.label .right {background: url("https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_r.png") -1px 0  no-repeat;display: inline-block;height: 24px;overflow: hidden;width: 6px;}
+#map {
+	width: 98%; /* 원하는 가로 크기로 조절 */
+	height: 85vh; /* 원하는 세로 크기로 조절 */
+}
 
-    /* 확대/축소 스타일 */
-    .custom_zoomcontrol {
-    position:absolute;
-    top: 20px; /* 조절 가능한 상단 여백 값 */
-    right: 20px; /* 조절 가능한 우측 여백 값 */
-    width:30px;
-    height:60px;
-    overflow:hidden;
-    z-index:99;
-    background-color:rgb(251,243,238);
-    box-sizing: border-box; /* 테두리 밖으로 그리기 */
-  	border-radius: 5px;
-    } 
-    
-	.custom_zoomcontrol span {
-	display:block;
-	width:30px;
-	height:30px;
-	text-align:center;
-	cursor:pointer;
-	}     
-	
-	.custom_zoomcontrol span img {
+/* 주변 지도 버튼 */
+.findmap {
+	position: absolute; /* 자식 요소를 절대 위치로 설정 */
+	height: 100px;
+	width: 20px;
+	bottom: 10px; /* 원하는 바닥 여백 값으로 조절 */
+	right: 10px; /* 원하는 우측 여백 값으로 조절 */
+	top: 20px;
+	right: 20px;
+	z-index: 99;
+	background-color: rgb(251, 243, 238);
+	cursor: pointer;
+	border: 1px solid lightgray;
+	border-radius: 5px;
+}
+
+/* 구단 */
+.team {
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+	width: 30px;
+	height: 213px;
+	overflow: hidden;
+	padding: 3px 0;
+	z-index: 99;
+	background-color: rgb(251, 243, 238);
+	box-sizing: border-box; /* 테두리 밖으로 그리기 */
+	border-radius: 5px;
+	display: flex; /* Flex 컨테이너로 설정 */
+	flex-direction: column; /* 수직 방향으로 아이템 정렬 */
+}
+
+.team span {
+	display: block;
+	height: 20px; /* 이미지 비율을 유지하면서 크기 조절 */
+	margin-bottom: 10px;
+}
+
+.team span img {
+	width: 30px;
+}
+
+/* 커스텀 라벨 */
+.label {
+	margin-bottom: 120px;
+}
+
+.label * {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.label .left {
+	background:
+		url("https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_l.png")
+		no-repeat;
+	display: inline-block;
+	height: 24px;
+	overflow: hidden;
+	vertical-align: top;
+	width: 7px;
+}
+
+.label .center {
+	background:
+		url(https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_bg.png)
+		repeat-x;
+	display: inline-block;
+	height: 24px;
+	font-size: 12px;
+	line-height: 24px;
+}
+
+.label .right {
+	background:
+		url("https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_r.png")
+		-1px 0 no-repeat;
+	display: inline-block;
+	height: 24px;
+	overflow: hidden;
+	width: 6px;
+}
+
+/* 확대/축소 스타일 */
+.custom_zoomcontrol {
+	position: absolute;
+	top: 20px; /* 조절 가능한 상단 여백 값 */
+	right: 20px; /* 조절 가능한 우측 여백 값 */
+	width: 30px;
+	height: 60px;
+	overflow: hidden;
+	z-index: 99;
+	background-color: rgb(251, 243, 238);
+	box-sizing: border-box; /* 테두리 밖으로 그리기 */
+	border-radius: 5px;
+}
+
+.custom_zoomcontrol span {
+	display: block;
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	cursor: pointer;
+}
+
+.custom_zoomcontrol span img {
 	width: 100%; /* 이미지를 꽉 차게 표시합니다. */
-    height: 100%; /* 이미지를 꽉 차게 표시합니다. */
-    padding: 3px;
-	border:none;
-	z-index:99;
-	}           
-	  
-	.custom_zoomcontrol span:first-child{
-	border-bottom:1px solid #bfbfbf;
-	}      
+	height: 100%; /* 이미지를 꽉 차게 표시합니다. */
+	padding: 3px;
+	border: none;
+	z-index: 99;
+}
+
+.custom_zoomcontrol span:first-child {
+	border-bottom: 1px solid #bfbfbf;
+}
 </style>
 </head>
 <body>
-<div class="map_wrap" >
-    <div class = "form">
-	    <div id ="map">
-			    <!-- 지도 확대, 축소 컨트롤 div 입니다 -->
-			    <div class="custom_zoomcontrol radius_border"> 
-			         <span onclick="zoomIn()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png" alt="확대"></span>  
-			         <span onclick="zoomOut()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png" alt="축소"></span>
-			    </div>
-			    
-			    <!-- 구단 이동 -->
-			    <div class="team">
-			    	<span onclick="gokgc()"><img src="/resource/정관장.png" alt="kgc"></span>
-			    	<span onclick="gohk()"><img src="/resource/흥국.png" alt="heungkuk"></span>  
-			        <span onclick="gohd()"><img src="/resource/현대.png" alt="hyundai"></span>
-			        <span onclick="goibk()"><img src="/resource/IBK.png" alt="ibk"></span>  
-			        <span onclick="gohp()"><img src="/resource/한국도로공사.png" alt="hipass"></span>
-			        <span onclick="gopp()"><img src="/resource/페퍼.png" alt="pepper"></span>  
-			        <span onclick="gogs()"><img src="/resource/GS.png" alt="gs"></span>
-			    </div>	    
-	    </div>
-	    <button class = "findmap" onclick="findNearbyAmenities()">편의시설</button>
-    </div>
-	    
+	<div class="map_wrap">
+		<div class="form">
+			<div id="map">
+				<!-- 지도 확대, 축소 컨트롤 div 입니다 -->
+				<div class="custom_zoomcontrol radius_border">
+					<span onclick="zoomIn()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png"
+						alt="확대"></span> <span onclick="zoomOut()"><img
+						src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png" alt="축소"></span>
+				</div>
 
-    <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=19cf78438548356f5de2f18b79f43362"></script>
-   <script>
+				<!-- 구단 이동 -->
+				<div class="team">
+					<span onclick="gokgc()"><img src="/resource/정관장.png" alt="kgc"></span> <span onclick="gohk()"><img
+						src="/resource/흥국.png" alt="heungkuk"></span> <span onclick="gohd()"><img src="/resource/현대.png"
+						alt="hyundai"></span> <span onclick="goibk()"><img src="/resource/IBK.png" alt="ibk"></span> <span
+						onclick="gohp()"><img src="/resource/한국도로공사.png" alt="hipass"></span> <span onclick="gopp()"><img
+						src="/resource/페퍼.png" alt="pepper"></span> <span onclick="gogs()"><img src="/resource/GS.png" alt="gs"></span>
+				</div>
+			</div>
+			<button class="findmap" onclick="findNearbyAmenities()">편의시설</button>
+		</div>
+
+
+		<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=19cf78438548356f5de2f18b79f43362"></script>
+		<script>
         var lat = ${team.latitude};
         var lon = ${team.longitude};
 
@@ -271,8 +305,8 @@
 	        window.location.href = '/usr/game/findmap';
 	    }
     </script>
-    
-    </div>
+
+	</div>
 </body>
 </html>
 <%@ include file="../common/foot.jspf"%>

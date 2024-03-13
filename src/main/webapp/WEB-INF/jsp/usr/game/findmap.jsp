@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="pageTitle" value="MAP"></c:set>
 <%@ include file="../common/head.jspf"%>
+<link rel="stylesheet" href="/resource/background.css" />
 
 <!DOCTYPE html>
 <html>
@@ -24,10 +25,34 @@ body, html {
 	justify-content: center;
 }
 
+.form {
+	position: relative; /* 부모 요소를 상대 위치로 설정 .findmap때매*/
+ 	width: 90%;
+    height: 90vh;
+    margin-bottom: 100px;
+    padding: 20px;
+    background-color: rgb(251,243,238);
+}
+   
 #map {
-	width: 80%; /* 원하는 가로 크기로 조절 */
-	height: 80vh; /* 원하는 세로 크기로 조절 */
-	margin-bottom: 70px;
+	width: 98%; /* 원하는 가로 크기로 조절 */
+	height: 85vh; /* 원하는 세로 크기로 조절 */
+}
+
+/* 체육관 지도 버튼 */
+.findstadium {
+	position: absolute; /* 자식 요소를 절대 위치로 설정 */
+	height: 100px;
+	width: 20px;
+    bottom: 10px; /* 원하는 바닥 여백 값으로 조절 */
+    right: 10px; /* 원하는 우측 여백 값으로 조절 */
+    top: 20px;
+    right: 20px;
+    z-index: 99;
+    background-color: rgb(251, 243, 238);
+    cursor: pointer;
+    border: 1px solid lightgray;
+	border-radius: 5px;
 }
 
 #category {
@@ -163,6 +188,7 @@ body, html {
 <body>
 
 	<div class="map_wrap">
+	    <div class = "form">
 		<div id="map">
 			<ul id="category">
 				<li id="PK6" data-order="2">주차장</li>
@@ -171,6 +197,8 @@ body, html {
 				<li id="FD6" data-order="3">음식점</li>
 				<li id="OL7" data-order="0">주유소</li>
 			</ul>
+		</div>
+		<button class = "findstadium" onclick="findStadium()">주차장</button>
 		</div>
 	</div>
 
@@ -415,6 +443,10 @@ body, html {
 				el.className = 'on';
 			}
 		}
+		
+		function findStadium() {
+	        window.location.href = '/usr/game/map';
+	    }
 	</script>
 </body>
 </html>

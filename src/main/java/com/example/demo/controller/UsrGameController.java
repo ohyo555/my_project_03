@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.service.ArticleService;
 import com.example.demo.service.GameService;
@@ -46,7 +47,6 @@ public class UsrGameController {
 		int id = 1; // 정관장이 중심이라 정관장 아이디 고정
 		
 		Game team = teamService.getTeam(id);
-		
 		model.addAttribute("team", team);
 		
 		return "/usr/game/findmap";
