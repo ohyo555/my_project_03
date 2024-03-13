@@ -8,92 +8,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>간단한 달력</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0; /* Body의 기본 margin 제거 */
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>간단한 달력</title>
+<style>
+body {
+	font-family: Arial, sans-serif;
+	margin: 0; /* Body의 기본 margin 제거 */
+}
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
+}
 
-    th, td {
-      border: 1px solid #dddddd;
-      text-align: center;
-      padding: 24px; /* 날짜 부분의 패딩을 3배로 크게 설정 */
-      font-size: 15px; /* 날짜 부분의 글꼴 크기 조절 */
-    }
+th, td {
+	border: 1px solid #dddddd;
+	text-align: center;
+	padding: 24px; /* 날짜 부분의 패딩을 3배로 크게 설정 */
+	font-size: 15px; /* 날짜 부분의 글꼴 크기 조절 */
+}
 
+th {
+	background-color: #f2f2f2;
+	padding: 7px; /* 날짜 부분의 패딩을 3배로 크게 설정 */
+}
 
-    th {
-      background-color: #f2f2f2;
-      padding: 7px; /* 날짜 부분의 패딩을 3배로 크게 설정 */
-    }
+button {
+	margin: 10px;
+	padding: 5px 10px;
+	font-size: 16px;
+	cursor: pointer;
+}
 
-    button {
-      margin: 10px;
-      padding: 5px 10px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-     .sunday {
-      color: red; /* 일요일은 빨간색으로 설정 */
-    }
+.sunday {
+	color: red; /* 일요일은 빨간색으로 설정 */
+}
 
-    .saturday {
-      color: blue; /* 토요일은 파란색으로 설정 */
-    }
-    
-     #currentMonth {
-      text-align: center; /* 월과 년도 중앙 정렬 */
-      margin-top: 10px; /* 월과 년도 상단 마진 추가 */
-    }
-    
-     #calendar {
-      margin: 30 auto; /* 가운데 정렬 */
-      max-width: 800px; /* 최대 너비 지정 */
-    }
-    
-    .other-month {
-      color: rgba(0, 0, 0, 0.3); /* 현재 월이 아닌 경우 투명도 추가 */
-    } 
-    
-    .highlight {
-        background-color: blue; /* 특정 날짜에 대한 배경색으로 지정 */
-        color: white; /* 글자색을 흰색 또는 다른 색상으로 지정 (필요에 따라) */
-    }
-  </style>
+.saturday {
+	color: blue; /* 토요일은 파란색으로 설정 */
+}
+
+#currentMonth {
+	text-align: center; /* 월과 년도 중앙 정렬 */
+	margin-top: 10px; /* 월과 년도 상단 마진 추가 */
+}
+
+#calendar {
+	margin: 30 auto; /* 가운데 정렬 */
+	max-width: 800px; /* 최대 너비 지정 */
+}
+
+.other-month {
+	color: rgba(0, 0, 0, 0.3); /* 현재 월이 아닌 경우 투명도 추가 */
+}
+
+.highlight {
+	background-color: blue; /* 특정 날짜에 대한 배경색으로 지정 */
+	color: white; /* 글자색을 흰색 또는 다른 색상으로 지정 (필요에 따라) */
+}
+
+.modal {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100px;
+	background-color: rgba(0,0,0,0.5);
+	width: 350px;
+	padding: 30px 30px 20px 30px;
+	background-color: #fefefe;
+	border: 1px solid #888;
+	border-radius: 10px;
+	font-size: 1rem;
+}
+
+.modal-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #fff;
+	padding: 20px;
+}
+
+.close {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	font-size: 20px;
+	cursor: pointer;
+}
+</style>
 </head>
 <body>
 
-  <h2 id="currentMonth">간단한 달력</h2>
+	<h2 id="currentMonth">간단한 달력</h2>
 
-  <table id="calendar">
-    <thead>
-      <tr>
-         <th class="sunday">일</th>
-        <th>월</th>
-        <th>화</th>
-        <th>수</th>
-        <th>목</th>
-        <th>금</th>
-        <th class="saturday">토</th>
-      </tr>
-    </thead>
-    <tbody id="calendarBody"></tbody>
+	<div id="myModal" class="modal">
+		<div id="modal-content">
+			<span class="modal_close_btn" onclick="closeModal()">&times;</span>
+			<p id="selectedDate"></p>
+			<!-- 필요에 따라 모달에 더 많은 내용을 추가하세요 -->
+		</div>
+	</div>
 
-  </table>
+	<table id="calendar">
+		<thead>
+			<tr>
+				<th class="sunday">일</th>
+				<th>월</th>
+				<th>화</th>
+				<th>수</th>
+				<th>목</th>
+				<th>금</th>
+				<th class="saturday">토</th>
+			</tr>
+		</thead>
+		<tbody id="calendarBody"></tbody>
+
+	</table>
+
+	<button onclick="prevMonth()">이전 달</button>
+	<button onclick="nextMonth()">다음 달</button>
+
+	<script>
+  	let currentDate = new Date(); // 블록 범위 변수를 선언하는 데 사용되는 키워드
   
-  <button onclick="prevMonth()">이전 달</button>
-  <button onclick="nextMonth()">다음 달</button>
-
-  <script>
     function displayCalendar(date) {
       const currentDate = date || new Date(); // currentDate 선언
       const calendarBody = document.querySelector("#calendarBody");
@@ -115,6 +157,11 @@
           const dayCell = document.createElement("td");
           dayCell.textContent = currentDay.getDate();
 
+       	  // 날짜를 클릭하면 모달을 표시하기 위한 이벤트 리스너 추가
+          dayCell.addEventListener("click", function () {
+        	  openModal('myModal'); // 복제된 날짜 객체를 전달
+          });
+       
           if (currentDay.getMonth() !== currentDate.getMonth()) {
             dayCell.classList.add("other-month"); // 현재 월의 날짜인지 여부를 체크
           }
@@ -138,14 +185,12 @@
       }
     }
 
-    function prevMonth() {
-      const currentDate = new Date();
+    function prevMonth() { // 이전달에 대한 달력 나오도록
       currentDate.setMonth(currentDate.getMonth() - 1);
       displayCalendar(currentDate);
     }
 
-    function nextMonth() {
-      const currentDate = new Date();
+    function nextMonth() { // 다음달에 대한 달력 나오도록
       currentDate.setMonth(currentDate.getMonth() + 1);
       displayCalendar(currentDate);
     }
@@ -166,6 +211,67 @@
             date.getFullYear() === today.getFullYear()
         );
     }
+/* 모달 기능 */
+    function openModal(id) {
+	
+    	var zIndex = 999;
+        const modal = document.getElementById("myModal");
+        const selectedDateElement = document.getElementById("modal-content");
+        
+     // 모달 div 뒤에 희끄무레한 레이어
+        var bg = document.createElement('div');
+        bg.className = 'modal_bg'; // 클래스 추가
+        bg.setStyle({
+            position: 'fixed',
+            zIndex: zIndex,
+            left: '0px',
+            top: '0px',
+            width: '100%',
+            height: '100%',
+            overflow: 'auto',
+            // 레이어 색갈은 여기서 바꾸면 됨
+            backgroundColor: 'rgba(0,0,0,0.3)'
+        });
+        document.body.append(bg); // 배경 레이어를 body에 추가
+
+        // 닫기 버튼 처리, 시꺼먼 레이어와 모달 div 지우기
+       modal.querySelector('.modal_close_btn').addEventListener('click', function() {
+		    bg.remove();
+		    modal.style.display = 'none';
+		});
+        
+    	// 시꺼먼 레이어 보다 한칸 위에 보이기
+        // modal.style.zIndex = 9999;
+    	
+        modal.setStyle({
+            position: 'fixed',
+            display: 'block',
+            boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+            // div center 정렬
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            msTransform: 'translate(-50%, -50%)',
+            webkitTransform: 'translate(-50%, -50%)'
+        });
+    }
+    
+    // Element 에 style 한번에 오브젝트로 설정하는 함수 추가
+    Element.prototype.setStyle = function(styles) {
+        for (var k in styles) this.style[k] = styles[k];
+        return this;
+    };
+
+      function closeModal() {
+        const modal = document.getElementById("myModal");
+        modal.style.display = "none";
+      }
+
+      function getFormattedDate(date) {
+        const options = { year: "numeric", month: "long", day: "numeric" };
+        return date.toLocaleDateString("en-US", options);
+      }
+      
 
     // 최초 로딩 시 달력 표시
     displayCalendar();
