@@ -516,9 +516,11 @@ SET pname = '박은진',
 `position` = 'MIDDLE BLOCKER',
 `number` = 6,
 startDate = '2018.10.23',
-image = 'https://kovostoragedev.blob.core.windows.net/kovo-prod/player/female/kgc/shoulder/%E1%84%87%E1%85%A1%E1%86%A8%E1%84%8B%E1%85%B3%E1%86%AB%E1%84%8C%E1%85%B5%E1%86%AB_%E1%84%82%E1%85%AE%E1%84%81%E1%85%B5.png',
+image = 'https://www.kgcsports.com/images/volleyball/2324_new/player_list_t08.png',
 regDate = NOW(),
 updateDate = NOW();
+UPDATE player SET image = "https://www.kgcsports.com/images/volleyball/2324_new/player_list_t08.png" WHERE pname = '박은진';
+
 
 INSERT INTO player
 SET pname = '이예솔',
@@ -538,9 +540,121 @@ image = 'https://kovostoragedev.blob.core.windows.net/kovo-prod/player/female/kg
 regDate = NOW(),
 updateDate = NOW();
 
+INSERT INTO player
+SET pname = '서유경',
+`position` = 'LIBERO',
+`number` = 9,
+startDate = '2020.10.07',
+image = 'https://kovostoragedev.blob.core.windows.net/kovo-prod/player/female/kgc/shoulder/%E1%84%89%E1%85%A5%E1%84%8B%E1%85%B2%E1%84%80%E1%85%A7%E1%86%BC_%E1%84%82%E1%85%AE%E1%84%81%E1%85%B5.png',
+regDate = NOW(),
+updateDate = NOW();
 
+INSERT INTO player
+SET pname = '박혜민',
+`position` = 'OUTSIDE HITTER',
+`number` = 10,
+startDate = '2021.07.01',
+image = 'https://kovostoragedev.blob.core.windows.net/kovo-prod/player/female/kgc/shoulder/%E1%84%87%E1%85%A1%E1%86%A8%E1%84%92%E1%85%A8%E1%84%86%E1%85%B5%E1%86%AB_%E1%84%82%E1%85%AE%E1%84%81%E1%85%B5.png',
+regDate = NOW(),
+updateDate = NOW();
+
+INSERT INTO player
+SET pname = '곽선옥',
+`position` = 'OUTSIDE HITTER',
+`number` = 11,
+startDate = '2023.9.23',
+image = 'https://www.kgcsports.com/images/volleyball/2324_new/player_list_n231.png',
+regDate = NOW(),
+updateDate = NOW();
+
+INSERT INTO player
+SET pname = '한송이',
+`position` = 'MIDDLE BLOCKER',
+`number` = 12,
+startDate = '2017.06.08',
+image = 'https://www.kgcsports.com/images/volleyball/2324_new/player_list_fa01.png',
+regDate = NOW(),
+updateDate = NOW();
+
+INSERT INTO player
+SET pname = '정수지',
+`position` = 'LIBERO',
+`number` = 13,
+startDate = '2023.09.26',
+image = 'https://www.kgcsports.com/images/volleyball/2324_new/player_list_n233.png',
+regDate = NOW(),
+updateDate = NOW();
+
+INSERT INTO player
+SET pname = '김채나',
+`position` = 'SETTER',
+`number` = 14,
+startDate = '2021.12.23',
+image = 'https://www.kgcsports.com/images//volleyball/2324_new/player_list_khw21.png?ver=2.2',
+regDate = NOW(),
+updateDate = NOW();
+
+INSERT INTO player
+SET pname = '이선우',
+`position` = 'OUTSIDE HITTER',
+`number` = 15,
+startDate = '2020.10.07',
+image = 'https://kovostoragedev.blob.core.windows.net/kovo-prod/player/female/kgc/shoulder/%E1%84%8B%E1%85%B5%E1%84%89%E1%85%A5%E1%86%AB%E1%84%8B%E1%85%AE_%E1%84%82%E1%85%AE%E1%84%81%E1%85%B5.png',
+regDate = NOW(),
+updateDate = NOW();
+
+INSERT INTO player
+SET pname = '정호영',
+`position` = 'MIDDLE BLOCKER',
+`number` = 17,
+startDate = '2019.10.18',
+image = 'https://www.kgcsports.com/images/volleyball/2324_new/player_list_n191.png',
+regDate = NOW(),
+updateDate = NOW();
+
+INSERT INTO player
+SET pname = '이지수',
+`position` = 'MIDDLE BLOCKER',
+`number` = 18,
+startDate = '2021.09.29',
+image = 'https://www.kgcsports.com/images/volleyball/2324_new/player_list_new21.png',
+regDate = NOW(),
+updateDate = NOW();
+
+INSERT INTO player
+SET pname = '강다연',
+`position` = 'OUTSIDE HITTER',
+`number` = 19,
+startDate = '2023.09.26',
+image = 'https://kovostoragedev.blob.core.windows.net/kovo-prod/player/female/kgc/shoulder/%E1%84%80%E1%85%A1%E1%86%BC%E1%84%83%E1%85%A1%E1%84%8B%E1%85%A7%E1%86%AB_%E1%84%82%E1%85%AE%E1%84%81%E1%85%B5.png',
+regDate = NOW(),
+updateDate = NOW();
+
+INSERT INTO player
+SET pname = '최효서',
+`position` = 'LIBERO',
+`number` = 20,
+startDate = '2023.10.16',
+image = 'https://www.kgcsports.com/images/volleyball/2324_new/player_list_c03.png',
+regDate = NOW(),
+updateDate = NOW();
+
+INSERT INTO player
+SET pname = '지아',
+`position` = 'OUTSIDE HITTER',
+`number` = 77,
+startDate = '2023.10.16',
+image = 'https://kovostoragedev.blob.core.windows.net/kovo-prod/player/female/kgc/shoulder/%E1%84%8C%E1%85%B5%E1%84%8B%E1%85%A1_%E1%84%82%E1%85%AE%E1%84%81%E1%85%B5.png',
+regDate = NOW(),
+updateDate = NOW();
 ###############################################
-
+SELECT m.*, pname, `number` AS pnumber, `position`
+			FROM `member` AS m
+			INNER JOIN player AS p
+			ON m.fplayer = p.id
+			WHERE loginId = '333';
+			
+			
 SHOW FULL COLUMNS FROM `member`;
 DESC `member`;
 
@@ -551,6 +665,13 @@ SELECT *
 FROM `member`; 
 
 SELECT *
-FROM board; 
+FROM team; 
+
+SELECT *
+FROM board;
+
+SELECT *
+FROM player;
+ 
 
 SELECT LAST_INSERT_ID();
