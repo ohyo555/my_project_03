@@ -19,7 +19,8 @@
         }
 		
 		section {
-			justify-content:center		
+			justify-content:center;
+			height: 800px;
 		}
 		
         table {
@@ -60,12 +61,17 @@
             justify-content: space-between;
             align-items: center;
         }
+        
+        .list {
+        	margin-top: 40px;
+        	height: 700px;
+        }
 
 </style>
 
 <section class="text-xl px-4">
 	<input type="hidden" name="id" value="${article.id }" />
-	<div class="mx-auto overflow-x-auto">
+	<div class="list mx-auto overflow-x-auto">
 		<div class="search-bar">
 		    <div class="badge badge-outline">${articlesCount }개</div>
 	        <form action="">

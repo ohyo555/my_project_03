@@ -29,6 +29,12 @@ public class Member {
 	private String image;
 
 	private int fplayer;
+	private String pname;
+	private String pnumber;
+	private String position;
+	private String pimage;
+	
 	
 	private String new_loginPw;
+	
 }

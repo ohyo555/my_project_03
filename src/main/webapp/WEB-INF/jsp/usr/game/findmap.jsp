@@ -27,8 +27,8 @@ body, html {
 
 .form {
 	position: relative; /* 부모 요소를 상대 위치로 설정 .findmap때매*/
- 	width: 90%;
-    height: 90vh;
+ 	width: 80%;
+    height: 80vh;
     margin-bottom: 100px;
     padding: 20px;
     background-color: rgb(251,243,238);
@@ -36,7 +36,7 @@ body, html {
    
 #map {
 	width: 98%; /* 원하는 가로 크기로 조절 */
-	height: 85vh; /* 원하는 세로 크기로 조절 */
+	height: 75vh; /* 원하는 세로 크기로 조절 */
 }
 
 /* 체육관 지도 버튼 */

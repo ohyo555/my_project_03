@@ -79,10 +79,10 @@
 
 .square-box1 {
 	background-color: rgba(251,243,238);
-	padding: 15px;
+	padding: 10px;
 	font-size: 12px;
 	height: 130px;
-	width: 170px;
+	width: 200px;
 	margin: 3px;
 	background-size: contain; /* 또는 cover */
 	background-repeat: no-repeat;
@@ -90,23 +90,13 @@
 }
 
 .square-box2 {
-	height: 130px;
-	width: 130px;
+	height: 110px;
+	width: 110px;
 	margin: 3px;
 	background-size: contain; /* 또는 cover */
 	background-repeat: no-repeat;
 	position: relative;
 }
-
-.square-box img {
-	width: 100%;
-	height: auto;
-	max-width: 150px; /* 원하는 최대 너비 설정 */
-	max-height: 100px; /* 원하는 최대 높이 설정 */
-	position: absolute;
-	bottom: 0;
-}
-
 
 .modal_btn {
 	display: flex;
@@ -147,6 +137,13 @@
 
 .pwmodify_button {
 	margin: 0;
+}
+
+.pname,
+.position,
+.pnumber {
+	display: flex;
+    align-items: center;
 }
 </style>
 
@@ -213,6 +210,18 @@
 									<option value="6">박은진</option>
 									<option value="7">이예솔</option>
 									<option value="8">메가</option>
+									<option value="9">서유경</option>
+									<option value="10">박혜민</option>
+									<option value="11">곽선옥</option>
+									<option value="12">한송이</option>
+									<option value="13">정수지</option>
+									<option value="14">김채나</option>
+									<option value="15">이선우</option>
+									<option value="16">정호영</option>
+									<option value="17">이지수</option>
+									<option value="18">강다연</option>
+									<option value="19">최효서</option>
+									<option value="20">지아</option>
 								</select>
 								<button class="register_button" onclick="register()">등록</button>
 							</div>
@@ -226,9 +235,9 @@
 						<c:if test = "${rq.player.image != null}">
 						<div class="modal_content">
 							<div class="square-box1">
-								<div class = "h-8"><label for="name">이름 : </label>${rq.player.pname}</div>
-								<div class = "h-8"><label for="num">번호 : </label>${rq.player.number}</div>
-								<div class = "h-8"><label for="position">포지션 : </label>${rq.player.position}</div>
+								<div class = "pname h-8"><label for="name">이름 :&nbsp;</label><div class = "1">${rq.player.pname}</div></div>
+								<div class = "pnumber h-8"><label for="num">번호 :&nbsp;</label><div class = "2">${rq.player.number}</div></div>
+								<div class = "position h-8"><label for="position" >포지션 :&nbsp;</label><div class = "3">${rq.player.position}</div></div>
 							</div>
 							<div class="square-box2" style="background-image: url('${rq.player.image }');"></div>
 						</div>
@@ -326,18 +335,21 @@
 
 					 	    var selectedPlayer = $("#favoritePlayer").val();
 					 	    console.log(selectedPlayer);
-
-					 	   $("#selectedPlayerInfo").text(getSelectedPlayerInfo(selectedPlayer));
 					 	   
 					 	    $.ajax({
 					 	        type: "POST",
 					 	        url: "/usr/member/selectplayer", 
 					 	        data: { player: selectedPlayer },
-					 	        success: function(response) {
-					 	            console.log("Registration successful:", response);
-					 	           	saveSelectedPlayerToLocalStorage(selectedPlayer);
-					 	            updatePlayerImageRealTime(selectedPlayer);
-					 	            alert(response);
+					 	        success: function(data) {
+					 	            // console.log("Registration successful:", data);
+					 	        	// console.log(data.pimage);
+					 	           	// 선수 정보 업데이트
+					                $(".1").text(data.pname);
+					                $(".2").text(data.pnumber);
+					                $(".3").text(data.position);
+
+					 	        	// 선수 요소의 배경 이미지 업데이트
+					                $(".square-box2").css("background-image", "url('" + data.pimage + "')");
 					 	        },
 					 	        error: function(error) {
 					 	            console.error("Error during registration:", error);
@@ -346,7 +358,7 @@
 					 	    
 					 	}
 					 	
-					    function getSelectedPlayerInfo(playerId) {
+					    /* function getSelectedPlayerInfo(playerId) {
 					        // 선택한 선수에 대한 정보를 얻는 함수
 					        switch (playerId) {
 					        case "1":
@@ -368,36 +380,7 @@
 				            default:
 				                return "선택된 선수 정보 없음";
 					        }
-					    }
-					    
-					    function updatePlayerImageRealTime(selectedPlayer) {
-					        // 선수 이미지를 가져오는 Ajax 요청
-					        $.ajax({
-					            type: "GET",
-					            url: "${rq.player.image}",  // 선수 이미지를 가져오는 엔드포인트로 수정
-					            data: { playerId: selectedPlayer },
-					            success: function (image) {
-					                // 선수 요소의 배경 이미지 업데이트
-					                $(".square-box.player").css("background-image", "url('" + image + "')");
-
-					                // 선수 이미지를 저장
-					                sessionStorage.setItem("selectedPlayerImage", image);
-					            },
-					            error: function (error) {
-					                console.error("Error getting player image:", error);
-					            }
-					        });
-					    }
-					    
-					    function saveSelectedPlayerToLocalStorage(playerId) {
-					        // 선택한 선수를 로컬 스토리지에 저장하는 함수
-					        localStorage.setItem("selectedPlayer", playerId);
-					    }
-
-					    function getSelectedPlayerFromLocalStorage() {
-					        // 로컬 스토리지에서 선택한 선수를 가져오는 함수
-					        return localStorage.getItem("selectedPlayer");
-					    }
+					    } */
 					    
 					 	function changeprofileContent() {
 						 	// 모달 내용을 변경하는 코드 예제
@@ -420,6 +403,7 @@
 					 	
 					 	function uploadPhoto() {
 					 	    var fileInput = document.getElementById('photoInput');
+					 	    // console.log(fileInput.files[0] + fileInput.files[1]);
 					 	    var file = fileInput.files[0];
 
 					 	    if (file) {

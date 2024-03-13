@@ -12,8 +12,10 @@ import com.example.demo.vo.ResultData;
 @Mapper
 public interface MemberRepository {
 	@Select("""
-			SELECT *
-			FROM `member`
+			SELECT m.*, pname, `number` AS pnumber, `position`, p.image as pimage
+			FROM `member` AS m
+			INNER JOIN player AS p
+			ON m.fplayer = p.id
 			WHERE loginId = #{loginId}
 			""")
 	public Member getMemberByLoginId(String loginId);

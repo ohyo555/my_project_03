@@ -35,12 +35,6 @@ public class UsrGameController {
 		return "/usr/game/map";
 	}
 	
-	@RequestMapping("/usr/game/aaaa")
-	public String showa() {
-		
-		return "/usr/game/aaaa";
-	}
-
 	@RequestMapping("/usr/game/findmap")
 	public String showfindmap(Model model) {
 		
@@ -51,5 +45,13 @@ public class UsrGameController {
 		
 		return "/usr/game/findmap";
 	}
+	
+	@RequestMapping("/usr/game/reservation")
+	public String showreservation() {
+		
+		return "/usr/game/reservation";
+	}
+
+
 	
 }

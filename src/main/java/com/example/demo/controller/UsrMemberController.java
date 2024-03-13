@@ -345,18 +345,34 @@ public class UsrMemberController {
 
 	}
 
+//	@RequestMapping("/usr/member/selectplayer")
+//	@ResponseBody
+//	public String doselectplayer(String player, HttpServletRequest req) {
+//		Rq rq = (Rq) req.getAttribute("rq");
+//
+//		String loginId = rq.getLoginedMember().getLoginId();
+//
+//		Member findmember = memberService.getMemberByLoginId(loginId);
+//
+//		memberService.setfplayer(loginId, player);
+//		return "응원선수 선택이 완료되었습니다.";
+//
+//	}
+	
+	//test ajax
 	@RequestMapping("/usr/member/selectplayer")
 	@ResponseBody
-	public String doselectplayer(String player, HttpServletRequest req) {
+	public Member doselectplayer(String player, HttpServletRequest req) {
 		Rq rq = (Rq) req.getAttribute("rq");
-
+		
 		String loginId = rq.getLoginedMember().getLoginId();
+		
+		memberService.setfplayer(loginId, player);
 
 		Member findmember = memberService.getMemberByLoginId(loginId);
-
-		memberService.setfplayer(loginId, player);
-		return "응원선수 선택이 완료되었습니다.";
-
+		
+		return findmember;
+		
 	}
 
 	@RequestMapping("/usr/member/upload")
