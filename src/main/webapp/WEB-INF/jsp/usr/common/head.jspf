@@ -253,16 +253,16 @@
 					<!--회원정보-->
 
 					<script>
-					 $(document).ready(function() {
+					 /* $(document).ready(function() {
 					        // 페이지가 로드될 때 선택된 선수가 있으면 select box에 설정
 					        var selectedPlayer = getSelectedPlayerFromLocalStorage();
 					        if (selectedPlayer) {
 					            $("#favoritePlayer").val(selectedPlayer);
 					        }
-					    });
+					    }); */
 					 
 					var modalHistory = []; // 모달 내용을 저장할 배열
-					
+						
 						var defaultModalContent = document.getElementById('defaultModalContent').innerHTML;
 	
 				        function openModal() {
@@ -292,7 +292,7 @@
 					            '<div>' +
 					            '<label for="loginPw">비밀번호 확인: </label>' +
 					            '<input type="text" class="input input-ghost w-full max-w-xs" autocomplete="off" name="loginPw" style="height: 25px; width: 145px;" required/>' +
-					            '<button class="modal_button pwmodify_button" onclick="pwmodify()">변경</button>' +
+					            '<button class="modal_button pwmodify_button" onclick="pwmodify()" style="margin-left: 7px;">변경</button>' +
 					            '<div class = "text-xs" style="color: #a32222">※ 회원정보 수정 시 비밀번호를 입력해야합니다.</div>' +
 					            '</div>' +
 					            '<div>' +
@@ -315,7 +315,7 @@
 					            '<div>' +
 					            '<label for="address">주소: </label>' + 
 								'<input type="text" class="input input-ghost max-w-xs mb-3" id="postcode" name="postcode" autocomplete="off" placeholder="우편번호" value="${rq.loginedMember.postcode}" style="height: 25px; width: 150px;">' +
-								'<input type="button" class="mr-3 ml-3" onclick="execDaumPostcode()" value="찾기">' + 
+								'<input type="button" class="mr-3 ml-3 text-xs" onclick="execDaumPostcode()" value="찾기">' + 
 								'<input type="text" class="input input-ghost  max-w-xs ml-7 mb-3" id="address" name="address" autocomplete="off" placeholder="주소" value="${rq.loginedMember.address}" style="height: 25px;  width: 200px;"><br>' +
 								'<input type="text" class="input input-ghost max-w-xs ml-7 mr-3" style="height: 25px; width: 120px;" id="detailAddress" name="detailAddress" autocomplete="off" placeholder="상세주소">' +
 								'<input type="text" class="input input-ghost max-w-xs" style="height: 25px; width: 90px;" id="extraAddress" name="extraAddress" autocomplete="off" placeholder="참고항목">' + 
@@ -341,8 +341,7 @@
 					 	        url: "/usr/member/selectplayer", 
 					 	        data: { player: selectedPlayer },
 					 	        success: function(data) {
-					 	            // console.log("Registration successful:", data);
-					 	        	// console.log(data.pimage);
+
 					 	           	// 선수 정보 업데이트
 					                $(".1").text(data.pname);
 					                $(".2").text(data.pnumber);
@@ -613,10 +612,10 @@
 			                if (modalHistory.length > 0) {
 			                    modalContentText.innerHTML = modalHistory.pop();
 			                }
-			                var selectedPlayer = getSelectedPlayerFromLocalStorage();
+			                /* var selectedPlayer = getSelectedPlayerFromLocalStorage();
 					        if (selectedPlayer) {
 					            $("#favoritePlayer").val(selectedPlayer);
-					        }
+					        } */
 			            }
 
 			            // 로그아웃

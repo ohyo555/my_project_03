@@ -177,7 +177,7 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doIncreaseHitCountRd")
 	@ResponseBody
 	public ResultData doIncreaseHitCountRd(int id) {
-		
+
 		ResultData increaseHitCountRd = articleService.increaseHitCount(id);
 
 		if (increaseHitCountRd.isFail()) {
@@ -191,7 +191,7 @@ public class UsrArticleController {
 		return rd;
 
 	}
-	
+
 	@RequestMapping("/usr/article/doIncreaseGoodCountRd")
 	@ResponseBody
 	public ResultData doIncreaseGoodCountRd(HttpServletRequest req, int id) {
