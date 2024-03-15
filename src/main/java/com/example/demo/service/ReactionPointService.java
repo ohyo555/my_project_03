@@ -71,8 +71,10 @@ public class ReactionPointService {
 		case "article":
 			articleService.increaseBadReactionPoint(relId);
 			break;
-		}
-
+		case "comment":
+			articleService.decreaseGoodReactionPoint(relId);
+			break;
+		} 
 		return ResultData.from("S-1", "싫어요!");
 	}
 

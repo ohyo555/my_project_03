@@ -93,4 +93,5 @@ public class UsrReactionPointController {
 		return ResultData.from(reactionRd.getResultCode(), reactionRd.getMsg(), "goodRP", goodRP, "badRP", badRP);
 	}
 
+	
 }

@@ -234,7 +234,7 @@ body {
 		$.ajax({
 			url: '/usr/reactionPoint/doGoodReaction',
 			type: 'POST',
-			data: {relTypeCode: 'article', relId: articleId},
+			data: {relTypeCode: 'article', relId: articleId },
 			dataType: 'json',
 			success: function(data){
 				console.log(data);
@@ -276,12 +276,12 @@ body {
 	});
 	
 	/* 댓글 좋아요 */
-		function doGoodCommentReaction(articleId, commentId) {
+		function doGoodCommentReaction(articleId) {
 		
 		$.ajax({
-			url: '/usr/reactionPoint/doGoodCommentReaction',
+			url: '/usr/reactionPoint/doGoodReaction',
 			type: 'POST',
-			data: {relTypeCode: 'comment', relId: articleId, Id: commentId},
+			data: {relTypeCode: 'comment', relId: articleId},
 			dataType: 'json',
 			success: function(data){
 				console.log(data);
@@ -290,18 +290,19 @@ body {
 				console.log('data.data2Name : ' + data.data2Name);
 				console.log('data.data2 : ' + data.data2);
 				if(data.resultCode.startsWith('S-')){
-					var likeButton = $('#likeButton');
-					var likeCount = $('#likeCount');
-					
+					var clikeButton = $('#clikeButton');
+					var clikeCount = $('#clikeCount');
+					/* var DislikeButton = $('#DislikeButton');
+					var DislikeCount = $('#DislikeCount');
+					 */
 					if(data.resultCode == 'S-1'){
-						likeButton.toggleClass('btn-outline');
-						likeCount.text(data.data1);
-					}else if(data.resultCode == 'S-2'){
-						likeButton.toggleClass('btn-outline');
-						likeCount.text(data.data1);
-					}else {
-						likeButton.toggleClass('btn-outline');
-						likeCount.text(data.data1);
+						if(data.msg == '좋아요!'){
+							clikeButton.html('♥');
+							clikeCount.text(data.data1);
+						} else {
+							clikeButton.html('♡');
+							clikeCount.text(data.data1);
+						}
 					}
 					
 				}else {
@@ -482,10 +483,10 @@ body {
 						</form>
 						<!-- 좋아요 버튼과 리액션 정보 -->
 						<div class="c_option">
-							<button id="likeButton" onclick="doCommentGoodReaction(${param.id},)" style="color: #e0316e"
-								class="reaction text-xl">♡</button>
+							<button id="clikeButton" class="reaction btn btn-outline btn-error text-xl" onclick="doGoodCommentReaction(${param.id})"
+								style="border: none; background-color: transparent;">♡</button>
 							<c:if test="${comments.goodReactionPoint > 0}">
-								<div class="reaction" style="color: #e0316e">[${comments.sum }]</div>
+								<div class="reaction text-xs" style="color: #e0316e">[${comments.goodReactionPoint }]</div>
 								<div>${CommentGoodCnt }</div>
 							</c:if>
 							<c:if test="${comments.memberId == rq.loginedMemberId }">

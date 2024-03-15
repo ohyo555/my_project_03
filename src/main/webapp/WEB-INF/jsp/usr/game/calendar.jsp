@@ -70,13 +70,18 @@ button {
 	color: white; /* 글자색을 흰색 또는 다른 색상으로 지정 (필요에 따라) */
 }
 
+.highlight2 {
+	background-color: red; /* 특정 날짜에 대한 배경색으로 지정 */
+	color: white; /* 글자색을 흰색 또는 다른 색상으로 지정 (필요에 따라) */
+}
+
 .modal {
 	display: none;
 	position: fixed;
 	top: 0;
 	left: 0;
 	height: 100px;
-	background-color: rgba(0,0,0,0.5);
+	background-color: rgba(0, 0, 0, 0.5);
 	width: 350px;
 	padding: 30px 30px 20px 30px;
 	background-color: #fefefe;
@@ -137,7 +142,7 @@ button {
 	<script>
   	let currentDate = new Date(); // 블록 범위 변수를 선언하는 데 사용되는 키워드
   
-    function displayCalendar(date) {
+    function displayCalendar(date, schedules) {
       const currentDate = date || new Date(); // currentDate 선언
       const calendarBody = document.querySelector("#calendarBody");
       const currentMonthElement = document.getElementById("currentMonth");
@@ -145,7 +150,7 @@ button {
 
       const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
       const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
-
+  	
       let currentDay = new Date(firstDayOfMonth);
       currentDay.setDate(1 - firstDayOfMonth.getDay());
 
@@ -169,6 +174,10 @@ button {
           
           if (isToday(currentDay)) { // 오늘 날짜에 대한 표시
               dayCell.classList.add("highlight");
+          }
+          
+          if(isGameToday(schedules)) {
+        	  dayCell.classList.add("highlight2");
           }
           
           // 일요일은 빨간색, 토요일은 파란색
@@ -205,6 +214,7 @@ button {
      }
     
     function isToday(date) {
+    	
         const today = new Date();
         return (
             date.getDate() === today.getDate() &&
@@ -212,6 +222,30 @@ button {
             date.getFullYear() === today.getFullYear()
         );
     }
+    
+    function isGameToday(schedules) {
+    	
+    	console.log('${gamedate}');
+        
+    	//const gamedateArray = '${gamedate}'.split(',');
+        <%%>
+    	
+    	// 받은 일정 반복
+       /*  ${schedules}.forEach(schedule => {
+            // Schedule 클래스로부터 날짜 값을 가져와서 JavaScript Date 객체로 변환
+            const date = new Date(schedule.date);
+
+            // 해당 날짜의 셀을 가져오기
+            const dayCell = document.getElementById("cell_" + date.getDate()); 
+
+            // 날짜에 해당하는 셀이 있으면 색상 변경
+            if (dayCell) {
+                dayCell.classList.add("highlight2");
+            }
+        }); */
+
+    }
+
 /* 모달 기능 */
     function openModal(id) {
 	
@@ -242,7 +276,7 @@ button {
 		});
         
     	// 시꺼먼 레이어 보다 한칸 위에 보이기
-        // modal.style.zIndex = 9999;
+        modal.style.zIndex = 9999;
     	
         modal.setStyle({
             position: 'fixed',
@@ -280,5 +314,6 @@ button {
 
 </body>
 </html>
+
 
 <%@ include file="../common/foot.jspf"%>

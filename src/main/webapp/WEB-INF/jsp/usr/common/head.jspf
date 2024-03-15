@@ -146,21 +146,6 @@
     align-items: center;
 }
 </style>
-
-<script>
-	function memberCheck(){
-		if(${rq.loginedMember.type != null}){
-			alert("이미 멤버쉽이 등록되었습니다.");
-		} else {
-		      // 여기에 원하는 페이지 이동 로직 추가
-		      window.location.href = "../member/membership";
-		    }
-	}
-	
-	
-</script>
-
-
 </head>
 
 <body>
@@ -356,31 +341,7 @@
 					 	    });
 					 	    
 					 	}
-					 	
-					    /* function getSelectedPlayerInfo(playerId) {
-					        // 선택한 선수에 대한 정보를 얻는 함수
-					        switch (playerId) {
-					        case "1":
-				                return "이소영";
-				            case "2":
-				                return "안예림";
-				            case "3":
-				                return "염혜선";
-				            case "4":
-				                return "김세인";
-				            case "5":
-				                return "노란";
-				            case "6":
-				                return "박은진";
-				            case "7":
-				                return "이예솔";
-				            case "8":
-				                return "메가";
-				            default:
-				                return "선택된 선수 정보 없음";
-					        }
-					    } */
-					    
+				
 					 	function changeprofileContent() {
 						 	// 모달 내용을 변경하는 코드 예제
 						        var modalContentText = document.getElementById('my_modal');
@@ -439,8 +400,8 @@
 					 	
 			            function modal(id) {
 			                var zIndex = 9999;
-			                var modal = document.getElementById(id);
-			
+			                var modal = document.getElementById(id); /* id는 my_modal */
+							console.log(id);
 			                // 모달 div 뒤에 희끄무레한 레이어
 			                var bg = document.createElement('div');
 			                bg.className = 'modal_bg'; // 클래스 추가
@@ -612,12 +573,19 @@
 			                if (modalHistory.length > 0) {
 			                    modalContentText.innerHTML = modalHistory.pop();
 			                }
-			                /* var selectedPlayer = getSelectedPlayerFromLocalStorage();
-					        if (selectedPlayer) {
-					            $("#favoritePlayer").val(selectedPlayer);
-					        } */
+ 
 			            }
 
+			            // 멤버쉽 체크
+			        	function memberCheck(){
+			        		if(${rq.loginedMember.type != null}){
+			        			alert("이미 멤버쉽이 등록되었습니다.");
+			        		} else {
+			        		      // 여기에 원하는 페이지 이동 로직 추가
+			        		      window.location.href = "../member/membership";
+			        		    }
+			        	}
+			        	
 			            // 로그아웃
 			            function logout() {
 			                if (confirm('로그아웃 할래?')) {

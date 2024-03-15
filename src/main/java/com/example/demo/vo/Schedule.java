@@ -15,7 +15,7 @@ public class Schedule {
 	private String gym;
 	private String broadcasting;
 	private String round;
-	private String content;
+	private String info;
 	private String game;
 	
 }

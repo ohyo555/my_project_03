@@ -166,11 +166,12 @@ main {
     background-image: none;
 }
 
-@media screen and (min-width: 93.75rem) {
-    .swiper {
-        width: 85%;
+@media screen and (min-width: 100.75rem) {
+    .swiper-slide {
+        width: 18%;
     }
 }
+
 /*  html {
     overflow-y: scroll;
   } */
@@ -386,6 +387,7 @@ main {
       </div>
     </div>
   </div>
+
 </main>
 
 

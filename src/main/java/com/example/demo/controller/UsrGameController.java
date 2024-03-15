@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,17 +13,33 @@ import com.example.demo.service.ArticleService;
 import com.example.demo.service.GameService;
 import com.example.demo.vo.Article;
 import com.example.demo.vo.Game;
+import com.example.demo.vo.Schedule;
 
 @Controller
 public class UsrGameController {
 	
 	@Autowired
-	private GameService teamService;
+	private GameService gameService;
 
 	@RequestMapping("/usr/game/calendar")
-	public String showCalendar() {
+	public String showCalendar(Model model) {
 
+		//List<Schedule> schedules = gameService.getGamelist();
+		List<String> gamedate = gameService.getGamedate();
+		
+		//model.addAttribute("schedules", schedules);
+		model.addAttribute("gamedate", gamedate);
+		
 		return "/usr/game/calendar";
+	}
+	
+	@RequestMapping("/usr/game/gamelist")
+	public String showgamelist(Model model) {
+		
+		List<Schedule> schedules = gameService.getGamelist();
+		model.addAttribute("schedules", schedules);
+		
+		return "/usr/game/gamelist";
 	}
 	
 	@RequestMapping("/usr/game/map")
@@ -29,7 +47,7 @@ public class UsrGameController {
 		
 		int id = 1; // 정관장이 중심이라 정관장 아이디 고정
 		
-		Game team = teamService.getTeam(id);
+		Game team = gameService.getTeam(id);
 		
 		model.addAttribute("team", team);
 		return "/usr/game/map";
@@ -40,7 +58,7 @@ public class UsrGameController {
 		
 		int id = 1; // 정관장이 중심이라 정관장 아이디 고정
 		
-		Game team = teamService.getTeam(id);
+		Game team = gameService.getTeam(id);
 		model.addAttribute("team", team);
 		
 		return "/usr/game/findmap";
