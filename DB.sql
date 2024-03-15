@@ -199,6 +199,11 @@ team2 = 4,
 `date` = '2024-02-25',
 `round` = 6;
 
+ALTER TABLE `schedule` ADD COLUMN `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST;
+ALTER TABLE `schedule` CHANGE COLUMN `content` `info` CHAR(20);
+SELECT *
+FROM `schedule`;
+DELETE FROM `schedule`;
 #---------------------------------------------------------------------------
 
 # game 테이블 생성
@@ -327,6 +332,8 @@ updateDate = NOW(),
 
 # reactionPoint 테이블 생성
 
+SELECT *
+FROM reactionPoint
 CREATE TABLE reactionPoint(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     memberId INT(10) UNSIGNED NOT NULL,
@@ -648,7 +655,7 @@ image = 'https://kovostoragedev.blob.core.windows.net/kovo-prod/player/female/kg
 regDate = NOW(),
 updateDate = NOW();
 ###############################################
-SELECT m.*, pname, `number` AS pnumber, `position`
+SELECT m.*, pname, `number` as pnumber, `position`
 			FROM `member` AS m
 			INNER JOIN player AS p
 			ON m.fplayer = p.id
@@ -670,8 +677,8 @@ FROM team;
 SELECT *
 FROM board;
 
-SELECT *
-FROM player;
+select *
+from player;
  
 
 SELECT LAST_INSERT_ID();
