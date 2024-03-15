@@ -19,14 +19,20 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
-	 <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
 		<dependency>
-		    <groupId>org.seleniumhq.selenium</groupId>
-		    <artifactId>selenium-java</artifactId>
-		    <version>4.9.0</version>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>5.5.7.Final</version>
+		</dependency>
+		<!--
+		https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>4.9.0</version>
 		</dependency>
 		<!-- CDP -->
-    	<dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
@@ -128,18 +134,16 @@
 					<image>
 						<builder>paketobuildpacks/builder-jammy-base:latest</builder>
 					</image>
-					<excludes>
-					>
-						<exclude>
+					<excludes> > <exclude>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
 					<resources>
-				            <resource>
-				                <directory>src/main/resources</directory>
-				            </resource>
-				    </resources>
+						<resource>
+							<directory>src/main/resources</directory>
+						</resource>
+					</resources>
 				</configuration>
 			</plugin>
 		</plugins>

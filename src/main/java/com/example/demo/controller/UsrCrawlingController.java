@@ -9,8 +9,13 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -21,8 +26,12 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Controller;
 
+import com.example.demo.vo.Schedule;
+
 @Controller
 public class UsrCrawlingController {
+	
+	private static final String PERSISTENCE_UNIT_NAME = "YourPersistenceUnitName"; // JPA (Java Persistence API)에서 사용되는 영속성 단위의 이름
 	
 	public void crawl() {
 		// 크롬 드라이버 경로 설정 (크롬 드라이버 설치 필요)
@@ -118,7 +127,7 @@ public class UsrCrawlingController {
 			        // CSV 파일에 데이터 쓰기
 		            //saveToCSV(elements, "output.csv");
 		            saveToFile(elements, "result.txt");
-		            
+			        
 			        for (WebElement element : elements) {
 		                String text = element.getText();
 		                //System.out.println(text);
@@ -163,8 +172,6 @@ public class UsrCrawlingController {
 
         	for(int i = 1; i < elements.size(); i++) {
         		
-        		List<String> resultData = new ArrayList<>();
-        		
         		for(int j = 1; j <= 9; j++) {
         			WebElement title = elements.get(i);
         			WebElement text = title.findElement(By.xpath("//*[@id=\"root\"]/article/div/article/section/article/section[2]/article/section[2]/table/tbody/tr[" + i + "]/td[" + j + "]"));
@@ -186,12 +193,12 @@ public class UsrCrawlingController {
         System.out.println("데이터를 파일에 저장했습니다.");
       
     }
-	
+
 	public static void main(String[] args) {
     	UsrCrawlingController webCrawler = new UsrCrawlingController();
-        // webCrawler.crawl2();
+        //webCrawler.crawl2();
     	
-    	// txt -> csv
+//    	 txt -> csv
     	String textFilePath = "result.txt"; 
         String csvFilePath = "result.csv";
 
@@ -207,19 +214,70 @@ public class UsrCrawlingController {
         BufferedReader reader = new BufferedReader(new FileReader(textFilePath));
         FileWriter writer = new FileWriter(csvFilePath);
         writer.write("\uFEFF");
-        String line;
+        String line = null;
+        writer.write("날짜,순번,구분,시간,구장,중계일정,라운드,비고,경기\n");
+        
         while ((line = reader.readLine()) != null) {
-        	// 쉼표를 기준으로 데이터를 분리
-        	String[] data = line.split(",");
-        	// 각 데이터를 다음 행의 새 셀에 쓰기
-            for (String datum : data) {
-                writer.write(datum.trim() + ",");
+        
+        	StringTokenizer tokenizer = new StringTokenizer(line, ",");
+        	
+        	int index = 0; // 인덱스 카운터를 초기화합니다.
+            StringBuilder concatenatedToken = new StringBuilder(); // 토큰을 결합할 StringBuilder를 초기화합니다.
+            // 각 데이터를 다음 행의 새 셀에 쓰도록 합니다.
+            while (tokenizer.hasMoreTokens()) {
+            	
+                String token = tokenizer.nextToken().trim();
+                
+                if (index >= 3 && index <= 5) { // 인덱스가 세 번째, 네 번째 또는 다섯 번째인지 확인합니다.
+                    concatenatedToken.append(token); // 토큰을 StringBuilder에 추가합니다.
+                    if (index != 5) { // 마지막 토큰이 아닌 경우에만 공백을 추가합니다.
+                        concatenatedToken.append(" ");
+                    }
+                    
+                } else if (index == 11) { // 인덱스가 아홉 번째인 경우
+                    concatenatedToken.append(",").append(token); // 쉼표와 함께 토큰을 추가합니다.
+                } else {
+                    System.out.println("인덱스: " + index + ", 토큰: " + token); // 인덱스와 토큰을 출력합니다.
+                    writer.write(token + ",");
+                }
+                index++; // 인덱스 카운터를 증가시킵니다.
             }
+            // 결합된 토큰을 단일 토큰으로 쓰도록 합니다.
+            // System.out.println("인덱스: 2-4, 결합된 토큰: " + concatenatedToken.toString());
+            writer.write(concatenatedToken.toString() + ",");
             writer.write("\n");
         }
-
         reader.close();
         writer.close();
     	
     }
+    
+//    public static void file() {
+//        String csvFile = "result.csv";
+//
+//        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+//        EntityManager entityManager = entityManagerFactory.createEntityManager();
+//        EntityTransaction transaction = entityManager.getTransaction();
+//
+//        try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
+//            transaction.begin();
+//
+//            String line;
+//            while ((line = reader.readLine()) != null) {
+//                String[] data = line.split(","); // CSV가 쉼표로 구분된 값을 가진다고 가정
+//                Schedule schedule = new Schedule(); // 데이터를 엔티티로 변환
+//
+//                entityManager.persist(schedule);
+//            }
+//
+//            transaction.commit();
+//            System.out.println("데이터가 성공적으로 삽입되었습니다.");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } finally {
+//            entityManager.close();
+//            entityManagerFactory.close();
+//        }
+//    }
+    
 }
