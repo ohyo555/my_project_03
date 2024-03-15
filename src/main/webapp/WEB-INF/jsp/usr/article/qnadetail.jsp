@@ -276,46 +276,47 @@ body {
 	});
 	
 	/* 댓글 좋아요 */
-		function doGoodCommentReaction(articleId, commentId) {
-		
-		$.ajax({
-			url: '/usr/reactionPoint/doGoodCommentReaction',
-			type: 'POST',
-			data: {relTypeCode: 'comment', relId: articleId, Id: commentId},
-			dataType: 'json',
-			success: function(data){
-				console.log(data);
-				console.log('data.data1Name : ' + data.data1Name);
-				console.log('data.data1 : ' + data.data1);
-				console.log('data.data2Name : ' + data.data2Name);
-				console.log('data.data2 : ' + data.data2);
-				if(data.resultCode.startsWith('S-')){
-					var likeButton = $('#likeButton');
-					var likeCount = $('#likeCount');
-					
-					if(data.resultCode == 'S-1'){
-						likeButton.toggleClass('btn-outline');
-						likeCount.text(data.data1);
-					}else if(data.resultCode == 'S-2'){
-						likeButton.toggleClass('btn-outline');
-						likeCount.text(data.data1);
-					}else {
-						likeButton.toggleClass('btn-outline');
-						likeCount.text(data.data1);
+	function doGoodCommentReaction(articleId) {
+	
+	$.ajax({
+		url: '/usr/reactionPoint/doGoodReaction',
+		type: 'POST',
+		data: {relTypeCode: 'comment', relId: articleId},
+		dataType: 'json',
+		success: function(data){
+			console.log(data);
+			console.log('data.data1Name : ' + data.data1Name);
+			console.log('data.data1 : ' + data.data1);
+			console.log('data.data2Name : ' + data.data2Name);
+			console.log('data.data2 : ' + data.data2);
+			if(data.resultCode.startsWith('S-')){
+				var clikeButton = $('#clikeButton');
+				var clikeCount = $('#clikeCount');
+				/* var DislikeButton = $('#DislikeButton');
+				var DislikeCount = $('#DislikeCount');
+				 */
+				if(data.resultCode == 'S-1'){
+					if(data.msg == '좋아요!'){
+						clikeButton.html('♥');
+						clikeCount.text(data.data1);
+					} else {
+						clikeButton.html('♡');
+						clikeCount.text(data.data1);
 					}
-					
-				}else {
-					alert(data.msg);
 				}
-		
-			},
-			error: function(jqXHR,textStatus,errorThrown) {
-				alert('좋아요 오류 발생 : ' + textStatus);
-
+				
+			}else {
+				alert(data.msg);
 			}
-			
-		});
-	}
+	
+		},
+		error: function(jqXHR,textStatus,errorThrown) {
+			alert('좋아요 오류 발생 : ' + textStatus);
+
+		}
+		
+	});
+}
 
 </script>
 
@@ -422,7 +423,7 @@ body {
 				<div style="display: flex; justify-content: space-between;">
 					<!-- ${article.id }${goodRP}${badRP} 글번호 -->
 					<p class="p-1">${article.type }</p>
-					<p class="p-1">조회 ${article.hitCount } / ${article.regDate.substring(0,10) }</p>
+					<p class="p-1">조회 <span class = "article-detail__hit-count"> ${article.hitCount } / ${article.regDate.substring(0,10) }</p>
 				</div>
 				<div style="display: flex; justify-content: space-between; align-items: center;">
 					<p class="p-1 text-4xl" style="font-weight: bold;">${article.title }</p>
@@ -482,11 +483,11 @@ body {
 						</form>
 						<!-- 좋아요 버튼과 리액션 정보 -->
 						<div class="c_option">
-							<button id="likeButton" onclick="doCommentGoodReaction(${param.id},)" style="color: #e0316e"
+							<button id="clickButton" onclick="doCommentGoodReaction(${param.id},)" style="color: #e0316e"
 								class="reaction text-xl">♡</button>
 							<c:if test="${comments.goodReactionPoint > 0}">
 								<div class="reaction" style="color: #e0316e">[${comments.sum }]</div>
-								<div>${CommentGoodCnt }</div>
+								<div id="clickCount" class="text-xs">${CommentGoodCnt }</div>
 							</c:if>
 							<c:if test="${comments.memberId == rq.loginedMemberId }">
 								<!-- 수정 및 삭제 옵션 -->

@@ -120,7 +120,7 @@
 							<div class="inline-block" style="color: #e0316e">[${article.cnt }]</div></td>
 						</c:if>
 						<td>${article.loginId }</td>
-						<td>${article.hitCount }</td>
+						<td class = "article-detail__hit-count">${article.hitCount }</td>
 						<c:choose>
 							<c:when test="${article.cnt != 0}"><td>완료</td></c:when>
 							<c:otherwise><td>대기</td></c:otherwise>

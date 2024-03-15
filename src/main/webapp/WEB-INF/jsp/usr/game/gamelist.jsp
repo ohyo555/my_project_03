@@ -10,8 +10,12 @@
 
  <style>
 
+		html, body {
+		    overflow: hidden; /* 스크롤 비활성화 */
+		}
+		
         .board-container {
-            max-width: 800px;
+            max-width: 850px;
             margin: 0px auto;
             background-color: white;
 			position: relative; /* relative position 설정 */
@@ -63,9 +67,10 @@
         }
         
         .list {
-        	margin-top: 40px;
-        	height: 700px;
-        	width: 850px;
+        	margin-top: 20px;
+        	height: 600px;
+        	width: 900px;
+        	background-color: white;
         }
 
 </style>
@@ -88,14 +93,14 @@
 		<div class="board-container">
 		<table>
 			<colgroup>
-				<col style="width: 10%" />
-				<col style="width: 5%" />
+				<col style="width: 11%" />
+				<col style="width: 4%" />
 				<col style="width: 10%" />
 				<col style="width: 20%" />
 				<col style="width: 13%" />
+				<col style="width: 13%" />
 				<col style="width: 12%" />
-				<col style="width: 10%" />
-				<col style="width: 20%" />
+				<col style="width: 17%" />
 			</colgroup>
 			
 			<thead>

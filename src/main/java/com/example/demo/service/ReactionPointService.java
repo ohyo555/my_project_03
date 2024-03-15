@@ -1,13 +1,9 @@
 package com.example.demo.service;
 
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.repository.ReactionPointRepository;
-import com.example.demo.vo.Comment;
 import com.example.demo.vo.ResultData;
 
 @Service
@@ -16,6 +12,9 @@ public class ReactionPointService {
 	@Autowired
 	private ArticleService articleService;
 
+	@Autowired
+	private CommentService commentService;
+	
 	@Autowired
 	private ReactionPointRepository reactionPointRepository;
 
@@ -54,6 +53,9 @@ public class ReactionPointService {
 		switch (relTypeCode) {
 		case "article":
 			articleService.increaseGoodReactionPoint(relId);
+			break;
+		case "comment":
+			commentService.increaseGoodReactionPoint(relId);
 			break;
 		}
 

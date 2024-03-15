@@ -176,10 +176,10 @@ button {
               dayCell.classList.add("highlight");
           }
           
-          if(isGameToday(schedules)) {
+         /*  if(isGameToday(schedules)) {
         	  dayCell.classList.add("highlight2");
           }
-          
+           */
           // 일요일은 빨간색, 토요일은 파란색
           if (i === 0) {
             dayCell.classList.add("sunday");
@@ -223,13 +223,48 @@ button {
         );
     }
     
-    function isGameToday(schedules) {
+    /* function highlightDates() {
+	    const cells = document.querySelectorAll("#calendarBody td");
+
+	    cells.forEach(cell => {
+	        const date = cell.textContent;
+	        if (${gamedate}.includes(date)) {
+	            cell.classList.add("highlight2"); // 날짜가 배열에 포함되어 있으면 배경색을 변경
+	        }
+	    });
+	} */
+
+    	// const gamedate = ${gamedate};
     	
-    	console.log('${gamedate}');
+    	// function isGameToday(schedules) {
+    	 // String[] gamedateArray = ${gamedate};
+    	/* // 포맷된 날짜를 저장할 StringBuilder
+        StringBuilder formattedDates = new StringBuilder();
+
+        // 배열을 반복하고 각 날짜를 포맷합니다.
+        for (String date : gamedateArray) {
+            // 날짜를 날짜 부분과 요일 부분으로 분할합니다.
+            String[] parts = date.split(" ");
+            // 월과 일을 추출합니다.
+            String[] dateParts = parts[0].split("\\.");
+            String month = dateParts[0];
+            String day = dateParts[1];
+            // 요일을 추출합니다.
+            String dayName = parts[1].substring(1, parts[1].length() - 1); // 괄호 제거
+            // 포맷하고 StringBuilder에 추가합니다.
+            formattedDates.append(month).append(".").append(day).append(" (").append(dayName).append("), ");
+        } */
+
+        // 마지막 쉼표와 공백을 제거합니다.
+        // String result = formattedDates.substring(0, formattedDates.length() - 2);
         
     	//const gamedateArray = '${gamedate}'.split(',');
-        <%%>
-    	
+        
+    	/* for(int i = 0; i < ${gamedate}.size(); i++) {
+    		
+    	}
+    	const array[] = ${gamedate}.split(',');
+    	console.log(array[0]); */
     	// 받은 일정 반복
        /*  ${schedules}.forEach(schedule => {
             // Schedule 클래스로부터 날짜 값을 가져와서 JavaScript Date 객체로 변환
@@ -244,7 +279,7 @@ button {
             }
         }); */
 
-    }
+    // }
 
 /* 모달 기능 */
     function openModal(id) {
@@ -310,6 +345,7 @@ button {
 
     // 최초 로딩 시 달력 표시
     displayCalendar();
+    // highlightDates();
   </script>
 
 </body>

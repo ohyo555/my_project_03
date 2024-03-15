@@ -423,7 +423,7 @@ body {
 				<div style="display: flex; justify-content: space-between;">
 					<!-- ${article.id }${goodRP}${badRP} 글번호 -->
 					<p class="p-1">${article.type }</p>
-					<p class="p-1">조회 ${article.hitCount } / ${article.regDate.substring(0,10) }</p>
+					<p class="p-1">조회 <span class = "article-detail__hit-count">${article.hitCount }</span> / ${article.regDate.substring(0,10) }</p>
 				</div>
 				<div style="display: flex; justify-content: space-between; align-items: center;">
 					<p class="p-1 text-4xl" style="font-weight: bold;">${article.title }</p>
@@ -486,8 +486,7 @@ body {
 							<button id="clikeButton" class="reaction btn btn-outline btn-error text-xl" onclick="doGoodCommentReaction(${param.id})"
 								style="border: none; background-color: transparent;">♡</button>
 							<c:if test="${comments.goodReactionPoint > 0}">
-								<div class="reaction text-xs" style="color: #e0316e">[${comments.goodReactionPoint }]</div>
-								<div>${CommentGoodCnt }</div>
+								<div id="clickCount" class="text-xs">${comments.goodReactionPoint }</div>
 							</c:if>
 							<c:if test="${comments.memberId == rq.loginedMemberId }">
 								<!-- 수정 및 삭제 옵션 -->

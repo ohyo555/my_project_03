@@ -57,4 +57,11 @@ public interface CommentRepository {
 
 	@Delete("DELETE FROM `comment` WHERE id = #{id}")
 	void deleteComment(int id);
+
+	@Update("""
+			UPDATE `comment`
+			SET goodReactionPoint = goodReactionPoint + 1
+			WHERE id = #{relId}
+			""")
+	public int increaseGoodReactionPoint(int relId);
 }

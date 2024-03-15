@@ -120,7 +120,7 @@
 							<div class="inline-block" style="color: #e0316e">[${article.cnt }]</div></td>
 						</c:if>
 						<td>${article.loginId }</td>
-						<td>${article.hitCount }</td>
+						<td class = "article-detail__hit-count">${article.hitCount }</td>
 					</tr>
 				</c:forEach>
 			</tbody>
