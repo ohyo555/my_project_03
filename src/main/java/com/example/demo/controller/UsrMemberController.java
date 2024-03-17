@@ -237,6 +237,7 @@ public class UsrMemberController {
 			return "비밀번호가 일치하지 않습니다";
 		} else{
 			memberService.delMember(id);
+			rq.logout();
 			return "탈퇴되었습니다.";
 		}
 	}
