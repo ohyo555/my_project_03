@@ -183,6 +183,40 @@ body, html {
 	font-size: 11px;
 	margin-top: 0;
 }
+
+/* 확대/축소 스타일 */
+.custom_zoomcontrol {
+	position: absolute;
+	top: 20px; /* 조절 가능한 상단 여백 값 */
+	right: 20px; /* 조절 가능한 우측 여백 값 */
+	width: 30px;
+	height: 60px;
+	overflow: hidden;
+	z-index: 99;
+	background-color: rgb(251, 243, 238);
+	box-sizing: border-box; /* 테두리 밖으로 그리기 */
+	border-radius: 5px;
+}
+
+.custom_zoomcontrol span {
+	display: block;
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	cursor: pointer;
+}
+
+.custom_zoomcontrol span img {
+	width: 100%; /* 이미지를 꽉 차게 표시합니다. */
+	height: 100%; /* 이미지를 꽉 차게 표시합니다. */
+	padding: 3px;
+	border: none;
+	z-index: 99;
+}
+
+.custom_zoomcontrol span:first-child {
+	border-bottom: 1px solid #bfbfbf;
+}
 </style>
 </head>
 <body>
@@ -190,6 +224,13 @@ body, html {
 	<div class="map_wrap">
 	    <div class = "form">
 		<div id="map">
+			<!-- 지도 확대, 축소 컨트롤 div 입니다 -->
+				<div class="custom_zoomcontrol radius_border">
+					<span onclick="zoomIn()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png"
+						alt="확대"></span> <span onclick="zoomOut()"><img
+						src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png" alt="축소"></span>
+				</div>
+				
 			<ul id="category">
 				<li id="PK6" data-order="2">주차장</li>
 				<li id="CS2" data-order="4">편의점</li>
@@ -265,6 +306,17 @@ body, html {
 		// 각 카테고리에 클릭 이벤트를 등록합니다
 		addCategoryClickEvent();
 
+		 // 지도 확대, 축소 컨트롤에서 확대 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
+        function zoomIn() {
+            map.setLevel(map.getLevel() - 1);
+        }
+
+        // 지도 확대, 축소 컨트롤에서 축소 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
+        function zoomOut() {
+            map.setLevel(map.getLevel() + 1);
+        }
+
+        
 		// 엘리먼트에 이벤트 핸들러를 등록하는 함수입니다
 		function addEventHandle(target, type, callback) {
 			if (target.addEventListener) {

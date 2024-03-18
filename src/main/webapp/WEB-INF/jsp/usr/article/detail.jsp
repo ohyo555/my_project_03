@@ -481,10 +481,11 @@ body {
 						<form method="POST" id="modify-form-${comments.id }" style="display: none;" action="/usr/comment/doModify">
 							<input class="chat-bubble" type="text" value="${comments.comment }" name="comment-text-${comments.id }" />
 						</form>
+			
 						<!-- 좋아요 버튼과 리액션 정보 -->
 						<div class="c_option">
 							<button id="clikeButton" class="reaction btn btn-outline btn-error text-xl" onclick="doGoodCommentReaction(${param.id})"
-								style="border: none; background-color: transparent;">♡</button>
+								style="border: none; background-color: transparent;" onclick="doGoodReaction(${param.id})">♡</button>
 							<c:if test="${comments.goodReactionPoint > 0}">
 								<div id="clickCount" class="text-xs">${comments.goodReactionPoint }</div>
 							</c:if>
