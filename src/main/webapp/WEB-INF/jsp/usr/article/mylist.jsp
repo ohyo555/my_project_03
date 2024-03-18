@@ -44,6 +44,37 @@
             background-color: #f2f2f2;
         }
         
+        .list {
+        	margin-top: 40px;
+        	height: 700px;
+        }
+        
+        
+        /* 목록 바 스타일 */
+		.list-bar {
+			width: 800px;
+            margin: 0px auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            height: 30px;
+            background-color: rgb(251, 243, 238);
+            border-radius: 5px;
+            
+        }
+		
+		.article {
+			width: 80px;
+			height: 30px;
+			margin: 0px auto;
+			display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1rem;
+            text-align: center;
+		}
+		
       	/* 검색창 스타일 */
 		form {
 		    margin: 10px;
@@ -65,7 +96,13 @@
 
 <section class="text-xl px-4">
 	<input type="hidden" name="id" value="${article.id }" />
-	<div class="mx-auto overflow-x-auto">
+	<div class="list mx-auto overflow-x-auto">
+	<div class = "list-bar">
+			<a class = "article" href="../article/list?boardId=1&page=1">자유게시판</a>
+			<a class = "article" href="../article/list?boardId=2&page=1">공지사항</a>
+			<a class = "article" href="../article/list?boardId=3&page=1">질의응답</a>
+			<a class = "article" href="../article/mylist?page=1">My게시판</a>
+		</div>
 		<div class="search-bar">
 		    <div class="badge badge-outline">${articlesCount }개</div>
 	        <form action="">
@@ -75,7 +112,7 @@
 	                <option value="memberId" ${searchKeywordTypeCode.equals("memberId") ? 'selected="selected"' : '' }>작성자</option>
 	            </select> 
 	            <input value="${param.searchKeyword }" type="text" placeholder="검색어를 입력하세요" class="input input-bordered mr-3" style="font-size: 12px; height: 30px;" name="searchKeyword" />
-	            <button class="btn btn-sm btn-outline" type="submit">검색</button>
+	            <button class="btn btn-sm btn-outline" type="submit" style = "background-color: rgba(255,255,255,0.5)">검색</button>
 	        </form>
 		</div>
 		<div class="board-container">

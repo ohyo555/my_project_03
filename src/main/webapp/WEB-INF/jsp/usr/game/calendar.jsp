@@ -141,7 +141,10 @@ button {
 
 	<script>
   	let currentDate = new Date(); // 블록 범위 변수를 선언하는 데 사용되는 키워드
-  
+/*   	
+   	const gamedate = ${gamedate};
+	console.log(gamedate);
+   */
     function displayCalendar(date, schedules) {
       const currentDate = date || new Date(); // currentDate 선언
       const calendarBody = document.querySelector("#calendarBody");
@@ -234,8 +237,6 @@ button {
 	    });
 	} */
 
-    	// const gamedate = ${gamedate};
-    	
     	// function isGameToday(schedules) {
     	 // String[] gamedateArray = ${gamedate};
     	/* // 포맷된 날짜를 저장할 StringBuilder
