@@ -61,6 +61,7 @@ CREATE TABLE `member`(
     mname CHAR(20) NOT NULL,
     cellphoneNum CHAR(20) NOT NULL,
     email CHAR(20) NOT NULL,
+    postcode CHAR(20),
     address CHAR(50),
     `authLevel` SMALLINT(2) UNSIGNED DEFAULT 3 COMMENT '권한 레벨 (1=골드, 2= 실버, 3=일반, 7=관리자)',
     membercode CHAR(20),

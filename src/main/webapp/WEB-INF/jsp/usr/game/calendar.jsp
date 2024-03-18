@@ -76,36 +76,51 @@ button {
 }
 
 .modal {
-	display: none;
-	position: fixed;
-	top: 0;
-	left: 0;
-	height: 100px;
-	background-color: rgba(0, 0, 0, 0.5);
-	width: 350px;
-	padding: 30px 30px 20px 30px;
-	background-color: #fefefe;
-	border: 1px solid #888;
-	border-radius: 10px;
-	font-size: 1rem;
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 350px;
+    padding: 30px;
+/*     border: 1px solid #888;
+    border-radius: 10px;
+    font-size: 1rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
 }
 
 .modal-content {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	background-color: #fff;
-	padding: 20px;
+    position: relative;
 }
 
 .close {
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	font-size: 20px;
-	cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
 }
+
+.modal_btn {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 20px;
+}
+
+.modal_button {
+	margin: 0px 10px;
+	font-size: 12px;
+}
+
+#my_modal .modal_close_btn {
+	position: absolute;
+	top: 5px;
+	right: 20px;
+	cursor: pointer; /* 추가: 마우스 포인터 모양 변경 */
+}
+
+
 </style>
 </head>
 <body>
@@ -313,20 +328,20 @@ button {
 		    modal.style.display = 'none';
 		});
         
-    	// 시꺼먼 레이어 보다 한칸 위에 보이기
-        modal.style.zIndex = 9999;
-    	
-        modal.setStyle({
-            position: 'fixed',
-            display: 'block',
-            boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
-            // div center 정렬
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            msTransform: 'translate(-50%, -50%)',
-            webkitTransform: 'translate(-50%, -50%)'
-        });
+       modal.setStyle({
+           position: 'fixed',
+           display: 'block',
+           boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+           // 시꺼먼 레이어 보다 한칸 위에 보이기
+           zIndex: zIndex + 1,
+
+           // div center 정렬
+           top: '50%',
+           left: '50%',
+           transform: 'translate(-50%, -50%)',
+           msTransform: 'translate(-50%, -50%)',
+           webkitTransform: 'translate(-50%, -50%)'
+       });
     }
     
     // Element 에 style 한번에 오브젝트로 설정하는 함수 추가
