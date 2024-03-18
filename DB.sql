@@ -17,38 +17,6 @@ CREATE TABLE article(
 );
 
 # testdata 생성
-INSERT INTO article
-SET regDate = NOW(),
-updateDate = NOW(),
-title = '제목1',
-`body` = '내용1',
-memberId = 3,
-boardId = 1;
-
-INSERT INTO article
-SET regDate = NOW(),
-updateDate = NOW(),
-title = '제목2',
-`body` = '내용2',
-memberId = 2,
-boardId = 1;
-
-INSERT INTO article
-SET regDate = NOW(),
-updateDate = NOW(),
-title = '제목3',
-`body` = '내용3',
-memberId = 1,
-boardId = 2;
-
-
-INSERT INTO article
-SET regDate = NOW(),
-updateDate = NOW(),
-title = '제목' + ,
-`body` = '내용3',
-memberId = 1,
-boardId = 2;
 
 # article 데이터 대량 
 INSERT INTO article(title, `body`, memberId, boardId, regDate, updateDate)
@@ -180,30 +148,18 @@ CREATE TABLE membership(
 # schedule 테이블 생성
 CREATE TABLE `schedule`(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    team1 CHAR(20) NOT NULL,
-    team2 CHAR(20) NOT NULL,
-    `date` DATETIME NOT NULL,
-    `round` INT NOT NULL
+    `date` CHAR(20) NOT NULL,
+    num int(10) NOT NULL,
+    stype CHAR(20) NOT NULL,
+    `time` CHAR(20) NOT NULL,
+    gym CHAR(20) NOT NULL,
+    boradcasting CHAR(20) NOT NULL,
+    `round` int(10) NOT NULL,
+    info CHAR(20) NOT NULL,
 );
 
-# testdata 생성
-INSERT INTO `schedule`
-SET team1 = 1,
-team2 = 2,
-`date` = '2024-02-24',
-`round` = 6;
-
-INSERT INTO `schedule`
-SET team1 = 3,
-team2 = 4,
-`date` = '2024-02-25',
-`round` = 6;
-
-ALTER TABLE `schedule` ADD COLUMN `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST;
-ALTER TABLE `schedule` CHANGE COLUMN `content` `info` CHAR(20);
-SELECT *
-FROM `schedule`;
-DELETE FROM `schedule`;
+select *
+from `schedule`;
 #---------------------------------------------------------------------------
 
 # game 테이블 생성
@@ -225,69 +181,6 @@ CREATE TABLE game(
 );
 
 # testdata 생성
-INSERT INTO game
-SET tid = 1,
-result = 1,
-`date` = '2024-02-24',
-`round` = 6,
-sumset = 4,
-getset = 3,
-attack = 64,
-attack_rate = 35.8,
-blocking = 9,
-serve = 3,
-recieve = 38,
-mistake = 20,
-dig = 107
-;
-
-INSERT INTO game
-SET tid = 2,
-result = 0,
-`date` = '2024-02-24',
-`round` = 6,
-sumset = 4,
-getset = 1,
-attack = 67,
-attack_rate = 39.2,
-blocking = 5,
-serve = 3,
-recieve = 37,
-mistake = 24,
-dig = 114
-;
-
-INSERT INTO game
-SET tid = 3,
-result = 1,
-`date` = '2024-02-25',
-`round` = 6,
-sumset = 3,
-getset = 3,
-attack = 50,
-attack_rate = 45,
-blocking = 6,
-serve = 4,
-recieve = 26,
-mistake = 12,
-dig = 63
-;
-
-INSERT INTO game
-SET tid = 4,
-result = 1,
-`date` = '2024-02-25',
-`round` = 6,
-sumset = 3,
-getset = 0,
-attack = 43,
-attack_rate = 36.8,
-blocking = 6,
-serve = 3,
-recieve = 33,
-mistake = 14,
-dig = 61
-;
 
 #---------------------------------------------------------------------------
 
@@ -332,8 +225,8 @@ updateDate = NOW(),
 
 # reactionPoint 테이블 생성
 
-SELECT *
-FROM reactionPoint
+select *
+from reactionPoint
 CREATE TABLE reactionPoint(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     memberId INT(10) UNSIGNED NOT NULL,
@@ -654,6 +547,8 @@ startDate = '2023.10.16',
 image = 'https://kovostoragedev.blob.core.windows.net/kovo-prod/player/female/kgc/shoulder/%E1%84%8C%E1%85%B5%E1%84%8B%E1%85%A1_%E1%84%82%E1%85%AE%E1%84%81%E1%85%B5.png',
 regDate = NOW(),
 updateDate = NOW();
+
+
 ###############################################
 SELECT m.*, pname, `number` as pnumber, `position`
 			FROM `member` AS m
@@ -661,15 +556,42 @@ SELECT m.*, pname, `number` as pnumber, `position`
 			ON m.fplayer = p.id
 			WHERE loginId = '333';
 			
-			
+UPDATE `comment` AS C
+INNER JOIN (
+    SELECT RP.relTypeCode,RP.relId,
+    SUM(IF(RP.point > 0, RP.point, 0)) AS goodReactionPoint
+    FROM reactionPoint AS RP
+    GROUP BY RP.relTypeCode, RP.relId
+) AS RP_SUM
+ON C.id = RP_SUM.relId
+SET C.goodReactionPoint = RP_SUM.goodReactionPoint;
+
 SHOW FULL COLUMNS FROM `member`;
 DESC `member`;
 
+SELECT C.*, M.loginId AS loginId, M.image AS image, SUM(C.goodreactionPoint) AS `sum`
+			FROM `comment` AS C
+			INNER JOIN `member` AS M
+			ON C.memberId = M.id
+			WHERE C.relId = 1
+			GROUP BY C.id
+			
 SELECT *
 FROM article; 
  
 SELECT *
+FROM `comment`; 
+
+select *
+from reactionpoint;
+SELECT *
 FROM `member`; 
+
+select p.id
+from player AS p
+inner join `member` as m
+on m.fplayer = p.id
+where m.id = 3
 
 SELECT *
 FROM team; 
