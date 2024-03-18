@@ -178,7 +178,7 @@
 					<!-- 회원정보 모달 -->
 					<div id="my_modal">
 						<div id="defaultModalContent">
-							<div class="profile" style="background-image: url('${rq.loginedMember.image }'); background-size: cover;"></div>
+							<div type="file" id = "memberimg" class="profile" style="background-image: url('${rq.loginedMember.image }'); background-size: cover;"></div>
 							<button class="profile_button" onclick="changeprofileContent()">프로필 수정</button>
 							<div>
 								<label for="username">${rq.loginedMember.loginId }님, 환영합니다:)</label> 
@@ -208,7 +208,7 @@
 									<option value="19">최효서</option>
 									<option value="20">지아</option>
 								</select>
-								<button class="register_button" onclick="register()">등록</button>
+								<button class="register_button" onclick="register();">등록</button>
 							</div>
 							<div>
 								<label for="lv">등급/코드:</label>
@@ -321,6 +321,9 @@
 					 	    var selectedPlayer = $("#favoritePlayer").val();
 					 	    console.log(selectedPlayer);
 					 	   
+					 	   // 선택한 선수의 값으로 select 요소의 옵션을 선택
+					 	    $("#favoritePlayer").val(selectedPlayer);
+					 	   
 					 	    $.ajax({
 					 	        type: "POST",
 					 	        url: "/usr/member/selectplayer", 
@@ -363,7 +366,7 @@
 					 	
 					 	function uploadPhoto() {
 					 	    var fileInput = document.getElementById('photoInput');
-					 	    // console.log(fileInput.files[0] + fileInput.files[1]);
+					 	   
 					 	    var file = fileInput.files[0];
 
 					 	    if (file) {
@@ -381,7 +384,7 @@
 					 	    	    }
 
 					 	    	    // 텍스트 형식으로 응답 내용을 받아옴
-					 	    	    return response.text();
+			 	    	    return response.text();
 					 	    	})
 					 	    	.then(data => {
 					 	    		alert(data);
@@ -397,6 +400,21 @@
 					 	        alert('Please select a photo to upload.');
 					 	    }
 					 	}
+					 	
+					 /* 	function previewFile() {
+					 	    var fileInput = document.getElementById('photoInput');
+					 	    var profileImage = document.getElementById('memberimg');
+					 	   console.log(fileInput);
+					 	    console.log(profileImage);
+					 	    var file = fileInput.files[0];
+					 	    if (file) {
+					 	        var reader = new FileReader();
+					 	        reader.onload = function(e) {
+					 	            profileImage.style.backgroundImage = 'url(' + e.target.result + ')';
+					 	        };
+					 	        reader.readAsDataURL(file);
+					 	    }
+					 	} */
 					 	
 			            function modal(id) {
 			                var zIndex = 9999;
@@ -418,6 +436,11 @@
 			                });
 			                document.body.append(bg);
 			
+			                if (${rq.selectedplayer != null}){
+				                $("#favoritePlayer").val(${rq.selectedplayer});
+			                }
+			                console.log(${rq.selectedplayer});
+			                
 			                // 닫기 버튼 처리, 시꺼먼 레이어와 모달 div 지우기
 			               modal.querySelector('.modal_close_btn').addEventListener('click', function() {
 							    bg.remove();

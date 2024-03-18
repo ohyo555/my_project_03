@@ -134,5 +134,17 @@ public interface MemberRepository {
 	@Update("UPDATE `member` SET fplayer = #{player} WHERE loginId = #{loginId}")
 	public void setfplayer(String loginId, String player);
 
+	@Select("SELECT image FROM `member` WHERE id = #{id}")
+	public String memberinfo(int id);
+	
+	@Select("""
+			SELECT p.id
+			FROM player AS p
+			INNER JOIN `member` AS m
+			ON m.fplayer = p.id
+			WHERE m.id = #{loginedMemberId}
+			""")
+	public int getselectedplayer(int loginedMemberId);
+
 
 }

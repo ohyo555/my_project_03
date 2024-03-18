@@ -143,4 +143,12 @@ public class MemberService {
 		memberRepository.setfplayer(loginId, player);
 	}
 
+	public String memberinfo(int id) {
+		return memberRepository.memberinfo(id);
+	}
+
+	public int getselectedplayer(int loginedMemberId) {
+		return memberRepository.getselectedplayer(loginedMemberId);
+	}
+
 }

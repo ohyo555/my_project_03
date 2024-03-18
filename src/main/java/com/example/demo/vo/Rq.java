@@ -26,6 +26,8 @@ public class Rq {
 	private Member loginedMember;
 	@Getter
 	private Player player;
+	@Getter
+	private int selectedplayer;
 	
 	
 	private HttpSession session;
@@ -45,6 +47,7 @@ public class Rq {
 			loginedMemberId = (int) httpSession.getAttribute("loginedMemberId");
 			loginedMember = memberService.getMember(loginedMemberId);
 			player = gameService.getPlayer(loginedMember.getFplayer());
+			selectedplayer = memberService.getselectedplayer(loginedMemberId);
 		}
 
 		this.req.setAttribute("rq", this);
