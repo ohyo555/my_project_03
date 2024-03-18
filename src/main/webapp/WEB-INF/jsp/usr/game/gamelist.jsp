@@ -68,7 +68,7 @@
         
         .list {
         	margin-top: 20px;
-        	height: 600px;
+        	height: 750px;
         	width: 900px;
         	background-color: white;
         }
@@ -78,18 +78,6 @@
 <section class="text-xl px-4">
 	<input type="hidden" name="id" value="${schedule.id }" />
 	<div class="list mx-auto overflow-x-auto" style="overflow-x: auto;"> <!--  style="overflow-x: auto;" 가로로 오버플로우되면 수평스크롤 생김 -->
-		<div class="search-bar">
-	        <form action="">
-	            <input type="hidden" name="boardId" value="${param.boardId }" /> 
-	            <select class="text-sm mr-3" name="searchKeywordTypeCode">
-	                <option value="title" ${searchKeywordTypeCode.equals("title") ? 'selected="selected"' : '' }>제목</option>
-	                <option value="body" ${searchKeywordTypeCode.equals("body") ? 'selected="selected"' : '' }>내용</option>
-	                <option value="memberId" ${searchKeywordTypeCode.equals("memberId") ? 'selected="selected"' : '' }>작성자</option>
-	            </select> 
-	            <input value="${param.searchKeyword }" type="text" placeholder="검색어를 입력하세요" class="input input-bordered mr-3" style="font-size: 12px; height: 30px;" name="searchKeyword" />
-	            <button class="btn btn-sm btn-outline" type="submit">검색</button>
-	        </form>
-		</div>
 		<div class="board-container">
 		<table>
 			<colgroup>

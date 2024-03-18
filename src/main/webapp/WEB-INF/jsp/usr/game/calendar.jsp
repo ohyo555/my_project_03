@@ -138,6 +138,8 @@ button {
 
 	<button onclick="prevMonth()">이전 달</button>
 	<button onclick="nextMonth()">다음 달</button>
+	
+	<a href="../game/gamelist">list</a>
 
 	<script>
   	let currentDate = new Date(); // 블록 범위 변수를 선언하는 데 사용되는 키워드
