@@ -24,16 +24,22 @@ table {
 	margin-top: 20px;
 }
 
-th, td {
+th {
 	border: 1px solid #dddddd;
 	text-align: center;
 	padding: 24px; /* 날짜 부분의 패딩을 3배로 크게 설정 */
-	font-size: 15px; /* 날짜 부분의 글꼴 크기 조절 */
-}
-
-th {
+	font-size: 14px; /* 날짜 부분의 글꼴 크기 조절 */
 	background-color: #f2f2f2;
 	padding: 7px; /* 날짜 부분의 패딩을 3배로 크게 설정 */
+}
+
+td {
+	border: 1px solid #dddddd;
+	text-align: center;
+    font-size: 13px; /* 날짜 부분의 글꼴 크기 조절 */
+    vertical-align: top; /* 셀 안의 텍스트를 상단에 정렬합니다. */
+    padding: 5px;
+    padding-bottom: 55px;
 }
 
 button {
