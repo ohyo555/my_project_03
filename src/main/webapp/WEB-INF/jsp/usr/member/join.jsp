@@ -220,7 +220,7 @@
         
      	// 페이지 로딩 시에 updateMaxDate() 호출
         document.addEventListener('DOMContentLoaded', function() {
-		    updateMaxDate();
+		    updateMaxDate();  // 이벤트는 문서 내용이 JavaScript를 통해 안전하게 조작하고 액세스할 수 있는 준비가 된 시점, 이벤트는 문서 내용이 JavaScript를 통해 안전하게 조작하고 액세스할 수 있는 준비가 된 시점
 		});
         function updateMaxDate() {
             var today = new Date().toISOString().split('T')[0];

@@ -60,7 +60,9 @@ public class UsrMemberController {
 			@RequestParam(defaultValue = "/") String afterLoginUri) {
 
 		Rq rq = (Rq) req.getAttribute("rq");
-
+		
+		int selectplayer = memberService.isselectplayer(loginId);
+		
 		if (rq.isLogined()) {
 			return Ut.jsHistoryBack("F-A", "이미 로그인 함");
 		}
@@ -72,7 +74,11 @@ public class UsrMemberController {
 			return Ut.jsHistoryBack("F-2", "비밀번호를 입력해주세요");
 		}
 
-		Member member = memberService.getMemberByLoginId(loginId);
+		Member member = memberService.getMemberByLoginId_1(loginId); // 응원선수 없을 때 
+		
+		if (selectplayer != 0) {
+			member = memberService.getMemberByLoginId(loginId); // 응원선수 있을 때 
+		}
 
 		if (member == null) {
 			return Ut.jsHistoryBack("F-3", Ut.f("%s(은)는 존재하지 않는 아이디입니다", loginId));
@@ -90,7 +96,7 @@ public class UsrMemberController {
 
 		return Ut.jsReplace("S-1", Ut.f("%s님 환영합니다", member.getLoginId()), "/");
 	}
-
+	
 	@RequestMapping("/usr/member/join")
 	public String showJoin(HttpServletRequest req) {
 

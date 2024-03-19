@@ -45,9 +45,16 @@ public class Rq {
 		if (httpSession.getAttribute("loginedMemberId") != null) {
 			isLogined = true;
 			loginedMemberId = (int) httpSession.getAttribute("loginedMemberId");
-			loginedMember = memberService.getMember(loginedMemberId);
-			player = gameService.getPlayer(loginedMember.getFplayer());
-			selectedplayer = memberService.getselectedplayer(loginedMemberId);
+			loginedMember = memberService.getMember(loginedMemberId);;
+			Integer fplayerValue = loginedMember.getFplayer(); 
+		    
+		    if (fplayerValue != null) {
+		        if (fplayerValue != 0) {
+		            player = gameService.getPlayer(fplayerValue);
+		            selectedplayer = memberService.getselectedplayer(loginedMemberId);
+		        }
+		    }
+				
 		}
 
 		this.req.setAttribute("rq", this);

@@ -151,4 +151,12 @@ public class MemberService {
 		return memberRepository.getselectedplayer(loginedMemberId);
 	}
 
+	public Member getMemberByLoginId_1(String loginId) {
+		return memberRepository.getMemberByLoginId_1(loginId);
+	}
+
+	public int isselectplayer(String loginId) {
+		return memberRepository.isselectplayer(loginId);
+	}
+
 }

@@ -73,6 +73,8 @@ CREATE TABLE `member`(
     delDate DATETIME COMMENT '탈퇴 날짜'
 );
 
+ALTER TABLE `member` ADD COLUMN `type` CHAR(20) AFTER `authLevel`;
+
 # testdata 생성
 INSERT INTO `member`
 SET loginId = 'admin',
@@ -148,16 +150,18 @@ CREATE TABLE membership(
 
 # schedule 테이블 생성
 CREATE TABLE `schedule`(
-    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `date` CHAR(20) NOT NULL,
-    num int(10) NOT NULL,
-    stype CHAR(20) NOT NULL,
-    `time` CHAR(20) NOT NULL,
-    gym CHAR(20) NOT NULL,
-    boradcasting CHAR(20) NOT NULL,
-    `round` int(10) NOT NULL,
-    info CHAR(20) NOT NULL,
+    `date` CHAR(20),
+    num INT(10) ,
+    stype CHAR(20),
+    `time` CHAR(20) ,
+    gym CHAR(20) ,
+    boradcasting CHAR(20) ,
+    `round` CHAR(20) ,
+    info CHAR(20) ,
+    game CHAR(20)
 );
+
+ALTER TABLE `schedule` ADD COLUMN  id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT FIRST
 
 select *
 from `schedule`;

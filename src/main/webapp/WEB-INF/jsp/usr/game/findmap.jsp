@@ -232,14 +232,14 @@ body, html {
 				</div>
 				
 			<ul id="category">
-				<li id="PK6" data-order="2">주차장</li>
+				<li id="PK6" data-order="2"></li>
 				<li id="CS2" data-order="4">편의점</li>
 				<li id="CE7" data-order="1">카페</li>
 				<li id="FD6" data-order="3">음식점</li>
 				<li id="OL7" data-order="0">주유소</li>
 			</ul>
 		</div>
-		<button class = "findstadium" onclick="findStadium()">주차장</button>
+		<button class = "findstadium" onclick="findStadium()">경기장</button>
 		</div>
 	</div>
 

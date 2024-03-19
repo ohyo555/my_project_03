@@ -146,5 +146,18 @@ public interface MemberRepository {
 			""")
 	public int getselectedplayer(int loginedMemberId);
 
+	@Select("""
+			SELECT *
+			FROM `member`
+			WHERE loginId = #{loginId}
+			""")
+	public Member getMemberByLoginId_1(String loginId);
+
+	@Select("""
+			SELECT IFNULL(fplayer,0) as cnt
+			FROM `member`
+			WHERE loginId = #{loginId}
+			""")
+	public int isselectplayer(String loginId);
 
 }
