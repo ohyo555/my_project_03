@@ -81,18 +81,19 @@ button {
 	color: white; /* 글자색을 흰색 또는 다른 색상으로 지정 (필요에 따라) */
 }
 
-.modal {
+.myModal {
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 350px;
+    height:auto;
     padding: 30px;
-/*     border: 1px solid #888;
+    border: 1px solid #888;
     border-radius: 10px;
     font-size: 1rem;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+    background-color: white;
 }
 
 .modal-content {
@@ -119,7 +120,7 @@ button {
 	font-size: 12px;
 }
 
-#my_modal .modal_close_btn {
+#myModal .modal_close_btn {
 	position: absolute;
 	top: 5px;
 	right: 20px;
@@ -133,7 +134,7 @@ button {
 
 	<h2 id="currentMonth">간단한 달력</h2>
 
-	<div id="myModal" class="modal">
+	<div id="myModal" class="myModal">
 		<div id="modal-content">
 			<span class="modal_close_btn" onclick="closeModal()">&times;</span>
 			<p id="selectedDate"></p>
@@ -283,7 +284,7 @@ button {
     function openModal(id) {
 	
     	var zIndex = 999;
-        const modal = document.getElementById("myModal");
+        const modal = document.getElementById(id);
         const selectedDateElement = document.getElementById("modal-content");
         
      // 모달 div 뒤에 희끄무레한 레이어
@@ -313,8 +314,8 @@ button {
            display: 'block',
            boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
            // 시꺼먼 레이어 보다 한칸 위에 보이기
-           zIndex: zIndex + 1,
-
+           zIndex: 10000,
+	
            // div center 정렬
            top: '50%',
            left: '50%',
