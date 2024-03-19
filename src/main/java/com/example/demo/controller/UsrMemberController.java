@@ -149,7 +149,7 @@ public class UsrMemberController {
 	@ResponseBody
 	public String doAction(String loginId) {
 
-		Member existsMember = memberService.getMemberByLoginId(loginId);
+		Member existsMember = memberService.getMemberByLoginId_1(loginId);
 
 		String msg = "중복된 아이디가 존재합니다.";
 
@@ -351,20 +351,6 @@ public class UsrMemberController {
 		return Ut.jsHistoryBack(membershipRd.getResultCode(), membershipRd.getMsg());
 
 	}
-
-//	@RequestMapping("/usr/member/selectplayer")
-//	@ResponseBody
-//	public String doselectplayer(String player, HttpServletRequest req) {
-//		Rq rq = (Rq) req.getAttribute("rq");
-//
-//		String loginId = rq.getLoginedMember().getLoginId();
-//
-//		Member findmember = memberService.getMemberByLoginId(loginId);
-//
-//		memberService.setfplayer(loginId, player);
-//		return "응원선수 선택이 완료되었습니다.";
-//
-//	}
 	
 	//test ajax
 	@RequestMapping("/usr/member/selectplayer")
@@ -375,7 +361,7 @@ public class UsrMemberController {
 		String loginId = rq.getLoginedMember().getLoginId();
 		
 		memberService.setfplayer(loginId, player);
-
+		
 		Member findmember = memberService.getMemberByLoginId(loginId);
 		
 		return findmember;

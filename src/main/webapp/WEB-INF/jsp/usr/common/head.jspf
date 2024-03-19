@@ -330,6 +330,7 @@
 					 	        data: { player: selectedPlayer },
 					 	        success: function(data) {
 
+					 	        	console.log(data.pname);
 					 	           	// 선수 정보 업데이트
 					                $(".1").text(data.pname);
 					                $(".2").text(data.pnumber);

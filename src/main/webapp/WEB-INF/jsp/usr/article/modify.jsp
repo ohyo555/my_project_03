@@ -82,11 +82,10 @@ body {
 	<div class="backbutton_div">
 		<button class="backbutton btn-outline" onclick="history.back();">뒤로가기</button>
 	</div>
-	<form action="../article/doWrite" method="POST" onsubmit="ArticleWrite__submit(this); return false;">
+	<form action="../article/doModify" method="POST" onsubmit="ArticleModify__submit(this); return false;">
 		<input type="hidden" name="body">
 		<div class="post-container">
 			<div style="display: flex; justify-content: space-between;">
-				<!-- ${article.id }${goodRP}${badRP} 글번호 -->
 				<div class="mb-5">
 					<div class="option">
 						<div class="ml-1 mt-2 mb-1 flex">

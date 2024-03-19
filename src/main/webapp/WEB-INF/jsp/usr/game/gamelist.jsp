@@ -117,7 +117,7 @@
 						<td>${schedule.num }</td>
 						<td>${schedule.time }</td>
 						<td>${schedule.game }</td>
-						<td>${schedule.gym }</td>
+						<td>${schedule.stadium }</td>
 						<td>${schedule.broadcasting }</td>
 						<td>${schedule.round }</td>
 						<td>${schedule.info }</td>

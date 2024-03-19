@@ -206,6 +206,7 @@ public class UsrArticleController {
 	@ResponseBody
 	public String doWrite(HttpServletRequest req, String title, String body, Integer boardId) {
 
+		System.out.println("!!!!!!!" + body);
 		Rq rq = (Rq) req.getAttribute("rq");
 
 		if (Ut.isNullOrEmpty(title)) {

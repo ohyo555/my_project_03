@@ -81,7 +81,6 @@ public interface ArticleRepository {
 				""")
 	public void modifyArticle(int id, String title, String body);
 
-
 	@Update("""
 			UPDATE article SET hit = hit + 1 WHERE id = #{id}
 			""")

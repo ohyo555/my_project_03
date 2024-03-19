@@ -92,7 +92,6 @@ body {
 		<input type="hidden" name="body">
 		<div class="post-container">
 			<div style="display: flex; justify-content: space-between;">
-				<!-- ${article.id }${goodRP}${badRP} 글번호 -->
 				<div class="mb-5">
 					<div class="option">
 						<select class="text-base h-8" name="boardId">

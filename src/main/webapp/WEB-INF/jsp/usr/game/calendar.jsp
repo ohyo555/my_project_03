@@ -66,12 +66,12 @@ button {
 }
 
 .highlight {
-	background-color: blue; /* 특정 날짜에 대한 배경색으로 지정 */
-	color: white; /* 글자색을 흰색 또는 다른 색상으로 지정 (필요에 따라) */
+	background-color: rgb(251,243,238); /* 특정 날짜에 대한 배경색으로 지정 */
+	color: black; /* 글자색을 흰색 또는 다른 색상으로 지정 (필요에 따라) */
 }
 
 .highlight2 {
-	background-color: red; /* 특정 날짜에 대한 배경색으로 지정 */
+	background-color: rgb(179, 11, 27);  /* 특정 날짜에 대한 배경색으로 지정 */
 	color: white; /* 글자색을 흰색 또는 다른 색상으로 지정 (필요에 따라) */
 }
 
@@ -157,11 +157,18 @@ button {
 	<a href="../game/gamelist">list</a>
 
 	<script>
+
   	let currentDate = new Date(); // 블록 범위 변수를 선언하는 데 사용되는 키워드
-/*   	
-   	const gamedate = ${gamedate};
-	console.log(gamedate);
-   */
+   
+    function getAllDatesOfMonth(month, year) {
+	    const numDays = new Date(year, month + 1, 0).getDate();
+	    const datesArray = [];
+	    for (let day = 1; day <= numDays; day++) {
+	        datesArray.push(new Date(year, month, day));
+	    }
+	    return datesArray;
+	}
+   
     function displayCalendar(date, schedules) {
       const currentDate = date || new Date(); // currentDate 선언
       const calendarBody = document.querySelector("#calendarBody");
@@ -171,14 +178,23 @@ button {
       const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
       const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
   	
+      const gameDates = [ // 경기날짜 담은 배열
+          // gamedate 배열의 각 요소를 JavaScript 배열에 추가
+          <c:forEach var="date" items="${gamedate}">
+          	"${date.substring(0, 5)}", // 각 날짜를 따옴표로 묶어서 배열에 추가
+          </c:forEach>
+      ];
+      
       let currentDay = new Date(firstDayOfMonth);
       currentDay.setDate(1 - firstDayOfMonth.getDay());
 
       currentMonthElement.textContent = getMonthName(currentDate.getMonth()) + " " + currentDate.getFullYear();
-
+      
       while (currentDay <= lastDayOfMonth) {
         const weekRow = document.createElement("tr");
-
+     	// 현재 월의 모든 날짜를 가져옵니다.
+        const allDatesOfMonth = getAllDatesOfMonth(currentDate.getMonth(), currentDate.getFullYear());
+     
         for (let i = 0; i < 7; i++) {
           const dayCell = document.createElement("td");
           dayCell.textContent = currentDay.getDate();
@@ -195,11 +211,11 @@ button {
           if (isToday(currentDay)) { // 오늘 날짜에 대한 표시
               dayCell.classList.add("highlight");
           }
-          
-         /*  if(isGameToday(schedules)) {
-        	  dayCell.classList.add("highlight2");
-          }
-           */
+
+          if (isGameToday(currentDay, allDatesOfMonth, gameDates)) {
+        	    dayCell.classList.add("highlight2");
+        	}
+
           // 일요일은 빨간색, 토요일은 파란색
           if (i === 0) {
             dayCell.classList.add("sunday");
@@ -243,61 +259,19 @@ button {
         );
     }
     
-    /* function highlightDates() {
-	    const cells = document.querySelectorAll("#calendarBody td");
-
-	    cells.forEach(cell => {
-	        const date = cell.textContent;
-	        if (${gamedate}.includes(date)) {
-	            cell.classList.add("highlight2"); // 날짜가 배열에 포함되어 있으면 배경색을 변경
-	        }
-	    });
-	} */
-
-    	// function isGameToday(schedules) {
-    	 // String[] gamedateArray = ${gamedate};
-    	/* // 포맷된 날짜를 저장할 StringBuilder
-        StringBuilder formattedDates = new StringBuilder();
-
-        // 배열을 반복하고 각 날짜를 포맷합니다.
-        for (String date : gamedateArray) {
-            // 날짜를 날짜 부분과 요일 부분으로 분할합니다.
-            String[] parts = date.split(" ");
-            // 월과 일을 추출합니다.
-            String[] dateParts = parts[0].split("\\.");
-            String month = dateParts[0];
-            String day = dateParts[1];
-            // 요일을 추출합니다.
-            String dayName = parts[1].substring(1, parts[1].length() - 1); // 괄호 제거
-            // 포맷하고 StringBuilder에 추가합니다.
-            formattedDates.append(month).append(".").append(day).append(" (").append(dayName).append("), ");
-        } */
-
-        // 마지막 쉼표와 공백을 제거합니다.
-        // String result = formattedDates.substring(0, formattedDates.length() - 2);
-        
-    	//const gamedateArray = '${gamedate}'.split(',');
-        
-    	/* for(int i = 0; i < ${gamedate}.size(); i++) {
-    		
-    	}
-    	const array[] = ${gamedate}.split(',');
-    	console.log(array[0]); */
-    	// 받은 일정 반복
-       /*  ${schedules}.forEach(schedule => {
-            // Schedule 클래스로부터 날짜 값을 가져와서 JavaScript Date 객체로 변환
-            const date = new Date(schedule.date);
-
-            // 해당 날짜의 셀을 가져오기
-            const dayCell = document.getElementById("cell_" + date.getDate()); 
-
-            // 날짜에 해당하는 셀이 있으면 색상 변경
-            if (dayCell) {
-                dayCell.classList.add("highlight2");
-            }
-        }); */
-
-    // }
+    function getFormattedDate(date) { // 날짜 형식 바꿔주는거
+    	
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Extract month with leading zero if necessary
+        const day = date.getDate().toString().padStart(2, '0'); // Extract day with leading zero if necessary
+        var Date = month + "." + day;
+        return Date;
+    }
+    
+    function isGameToday(currentDate, allDatesOfMonth, gameDates) {
+        const formattedCurrentDate = getFormattedDate(currentDate);
+        return gameDates.includes(formattedCurrentDate);
+    }
+    
 
 /* 모달 기능 */
     function openModal(id) {
@@ -354,12 +328,6 @@ button {
         const modal = document.getElementById("myModal");
         modal.style.display = "none";
       }
-
-      function getFormattedDate(date) {
-        const options = { year: "numeric", month: "long", day: "numeric" };
-        return date.toLocaleDateString("en-US", options);
-      }
-      
 
     // 최초 로딩 시 달력 표시
     displayCalendar();

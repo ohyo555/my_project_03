@@ -12,7 +12,7 @@ public class Schedule {
 	private int num;
 	private String stype;
 	private String time;
-	private String gym;
+	private String stadium;
 	private String broadcasting;
 	private String round;
 	private String info;

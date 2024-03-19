@@ -24,10 +24,8 @@ public class UsrGameController {
 	@RequestMapping("/usr/game/calendar")
 	public String showCalendar(Model model) {
 
-		//List<Schedule> schedules = gameService.getGamelist();
 		List<String> gamedate = gameService.getGamedate();
 		
-		//model.addAttribute("schedules", schedules);
 		model.addAttribute("gamedate", gamedate);
 		
 		return "/usr/game/calendar";

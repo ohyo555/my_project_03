@@ -47,7 +47,7 @@ public class Rq {
 			loginedMemberId = (int) httpSession.getAttribute("loginedMemberId");
 			loginedMember = memberService.getMember(loginedMemberId);;
 			Integer fplayerValue = loginedMember.getFplayer(); 
-		    
+		    // System.out.println(fplayerValue + "^^^^^^^^^^^^^^^^^^^^^^^^");
 		    if (fplayerValue != null) {
 		        if (fplayerValue != 0) {
 		            player = gameService.getPlayer(fplayerValue);

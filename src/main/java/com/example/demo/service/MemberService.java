@@ -26,7 +26,7 @@ public class MemberService {
 
 	public ResultData<Integer> join(String loginId, String loginPw, String birth, String mname, String cellphoneNum, 
 			String email, String postcode, String fulladdress) {
-		Member existsMember = getMemberByLoginId(loginId);
+		Member existsMember = getMemberByLoginId_1(loginId);
 
 		if (existsMember != null) {
 			return ResultData.from("F-7", Ut.f("이미 사용중인 아이디(%s)입니다", loginId));

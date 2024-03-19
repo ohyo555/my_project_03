@@ -131,7 +131,7 @@
 			</div>
 			<div class="info">※ -없이 숫자만 입력가능합니다.</div>
 			<div>
-				<label for="email">이메일:</label> <input type="text" id="email" name="email" autocomplete="off">
+				<label for="email">이메일:</label> <input type="email" id="email" name="email" autocomplete="off">
 			</div>
 
 			<div>
@@ -222,6 +222,8 @@
         document.addEventListener('DOMContentLoaded', function() {
 		    updateMaxDate();  // 이벤트는 문서 내용이 JavaScript를 통해 안전하게 조작하고 액세스할 수 있는 준비가 된 시점, 이벤트는 문서 내용이 JavaScript를 통해 안전하게 조작하고 액세스할 수 있는 준비가 된 시점
 		});
+     	
+     	// 날짜 선택
         function updateMaxDate() {
             var today = new Date().toISOString().split('T')[0];
             document.getElementById('birth').max = today;

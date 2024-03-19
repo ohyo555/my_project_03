@@ -59,11 +59,12 @@ CREATE TABLE `member`(
     loginPw CHAR(20) NOT NULL,
     birth DATE NOT NULL,
     mname CHAR(20) NOT NULL,
-    cellphoneNum CHAR(20) NOT NULL,
-    email CHAR(20) NOT NULL,
+    cellphoneNum CHAR(20),
+    email CHAR(20),
     postcode CHAR(20),
     address CHAR(50),
     `authLevel` SMALLINT(2) UNSIGNED DEFAULT 3 COMMENT '권한 레벨 (1=골드, 2= 실버, 3=일반, 7=관리자)',
+    `type` CHAR(10),
     membercode CHAR(20),
     fplayer CHAR(10),
     image CHAR(100) NOT NULL DEFAULT "/resource/profile.png",
@@ -73,7 +74,6 @@ CREATE TABLE `member`(
     delDate DATETIME COMMENT '탈퇴 날짜'
 );
 
-ALTER TABLE `member` ADD COLUMN `type` CHAR(20) AFTER `authLevel`;
 
 # testdata 생성
 INSERT INTO `member`
@@ -130,7 +130,6 @@ email = 'oioi@gmail.com',
 regDate = NOW(),
 updateDate = NOW();
 
-
 #---------------------------------------------------------------------------
 
 # membership 테이블 생성
@@ -150,27 +149,26 @@ CREATE TABLE membership(
 
 # schedule 테이블 생성
 CREATE TABLE `schedule`(
-    `date` CHAR(20),
-    num INT(10) ,
-    stype CHAR(20),
-    `time` CHAR(20) ,
-    gym CHAR(20) ,
-    boradcasting CHAR(20) ,
-    `round` CHAR(20) ,
-    info CHAR(20) ,
-    game CHAR(20)
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `date` CHAR(20) NOT NULL,
+    num INT(10) NOT NULL,
+    stype CHAR(20) NOT NULL,
+    `time` CHAR(20) NOT NULL,
+    stadium CHAR(20) NOT NULL,
+    boradcasting CHAR(20) NOT NULL,
+    `round` INT(10) NOT NULL,
+    info CHAR(20) NOT NULL,
 );
 
-ALTER TABLE `schedule` ADD COLUMN  id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT FIRST
 
-select *
-from `schedule`;
+SELECT *
+FROM `schedule`;
 #---------------------------------------------------------------------------
 
 # game 테이블 생성
+DROP TABLE game
 CREATE TABLE game(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    tid INT(10) NOT NULL,
     result TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '만료 여부 (0=패, 1=승)',
     `date` DATETIME NOT NULL,
     `round` INT(10) NOT NULL,
@@ -230,8 +228,8 @@ updateDate = NOW(),
 
 # reactionPoint 테이블 생성
 
-select *
-from reactionPoint
+SELECT *
+FROM reactionPoint
 CREATE TABLE reactionPoint(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     memberId INT(10) UNSIGNED NOT NULL,
