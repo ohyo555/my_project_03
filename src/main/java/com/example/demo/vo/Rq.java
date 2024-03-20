@@ -136,7 +136,7 @@ public class Rq {
 	}
 
 	public String getProfileFallbackImgUri() {
-		return "https://via.placeholder.com/150/?text=*^_^*";
+		return "https://via.placeholder.com/150/?text=*";
 	}
 
 	public String getProfileFallbackImgOnErrorHtml() {

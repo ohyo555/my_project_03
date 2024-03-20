@@ -25,8 +25,10 @@ public class UsrGameController {
 	public String showCalendar(Model model) {
 
 		List<String> gamedate = gameService.getGamedate();
+		List<Schedule> schedule = gameService.getGamelist();
 		
 		model.addAttribute("gamedate", gamedate);
+		model.addAttribute("schedule", schedule);
 		
 		return "/usr/game/calendar";
 	}

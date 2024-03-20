@@ -65,6 +65,7 @@ button {
 #calendar {
 	margin: 30 auto; /* 가운데 정렬 */
 	max-width: 800px; /* 최대 너비 지정 */
+	height: 600px;
 }
 
 .other-month {
@@ -88,7 +89,6 @@ button {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 350px;
-    height: auto;
     padding: 30px;
     border: 1px solid #888;
     border-radius: 10px;
@@ -136,6 +136,15 @@ button {
 	display: felx;
 }
 
+.info {
+	width: auto;
+	height: 50px;
+	background-color: rgba(251,243,238);
+	margin-top: 10px;
+	padding: 10px;
+	display: felx;
+}
+
 </style>
 </head>
 <body>
@@ -148,6 +157,10 @@ button {
 			<div class = "game">
 				<div>team1</div>
 				<div>team2</div>
+			</div>
+			<div class = "info">
+				<a href="https://kovo.co.kr/redsparks/game/v-league/6?season=020&gPart=201&gender=%EC%97%AC%EC%9E%90%EB%B6%80&first=%EC%9D%BC%EC%A0%95+%EB%B0%8F+%EA%B2%B0%EA%B3%BC" target="_blank">경기결과&nbsp;&nbsp;&nbsp;</a>
+				<a href="https://kovo.co.kr/redsparks/media/media-video?third=%EA%B2%BD%EA%B8%B0%EB%B3%84&date=2023-10-17&video=35681" target="_blank">하이라이트</a>
 			</div>
 			<!-- 필요에 따라 모달에 더 많은 내용을 추가하세요 -->
 		</div>
@@ -203,6 +216,9 @@ button {
           </c:forEach>
       ];
       
+      //console.log("${schedule[0].date}"); // 10.17 (화) > 이거랑 
+      //console.log("${schedule.size()}");
+      
       let currentDay = new Date(firstDayOfMonth);
       currentDay.setDate(1 - firstDayOfMonth.getDay());
 
@@ -231,7 +247,27 @@ button {
           }
 
           if (isGameToday(currentDay, allDatesOfMonth, gameDates)) {
-        	    dayCell.classList.add("highlight2");
+        	  
+        	  //console.log("${schedule[0].date}");
+        	  //console.log(getFormattedDate(currentDay)); // 경기 있는 날의 형식 바꾼 형태 - 하나하나 값으로 나와
+        	  
+        	  // console.log(currentDay); // 경기 있는 날
+        	  // console.log(allDatesOfMonth); // 현재 보이는 달의 모든 날
+        	  // console.log(gameDates); // 경기 있는 날의 형식 바꾼 형태 - 배열로 
+
+        	  
+        	 // console.log("${schedule[0].date}");
+        	  // console.log("${schedule[0].date.substring(0, 5)}" + "********");
+        	  for(let i = 0; i < "${schedule.size()}"; i++){
+        		  
+        		  console.log(i);
+        		  //console.log(gameDates);
+        		 /*  if("${schedule[i].date.substring(0, 5)" == gameDates}){
+        			  console.log("${schedule[i].stadium}")
+        		  } */
+        	  }
+        	  
+        	    // dayCell.classList.add("highlight2");
         	}
 
           // 일요일은 빨간색, 토요일은 파란색
