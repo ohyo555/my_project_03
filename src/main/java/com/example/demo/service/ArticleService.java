@@ -156,6 +156,7 @@ public class ArticleService {
 	public ResultData increaseHitCount(int id) {
 		int affectedRow = articleRepository.increaseHitCount(id);
 
+		System.out.println("###################" + affectedRow);
 		if (affectedRow == 0) {
 			return ResultData.from("F-1", "해당 게시물 없음", "id", id);
 		}
@@ -223,6 +224,11 @@ public class ArticleService {
 		int limitTake = itemsInAPage;
 
 		return articleRepository.getForPrintMyArticles(id, limitFrom, limitTake, searchKeywordTypeCode, searchKeyword);
+	}
+
+	public int getCurrentArticleId() {
+		return articleRepository.getCurrentArticleId();
+
 	}
 
 

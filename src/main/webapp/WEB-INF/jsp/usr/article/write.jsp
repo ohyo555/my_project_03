@@ -78,6 +78,8 @@ body {
 			editor.focus();
 			return;
 		}
+		$('#fileInput').attr('name', 'file__article__' + ${currentId} + '__extra__Img__1');
+		
 		form.body.value = markdown;
 		ArticleWrite__submitFormDone = true;
 		form.submit();
@@ -88,7 +90,9 @@ body {
 	<div class="backbutton_div">
 		<button class="backbutton btn-outline" onclick="history.back();">뒤로가기</button>
 	</div>
-	<form action="../article/doWrite" method="POST" onsubmit="ArticleWrite__submit(this); return false;">
+		<form action="../article/doWrite" method="POST" onsubmit="ArticleWrite__submit(this); return false;"
+			enctype="multipart/form-data">
+			<input type="hidden" name=">${currentId }">
 		<input type="hidden" name="body">
 		<div class="post-container">
 			<div style="display: flex; justify-content: space-between;">
@@ -104,6 +108,9 @@ body {
 					<div class = "ml-1 mt-2 mb-1">제목:  
 						<input class="input input-bordered w-full max-w-xs mb-3" autocomplete="off" type="text"
 								placeholder="제목을 입력해주세요" name="title" style="height:40px"/>
+					</div>
+					<div class = "ml-1 mt-2 mb-1">첨부 이미지:
+						<input id="fileInput" placeholder="이미지를 선택해주세요" type="file" />
 					</div>
 					<div class="toast-ui-editor">
 						<script type="text/x-template">

@@ -452,6 +452,8 @@ body {
 
 		<div class="content">
 			<p>${article.body }</p>
+			<img class="w-full rounded-xl" src="${rq.getImgUri(article.id)}" onerror="${rq.profileFallbackImgOnErrorHtml}"
+							alt="" />
 			<!-- Add more content here -->
 		</div>
 

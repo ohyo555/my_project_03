@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,10 +9,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.example.demo.service.ArticleService;
 import com.example.demo.service.BoardService;
 import com.example.demo.service.CommentService;
+import com.example.demo.service.GenFileService;
 import com.example.demo.service.ReactionPointService;
 import com.example.demo.util.Ut;
 import com.example.demo.vo.Article;
@@ -33,6 +37,9 @@ public class UsrArticleController {
 	
 	@Autowired
 	private ArticleService articleService;
+	
+	@Autowired
+	private GenFileService genFileService;
 	
 	@Autowired
 	private CommentService commentService;
@@ -197,14 +204,19 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/write")
-	public String showJoin(HttpServletRequest req) {
+	public String showJoin(Model model) {
+
+		int currentId = articleService.getCurrentArticleId();
+
+		model.addAttribute("currentId", currentId);
 
 		return "usr/article/write";
 	}
 
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public String doWrite(HttpServletRequest req, String title, String body, Integer boardId) {
+	public String doWrite(HttpServletRequest req, int boardId, String title, String body, String replaceUri,
+			MultipartRequest multipartRequest) {
 
 		System.out.println("!!!!!!!" + body);
 		Rq rq = (Rq) req.getAttribute("rq");
@@ -221,6 +233,16 @@ public class UsrArticleController {
 		int id = (int) writeArticleRd.getData1();
 
 		Article article = articleService.getArticle(id);
+
+		Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
+
+		for (String fileInputName : fileMap.keySet()) {
+			MultipartFile multipartFile = fileMap.get(fileInputName);
+
+			if (multipartFile.isEmpty() == false) {
+				genFileService.save(multipartFile, id);
+			}
+		}
 
 		return Ut.jsReplace(writeArticleRd.getResultCode(), writeArticleRd.getMsg(), "../article/detail?id=" + id);
 

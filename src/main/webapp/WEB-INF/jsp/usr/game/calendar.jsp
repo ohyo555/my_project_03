@@ -88,7 +88,7 @@ button {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 350px;
-    height:auto;
+    height: auto;
     padding: 30px;
     border: 1px solid #888;
     border-radius: 10px;
@@ -127,6 +127,14 @@ button {
 	cursor: pointer; /* 추가: 마우스 포인터 모양 변경 */
 }
 
+.game {
+	width: auto;
+	height: 100px;
+	background-color: rgba(251,243,238);
+	margin-top: 10px;
+	padding: 10px;
+	display: felx;
+}
 
 </style>
 </head>
@@ -137,7 +145,10 @@ button {
 	<div id="myModal" class="myModal">
 		<div id="modal-content">
 			<span class="modal_close_btn" onclick="closeModal()">&times;</span>
-			<p id="selectedDate"></p>
+			<div class = "game">
+				<div>team1</div>
+				<div>team2</div>
+			</div>
 			<!-- 필요에 따라 모달에 더 많은 내용을 추가하세요 -->
 		</div>
 	</div>

@@ -315,5 +315,11 @@ public interface ArticleRepository {
 			""")
 	public List<Article> getForPrintMyArticles(int id, int limitFrom, int limitTake, String searchKeywordTypeCode,
 			String searchKeyword);
+	
+	@Select("""
+			SELECT MAX(id) + 1
+			FROM article
+			""")
+	public int getCurrentArticleId();
 
 }
