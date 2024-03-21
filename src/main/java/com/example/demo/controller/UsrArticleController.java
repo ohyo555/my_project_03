@@ -125,11 +125,13 @@ public class UsrArticleController {
 	}
 	
 	@RequestMapping("/usr/article/mylist")
-	public String showMyList(HttpServletRequest req, Model model, @RequestParam(defaultValue = "1") int page,
+	public String showMyList(HttpServletRequest req, Model model, @RequestParam(defaultValue = "4") int boardId,
+			@RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "title,body") String searchKeywordTypeCode,
 			@RequestParam(defaultValue = "") String searchKeyword) {
 
 		Rq rq = (Rq) req.getAttribute("rq");
+		Board board = boardService.getBoardById(boardId);
 		int id = rq.getLoginedMemberId();
 		
 		int articlesCount = articleService.getMyArticlesCount(id, searchKeywordTypeCode, searchKeyword);
@@ -140,6 +142,7 @@ public class UsrArticleController {
 		
 		List<Article> myarticles = articleService.getForPrintMyArticles(id, itemsInAPage, page, searchKeywordTypeCode, searchKeyword);
 		
+		model.addAttribute("board", board);
 		model.addAttribute("page", page);
 		model.addAttribute("pagesCount", pagesCount);
 		model.addAttribute("searchKeywordTypeCode", searchKeywordTypeCode);

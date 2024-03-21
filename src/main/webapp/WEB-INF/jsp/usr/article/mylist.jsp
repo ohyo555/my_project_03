@@ -105,6 +105,7 @@
 		</div>
 		<div class="search-bar">
 		    <div class="badge badge-outline">${articlesCount }개</div>
+		    <div>${board.name}</div> <!-- 현재 게시판 이름!!!!!!!!!이거 수정해!!!!!!!!!!!!! -->
 	        <form action="">
 	            <select class="text-sm mr-3" name="searchKeywordTypeCode">
 	                <option value="title" ${searchKeywordTypeCode.equals("title") ? 'selected="selected"' : '' }>제목</option>

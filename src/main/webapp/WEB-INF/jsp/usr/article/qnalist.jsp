@@ -107,6 +107,7 @@
 		</div>
 		<div class="search-bar">
 		    <div class="badge badge-outline">${articlesCount }개</div>
+		    <div>${board.name}</div> <!-- 현재 게시판 이름!!!!!!!!!이거 수정해!!!!!!!!!!!!! -->
 	        <form action="">
 	            <input type="hidden" name="boardId" value="${param.boardId }" /> 
 	            <select class="text-sm mr-3" name="searchKeywordTypeCode">

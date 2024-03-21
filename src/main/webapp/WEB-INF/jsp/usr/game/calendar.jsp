@@ -35,11 +35,23 @@ th {
 
 td {
 	border: 1px solid #dddddd;
+	width: calc(800px / 7);
 	text-align: center;
-    font-size: 13px; /* 날짜 부분의 글꼴 크기 조절 */
-    vertical-align: top; /* 셀 안의 텍스트를 상단에 정렬합니다. */
-    padding: 5px;
-    padding-bottom: 55px;
+	font-size: 13px; /* 날짜 부분의 글꼴 크기 조절 */
+	vertical-align: top; /* 셀 안의 텍스트를 상단에 정렬합니다. */
+	padding: 5px;
+	padding-bottom: 55px;
+}
+
+.gameimg {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 40px;
+	background-color: white;
+	color: black;
+	padding: 0 12px;
+	margin-top: 5px;
 }
 
 button {
@@ -73,39 +85,44 @@ button {
 }
 
 .highlight {
-	background-color: rgb(251,243,238); /* 특정 날짜에 대한 배경색으로 지정 */
-	color: black; /* 글자색을 흰색 또는 다른 색상으로 지정 (필요에 따라) */
+	background-color: rgb(251, 243, 238);
+	color: black;
 }
 
 .highlight2 {
-	background-color: rgb(179, 11, 27);  /* 특정 날짜에 대한 배경색으로 지정 */
-	color: white; /* 글자색을 흰색 또는 다른 색상으로 지정 (필요에 따라) */
+	background-color: rgb(179, 11, 27);
+	color: white;
+}
+
+.highlight3 {
+	background-color: black;
+	color: white;
 }
 
 .myModal {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 350px;
-    padding: 30px;
-    border: 1px solid #888;
-    border-radius: 10px;
-    font-size: 1rem;
-    background-color: white;
+	display: none;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%); /* 요소를 부모 요소의 정중앙으로 이동 */
+	width: 350px;
+	padding: 30px;
+	border: 1px solid #888;
+	border-radius: 10px;
+	font-size: 1rem;
+	background-color: white;
 }
 
 .modal-content {
-    position: relative;
+	position: relative;
 }
 
 .close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
-    cursor: pointer;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	font-size: 20px;
+	cursor: pointer;
 }
 
 .modal_btn {
@@ -130,7 +147,7 @@ button {
 .game {
 	width: auto;
 	height: 100px;
-	background-color: rgba(251,243,238);
+	background-color: rgba(251, 243, 238);
 	margin-top: 10px;
 	padding: 10px;
 	display: felx;
@@ -139,12 +156,11 @@ button {
 .info {
 	width: auto;
 	height: 50px;
-	background-color: rgba(251,243,238);
+	background-color: rgba(251, 243, 238);
 	margin-top: 10px;
 	padding: 10px;
 	display: felx;
 }
-
 </style>
 </head>
 <body>
@@ -154,13 +170,16 @@ button {
 	<div id="myModal" class="myModal">
 		<div id="modal-content">
 			<span class="modal_close_btn" onclick="closeModal()">&times;</span>
-			<div class = "game">
+			<div class="game">
 				<div>team1</div>
 				<div>team2</div>
 			</div>
-			<div class = "info">
-				<a href="https://kovo.co.kr/redsparks/game/v-league/6?season=020&gPart=201&gender=%EC%97%AC%EC%9E%90%EB%B6%80&first=%EC%9D%BC%EC%A0%95+%EB%B0%8F+%EA%B2%B0%EA%B3%BC" target="_blank">경기결과&nbsp;&nbsp;&nbsp;</a>
-				<a href="https://kovo.co.kr/redsparks/media/media-video?third=%EA%B2%BD%EA%B8%B0%EB%B3%84&date=2023-10-17&video=35681" target="_blank">하이라이트</a>
+			<div class="info">
+				<a
+					href="https://kovo.co.kr/redsparks/game/v-league/6?season=020&gPart=201&gender=%EC%97%AC%EC%9E%90%EB%B6%80&first=%EC%9D%BC%EC%A0%95+%EB%B0%8F+%EA%B2%B0%EA%B3%BC"
+					target="_blank">경기결과&nbsp;&nbsp;&nbsp;</a> <a
+					href="https://kovo.co.kr/redsparks/media/media-video?third=%EA%B2%BD%EA%B8%B0%EB%B3%84&date=2023-10-17&video=35681"
+					target="_blank">하이라이트</a>
 			</div>
 			<!-- 필요에 따라 모달에 더 많은 내용을 추가하세요 -->
 		</div>
@@ -184,7 +203,7 @@ button {
 
 	<button onclick="prevMonth()">이전 달</button>
 	<button onclick="nextMonth()">다음 달</button>
-	
+
 	<a href="../game/gamelist">list</a>
 
 	<script>
@@ -209,15 +228,22 @@ button {
       const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
       const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
   	
-      const gameDates = [ // 경기날짜 담은 배열
+   	  // 경기날짜 담은 배열
+      const gameDates = [ 
           // gamedate 배열의 각 요소를 JavaScript 배열에 추가
           <c:forEach var="date" items="${gamedate}">
           	"${date.substring(0, 5)}", // 각 날짜를 따옴표로 묶어서 배열에 추가
           </c:forEach>
       ];
       
-      //console.log("${schedule[0].date}"); // 10.17 (화) > 이거랑 
-      //console.log("${schedule.size()}");
+      // scheduleData 스케줄과 경기장을 담은 배열
+      var scheduleData = [];
+	    <c:forEach var="item" items="${schedule}">
+	        // JSP 변수를 JavaScript 배열에 추가합니다.
+	        var date = "${item.date.substring(0, 5)}";
+	        var stadium = "${item.stadium}";
+	        scheduleData.push({ date: date, stadium: stadium });
+	    </c:forEach>
       
       let currentDay = new Date(firstDayOfMonth);
       currentDay.setDate(1 - firstDayOfMonth.getDay());
@@ -232,11 +258,6 @@ button {
         for (let i = 0; i < 7; i++) {
           const dayCell = document.createElement("td");
           dayCell.textContent = currentDay.getDate();
-
-       	  // 날짜를 클릭하면 모달을 표시하기 위한 이벤트 리스너 추가
-          dayCell.addEventListener("click", function () {
-        	  openModal('myModal'); // 복제된 날짜 객체를 전달
-          });
        
           if (currentDay.getMonth() !== currentDate.getMonth()) {
             dayCell.classList.add("other-month"); // 현재 월의 날짜인지 여부를 체크
@@ -246,36 +267,44 @@ button {
               dayCell.classList.add("highlight");
           }
 
-          if (isGameToday(currentDay, allDatesOfMonth, gameDates)) {
-        	  
-        	  //console.log("${schedule[0].date}");
-        	  //console.log(getFormattedDate(currentDay)); // 경기 있는 날의 형식 바꾼 형태 - 하나하나 값으로 나와
-        	  
-        	  // console.log(currentDay); // 경기 있는 날
-        	  // console.log(allDatesOfMonth); // 현재 보이는 달의 모든 날
-        	  // console.log(gameDates); // 경기 있는 날의 형식 바꾼 형태 - 배열로 
-
-        	  
-        	 // console.log("${schedule[0].date}");
-        	  // console.log("${schedule[0].date.substring(0, 5)}" + "********");
-        	  for(let i = 0; i < "${schedule.size()}"; i++){
-        		  
-        		  console.log(i);
-        		  //console.log(gameDates);
-        		 /*  if("${schedule[i].date.substring(0, 5)" == gameDates}){
-        			  console.log("${schedule[i].stadium}")
-        		  } */
-        	  }
-        	  
-        	    // dayCell.classList.add("highlight2");
-        	}
-
-          // 일요일은 빨간색, 토요일은 파란색
+       	  // 일요일은 빨간색, 토요일은 파란색
           if (i === 0) {
             dayCell.classList.add("sunday");
           } else if (i === 6) {
             dayCell.classList.add("saturday");
           }
+       
+          if (isGameToday(currentDay, allDatesOfMonth, gameDates)) {
+
+        	  const gameimg = document.createElement("div");
+        	  gameimg.classList.add("gameimg"); // div의 클래스명을 지정해줘
+        	  dayCell.appendChild(gameimg);
+        	  
+        	  const firstChildDiv = document.createElement("div");
+        	  firstChildDiv.textContent = "팀1";
+        	  firstChildDiv.classList.add("gameteam1");
+        	  gameimg.appendChild(firstChildDiv);
+
+        	  const secondChildDiv = document.createElement("div");
+        	  secondChildDiv.textContent = "팀2";
+        	  secondChildDiv.classList.add("gameteam2");
+        	  gameimg.appendChild(secondChildDiv);
+
+			  // console.log(scheduleData);scheduleData[1].stadium
+			  // console.log(scheduleData[1].stadium); // {date: '10.20', stadium: '서울장충체육관'}
+        	  // console.log(gameDates); // 경기 있는 날의 형식 바꾼 형태 - 배열로 
+        	  //const GameCell = document.createElement(".gameimg"); // 경기 있는날 셀에다가 태그 추가        	  
+   			  if (scheduleData[i].stadium === "대전충무체육관") {
+       			  dayCell.classList.add("highlight2");
+       		  } else {
+       			  dayCell.classList.add("highlight3");
+       		  }
+        	  
+   			  // 경기가 있는 날! 모달을 표시하기 위한 이벤트 리스너 추가
+   	          dayCell.addEventListener("click", function () {
+   	        	  openModal('myModal'); // 복제된 날짜 객체를 전달
+   	          });
+        	}
 
           weekRow.appendChild(dayCell);
           currentDay.setDate(currentDay.getDate() + 1);
@@ -321,7 +350,7 @@ button {
         return Date;
     }
     
-    function isGameToday(currentDate, allDatesOfMonth, gameDates) {
+    function isGameToday(currentDate, allDatesOfMonth, gameDates) { // 경기 있는 날
         const formattedCurrentDate = getFormattedDate(currentDate);
         return gameDates.includes(formattedCurrentDate);
     }
