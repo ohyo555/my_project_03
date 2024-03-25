@@ -65,8 +65,6 @@ public class UsrCrawlingController2 {
 			    System.out.println("Image URL: " + styleAttribute);
 			}
 			
-			
-
 			// 결과를 파일에 저장
 			//saveToFile(elements, "test.txt");
 
