@@ -24,6 +24,10 @@ table {
 	margin-top: 20px;
 }
 
+tbody tr {
+	height: 100px;
+}
+
 th {
 	border: 1px solid #dddddd;
 	text-align: center;
@@ -37,37 +41,22 @@ td {
 	border: 1px solid #dddddd;
 	width: calc(800px/ 7);
 	text-align: center;
-	font-size: 13px; /* 날짜 부분의 글꼴 크기 조절 */
+	font-size: 13px;
 	vertical-align: top; /* 셀 안의 텍스트를 상단에 정렬합니다. */
 	padding: 5px;
-	padding-bottom: 55px;
+	padding-bottom: 10px;
 }
-
-.gameimg {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	height: 60px;
-	color: black;
-	padding: 0 12px;
-	margin-top: 5px;
-	font-size: 8px;
-	color: white;
-}
-
-.gameimg img {
-	background-color: rgb(255,255,255,0.5);
-	border-radius: 30%;
-	width: 35px;
-	height: 35px;
-}
-
 
 button {
 	margin: 10px;
 	padding: 5px 10px;
 	font-size: 16px;
 	cursor: pointer;
+}
+
+.scoreresult {
+	letter-spacing: 10px; /* 글자 간격 조절 */
+	padding-left: 8px;
 }
 
 .sunday {
@@ -106,6 +95,44 @@ button {
 .highlight3 {
 	background-color: black;
 	color: white;
+}
+
+.game {
+	width: auto;
+	height: 100px;
+	background-color: rgba(251, 243, 238);
+	margin-top: 10px;
+	padding: 10px;
+	display: felx;
+}
+
+.info {
+	width: auto;
+	height: 100px;
+	background-color: rgba(251, 243, 238);
+	margin-top: 10px;
+	padding: 10px;
+	display: felx;
+}
+
+.gameimg {
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	height: 60px;
+	color: black;
+	padding: 0 3px;
+	margin-top: 5px;
+	font-size: 8px;
+	color: white;
+}
+
+.gameimg img {
+	background-color: rgb(255, 255, 255, 0.5);
+	border-radius: 30%;
+	width: 35px;
+	height: 35px;
+	margin-top: 3px;
 }
 
 .myModal {
@@ -152,24 +179,6 @@ button {
 	right: 20px;
 	cursor: pointer; /* 추가: 마우스 포인터 모양 변경 */
 }
-
-.game {
-	width: auto;
-	height: 100px;
-	background-color: rgba(251, 243, 238);
-	margin-top: 10px;
-	padding: 10px;
-	display: felx;
-}
-
-.info {
-	width: auto;
-	height: 100px;
-	background-color: rgba(251, 243, 238);
-	margin-top: 10px;
-	padding: 10px;
-	display: felx;
-}
 </style>
 </head>
 <body>
@@ -180,8 +189,8 @@ button {
 		<div id="modal-content">
 			<span class="modal_close_btn" onclick="closeModal()">&times;</span>
 			<div class="game">
-				<div>team1</div>
-				<div>team2</div>
+				<div id="hometeam"></div>
+				<div id="otherteam"></div>
 			</div>
 			<div class="info">
 				<a
@@ -236,7 +245,7 @@ button {
       calendarBody.innerHTML = "";
 
       const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-      const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+	  const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
   	
    	  // 경기날짜 담은 배열
       const gameDates = [ 
@@ -249,7 +258,6 @@ button {
       // scheduleData 스케줄과 경기장을 담은 배열
       var scheduleData = [];
 	    <c:forEach var="item" items="${schedule}">
-	        // JSP 변수를 JavaScript 배열에 추가합니다.
 	        var date = "${item.date.substring(0, 5)}";
 	        var stadium = "${item.stadium}";
 	        var game = "${item.game}";
@@ -263,7 +271,8 @@ button {
       
       while (currentDay <= lastDayOfMonth) {
         const weekRow = document.createElement("tr");
-     	// 현재 월의 모든 날짜를 가져옵니다.
+        
+        /* 현재 월의 모든 날짜 */ 
         const allDatesOfMonth = getAllDatesOfMonth(currentDate.getMonth(), currentDate.getFullYear());
      
         for (let i = 0; i < 7; i++) {
@@ -278,61 +287,78 @@ button {
               dayCell.classList.add("highlight");
           }
 
-       	  // 일요일은 빨간색, 토요일은 파란색
+          if (isGameToday(currentDay, allDatesOfMonth, gameDates)) {
+
+        	 for(let i = 0; i < scheduleData.length; i++){
+        		 
+        		 const formatcurrentDay = getFormattedDate(currentDay);
+        		 if(formatcurrentDay == scheduleData[i].date){
+        		  const gameimg = document.createElement("div");
+               	  gameimg.classList.add("gameimg"); // div의 클래스명을 지정해줘
+               	  dayCell.appendChild(gameimg);
+
+               	  // scheduleData[i].game에서 팀 이름 추출
+               	  const gameInfo = scheduleData[i].game.split(" ");
+               	  const team1 = gameInfo[0];
+               	  const team2 = gameInfo[gameInfo.length - 1];
+               	  const score = gameInfo[1] + "   :   " + gameInfo[3];
+				  
+               	  if (scheduleData[i].stadium === "대전충무체육관") {
+              			  dayCell.classList.add("highlight2");
+              		  } else {
+              			  dayCell.classList.add("highlight3");
+              		  }
+               	  
+               	  // 홈 팀
+               	  const firstChildDiv = document.createElement("div");
+               	  firstChildDiv.textContent = team1;
+               	  firstChildDiv.classList.add("gameteam1");
+               	  gameimg.appendChild(firstChildDiv);
+               	  
+              	  const team1Image = document.createElement("img");
+              	  team1Image.src = GameTeamInfo(team1); // 팀 1 이미지의 경로를 지정해줘
+               	  team1Image.alt = team1; // 대체 텍스트로 팀 1 이름을 설정해줘
+               	  firstChildDiv.appendChild(team1Image);
+              	    
+               	  // VS
+               	  const vs = document.createElement("div");
+               	  vs.textContent = "VS";
+               	  vs.classList.add("vs");
+               	  gameimg.appendChild(vs);
+               	  
+               	  // 원정 팀
+               	  const secondChildDiv = document.createElement("div");
+               	  secondChildDiv.textContent = team2;
+               	  secondChildDiv.classList.add("gameteam2");
+               	  gameimg.appendChild(secondChildDiv);
+
+               	  const team2Image = document.createElement("img");
+               	  team2Image.src = GameTeamInfo(team2); // 팀 2 이미지의 경로를 지정해줘
+               	  team2Image.alt = team2; // 대체 텍스트로 팀 2 이름을 설정해줘
+               	  secondChildDiv.appendChild(team2Image);
+               	  
+               	  // score
+               	  const scoreresult = document.createElement("div");
+               	  scoreresult.textContent = score;
+               	  scoreresult.classList.add("scoreresult");
+               	  dayCell.appendChild(scoreresult);
+            	 }
+
+        	 }
+        	 
+        	// 경기가 있는 날! 모달을 표시하기 위한 이벤트 리스너 추가
+	          dayCell.addEventListener("click", function () {
+	        	  openModal('myModal'); // 복제된 날짜 객체를 전달
+	          });
+        	}
+
+       // 일요일은 빨간색, 토요일은 파란색
           if (i === 0) {
             dayCell.classList.add("sunday");
           } else if (i === 6) {
             dayCell.classList.add("saturday");
           }
        
-          if (isGameToday(currentDay, allDatesOfMonth, gameDates)) {
-
-        	  const gameimg = document.createElement("div");
-        	  gameimg.classList.add("gameimg"); // div의 클래스명을 지정해줘
-        	  dayCell.appendChild(gameimg);
-        	  
-        	  // scheduleData[i].game에서 팀 이름 추출
-        	  const gameInfo = scheduleData[i].game.split(" ");
-        	  const team1 = gameInfo[0];
-        	  const team2 = gameInfo[gameInfo.length - 1];
-        	  
-        	  // 홈 팀
-        	  const firstChildDiv = document.createElement("div");
-        	  firstChildDiv.textContent = team1;
-        	  firstChildDiv.classList.add("gameteam1");
-        	  gameimg.appendChild(firstChildDiv);
-        	  
-        	  GameTeamInfo(team1);
-  
-       		  const team1Image = document.createElement("img");
-       		  team1Image.src = GameTeamInfo(team1); // 팀 1 이미지의 경로를 지정해줘
-        	  team1Image.alt = team1; // 대체 텍스트로 팀 1 이름을 설정해줘
-        	  firstChildDiv.appendChild(team1Image);
-       	    
-        	  // 원정 팀
-        	  const secondChildDiv = document.createElement("div");
-        	  secondChildDiv.textContent = team2;
-        	  secondChildDiv.classList.add("gameteam2");
-        	  gameimg.appendChild(secondChildDiv);
-
-        	  // 팀 2 이미지 추가
-        	  const team2Image = document.createElement("img");
-        	  team2Image.src = GameTeamInfo(team2); // 팀 2 이미지의 경로를 지정해줘
-        	  team2Image.alt = team2; // 대체 텍스트로 팀 2 이름을 설정해줘
-        	  secondChildDiv.appendChild(team2Image);
-        	    
-   			  if (scheduleData[i].stadium === "대전충무체육관") {
-       			  dayCell.classList.add("highlight2");
-       		  } else {
-       			  dayCell.classList.add("highlight3");
-       		  }
-        	  
-   			  // 경기가 있는 날! 모달을 표시하기 위한 이벤트 리스너 추가
-   	          dayCell.addEventListener("click", function () {
-   	        	  openModal('myModal'); // 복제된 날짜 객체를 전달
-   	          });
-        	}
-
           weekRow.appendChild(dayCell);
           currentDay.setDate(currentDay.getDate() + 1);
         }
@@ -383,16 +409,8 @@ button {
     }
     
     function GameTeamInfo(team) {
-    	// Team 정보를 담은 배열(이미지)
     	
-   /*  	if (team1 != null || team2 != null){
-    		if(team1 != null){
-    			team = team1;
-    		} else {
-    			team = team2;
-    		}
-    	}
-    	 */
+    	// Team 정보를 담은 배열(이미지)
        	var TeamData = [];
 	     	<c:forEach var="item" items="${teamlist}">
 	        	var tname = "${item.tname}";
@@ -405,9 +423,6 @@ button {
      			return TeamData[i].timg
      		}
         } 
-		    /* console.log(TeamData[0].tname);
-		    console.log(TeamData[0].timg);
-		    console.log(TeamData[i].tname); */
     }
     
 
@@ -458,18 +473,17 @@ button {
     
     // Element 에 style 한번에 오브젝트로 설정하는 함수 추가
     Element.prototype.setStyle = function(styles) {
-        for (var k in styles) this.style[k] = styles[k];
-        return this;
-    };
+	    for (var k in styles) this.style[k] = styles[k];
+	    return this;
+	};
 
       function closeModal() {
         const modal = document.getElementById("myModal");
         modal.style.display = "none";
       }
-
+      
     // 최초 로딩 시 달력 표시
     displayCalendar();
-    // highlightDates();
   </script>
 
 </body>
