@@ -37,5 +37,11 @@ public interface GameRepository {
 			FROM `schedule`
 			""")
 	public List<String> getGamedate();
+
+	@Select("""
+			SELECT *
+			FROM team
+			""")
+	public List<Game> getTeamlist();
 	
 }

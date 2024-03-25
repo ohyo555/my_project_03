@@ -35,7 +35,7 @@ th {
 
 td {
 	border: 1px solid #dddddd;
-	width: calc(800px / 7);
+	width: calc(800px/ 7);
 	text-align: center;
 	font-size: 13px; /* 날짜 부분의 글꼴 크기 조절 */
 	vertical-align: top; /* 셀 안의 텍스트를 상단에 정렬합니다. */
@@ -47,12 +47,21 @@ td {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	height: 40px;
-	background-color: white;
+	height: 60px;
 	color: black;
 	padding: 0 12px;
 	margin-top: 5px;
+	font-size: 8px;
+	color: white;
 }
+
+.gameimg img {
+	background-color: rgb(255,255,255,0.5);
+	border-radius: 30%;
+	width: 35px;
+	height: 35px;
+}
+
 
 button {
 	margin: 10px;
@@ -155,7 +164,7 @@ button {
 
 .info {
 	width: auto;
-	height: 50px;
+	height: 100px;
 	background-color: rgba(251, 243, 238);
 	margin-top: 10px;
 	padding: 10px;
@@ -219,6 +228,7 @@ button {
 	    return datesArray;
 	}
    
+  	// 달력 보여주기!!!!!!!!!!!!!!!!!!!!!!!!!
     function displayCalendar(date, schedules) {
       const currentDate = date || new Date(); // currentDate 선언
       const calendarBody = document.querySelector("#calendarBody");
@@ -242,9 +252,10 @@ button {
 	        // JSP 변수를 JavaScript 배열에 추가합니다.
 	        var date = "${item.date.substring(0, 5)}";
 	        var stadium = "${item.stadium}";
-	        scheduleData.push({ date: date, stadium: stadium });
+	        var game = "${item.game}";
+	        scheduleData.push({ date: date, stadium: stadium, game: game});
 	    </c:forEach>
-      
+    
       let currentDay = new Date(firstDayOfMonth);
       currentDay.setDate(1 - firstDayOfMonth.getDay());
 
@@ -280,20 +291,36 @@ button {
         	  gameimg.classList.add("gameimg"); // div의 클래스명을 지정해줘
         	  dayCell.appendChild(gameimg);
         	  
+        	  // scheduleData[i].game에서 팀 이름 추출
+        	  const gameInfo = scheduleData[i].game.split(" ");
+        	  const team1 = gameInfo[0];
+        	  const team2 = gameInfo[gameInfo.length - 1];
+        	  
+        	  // 홈 팀
         	  const firstChildDiv = document.createElement("div");
-        	  firstChildDiv.textContent = "팀1";
+        	  firstChildDiv.textContent = team1;
         	  firstChildDiv.classList.add("gameteam1");
         	  gameimg.appendChild(firstChildDiv);
-
+        	  
+        	  GameTeamInfo(team1);
+  
+       		  const team1Image = document.createElement("img");
+       		  team1Image.src = GameTeamInfo(team1); // 팀 1 이미지의 경로를 지정해줘
+        	  team1Image.alt = team1; // 대체 텍스트로 팀 1 이름을 설정해줘
+        	  firstChildDiv.appendChild(team1Image);
+       	    
+        	  // 원정 팀
         	  const secondChildDiv = document.createElement("div");
-        	  secondChildDiv.textContent = "팀2";
+        	  secondChildDiv.textContent = team2;
         	  secondChildDiv.classList.add("gameteam2");
         	  gameimg.appendChild(secondChildDiv);
 
-			  // console.log(scheduleData);scheduleData[1].stadium
-			  // console.log(scheduleData[1].stadium); // {date: '10.20', stadium: '서울장충체육관'}
-        	  // console.log(gameDates); // 경기 있는 날의 형식 바꾼 형태 - 배열로 
-        	  //const GameCell = document.createElement(".gameimg"); // 경기 있는날 셀에다가 태그 추가        	  
+        	  // 팀 2 이미지 추가
+        	  const team2Image = document.createElement("img");
+        	  team2Image.src = GameTeamInfo(team2); // 팀 2 이미지의 경로를 지정해줘
+        	  team2Image.alt = team2; // 대체 텍스트로 팀 2 이름을 설정해줘
+        	  secondChildDiv.appendChild(team2Image);
+        	    
    			  if (scheduleData[i].stadium === "대전충무체육관") {
        			  dayCell.classList.add("highlight2");
        		  } else {
@@ -353,6 +380,34 @@ button {
     function isGameToday(currentDate, allDatesOfMonth, gameDates) { // 경기 있는 날
         const formattedCurrentDate = getFormattedDate(currentDate);
         return gameDates.includes(formattedCurrentDate);
+    }
+    
+    function GameTeamInfo(team) {
+    	// Team 정보를 담은 배열(이미지)
+    	
+   /*  	if (team1 != null || team2 != null){
+    		if(team1 != null){
+    			team = team1;
+    		} else {
+    			team = team2;
+    		}
+    	}
+    	 */
+       	var TeamData = [];
+	     	<c:forEach var="item" items="${teamlist}">
+	        	var tname = "${item.tname}";
+	        	var timg = "${item.timg}";
+	        	TeamData.push({tname: tname, timg: timg});
+	     	</c:forEach>
+
+     	for (var i = 0; i < TeamData.length; i++) {
+     		if(team == TeamData[i].tname) {
+     			return TeamData[i].timg
+     		}
+        } 
+		    /* console.log(TeamData[0].tname);
+		    console.log(TeamData[0].timg);
+		    console.log(TeamData[i].tname); */
     }
     
 

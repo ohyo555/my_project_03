@@ -40,4 +40,9 @@ public class GameService {
 		return gamedate;
 	}
 
+	public List<Game> getTeamlist() {
+		List<Game> Teamlist = gameRepository.getTeamlist();
+		return Teamlist;
+	}
+
 }

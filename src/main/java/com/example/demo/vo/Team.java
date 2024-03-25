@@ -12,6 +12,7 @@ public class Team {
 	private String tname;
 	private String stadium;
 	private String address;
+	private String timg;
 	private String latitude;
 	private String longitude;
 	private String regDate;

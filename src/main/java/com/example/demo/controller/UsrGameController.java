@@ -26,9 +26,12 @@ public class UsrGameController {
 
 		List<String> gamedate = gameService.getGamedate();
 		List<Schedule> schedule = gameService.getGamelist();
-		
+		List<Game> teamlist = gameService.getTeamlist();
+		//System.out.println("*******************************************");
+		//System.out.println(teamlist.get(0) + "*******************************************");
 		model.addAttribute("gamedate", gamedate);
 		model.addAttribute("schedule", schedule);
+		model.addAttribute("teamlist", teamlist);
 		
 		return "/usr/game/calendar";
 	}
