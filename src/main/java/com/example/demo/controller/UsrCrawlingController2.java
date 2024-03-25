@@ -51,13 +51,22 @@ public class UsrCrawlingController2 {
 			
 			driver.get(url);
 
-			List<WebElement> elements = driver.findElements(By.cssSelector("#_newsList > ul > li"));
+			List<WebElement> Elements = driver.findElements(By.cssSelector("#_newsList > ul > li"));
+			List<WebElement> imageElements = driver.findElements(By.cssSelector("#_newsList > ul > li > a > img"));
 			
-			for (WebElement element : elements) {
-	            String title = element.getText();
+			for (WebElement Element : Elements) {
+	            String title = Element.getText();
 	            System.out.println(title);
 	        }
+
+			for (WebElement imageElement : imageElements) {
+			    String styleAttribute = imageElement.getAttribute("src");
+			    // 스타일 속성에서 URL 추출
+			    System.out.println("Image URL: " + styleAttribute);
+			}
 			
+			
+
 			// 결과를 파일에 저장
 			//saveToFile(elements, "test.txt");
 
@@ -84,4 +93,5 @@ public class UsrCrawlingController2 {
 				}
 			}
 		}
+		
 }
