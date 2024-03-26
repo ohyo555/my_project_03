@@ -93,26 +93,30 @@ button {
 }
 
 .highlight3 {
-	background-color: black;
+	background-color: rgb(15, 1, 0);
 	color: white;
 }
 
 .game {
 	width: auto;
-	height: 100px;
-	background-color: rgba(251, 243, 238);
+	height: 30px;
 	margin-top: 10px;
 	padding: 10px;
-	display: felx;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	font-size: 0.8rem;
 }
 
 .info {
 	width: auto;
 	height: 100px;
 	background-color: rgba(251, 243, 238);
-	margin-top: 10px;
+	margin-top: 20px;
 	padding: 10px;
-	display: felx;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
 }
 
 .gameimg {
@@ -141,12 +145,22 @@ button {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%); /* 요소를 부모 요소의 정중앙으로 이동 */
-	width: 350px;
+	width: 300px;
 	padding: 30px;
 	border: 1px solid #888;
 	border-radius: 10px;
 	font-size: 1rem;
 	background-color: white;
+}
+
+#hometeamscore {
+	text-align: center;
+	margin-top: 3px;
+}
+
+#otherteamscore {
+	text-align: center;
+	margin-top: 3px;
 }
 
 .modal-content {
@@ -189,15 +203,19 @@ button {
 		<div id="modal-content">
 			<span class="modal_close_btn" onclick="closeModal()">&times;</span>
 			<div class="game">
-				<div id="hometeam"></div>
-				<div id="otherteam"></div>
+				<div>
+					<div id="hometeam" class = "text-sm font-semibold"></div>
+					<div id="hometeamscore" class = "font-semibold"></div>
+				</div>
+				<div class = "text-sm font-semibold">VS</div>
+				<div>
+					<div id="otherteam" class = "text-sm font-semibold"></div>
+					<div id="otherteamscore" class = "font-semibold"></div>
+				</div>
 			</div>
 			<div class="info">
-				<a
-					href="https://kovo.co.kr/redsparks/game/v-league/6?season=020&gPart=201&gender=%EC%97%AC%EC%9E%90%EB%B6%80&first=%EC%9D%BC%EC%A0%95+%EB%B0%8F+%EA%B2%B0%EA%B3%BC"
-					target="_blank">경기결과&nbsp;&nbsp;&nbsp;</a> <a
-					href="https://kovo.co.kr/redsparks/media/media-video?third=%EA%B2%BD%EA%B8%B0%EB%B3%84&date=2023-10-17&video=35681"
-					target="_blank">하이라이트</a>
+				<a href="" target="_blank" id="gameresult">경기결과&nbsp;&nbsp;&nbsp;</a> 
+				<a href="" target="_blank" id="gamehighlight">하이라이트</a>
 			</div>
 			<!-- 필요에 따라 모달에 더 많은 내용을 추가하세요 -->
 		</div>
@@ -225,9 +243,9 @@ button {
 	<a href="../game/gamelist">list</a>
 
 	<script>
-
+	
   	let currentDate = new Date(); // 블록 범위 변수를 선언하는 데 사용되는 키워드
-   
+    
     function getAllDatesOfMonth(month, year) {
 	    const numDays = new Date(year, month + 1, 0).getDate();
 	    const datesArray = [];
@@ -255,13 +273,15 @@ button {
           </c:forEach>
       ];
       
-      // scheduleData 스케줄과 경기장을 담은 배열
+      // scheduleData 스케줄과 경기장을 담은 배열 + 경기번호
       var scheduleData = [];
 	    <c:forEach var="item" items="${schedule}">
 	        var date = "${item.date.substring(0, 5)}";
 	        var stadium = "${item.stadium}";
 	        var game = "${item.game}";
-	        scheduleData.push({ date: date, stadium: stadium, game: game});
+	        var num = "${item.num}";
+	        var round = "${item.round}";
+	        scheduleData.push({ date: date, stadium: stadium, game: game, num: num, round: round});
 	    </c:forEach>
     
       let currentDay = new Date(firstDayOfMonth);
@@ -290,7 +310,7 @@ button {
           if (isGameToday(currentDay, allDatesOfMonth, gameDates)) {
 
         	 for(let i = 0; i < scheduleData.length; i++){
-        		 
+        		 // const modalContent = document.getElementById("modal-content");
         		 const formatcurrentDay = getFormattedDate(currentDay);
         		 if(formatcurrentDay == scheduleData[i].date){
         		  const gameimg = document.createElement("div");
@@ -302,7 +322,9 @@ button {
                	  const team1 = gameInfo[0];
                	  const team2 = gameInfo[gameInfo.length - 1];
                	  const score = gameInfo[1] + "   :   " + gameInfo[3];
-				  
+               	  const num = scheduleData[i].num;
+               	  const round = scheduleData[i].round.substring(0,4);
+               	 
                	  if (scheduleData[i].stadium === "대전충무체육관") {
               			  dayCell.classList.add("highlight2");
               		  } else {
@@ -314,7 +336,7 @@ button {
                	  firstChildDiv.textContent = team1;
                	  firstChildDiv.classList.add("gameteam1");
                	  gameimg.appendChild(firstChildDiv);
-               	  
+               	
               	  const team1Image = document.createElement("img");
               	  team1Image.src = GameTeamInfo(team1); // 팀 1 이미지의 경로를 지정해줘
                	  team1Image.alt = team1; // 대체 텍스트로 팀 1 이름을 설정해줘
@@ -342,14 +364,20 @@ button {
                	  scoreresult.textContent = score;
                	  scoreresult.classList.add("scoreresult");
                	  dayCell.appendChild(scoreresult);
+
+               	  dayCell.addEventListener("click", function () {
+  	        	  	openModal('myModal'); // 복제된 날짜 객체를 전달
+  	        	  	setmodal(team1, team2, score, num, round, formatcurrentDay);
+  	        	  	console.log(team1 + team2 + num + formatcurrentDay)
+	  	          });
             	 }
 
         	 }
         	 
         	// 경기가 있는 날! 모달을 표시하기 위한 이벤트 리스너 추가
-	          dayCell.addEventListener("click", function () {
+	          /* dayCell.addEventListener("click", function () {
 	        	  openModal('myModal'); // 복제된 날짜 객체를 전달
-	          });
+	          }); */
         	}
 
        // 일요일은 빨간색, 토요일은 파란색
@@ -417,7 +445,7 @@ button {
 	        	var timg = "${item.timg}";
 	        	TeamData.push({tname: tname, timg: timg});
 	     	</c:forEach>
-
+  
      	for (var i = 0; i < TeamData.length; i++) {
      		if(team == TeamData[i].tname) {
      			return TeamData[i].timg
@@ -482,6 +510,50 @@ button {
         modal.style.display = "none";
       }
       
+      function setmodal(team1, team2, score, num, round, formatcurrentDay){
+    	 const hometeam = document.getElementById("hometeam");
+    	 const otherteam = document.getElementById("otherteam");
+    	 const hometeamscore = document.getElementById("hometeamscore");
+    	 const otherteamscore = document.getElementById("otherteamscore");
+    	 const gameresult = document.getElementById("gameresult");
+    	 
+    	 let gameresultLink = "https://kovo.co.kr/redsparks/game/v-league/" + num + "?season=020&gPart=201&gender=%EC%97%AC%EC%9E%90%EB%B6%80&first=%EC%9D%BC%EC%A0%95+%EB%B0%8F+%EA%B2%B0%EA%B3%BC";
+
+    	 if(round != "V-리그"){
+    		 gameresultLink = "https://kovo.co.kr/redsparks/game/v-league/" + num + "?season=020&gPart=202&gender=%EC%97%AC%EC%9E%90%EB%B6%80&first=%EC%9D%BC%EC%A0%95+%EB%B0%8F+%EA%B2%B0%EA%B3%BC";
+    	 }
+
+    	 hometeam.textContent = team1;
+    	 otherteam.textContent = team2;
+    	 gameresult.href = gameresultLink;
+    	 
+    	 const modalscore = score.split("   :   ");
+
+    	 if(modalscore[0] == 3){
+    		 hometeamscore.textContent = "승"
+        	 hometeamscore.style.color = "red";
+        	 otherteamscore.textContent = "패"
+        	 otherteamscore.style.color = "black";
+    		 const winIcon = document.createElement("i");
+    	     winIcon.classList.add("fas", "fa-trophy"); 
+    	     winIcon.style.color = "gold";
+    	     winIcon.style.paddingLeft = "3px";
+    	     hometeamscore.appendChild(winIcon); 
+    	     
+    	 } else if(modalscore[1] == 3){
+    		 hometeamscore.textContent = "패"
+    		 hometeamscore.style.color = "black";
+        	 otherteamscore.textContent = "승"
+        	 otherteamscore.style.color = "red";
+        	 const winIcon = document.createElement("i");
+             winIcon.classList.add("fas", "fa-trophy");
+             winIcon.style.color = "gold";
+             winIcon.style.paddingLeft = "3px";
+             otherteamscore.appendChild(winIcon);
+    	 } 
+    	 // if()
+    	 
+      }
     // 최초 로딩 시 달력 표시
     displayCalendar();
   </script>

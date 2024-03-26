@@ -401,22 +401,7 @@
 					 	        alert('Please select a photo to upload.');
 					 	    }
 					 	}
-					 	
-					 /* 	function previewFile() {
-					 	    var fileInput = document.getElementById('photoInput');
-					 	    var profileImage = document.getElementById('memberimg');
-					 	   console.log(fileInput);
-					 	    console.log(profileImage);
-					 	    var file = fileInput.files[0];
-					 	    if (file) {
-					 	        var reader = new FileReader();
-					 	        reader.onload = function(e) {
-					 	            profileImage.style.backgroundImage = 'url(' + e.target.result + ')';
-					 	        };
-					 	        reader.readAsDataURL(file);
-					 	    }
-					 	} */
-					 	
+
 			            function modal(id) {
 			                var zIndex = 9999;
 			                var modal = document.getElementById(id); /* id는 my_modal */
@@ -585,11 +570,7 @@
 			                }
 			                window.location.reload();
 			            }
-			            
-			           /*  function modify() {
-			            	window.location.href = '../member/doModify';
-			            } */
-			            
+
 			            // 뒤로가기
 			            function goBack() {
 			                // 브라우저 히스토리에서 뒤로가기를 누를 때 이전 모달 내용을 불러와서 설정
