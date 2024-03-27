@@ -110,13 +110,30 @@ button {
 
 .info {
 	width: auto;
-	height: 100px;
-	background-color: rgba(251, 243, 238);
+	height: 50px;
 	margin-top: 20px;
-	padding: 10px;
 	display: flex;
 	align-items: center;
-	justify-content: space-around;
+	justify-content: space-between;
+	padding: 0 15px;
+}
+
+.info a {
+	border: 1.5px solid rgba(102, 100, 100);
+	border-radius: 10%;
+	padding: 0 10px;
+	font-size: 13px;
+	display: inline-block; /* inline 요소를 block 요소로 변경 */
+    text-align: center; /* 가운데 정렬 */
+}
+
+#gameresult {
+	padding-right: 3px;
+}
+
+.info a:hover {
+	background-color: rgba(125, 10, 0);
+	color: white;
 }
 
 .gameimg {
@@ -150,7 +167,7 @@ button {
 	border: 1px solid #888;
 	border-radius: 10px;
 	font-size: 1rem;
-	background-color: white;
+	background-img: "";
 }
 
 #hometeamscore {
@@ -312,6 +329,7 @@ button {
         	 for(let i = 0; i < scheduleData.length; i++){
         		 // const modalContent = document.getElementById("modal-content");
         		 const formatcurrentDay = getFormattedDate(currentDay);
+        		 const formatcurrentDayYear = getFormattedDateYear(currentDay);
         		 if(formatcurrentDay == scheduleData[i].date){
         		  const gameimg = document.createElement("div");
                	  gameimg.classList.add("gameimg"); // div의 클래스명을 지정해줘
@@ -367,17 +385,12 @@ button {
 
                	  dayCell.addEventListener("click", function () {
   	        	  	openModal('myModal'); // 복제된 날짜 객체를 전달
-  	        	  	setmodal(team1, team2, score, num, round, formatcurrentDay);
-  	        	  	console.log(team1 + team2 + num + formatcurrentDay)
+  	        	  	setmodal(team1, team2, score, num, round, formatcurrentDayYear);
 	  	          });
             	 }
 
         	 }
-        	 
-        	// 경기가 있는 날! 모달을 표시하기 위한 이벤트 리스너 추가
-	          /* dayCell.addEventListener("click", function () {
-	        	  openModal('myModal'); // 복제된 날짜 객체를 전달
-	          }); */
+        	
         	}
 
        // 일요일은 빨간색, 토요일은 파란색
@@ -428,6 +441,15 @@ button {
         const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Extract month with leading zero if necessary
         const day = date.getDate().toString().padStart(2, '0'); // Extract day with leading zero if necessary
         var Date = month + "." + day;
+        return Date;
+    }
+    
+	function getFormattedDateYear(date) { // 날짜 형식 바꿔주는거(+년도 포함)
+    	
+        const year = date.getFullYear().toString();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        var Date = year + "-" + month + "-" + day;
         return Date;
     }
     
@@ -510,25 +532,32 @@ button {
         modal.style.display = "none";
       }
       
-      function setmodal(team1, team2, score, num, round, formatcurrentDay){
+      function setmodal(team1, team2, score, num, round, formatcurrentDayYear){
     	 const hometeam = document.getElementById("hometeam");
     	 const otherteam = document.getElementById("otherteam");
     	 const hometeamscore = document.getElementById("hometeamscore");
     	 const otherteamscore = document.getElementById("otherteamscore");
     	 const gameresult = document.getElementById("gameresult");
+    	 const gamehighlight = document.getElementById("gamehighlight");
     	 
     	 let gameresultLink = "https://kovo.co.kr/redsparks/game/v-league/" + num + "?season=020&gPart=201&gender=%EC%97%AC%EC%9E%90%EB%B6%80&first=%EC%9D%BC%EC%A0%95+%EB%B0%8F+%EA%B2%B0%EA%B3%BC";
 
+    	 // 경기결과 링크
     	 if(round != "V-리그"){
     		 gameresultLink = "https://kovo.co.kr/redsparks/game/v-league/" + num + "?season=020&gPart=202&gender=%EC%97%AC%EC%9E%90%EB%B6%80&first=%EC%9D%BC%EC%A0%95+%EB%B0%8F+%EA%B2%B0%EA%B3%BC";
     	 }
+    	 
+    	 // 하이라이트 영상 링크
+    	 let gamehighlightLink = "https://kovo.co.kr/redsparks/media/media-video?third=%EA%B2%BD%EA%B8%B0%EB%B3%84&date=" + formatcurrentDayYear;
 
     	 hometeam.textContent = team1;
     	 otherteam.textContent = team2;
     	 gameresult.href = gameresultLink;
+    	 gamehighlight.href = gamehighlightLink;
     	 
     	 const modalscore = score.split("   :   ");
 
+    	// 경기결과
     	 if(modalscore[0] == 3){
     		 hometeamscore.textContent = "승"
         	 hometeamscore.style.color = "red";
@@ -551,6 +580,7 @@ button {
              winIcon.style.paddingLeft = "3px";
              otherteamscore.appendChild(winIcon);
     	 } 
+    	
     	 // if()
     	 
       }
