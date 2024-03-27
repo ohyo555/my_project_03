@@ -167,7 +167,12 @@ button {
 	border: 1px solid #888;
 	border-radius: 10px;
 	font-size: 1rem;
-	background-img: "";
+	/* background-color: white; */
+	/* background-image: url('https://img.freepik.com/premium-vector/woman-volleyball-player-tosses-ball-to-score-goal-for-opposing-team-during-tournament-or-training_160308-6892.jpg'); */
+	background-image: url('https://github.com/ohyo555/my_project_03/assets/153146836/c4813f71-d123-43e4-a04a-c1f9fbd17e91');
+	/* background-image: url('https://images.unsplash.com/photo-1593115379577-a21ea97d6645?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8JUVCJUIwJUIwJUVBJUI1JUFDJUVBJUIzJUI1fGVufDB8fDB8fHww'); */
+	background-size: cover;
+    background-position: center;
 }
 
 #hometeamscore {
@@ -210,6 +215,19 @@ button {
 	right: 20px;
 	cursor: pointer; /* 추가: 마우스 포인터 모양 변경 */
 }
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-2px) rotate(5deg); }
+  50% { transform: translateX(2px) rotate(-5deg); }
+  75% { transform: translateX(-2px) rotate(5deg); }
+  100% { transform: translateX(0); }
+}
+
+.shake-effect {
+  animation: shake 0.5s ease-in-out infinite;
+}
+
 </style>
 </head>
 <body>
@@ -567,8 +585,9 @@ button {
     	     winIcon.classList.add("fas", "fa-trophy"); 
     	     winIcon.style.color = "gold";
     	     winIcon.style.paddingLeft = "3px";
-    	     hometeamscore.appendChild(winIcon); 
-    	     
+    	     hometeamscore.appendChild(winIcon);
+    	     otherteamscore.classList.remove("shake-effect");
+    	     hometeamscore.classList.add("shake-effect");   
     	 } else if(modalscore[1] == 3){
     		 hometeamscore.textContent = "패"
     		 hometeamscore.style.color = "black";
@@ -579,6 +598,8 @@ button {
              winIcon.style.color = "gold";
              winIcon.style.paddingLeft = "3px";
              otherteamscore.appendChild(winIcon);
+             hometeamscore.classList.remove("shake-effect"); 
+             otherteamscore.classList.add("shake-effect"); 
     	 } 
     	
     	 // if()
