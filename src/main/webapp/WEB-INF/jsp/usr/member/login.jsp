@@ -41,6 +41,10 @@
             display: inline-block;
         }
         
+        #forgot-link2 {
+            margin-left: 0px;
+        }
+        
        .center-text {
             text-align: center;
         }
@@ -70,41 +74,11 @@
     </form>
     <div class="center-text">
         <p class = "text-xs">아직 회원이 아니신가요?<a href="../member/join" id="signup-link" class = "text-xs font-bold">회원가입</a></p>
-        <p class = "text-xs mt-2">ID나 비밀번호를 잊어버리셨나요?<a href="#" id="forgot-link" class = "text-xs font-bold">아이디 찾기/비밀번호 찾기</a></p>
+        <p class = "text-xs mt-2">ID나 비밀번호를 잊어버리셨나요?<a href="${rq.findLoginIdUri }" id="forgot-link" class = "text-xs font-bold">아이디 찾기</a><a href="${rq.findLoginPwUri }" id="forgot-link2" class = "text-xs font-bold">/ 비밀번호 찾기</a></p>
     </div>
 </div>
 
 </body>
 </html>
-
-<!-- <section class="mt-8 text-xl px-4">
-	<div class="mx-auto">
-		<form action="../member/doLogin" method="POST">
-			<table class="login-box table-box-1" border="1">
-				<tbody>
-					<tr>
-						<th>아이디</th>
-						<td><input class="input input-bordered input-primary w-full max-w-xs" autocomplete="off" type="text" placeholder="아이디를 입력해주세요" name="loginId" /></td>
-					</tr>
-					<tr>
-						<th>비밀번호</th>
-						<td><input class="input input-bordered input-primary w-full max-w-xs" autocomplete="off" type="text" placeholder="비밀번호를 입력해주세요" name="loginPw" /></td>
-					</tr>
-					<tr>
-						<th></th>
-						<td><input class="btn btn-outline btn-info" type="submit" value="로그인" /></td>
-					</tr>
-				</tbody>
-			</table>
-		</form>
-		<div class="btns mt-5">
-			<button class="btn btn-outline" type="button" onclick="history.back();">뒤로가기</button>
-			<button class="btn btn-outline" type="button" onclick="../member/findId">아이디찾기</button>
-			<button class="btn btn-outline" type="button" onclick="../member/findPw">비밀번호찾기</button>
-		</div>
-	</div>
-</section> -->
-
-
 
 <%@ include file="../common/foot.jspf"%>

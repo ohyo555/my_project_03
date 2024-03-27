@@ -157,6 +157,22 @@ public class Rq {
 
 		return getEncodedCurrentUri();
 	}
+	
+	public String getFindLoginIdUri() {
+		return "../member/findId?afterFindLoginIdUri=" + getAfterFindLoginIdUri();
+	}
+
+	private String getAfterFindLoginIdUri() {
+		return getEncodedCurrentUri();
+	}
+
+	public String getFindLoginPwUri() {
+		return "../member/findPw?afterFindLoginPwUri=" + getAfterFindLoginPwUri();
+	}
+
+	private String getAfterFindLoginPwUri() {
+		return getEncodedCurrentUri();
+	}
 
 	
 }

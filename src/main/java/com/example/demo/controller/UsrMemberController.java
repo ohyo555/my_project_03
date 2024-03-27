@@ -249,32 +249,23 @@ public class UsrMemberController {
 	}
 	
 	@RequestMapping("/usr/member/findId")
-	public String showFindId(HttpServletRequest req) {
-
-		Rq rq = (Rq) req.getAttribute("rq");
-
-		if (rq.isLogined()) {
-			return Ut.jsHistoryBack("F-A", "이미 로그인 함");
-		}
+	public String showFindLoginId() {
 
 		return "usr/member/findId";
 	}
 
 	@RequestMapping("/usr/member/dofindId")
 	@ResponseBody
-	public String doFindId(HttpServletRequest req, String mname, String cellphoneNum, String email) {
+	public String doFindLoginId(@RequestParam(defaultValue = "/") String afterFindLoginIdUri, String mname,
+			String email) {
 
-		Rq rq = (Rq) req.getAttribute("rq");
-		int id = rq.getLoginedMemberId();
+		Member member = memberService.getMemberByNameAndEmail(mname, email);
 
-		if (Ut.isNullOrEmpty(mname)) {
-			return Ut.jsHistoryBack("F-1", "이름을 입력해주세요");
-		}
-		if (Ut.isNullOrEmpty(cellphoneNum)) {
-			return Ut.jsHistoryBack("F-2", "전화번호를 입력해주세요");
+		if (member == null) {
+			return Ut.jsHistoryBack("F-1", "가입된 회원이 아닙니다.");
 		}
 
-		return Ut.jsReplace("S-1", "회원정보가 수정되었습니다", "/");
+		return Ut.jsReplace("S-1", Ut.f("아이디는 [ %s ] 입니다.", member.getLoginId()), afterFindLoginIdUri);
 	}
 
 	@RequestMapping("/usr/member/findPw")

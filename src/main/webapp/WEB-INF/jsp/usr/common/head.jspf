@@ -238,25 +238,13 @@
 					<!--회원정보-->
 
 					<script>
-					 /* $(document).ready(function() {
-					        // 페이지가 로드될 때 선택된 선수가 있으면 select box에 설정
-					        var selectedPlayer = getSelectedPlayerFromLocalStorage();
-					        if (selectedPlayer) {
-					            $("#favoritePlayer").val(selectedPlayer);
-					        }
-					    }); */
-					 
+
 					var modalHistory = []; // 모달 내용을 저장할 배열
 						
 						var defaultModalContent = document.getElementById('defaultModalContent').innerHTML;
 	
 				        function openModal() {
 				            var modalContentText = document.getElementById('my_modal');
-
-				            // 모달이 열릴 때 기본 내용으로 초기화
-				            // modalContentText.innerHTML = defaultModalContent;
-				            // $("#myModal #favoritePlayer").val(selectedPlayer);
-				            
 				        }
 			        
 					 	function changeModalContent() {
@@ -276,8 +264,8 @@
 					            '</div>' +
 					            '<div>' +
 					            '<label for="loginPw">비밀번호 확인: </label>' +
-					            '<input type="text" class="input input-ghost w-full max-w-xs" autocomplete="off" name="loginPw" style="height: 25px; width: 145px;" required/>' +
-					            '<button class="modal_button pwmodify_button" onclick="pwmodify()" style="margin-left: 7px;">변경</button>' +
+					            '<input type="text" class="input input-ghost w-full max-w-xs" autocomplete="off" name="loginPw" style="height: 25px; width: 125px;" required/>' +
+					            '<button class="modal_button pwmodify_button" onclick="pwmodify()" style="margin-left: 5px;">변경</button>' +
 					            '<div class = "text-xs" style="color: #a32222">※ 회원정보 수정 시 비밀번호를 입력해야합니다.</div>' +
 					            '</div>' +
 					            '<div>' +
@@ -359,7 +347,6 @@
 						            '<input type="file" id="photoInput" name="photoInput" accept="image/*" class = "text-xs">' + '</div>' +
 						            '<button type="button" onclick="uploadPhoto()" class = "text-xs w-20">사진 업로드</button>' + 
 						        	'</form>' +
-						    		'<canvas id="myCanvas" width="100" height="100"></canvas>' +
 						            '<a class="modal_close_btn" onclick="closeModal()">Χ</a>' +
 						            '<button class="modal_button" onclick="goBack()">뒤로가기</button>';
 						        }
@@ -425,7 +412,6 @@
 			                if (${rq.selectedplayer != null}){
 				                $("#favoritePlayer").val(${rq.selectedplayer});
 			                }
-			                console.log(${rq.selectedplayer});
 			                
 			                // 닫기 버튼 처리, 시꺼먼 레이어와 모달 div 지우기
 			               modal.querySelector('.modal_close_btn').addEventListener('click', function() {
@@ -568,11 +554,13 @@
 			                if (bg) {
 			                    bg.remove();
 			                }
+
 			                window.location.reload();
 			            }
 
 			            // 뒤로가기
 			            function goBack() {
+			            	console.log("!!!!!!!!!");
 			                // 브라우저 히스토리에서 뒤로가기를 누를 때 이전 모달 내용을 불러와서 설정
 			                var modalContentText = document.getElementById('my_modal');
 			                if (modalHistory.length > 0) {

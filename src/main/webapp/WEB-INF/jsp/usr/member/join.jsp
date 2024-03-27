@@ -131,7 +131,7 @@
 			</div>
 			<div class="info">※ -없이 숫자만 입력가능합니다.</div>
 			<div>
-				<label for="email">이메일:</label> <input type="email" id="email" name="email" autocomplete="off">
+				<label for="email">*이메일:</label> <input type="email" id="email" name="email" autocomplete="off" required>
 			</div>
 
 			<div>
