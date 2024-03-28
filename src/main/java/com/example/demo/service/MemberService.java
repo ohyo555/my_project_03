@@ -5,8 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.UUID;
 
-import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,11 +17,21 @@ import com.example.demo.vo.ResultData;
 
 @Service
 public class MemberService {
+	
+	@Value("${custom.siteMainUri}")
+	private String siteMainUri;
+	@Value("${custom.siteName}")
+	private String siteName;
+
 	@Autowired
 	private MemberRepository memberRepository;
+	
+	@Autowired
+	private MailService mailService;
 
-	public MemberService(MemberRepository memberRepository) {
+	public MemberService(MailService mailService, MemberRepository memberRepository) {
 		this.memberRepository = memberRepository;
+		this.mailService = mailService;
 	}
 
 	public ResultData<Integer> join(String loginId, String loginPw, String birth, String mname, String cellphoneNum, 
@@ -32,6 +42,8 @@ public class MemberService {
 			return ResultData.from("F-7", Ut.f("이미 사용중인 아이디(%s)입니다", loginId));
 		}
 
+		loginPw = Ut.sha256(loginPw);
+		
 		existsMember = getMemberByNameAndEmail(mname, email);
 
 		if (existsMember != null) {
@@ -65,6 +77,9 @@ public class MemberService {
 	
 	// 비밀번호 변경
 	public void setMember(int id, String new_loginPw) {
+		
+		new_loginPw = Ut.sha256(new_loginPw);
+		
 		memberRepository.setMember_pw(id, new_loginPw);
 	}
 	public ResultData<Integer> membership(String loginId, int lv, String membercode, String type) {
@@ -158,5 +173,27 @@ public class MemberService {
 	public int isselectplayer(String loginId) {
 		return memberRepository.isselectplayer(loginId);
 	}
+
+	public ResultData notifyTempLoginPwByEmail(Member actor) {
+		String title = "[" + siteName + "] 임시 패스워드 발송";
+		String tempPassword = Ut.getTempPassword(6);
+		String body = "<h1>임시 패스워드 : " + tempPassword + "</h1>";
+		body += "<a href=\"" + siteMainUri + "/usr/member/login\" target=\"_blank\">로그인 하러가기</a>";
+
+		ResultData sendResultData = mailService.send(actor.getEmail(), title, body);
+
+		if (sendResultData.isFail()) {
+			return sendResultData;
+		}
+
+		setTempPassword(actor, tempPassword);
+
+		return ResultData.from("S-1", "계정의 이메일주소로 임시 패스워드가 발송되었습니다.");
+	}
+
+	private void setTempPassword(Member actor, String tempPassword) {
+		memberRepository.setMember_pw(actor.getId(), Ut.sha256(tempPassword));
+	}
+
 
 }

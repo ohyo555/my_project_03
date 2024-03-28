@@ -10,7 +10,6 @@
 <link rel="stylesheet" href="/resource/background.css" />
 <style>
 .signup-form {
-	width: 450px;
 	background-color: rgba(255, 255, 255, 0.4);
 	margin: 100px auto;
 	padding: 20px;
@@ -19,7 +18,6 @@
 
 .signup-form .text {
 	font-size: 0.7rem;
-	/* text-align: right; */
 	margin-left: 15rem;
 	color: #a32222;
 }
