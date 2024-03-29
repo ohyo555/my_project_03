@@ -604,6 +604,11 @@ FROM board;
 
 select *
 from player;
+
+# 기존의 회원 비번을 암호화
+UPDATE `member`
+SET loginPw = SHA2(loginPw,256);
+
  
 
 SELECT LAST_INSERT_ID();
