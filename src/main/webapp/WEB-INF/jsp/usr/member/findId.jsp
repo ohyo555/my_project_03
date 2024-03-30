@@ -2,9 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="pageTitle" value="MEMBER JOIN"></c:set>
 <%@ include file="../common/head.jspf"%>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <link rel="stylesheet" href="/resource/background.css" />
 <style>
@@ -20,6 +18,15 @@
 	display: inline-block;
 	width: 100%;
 	font-size: 1rem;
+}
+
+.signup-form .text {
+	color: white;
+	background-color: #800808;
+	border-radius: 4px;
+	text-align: center;
+	margin-bottom: 30px;
+	width: 100%;
 }
 
 .signup-form label {
@@ -42,13 +49,13 @@
 .signup-form .id button {
 	background-color: #800808;
 	color: white;
-	padding: 10px 15px;
+	padding: 0px 12px;
 	border: none;
 	border-radius: 4px;
 	cursor: pointer;
 	font-size: 0.75rem;
 	font-weight: 400;
-	height: 45px;
+	height: 35px;
 }
 
 .signup-form .id button:hover {
@@ -115,6 +122,7 @@
 	<div class="signup-form">
 		<form action="../member/dofindId" method="POST" onsubmit="MemberFindLoginId__submit(this);">
 			<input type="hidden" name="afterFindLoginIdUri" value="${param.afterFindLoginIdUri }" />
+			<div class = "text">아이디 찾기</div>
 			<div>
 				<label for="name">이름:</label> <input type="mname" id="mname" name="mname" autocomplete="off" required>
 			</div>
@@ -122,7 +130,7 @@
 				<label for="email">이메일:</label> <input type="email" id="email" name="email" autocomplete="off" required>
 			</div>
 			<div class="id center-text mt-5">
-				<button type="submit">아이디 찾기</button>
+				<button type="submit">찾기</button>
 			</div>
 			<div class="url">
 				<a href="${rq.loginUri}">로그인</a>

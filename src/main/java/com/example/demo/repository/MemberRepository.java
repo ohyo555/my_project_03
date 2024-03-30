@@ -64,7 +64,6 @@ public interface MemberRepository {
 			<script>
 			UPDATE member
 			<set>
-			<if test="loginPw != null and loginPw != ''">loginPw = #{loginPw},</if>
 			<if test="mname != null and mname != ''">mname = #{mname},</if>
 			<if test="cellphoneNum != null and cellphoneNum != ''">cellphoneNum = #{cellphoneNum},</if>
 			<if test="email != null and email != ''">email = #{email},</if>
@@ -159,5 +158,7 @@ public interface MemberRepository {
 			WHERE loginId = #{loginId}
 			""")
 	public int isselectplayer(String loginId);
+
+	public void modify(int id, String sha256, Object object, Object object2, Object object3, Object object4);
 
 }

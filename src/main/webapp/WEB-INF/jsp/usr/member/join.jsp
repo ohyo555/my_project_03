@@ -4,22 +4,26 @@
 <%@ include file="../common/head.jspf"%>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> <!-- 달력만들기 -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- 달력만들기 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <link rel="stylesheet" href="/resource/background.css" />
 <style>
 .signup-form {
-	width: 450px;
+	max-width: 380px;
 	background-color: rgba(255, 255, 255, 0.4);
 	margin: 100px auto;
 	padding: 20px;
 	border-radius: 8px;
 }
 
+form {
+	text-align: center;
+}
+
 .signup-form .text {
 	font-size: 0.7rem;
-	/* text-align: right; */
 	margin-left: 15rem;
 	color: #a32222;
 }
@@ -28,6 +32,12 @@
 	display: inline-block;
 	width: 100%;
 	font-size: 1rem;
+	text-align: left;
+}
+
+.signup-form div:last-child {
+	text-align: center;
+	padding-right: 40px;
 }
 
 .signup-form label {
@@ -36,7 +46,6 @@
 }
 
 .signup-form div .msg {
-	display: inline;
 	color: #800808;
 	font-size: 0.75rem;
 }
@@ -72,8 +81,7 @@
 	font-size: 0.75rem;
 	color: #a32222;
 }
-
-
+    
 </style>
 
 <script>
@@ -87,6 +95,9 @@
 </script>
 
 <script>
+
+	var ajaxCalled = false;
+
 	function callByAjax(loginId) {
 		
 		var form = document.form1;
@@ -98,9 +109,19 @@
 			loginId : loginId,
 		}, function(data) {
 			$('.msg').text(data);
+			ajaxCalled = true;
+			console.log(ajaxCalled);
+			updatePage();
 		}, 'html');
 		
 	}
+	
+	function updatePage() {
+        if (ajaxCalled) {
+            // ajaxCalled 값이 true일 때만 메시지를 표시합니다.
+            $('.msg').show();
+        }
+    }
 </script>
 
 <section class="mt-8 text-xl px-4">
@@ -109,7 +130,8 @@
 			<div class="text">*는 필수정보</div>
 			<div>
 				<label for="username">*아이디:</label> <input type="text" id="loginId" name="loginId" autocomplete="off" required>
-				<div class="msg"></div>
+				<%-- console.log("${ajaxCalled}"); --%>
+				<div class="msg" style="display: none;"></div>
 			</div>
 
 			<div>
@@ -135,15 +157,11 @@
 			</div>
 
 			<div>
-				<label for="address">주소:</label> 
-				<input type="text" class = "w-20" id="postcode" name="postcode" placeholder="우편번호"> 
-				<input type="button" onclick="execDaumPostcode()" value="찾기"><br>
-				<label for="address"></label> 
-				<input type="text" id="address" name="address" placeholder="주소"><br>
-				<label for="address"></label> 
-				<input type="text" class = "w-25" id="detailAddress" name="detailAddress" placeholder="상세주소"><br>
-				<label for="address"></label> 
-				<input type="text" class = "w-20" id="extraAddress" name="extraAddress" placeholder="참고항목">
+				<label for="address">주소:</label> <input type="text" class="w-20" id="postcode" name="postcode" placeholder="우편번호">
+				<input type="button" onclick="execDaumPostcode()" value="찾기"><br> <label for="address"></label> <input
+					type="text" id="address" name="address" placeholder="주소"><br> <label for="address"></label> <input
+					type="text" class="w-25" id="detailAddress" name="detailAddress" placeholder="상세주소"><br> <label
+					for="address"></label> <input type="text" class="w-20" id="extraAddress" name="extraAddress" placeholder="참고항목">
 
 				<script>
 				    function execDaumPostcode() {

@@ -476,7 +476,9 @@
 			                    if (xhr.readyState == 4 && xhr.status == 200) {
 			                        // 서버에서의 응답 처리
 			                       /*  console.log(xhr.responseText); */
-			                        alert(xhr.responseText);
+			                       alert(xhr.responseText);
+			                       closeModal();
+
 			                    }
 			                };
 
@@ -508,6 +510,7 @@
 					            '<button class="modal_button" onclick="goBack()">뒤로가기</button>' +
 					            '</div>';
 					        }
+					       
 					    }
 			            
 			            function dopwmodify() {
@@ -531,12 +534,12 @@
 			                        // 서버에서의 응답 처리
 			                       /*  console.log(xhr.responseText); */
 			                        alert(xhr.responseText);
+			                        closeModal();
 			                    }
 			                };
 
 			                // 데이터 전송
-			                xhr.send(data);
-			                closeModal();
+			                xhr.send(data);					        
 			            }
 			            
 			            // 모달닫기

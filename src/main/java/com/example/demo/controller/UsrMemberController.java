@@ -83,9 +83,9 @@ public class UsrMemberController {
 		if (member == null) {
 			return Ut.jsHistoryBack("F-3", Ut.f("%s(은)는 존재하지 않는 아이디입니다", loginId));
 		}
-
-		if (member.getLoginPw().equals(loginPw) == false) {
-			return Ut.jsHistoryBack("F-4", Ut.f("비밀번호가 일치하지 않습니다"));
+		
+		if (member.getLoginPw().equals(Ut.sha256(loginPw)) == false) {
+			return Ut.jsHistoryBack("F-4", Ut.f("비밀번호가 일치하지 않습니다!!!!!"));
 		}
 		
 		if (member.isDelStatus()) {
@@ -198,14 +198,17 @@ public class UsrMemberController {
 		int id = rq.getLoginedMemberId();
 		String loginId = rq.getLoginedMember().getLoginId();
 
-		Member findmember = memberService.getMemberByLoginId(loginId);
+		Member findmember = memberService.getMemberByLoginId_1(loginId);
 
-		if (member.getLoginPw() == null || member.getLoginPw() == "") {
+		String loginPw = member.getLoginPw();
+		String findloginPw = findmember.getLoginPw();
+		
+		if (Ut.sha256(loginPw) == null || Ut.sha256(loginPw) == "") {
 			return "비밀번호를 입력해주세요.";
-		} else if (!findmember.getLoginPw().equals(member.getLoginPw())) {
+		} else if (!findloginPw.equals(Ut.sha256(loginPw))) {
 			return "비밀번호가 일치하지 않습니다";
 		} else {
-			memberService.setMember(id, member.getLoginPw(), member.getMname(), member.getCellphoneNum(),
+			memberService.setMember(id, Ut.sha256(loginPw), member.getMname(), member.getCellphoneNum(),
 					member.getEmail(), member.getAddress());
 			return "회원정보가 수정되었습니다";
 		}
@@ -217,15 +220,19 @@ public class UsrMemberController {
 		Rq rq = (Rq) req.getAttribute("rq");
 		int id = rq.getLoginedMemberId();
 		String loginId = rq.getLoginedMember().getLoginId();
+		
+		Member findmember = memberService.getMemberByLoginId_1(loginId);
 
-		Member findmember = memberService.getMemberByLoginId(loginId);
-
-		if (!findmember.getLoginPw().equals(member.getLoginPw())) {
+		String loginPw = member.getLoginPw();
+		String findloginPw = findmember.getLoginPw();
+		String new_loginPw = member.getNew_loginPw();
+		
+		if (!findloginPw.equals(Ut.sha256(loginPw))) {
 			return "비밀번호가 일치하지 않습니다";
-		} else if(findmember.getLoginPw().equals(member.getNew_loginPw())){
+		} else if(findloginPw.equals(Ut.sha256(new_loginPw))){
 			return "기존 비밀번호와 동일합니다, 변경할 비밀번호를 입력하세요.";
 		} else{
-			memberService.setMember(id, member.getNew_loginPw());
+			memberService.setMember(id, new_loginPw);
 			return "회원정보가 수정되었습니다";
 		}
 	}
@@ -269,32 +276,31 @@ public class UsrMemberController {
 	}
 
 	@RequestMapping("/usr/member/findPw")
-	public String showFindPw(HttpServletRequest req) {
-
-		Rq rq = (Rq) req.getAttribute("rq");
-
-		if (rq.isLogined()) {
-			return Ut.jsHistoryBack("F-A", "이미 로그인 함");
-		}
+	public String showFindLoginPw() {
 
 		return "usr/member/findPw";
 	}
 
 	@RequestMapping("/usr/member/dofindPw")
 	@ResponseBody
-	public String doFindPw(HttpServletRequest req, String loginId) {
+	public String doFindLoginPw(@RequestParam(defaultValue = "/") String afterFindLoginPwUri, String loginId,
+			String email) {
 
-//		Rq rq = (Rq) req.getAttribute("rq");
-//		
-//		int id = rq.getLoginedMemberId();
+		Member member = memberService.getMemberByLoginId_1(loginId);
 
-		if (Ut.isNullOrEmpty(loginId)) {
-			return Ut.jsHistoryBack("F-1", "아이디를 입력해주세요");
+		if (member == null) {
+			return Ut.jsHistoryBack("F-1", "너는 없는 사람이야");
 		}
 
-		return Ut.jsReplace("S-1", "회원정보가 수정되었습니다", "/");
-	}
+		if (member.getEmail().equals(email) == false) {
+			return Ut.jsHistoryBack("F-2", "일치하는 이메일이 없는데?");
+		}
 
+		ResultData notifyTempLoginPwByEmailRd = memberService.notifyTempLoginPwByEmail(member);
+
+		return Ut.jsReplace(notifyTempLoginPwByEmailRd.getResultCode(), notifyTempLoginPwByEmailRd.getMsg(),
+				afterFindLoginPwUri);
+	}
 	@RequestMapping("/usr/member/membership")
 	public String membership(HttpServletRequest req, Model model) {
 		Rq rq = (Rq) req.getAttribute("rq");
