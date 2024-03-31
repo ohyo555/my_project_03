@@ -169,7 +169,7 @@ button {
 	font-size: 1rem;
 	/* background-color: white; */
 	/* background-image: url('https://img.freepik.com/premium-vector/woman-volleyball-player-tosses-ball-to-score-goal-for-opposing-team-during-tournament-or-training_160308-6892.jpg'); */
-	background-image: url('https://github.com/ohyo555/my_project_03/assets/153146836/c4813f71-d123-43e4-a04a-c1f9fbd17e91');
+	background-image: linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.4)), url('https://github.com/ohyo555/my_project_03/assets/153146836/c4813f71-d123-43e4-a04a-c1f9fbd17e91');
 	/* background-image: url('https://images.unsplash.com/photo-1593115379577-a21ea97d6645?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8JUVCJUIwJUIwJUVBJUI1JUFDJUVBJUIzJUI1fGVufDB8fDB8fHww'); */
 	background-size: cover;
     background-position: center;
@@ -239,18 +239,18 @@ button {
 			<span class="modal_close_btn" onclick="closeModal()">&times;</span>
 			<div class="game">
 				<div>
-					<div id="hometeam" class = "text-sm font-semibold"></div>
-					<div id="hometeamscore" class = "font-semibold"></div>
+					<div id="hometeam" class = "text-sm font-bold"></div>
+					<div id="hometeamscore" class = "font-bold"></div>
 				</div>
-				<div class = "text-sm font-semibold">VS</div>
+				<div class = "text-sm font-extrabold">VS</div>
 				<div>
-					<div id="otherteam" class = "text-sm font-semibold"></div>
-					<div id="otherteamscore" class = "font-semibold"></div>
+					<div id="otherteam" class = "text-sm font-bold"></div>
+					<div id="otherteamscore" class = "font-bold"></div>
 				</div>
 			</div>
 			<div class="info">
-				<a href="" target="_blank" id="gameresult">경기결과&nbsp;&nbsp;&nbsp;</a> 
-				<a href="" target="_blank" id="gamehighlight">하이라이트</a>
+				<a href="" target="_blank" id="gameresult" class = "font-bold">경기결과&nbsp;&nbsp;&nbsp;</a> 
+				<a href="" target="_blank" id="gamehighlight" class = "font-bold">하이라이트</a>
 			</div>
 			<!-- 필요에 따라 모달에 더 많은 내용을 추가하세요 -->
 		</div>

@@ -18,7 +18,7 @@ body, html {
 
 .news {
 	width: 100%;
-	height: 100vh;
+	height: 750px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -26,9 +26,10 @@ body, html {
 
 .form {
 	width: 80%;
-	height: 80vh;
+	height: 85%;
 	margin-bottom: 100px;
-	padding: 15px;
+	padding: 10px;
+	padding-bottom: 20px;
 	background-color: rgb(251, 243, 238);
 }
 
