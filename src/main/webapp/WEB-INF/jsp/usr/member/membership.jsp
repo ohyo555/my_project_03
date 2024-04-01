@@ -124,10 +124,8 @@ $(function() {
 </script>
 
 <script>
-// 골드 등급일 경우 골드 라디오 버튼에 체크 설정
  var membershipLevel = ${member.authLevel};
 
-    // 골드 등급일 경우 골드 라디오 버튼에 체크 설정
     function setMembershipCheckbox() {
         // 해당 등급에 맞는 라디오 버튼 찾기
         var radioButtons = document.getElementsByName('level');

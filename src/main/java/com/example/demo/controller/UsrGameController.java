@@ -72,10 +72,10 @@ public class UsrGameController {
 		return "/usr/game/reservation";
 	}
 
-	@RequestMapping("/usr/game/news")
-	public String shownews() {
-		
-		return "/usr/game/news";
-	}
+	/*
+	 * @RequestMapping("/usr/game/news") public String shownews() {
+	 * 
+	 * return "/usr/game/news"; }
+	 */
 	
 }

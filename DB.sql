@@ -56,11 +56,11 @@ GROUP BY A.id
 CREATE TABLE `member`(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     loginId CHAR(20) NOT NULL,
-    loginPw CHAR(20) NOT NULL,
+    loginPw CHAR(100) NOT NULL,
     birth DATE NOT NULL,
     mname CHAR(20) NOT NULL,
     cellphoneNum CHAR(20),
-    email CHAR(20),
+    email CHAR(20)NOT NULL,
     postcode CHAR(20),
     address CHAR(50),
     `authLevel` SMALLINT(2) UNSIGNED DEFAULT 3 COMMENT '권한 레벨 (1=골드, 2= 실버, 3=일반, 7=관리자)',
@@ -74,6 +74,8 @@ CREATE TABLE `member`(
     delDate DATETIME COMMENT '탈퇴 날짜'
 );
 
+UPDATE `member`
+SET loginPw = SHA2(loginPw,256);
 
 # testdata 생성
 INSERT INTO `member`
@@ -130,6 +132,9 @@ email = 'oioi@gmail.com',
 regDate = NOW(),
 updateDate = NOW();
 
+SELECT *
+FROM `member`
+
 #---------------------------------------------------------------------------
 
 # membership 테이블 생성
@@ -155,18 +160,17 @@ CREATE TABLE `schedule`(
     stype CHAR(20) NOT NULL,
     `time` CHAR(20) NOT NULL,
     stadium CHAR(20) NOT NULL,
-    boradcasting CHAR(20) NOT NULL,
+    boradcasting CHAR(100) NOT NULL,
     `round` INT(10) NOT NULL,
     info CHAR(20) NOT NULL,
 );
 
-
 SELECT *
 FROM `schedule`;
+
 #---------------------------------------------------------------------------
 
 # game 테이블 생성
-DROP TABLE game
 CREATE TABLE game(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     result TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '만료 여부 (0=패, 1=승)',
@@ -197,6 +201,10 @@ CREATE TABLE board(
     delStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '삭제 여부 (0=삭제 전, 1=삭제 후)',
     delDate DATETIME COMMENT '삭제 날짜'
 );
+
+SELECT *
+FROM board
+
 
 # board TD 생성
 
@@ -276,17 +284,20 @@ CREATE TABLE team(
     tname CHAR(20) NOT NULL,
     stadium CHAR(20) NOT NULL,
     address CHAR(50) NOT NULL,
+    timg CHAR(255) NOT NULL,
     latitude DOUBLE NOT NULL,
     longitude DOUBLE NOT NULL,
     regDate DATETIME NOT NULL,
     updateDate DATETIME NOT NULL
 );
 
+SELECT * FROM team;
 # testdata 생성
 INSERT INTO team
 SET tname = '정관장',
 stadium = '대전충무체육관',
 address = '대전광역시 중구 대종로 373',
+timg = "https://kovo.co.kr/assets/insam-BAyciEMJ.png",
 latitude = 36.3179809,
 longitude = 127.4304347,
 regDate = NOW(),
@@ -296,6 +307,7 @@ INSERT INTO team
 SET tname = '흥국생명',
 stadium = '인천산삼월드체육관',
 address = '인천광역시 부평구 삼산동 체육관로 60',
+timg = "https://kovo.co.kr/assets/pinkSpiders-DsceZi7a.png",
 latitude = 37.5076162,
 longitude = 126.7376084,
 regDate = NOW(),
@@ -305,6 +317,7 @@ INSERT INTO team
 SET tname = '현대건설',
 stadium = '수원실내체육관',
 address = '경기도 수원시 장안구 조원동 775',
+timg = "https://kovo.co.kr/assets/hillState-tUWgqpq8.png",
 latitude = 37.2983182,
 longitude = 127.0090137,
 regDate = NOW(),
@@ -314,6 +327,7 @@ INSERT INTO team
 SET tname = 'IBK기업은행',
 stadium = '화성종합경기타운 실내체육관',
 address = '경기도 화성시 향남읍 도이리 226-27',
+timg = "https://kovo.co.kr/assets/altos-DIlqWnPY.png",
 latitude = 37.1382754,
 longitude = 126.9227018,
 regDate = NOW(),
@@ -323,6 +337,7 @@ INSERT INTO team
 SET tname = '한국도로공사',
 stadium = '김천실내체육관',
 address = '경상북도 김천시 삼락동 운동장길 1',
+timg = "https://kovo.co.kr/assets/hiPass-D4FOp-N9.png",
 latitude = 36.1430267,
 longitude = 128.0868359,
 regDate = NOW(),
@@ -332,6 +347,7 @@ INSERT INTO team
 SET tname = '페퍼저축은행',
 stadium = '페퍼스타디움',
 address = '광주광역시 서구 화정동 금화로 278',
+timg = "https://kovostoragedev.blob.core.windows.net/kovo-dev/emblem/emblem_peppers.png",
 latitude = 35.1352826,
 longitude = 126.8789211,
 regDate = NOW(),
@@ -341,6 +357,7 @@ INSERT INTO team
 SET tname = 'GS칼텍스',
 stadium = '장충체육관',
 address = '서울특별시 중구 동호로 241',
+timg = "https://kovo.co.kr/assets/kixx-v9Qwgj-i.png",
 latitude = 37.5581571,
 longitude = 127.0068191,
 regDate = NOW(),
@@ -551,9 +568,34 @@ image = 'https://kovostoragedev.blob.core.windows.net/kovo-prod/player/female/kg
 regDate = NOW(),
 updateDate = NOW();
 
+#---------------------------------------------------------------------------
 
+# 파일 테이블 추가
+CREATE TABLE genFile (
+  id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT, # 번호
+  regDate DATETIME DEFAULT NULL, # 작성날짜
+  updateDate DATETIME DEFAULT NULL, # 갱신날짜
+  delDate DATETIME DEFAULT NULL, # 삭제날짜
+  delStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 0, # 삭제상태(0:미삭제,1:삭제)
+  relTypeCode CHAR(50) NOT NULL, # 관련 데이터 타입(article, member)
+  relId INT(10) UNSIGNED NOT NULL, # 관련 데이터 번호
+  originFileName VARCHAR(100) NOT NULL, # 업로드 당시의 파일이름
+  fileExt CHAR(10) NOT NULL, # 확장자
+  typeCode CHAR(20) NOT NULL, # 종류코드 (common)
+  type2Code CHAR(20) NOT NULL, # 종류2코드 (attatchment)
+  fileSize INT(10) UNSIGNED NOT NULL, # 파일의 사이즈
+  fileExtTypeCode CHAR(10) NOT NULL, # 파일규격코드(img, video)
+  fileExtType2Code CHAR(10) NOT NULL, # 파일규격2코드(jpg, mp4)
+  fileNo SMALLINT(2) UNSIGNED NOT NULL, # 파일번호 (1)
+  fileDir CHAR(20) NOT NULL, # 파일이 저장되는 폴더명
+  PRIMARY KEY (id),
+  KEY relId (relTypeCode,relId,typeCode,type2Code,fileNo)
+);
+
+SELECT *
+FROM genFile;
 ###############################################
-SELECT m.*, pname, `number` as pnumber, `position`
+SELECT m.*, pname, `number` AS pnumber, `position`
 			FROM `member` AS m
 			INNER JOIN player AS p
 			ON m.fplayer = p.id
@@ -585,16 +627,16 @@ FROM article;
 SELECT *
 FROM `comment`; 
 
-select *
-from reactionpoint;
+SELECT *
+FROM reactionpoint;
 SELECT *
 FROM `member`; 
 
-select p.id
-from player AS p
-inner join `member` as m
-on m.fplayer = p.id
-where m.id = 3
+SELECT p.id
+FROM player AS p
+INNER JOIN `member` AS m
+ON m.fplayer = p.id
+WHERE m.id = 3
 
 SELECT *
 FROM team; 
@@ -605,10 +647,29 @@ FROM board;
 select *
 from player;
 
-# 기존의 회원 비번을 암호화
-UPDATE `member`
-SET loginPw = SHA2(loginPw,256);
+SELECT * FROM `genFile`;
 
- 
+SELECT *
+FROM reply
+WHERE relTypeCode = 'article'
+AND relId = 1
+
+SELECT A.*, M.nickname AS extra__writer, IFNULL(R.cnt,0) AS cnt
+FROM article AS A
+INNER JOIN `member` AS M
+ON A.memberId = M.id
+LEFT JOIN (SELECT relId, COUNT(*) AS cnt FROM reply GROUP BY relId) AS R
+ON A.id = R.relId
+GROUP BY A.id
+ORDER BY A.id DESC
+
+
+SELECT A.*, M.nickname AS extra__writer, COUNT(R.id) AS cnt
+FROM article AS A
+INNER JOIN `member` AS M ON A.memberId = M.id
+LEFT JOIN `reply` AS R ON A.id = R.relId
+GROUP BY A.id
+ORDER BY A.id DESC
+
 
 SELECT LAST_INSERT_ID();
