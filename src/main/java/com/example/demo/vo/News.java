@@ -14,4 +14,5 @@ public class News {
 	private String title;
 	private String content;
 	private String title_img;
+	private String news_url;
 }

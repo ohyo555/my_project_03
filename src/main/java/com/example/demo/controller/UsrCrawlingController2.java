@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -26,6 +27,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Controller;
 
+import com.example.demo.vo.News;
 import com.example.demo.vo.Schedule;
 
 @Controller
@@ -46,24 +48,57 @@ public class UsrCrawlingController2 {
 		// 웹 드라이버 초기화
 		WebDriver driver = new ChromeDriver(options);
 
+//		try {
+//			String url = "https://sports.news.naver.com/volleyball/news/index?isphoto=N";
+//			
+//			driver.get(url);
+//
+//			List<WebElement> Elements = driver.findElements(By.cssSelector("#_newsList > ul > li"));
+//			List<WebElement> imageElements = driver.findElements(By.cssSelector("#_newsList > ul > li > a > img"));
+//			
+//			for (WebElement Element : Elements) {
+//	            String title = Element.getText();
+//	            System.out.println(title);
+//	        }
+//
+//			for (WebElement imageElement : imageElements) {
+//			    String styleAttribute = imageElement.getAttribute("src");
+//			    // 스타일 속성에서 URL 추출
+//			    System.out.println("Image URL: " + styleAttribute);
+//			}
+//			
+//			// 결과를 파일에 저장
+//			//saveToFile(elements, "test.txt");
+
 		try {
-			String url = "https://sports.news.naver.com/volleyball/news/index?isphoto=N";
+			String url = "https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query=%EC%A0%95%EA%B4%80%EC%9E%A5+%EB%A0%88%EB%93%9C%EC%8A%A4%ED%8C%8C%ED%81%AC%EC%8A%A4";
 			
 			driver.get(url);
-
-			List<WebElement> Elements = driver.findElements(By.cssSelector("#_newsList > ul > li"));
-			List<WebElement> imageElements = driver.findElements(By.cssSelector("#_newsList > ul > li > a > img"));
 			
-			for (WebElement Element : Elements) {
-	            String title = Element.getText();
-	            System.out.println(title);
-	        }
+			 WebElement button = driver.findElement(By.cssSelector("#snb > div.mod_group_option_filter._search_option_simple_wrap > div > div.option_area.type_sort > a:nth-child(2)"));
+			 button.click();
 
-			for (WebElement imageElement : imageElements) {
-			    String styleAttribute = imageElement.getAttribute("src");
-			    // 스타일 속성에서 URL 추출
-			    System.out.println("Image URL: " + styleAttribute);
-			}
+			List<WebElement> Elements = driver.findElements(By.cssSelector("#main_pack > section > div.api_subject_bx > div.group_news > ul > .bx"));
+
+			for (WebElement Element : Elements) {
+	            String company_img = Element.findElement(By.cssSelector(".bx > .news_wrap.api_ani_send > div > div.news_info > div.info_group > a.info.press > span > img")).getAttribute("src");
+	            String company_name = Element.findElement(By.cssSelector(".bx > .news_wrap.api_ani_send > div > div.news_info > div.info_group > a.info.press")).getText();
+	            String date = Element.findElement(By.cssSelector(".bx > .news_wrap.api_ani_send > div > div.news_info > div.info_group > span")).getText();
+	            String title = Element.findElement(By.cssSelector(".bx > .news_wrap.api_ani_send > div > div.news_contents > a.news_tit")).getText();
+	            String content = Element.findElement(By.cssSelector(".bx > .news_wrap.api_ani_send > div > div.news_contents > div")).getText();
+	            // String title_img = Element.findElement(By.cssSelector(".bx > .news_wrap.api_ani_send > div > div.news_contents > a.dsc_thumb > img")).getAttribute("src");
+	            String title_img = Element.findElement(By.cssSelector(".bx > .news_wrap.api_ani_send > div > div.news_contents > a.dsc_thumb > img")).getAttribute("src");
+
+	            System.out.println(company_img);
+	            System.out.println(company_name);
+	            System.out.println(date);
+	            System.out.println(title);
+	            System.out.println(content);
+	            System.out.println(title_img);
+	        }
+			//model.addAttribute("newsList", newsList);
+			//*[@id="sp_nws4"]/div/div/div[2]/a[1]/img
+			//*[@id="sp_nws5"]/div/div/div[2]/a[1]/img
 			
 			// 결과를 파일에 저장
 			//saveToFile(elements, "test.txt");

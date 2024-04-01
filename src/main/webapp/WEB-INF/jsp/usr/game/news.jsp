@@ -17,8 +17,8 @@ body, html {
 }
 
 .news {
-	width: 100%;
-	height: 900px;
+	width: 80%;
+	height: 910px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -26,8 +26,8 @@ body, html {
 
 .form {
 	width: 80%;
-	height: 85%;
-	margin-bottom: 100px;
+	height: 95%;
+	margin-bottom: 30px;
 	padding: 10px;
 	padding-bottom: 20px;
 	background-color: rgb(251, 243, 238);
@@ -48,19 +48,18 @@ body, html {
 	width: 100%;
 }
 
-.navernews > div{
+.navernews>div {
 	background-color: white;
-	margin-bottom:10px;
+	margin-bottom: 10px;
+	height: 20%;
 }
 
-.navernews > div > div {
-	height: 10%;
-	width: 100%;
+.navernews>div>div {
 	display: flex;
 }
 
 .navernews .title {
-	height: 5%;
+	height: 20%;
 	width: 30%;
 }
 
@@ -68,40 +67,38 @@ body, html {
 	width: 33%;
 }
 
-.navernews .title>div:first-child {
+.navernews .title>div:first-child { /* 언론사 이미지 */
 	width: 30px;
+	margin-right: 10px;
 }
 
 .navernews .body {
+	height: 90%;
 	width: 100%;
 	display: flex;
 }
 
 .navernews .body .main {
-	width: 100%;
 	display: block;
 }
 
-.navernews .body .main div {
+/* .navernews .body .main div {
 	width: 100%;
 	height: 60%;
-}
-
+} */
 .navernews .body .main div:first-child {
 	width: 100%;
-	height: 40%;
-	padding-bottom: 10px;
+	height: 25%;
 }
 
 .navernews .mainimg {
-	width: 100px;
-	background-color: yellow;
+	width: 250px;
 }
 
 .sns {
 	height: 40px;
 	width: 100%;
-	margin-top: 10px;
+	margin-top: 40px;
 	display: flex;
 	align-items: center;
 	justify-content: space-around;
@@ -115,25 +112,29 @@ body, html {
 			<div class="newstitle">News</div>
 			<div class="navernews">
 				<c:forEach items="${News}" var="News" varStatus="loop">
-        		<c:if test="${loop.index < 5}">
-				<div>
-					<div class="title">
-						<div><img src="${News.company_img}" alt="Company Image"></div>
-						<div>${News.company_name}</div>
-						<div>${News.date}</div>						
-					</div>
-					<div class="body">
-						<div class="main">
-							<div class="title">${News.title}</div>
-							<div>${News.content}</div>
+					<c:if test="${loop.index < 5}">
+						<div>
+							<div class="title">
+								<div>
+									<img src="${News.company_img}" alt="Company Image">
+								</div>
+								<div>${News.company_name}</div>
+								<div>${News.date}</div>
+							</div>
+							<div class="body">
+								<a href="${News.news_url}" target="_blank">
+									<div class="main">
+										<div class="title2 font-bold">${News.title}</div>
+										<div class="font-medium">${News.content}</div>
+									</div>
+									<div class="mainimg">
+										<img src="${News.title_img}" alt="Company Image">
+									</div>
+								</a>
+							</div>
 						</div>
-						<div class="mainimg"><img src="${News.title_img}" alt="Company Image"></div>
-					</div>
-				</div>
-				</c:if>
+					</c:if>
 				</c:forEach>
-
-
 			</div>
 			<div class="sns">
 				<a href="https://www.youtube.com/channel/UCd6B93FlFmBAd9w6Aa_rsvA" target="_blank"><img

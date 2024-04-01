@@ -64,23 +64,20 @@ public class UsrCrawlingController3 {
 			 button.click();
 
 			List<WebElement> Elements = driver.findElements(By.cssSelector("#main_pack > section > div.api_subject_bx > div.group_news > ul > .bx"));
-			
+
 			for (WebElement Element : Elements) {
-	            String company_img = Element.findElement(By.cssSelector(".bx > div.news_wrap.api_ani_send > div > div.news_info > div.info_group > a.info.press > span > img")).getAttribute("src");
-	            String company_name = Element.findElement(By.cssSelector(".bx > div.news_wrap.api_ani_send > div > div.news_info > div.info_group > a.info.press")).getText();
-	            String date = Element.findElement(By.cssSelector(".bx > div.news_wrap.api_ani_send > div > div.news_info > div.info_group > span")).getText();
-	            String title = Element.findElement(By.cssSelector(".bx > div.news_wrap.api_ani_send > div > div.news_contents > a.news_tit")).getText();
-	            String content = Element.findElement(By.cssSelector(".bx > div.news_wrap.api_ani_send > div > div.news_contents > div")).getText();
-	            String title_img = Element.findElement(By.cssSelector(".bx > div.news_wrap.api_ani_send > div > div.news_contents > a.dsc_thumb > img")).getAttribute("src");
-	            
-	            News news = new News(company_img, company_name, date, title, content, title_img);
+	            String company_img = Element.findElement(By.cssSelector(".bx > .news_wrap.api_ani_send > div > div.news_info > div.info_group > a.info.press > span > img")).getAttribute("src");
+	            String company_name = Element.findElement(By.cssSelector(".bx > .news_wrap.api_ani_send > div > div.news_info > div.info_group > a.info.press")).getText();
+	            String date = Element.findElement(By.cssSelector(".bx > .news_wrap.api_ani_send > div > div.news_info > div.info_group > span")).getText();
+	            String title = Element.findElement(By.cssSelector(".bx > .news_wrap.api_ani_send > div > div.news_contents > a.news_tit")).getText();
+	            String content = Element.findElement(By.cssSelector(".bx > .news_wrap.api_ani_send > div > div.news_contents > div")).getText();
+	            String title_img = Element.findElement(By.cssSelector(".bx > .news_wrap.api_ani_send > div > div.news_contents > a.dsc_thumb > img")).getAttribute("src");
+	            String news_url = Element.findElement(By.cssSelector(".bx > .news_wrap.api_ani_send > div > div.news_contents > a.news_tit")).getAttribute("href");
+	            News news = new News(company_img, company_name, date, title, content, title_img, news_url);
 	            newsList.add(news); 
 	        }
-			
-			System.out.println("**********************" + newsList.get(4));
-			
+			 System.out.println("**********************" + newsList.get(0));
 			//model.addAttribute("newsList", newsList);
-			
 			// 결과를 파일에 저장
 			//saveToFile(elements, "test.txt");
 
