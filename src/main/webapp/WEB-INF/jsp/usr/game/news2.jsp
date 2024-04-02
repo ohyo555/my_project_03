@@ -47,7 +47,7 @@ body, html {
 }
 
 .navernews > div{
-	background-color: rgba(255, 255, 255, 0.8);
+	background-color: rgba(255, 255, 255, 0.75);
 	margin-bottom:10px;
 }
 
@@ -60,6 +60,8 @@ body, html {
 .navernews .title {
 	height: 5%;
 	width: 30%;
+	display: flex;
+    align-items: center; 
 }
 
 .navernews .title > div {
@@ -98,7 +100,7 @@ body, html {
 .sns {
 	height: 40px;
 	width: 100%;
-	margin-top: 17px;
+	margin-top: 20px;
 	display: flex;
 	align-items: center;
 	justify-content: space-around;
@@ -106,6 +108,9 @@ body, html {
 
 .all{
 	color: #800808;
+	display:block;
+  	text-align: right;
+  	margin-left: 610px;
 } 
 
 .all:hover {
@@ -119,7 +124,8 @@ body, html {
 	<div class="news">
 		<div class="form">
 			<div class="newstitle font-bold">NEWS</div>
-			<a class="all text-xs font-bold" href="https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query=%EC%A0%95%EA%B4%80%EC%9E%A5+%EB%A0%88%EB%93%9C%EC%8A%A4%ED%8C%8C%ED%81%AC%EC%8A%A4" target="_blank">전체 뉴스 보기</a>
+			<a class="all text-xs font-bold" href="https://search.naver.com/search.naver?where=news&query=%EC%A0%95%EA%B4%80%EC%9E%A5%20%EB%A0%88%EB%93%9C%EC%8A%A4%ED%8C%8C%ED%81%AC%EC%8A%A4&sm=tab_opt&sort=1&photo=0&field=0&pd=0&ds=&de=&docid=&related=0&mynews=0&office_type=0&office_section_code=0&news_office_checked=&nso=so%3Add%2Cp%3Aall&is_sug_officeid=0&office_category=0&service_area=0" target="_blank">전체 뉴스 보기</a>
+			<div></div>
 			<div class="navernews">
 				<c:forEach items="${News}" var="News" varStatus="loop">
         		<c:if test="${loop.index < 4}">
@@ -127,7 +133,7 @@ body, html {
 					<div class="title">
 						<div><img src="${News.company_img }" alt="Company Image"></div>
 						<div>${News.company_name }</div>
-						<div>${News.date }</div>						
+						<div class="text-xs">${News.date }</div>						
 					</div>
 					<div class="body">
 					 <a href="${News.news_url }" target="_blank">
