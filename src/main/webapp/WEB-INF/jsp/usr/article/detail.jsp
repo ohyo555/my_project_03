@@ -452,8 +452,10 @@ body {
 
 		<div class="content">
 			<p>${article.body }</p>
-			<img class="w-full rounded-xl" src="${rq.getImgUri(article.id)}" onerror="${rq.profileFallbackImgOnErrorHtml}"
+			<c:if test="${genfilecnt != 0}">
+				<img class="w-full rounded-xl" src="${rq.getImgUri(article.id)}" onerror="${rq.profileFallbackImgOnErrorHtml}"
 							alt="" />
+			</c:if>
 			<!-- Add more content here -->
 		</div>
 

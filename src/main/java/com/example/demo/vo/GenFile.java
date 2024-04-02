@@ -26,6 +26,8 @@ public class GenFile {
 	private String fileExt;
 	private String fileDir;
 	private String originFileName;
+	
+	private int cnt;
 
 	@JsonIgnore
 	public String getFilePath(String genFileDirPath) {

@@ -109,11 +109,13 @@ public class UsrArticleController {
 		}
 		
 		int commentsCount = comments.size();
-	
+		int genfilecnt = genFileService.getGenFilecnt(id);
+		
 		model.addAttribute("loginedMember", rq.getLoginedMemberId());
 		model.addAttribute("article", article);
 		model.addAttribute("comments", comments);
 		model.addAttribute("commentsCount", commentsCount);
+		model.addAttribute("genfilecnt", genfilecnt);
 		model.addAttribute("isAlreadyAddGoodRp",reactionPointService.isAlreadyAddGoodRp(rq.getLoginedMemberId(), id, "article"));
 		model.addAttribute("isAlreadyAddBadRp",reactionPointService.isAlreadyAddBadRp(rq.getLoginedMemberId(), id, "article"));
 		

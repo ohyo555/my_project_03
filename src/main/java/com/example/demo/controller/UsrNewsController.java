@@ -15,13 +15,13 @@ public class UsrNewsController {
 	@Autowired
 	private UsrCrawlingController3 news;
 
-	@RequestMapping("/usr/game/news2")
+	@RequestMapping("/usr/game/news")
 	public String showNews(Model model) {
 
 		List<News> News = news.crawl();
 		model.addAttribute("News", News);
 
-		return "usr/game/news2";
+		return "usr/game/news";
 
 	}
 

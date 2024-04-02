@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import com.example.demo.vo.GenFile;
 
@@ -31,4 +32,7 @@ public interface GenFileRepository {
 	List<GenFile> getGenFilesRelTypeCodeAndRelIdsAndTypeCodeAndType2Code(@Param("relTypeCode") String relTypeCode,
 			@Param("relIds") List<Integer> relIds, @Param("typeCode") String typeCode,
 			@Param("type2Code") String type2Code);
+
+	@Select("SELECT COUNT(*) AS cnt FROM genFile WHERE relId = #{id};")
+	public int getGenFilecnt(int id);
 }

@@ -17,17 +17,17 @@ body, html {
 }
 
 .news {
-	width: 80%;
-	height: 910px;
+	width: 100%;
+	height: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
 
 .form {
-	width: 80%;
-	height: 95%;
-	margin-bottom: 30px;
+	width: 700px;
+	height: 830px;
+	margin-bottom: 100px;
 	padding: 10px;
 	padding-bottom: 20px;
 	background-color: rgb(251, 243, 238);
@@ -36,7 +36,6 @@ body, html {
 .newstitle {
 	height: 30px;
 	width: 100%;
-	margin-bottom: 10px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -48,66 +47,76 @@ body, html {
 }
 
 .navernews > div{
-	background-color: white;
-	margin-bottom: 10px;
-	height: 20%;
+	background-color: rgba(255, 255, 255, 0.75);
+	margin-bottom:10px;
 }
 
 .navernews > div > div {
+	height: 10%;
+	width: 100%;
 	display: flex;
 }
 
 .navernews .title {
-	height: 20%;
+	height: 5%;
 	width: 30%;
+	display: flex;
+    align-items: center; 
 }
 
-.navernews .title>div {
-	width: 33%;
-}
-
-.navernews .title>div:first-child { /* 언론사 이미지 */
-	width: 30px;
-	margin-right: 10px;
+.navernews .title > div {
 	padding: 5px;
 }
 
-.navernews .body {
-	height: 90%;
+.navernews .title>div:first-child {
+	width: 30px;
+}
+
+.navernews .body a {
 	width: 100%;
 	display: flex;
 }
 
 .navernews .body .main {
+	width: 100%;
 	display: block;
 }
 
-/* .navernews .body .main div {
-	width: 100%;
-	height: 60%;
-} */
-
 .navernews .body .main div:first-child {
-	width: 100%;
 	height: 25%;
+	padding: 5px;
+}
+
+.navernews .body .main div:nth-child(2) {
+	height: 75%;
+	padding: 5px;
 }
 
 .navernews .mainimg {
-	width: 200px;
-	
-.navernews .mainimg > img {
-	width: 100%;
+	width: 170px;
+	padding: 5px;
 }
 
 .sns {
 	height: 40px;
 	width: 100%;
-	margin-top: 40px;
+	margin-top: 20px;
 	display: flex;
 	align-items: center;
 	justify-content: space-around;
 }
 
+.all{
+	color: #800808;
+	display:block;
+  	text-align: right;
+  	margin-left: 610px;
+} 
+
+.all:hover {
+	background-color: #800808;
+	color: white;
+} 
 </style>
 </head>
 
@@ -115,21 +124,25 @@ body, html {
 	<div class="news">
 		<div class="form">
 			<div class="newstitle font-bold">NEWS</div>
+			<a class="all text-xs font-bold" href="https://search.naver.com/search.naver?where=news&query=%EC%A0%95%EA%B4%80%EC%9E%A5%20%EB%A0%88%EB%93%9C%EC%8A%A4%ED%8C%8C%ED%81%AC%EC%8A%A4&sm=tab_opt&sort=1&photo=0&field=0&pd=0&ds=&de=&docid=&related=0&mynews=0&office_type=0&office_section_code=0&news_office_checked=&nso=so%3Add%2Cp%3Aall&is_sug_officeid=0&office_category=0&service_area=0" target="_blank">전체 뉴스 보기</a>
+			<div></div>
 			<div class="navernews">
 				<c:forEach items="${News}" var="News" varStatus="loop">
         		<c:if test="${loop.index < 4}">
 				<div>
 					<div class="title">
-						<div><img src="${News.company_img}" alt="Company Image"></div>
-						<div>${News.company_name}</div>
-						<div>${News.date}</div>						
+						<div><img src="${News.company_img }" alt="Company Image"></div>
+						<div>${News.company_name }</div>
+						<div class="text-xs">${News.date }</div>						
 					</div>
 					<div class="body">
+					 <a href="${News.news_url }" target="_blank">
 						<div class="main">
-							<div class="title2 font-bold">${News.title}</div>
-							<div class="font-medium">${News.content}</div>
+							<div class="font-bold">${News.title }</div>
+							<div class="text-sm">${News.content }</div>
 						</div>
-						<div class="mainimg"><img src="${News.title_img}" alt="Company Image"></div>
+						<div class="mainimg"><img src="${News.title_img }"></div>
+					</a>
 					</div>
 				</div>
 				</c:if>
@@ -137,15 +150,15 @@ body, html {
 			</div>
 			<div class="sns">
 				<a href="https://www.youtube.com/channel/UCd6B93FlFmBAd9w6Aa_rsvA" target="_blank"><img
-					src="https://github.com/ohyo555/my_project_03/assets/153146836/a3d4b16c-329c-4c14-9af5-ecac4a78c729"
-					style="height: 30px; width: 30px"></a> <a href="https://www.instagram.com/red__sparks/" target="_blank"><img
-					src="https://github.com/ohyo555/my_project_03/assets/153146836/55151c70-a6ff-41b9-865a-5225d78a400e"
-					style="height: 30px; width: 30px"></a> <a href="https://www.facebook.com/jkjredsparks/" target="_blank"><img
-					src="https://github.com/ohyo555/my_project_03/assets/153146836/c80d943f-5d65-4136-9c19-fddeebad8c63"
-					style="height: 30px; width: 30px"></a> <a
+					src="https://github.com/ohyo555/my_project_03/assets/153146836/93e64b07-ae31-4099-b28a-84281b25f48f"
+					style="height: 25px; width: 25px"></a> <a href="https://www.instagram.com/red__sparks/" target="_blank"><img
+					src="https://github.com/ohyo555/my_project_03/assets/153146836/edf03484-af1a-4272-a0a1-e3c02406b8d1"
+					style="height: 25px; width: 25px"></a> <a href="https://www.facebook.com/jkjredsparks/" target="_blank"><img
+					src="https://github.com/ohyo555/my_project_03/assets/153146836/8a6a44b5-c429-44aa-a0e4-dc20305ab90d"
+					style="height: 25px; width: 25px"></a> <a
 					href="https://m.post.naver.com/my.nhn?memberNo=44010406&navigationType=push" target="_blank"><img
-					src="https://github.com/ohyo555/my_project_03/assets/153146836/b6abdae4-1417-4532-8dfd-4733a3d683b6"
-					style="height: 15px; width: 60px"></a>
+					src="https://github.com/ohyo555/my_project_03/assets/153146836/763b7e3d-e546-4678-8871-d7c1e7373389"
+					style="height: 25px; width: 25px"></a>
 			</div>
 		</div>
 	</div>
