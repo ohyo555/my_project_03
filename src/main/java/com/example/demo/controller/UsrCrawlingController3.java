@@ -63,8 +63,8 @@ public class UsrCrawlingController3 {
 			 WebElement button = driver.findElement(By.cssSelector("#snb > div.mod_group_option_filter._search_option_simple_wrap > div > div.option_area.type_sort > a:nth-child(2)"));
 			 button.click();
 
-			List<WebElement> Elements = driver.findElements(By.cssSelector("#main_pack > section > div.api_subject_bx > div.group_news > ul > .bx"));
-
+			List<WebElement> Elements = driver.findElements(By.cssSelector("#main_pack > section > div.api_subject_bx > div.group_news > ul > li"));
+			
 			for (WebElement Element : Elements) {
 	            String company_img = Element.findElement(By.cssSelector(".bx > .news_wrap.api_ani_send > div > div.news_info > div.info_group > a.info.press > span > img")).getAttribute("src");
 	            String company_name = Element.findElement(By.cssSelector(".bx > .news_wrap.api_ani_send > div > div.news_info > div.info_group > a.info.press")).getText();
@@ -76,7 +76,20 @@ public class UsrCrawlingController3 {
 	            News news = new News(company_img, company_name, date, title, content, title_img, news_url);
 	            newsList.add(news); 
 	        }
-			 System.out.println("**********************" + newsList.get(0));
+//			 System.out.println("**********************" + newsList.get(0).getCompany_img());
+//			 System.out.println("**********************" + newsList.get(2).getCompany_img());
+//			 System.out.println("**********************" + newsList.get(4).getCompany_img());
+//			 System.out.println("**********************" + newsList.get(6).getCompany_img());
+			 
+			 String a = driver.findElement(By.cssSelector("#sp_nws1 > .news_wrap.api_ani_send > div > div.news_contents > a.dsc_thumb > img")).getAttribute("src");
+			 System.err.println("**********************" + a);
+			 String b = driver.findElement(By.cssSelector("#sp_nws3 > .news_wrap.api_ani_send > div > div.news_contents > a.dsc_thumb > img")).getAttribute("src");
+			 System.err.println("**********************" + b);
+			 String c = driver.findElement(By.cssSelector("#sp_nws5 > .news_wrap.api_ani_send > div > div.news_contents > a.dsc_thumb > img")).getAttribute("src");
+			 System.err.println("**********************" + c);
+			 String d = driver.findElement(By.cssSelector("#sp_nws7 > .news_wrap.api_ani_send > div > div.news_contents > a.dsc_thumb > img")).getAttribute("src");
+			 System.err.println("**********************" + d);
+			 
 			//model.addAttribute("newsList", newsList);
 			// 결과를 파일에 저장
 			//saveToFile(elements, "test.txt");

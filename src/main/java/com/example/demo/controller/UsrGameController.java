@@ -17,7 +17,7 @@ import com.example.demo.vo.Schedule;
 
 @Controller
 public class UsrGameController {
-	
+
 	@Autowired
 	private GameService gameService;
 
@@ -27,48 +27,49 @@ public class UsrGameController {
 		List<String> gamedate = gameService.getGamedate();
 		List<Schedule> schedule = gameService.getGamelist();
 		List<Game> teamlist = gameService.getTeamlist();
-		//System.out.println(teamlist.get(0) + "*******************************************");
+		// System.out.println(teamlist.get(0) +
+		// "*******************************************");
 		model.addAttribute("gamedate", gamedate);
 		model.addAttribute("schedule", schedule);
 		model.addAttribute("teamlist", teamlist);
-		
+
 		return "/usr/game/calendar";
 	}
-	
+
 	@RequestMapping("/usr/game/gamelist")
 	public String showgamelist(Model model) {
-		
+
 		List<Schedule> schedules = gameService.getGamelist();
 		model.addAttribute("schedules", schedules);
-		
+
 		return "/usr/game/gamelist";
 	}
-	
+
 	@RequestMapping("/usr/game/map")
 	public String showMap(Model model) {
-		
+
 		int id = 1; // 정관장이 중심이라 정관장 아이디 고정
-		
+
 		Game team = gameService.getTeam(id);
-		
+
 		model.addAttribute("team", team);
 		return "/usr/game/map";
 	}
-	
+
 	@RequestMapping("/usr/game/findmap")
 	public String showfindmap(Model model) {
-		
+
 		int id = 1; // 정관장이 중심이라 정관장 아이디 고정
-		
+
 		Game team = gameService.getTeam(id);
 		model.addAttribute("team", team);
-		
+
 		return "/usr/game/findmap";
 	}
-	
+
 	@RequestMapping("/usr/game/reservation")
 	public String showreservation() {
-		
+
 		return "/usr/game/reservation";
 	}
 
@@ -77,5 +78,10 @@ public class UsrGameController {
 	 * 
 	 * return "/usr/game/news"; }
 	 */
-	
+
+	/*
+	 * @RequestMapping("/usr/game/news2") public String shownews() { return
+	 * "/usr/game/news2"; }
+	 */
+
 }

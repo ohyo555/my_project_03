@@ -36,7 +36,6 @@ body, html {
 .newstitle {
 	height: 30px;
 	width: 100%;
-	background-color: white;
 	margin-bottom: 10px;
 	display: flex;
 	align-items: center;
@@ -48,13 +47,13 @@ body, html {
 	width: 100%;
 }
 
-.navernews>div {
+.navernews > div{
 	background-color: white;
 	margin-bottom: 10px;
 	height: 20%;
 }
 
-.navernews>div>div {
+.navernews > div > div {
 	display: flex;
 }
 
@@ -70,6 +69,7 @@ body, html {
 .navernews .title>div:first-child { /* 언론사 이미지 */
 	width: 30px;
 	margin-right: 10px;
+	padding: 5px;
 }
 
 .navernews .body {
@@ -86,13 +86,17 @@ body, html {
 	width: 100%;
 	height: 60%;
 } */
+
 .navernews .body .main div:first-child {
 	width: 100%;
 	height: 25%;
 }
 
 .navernews .mainimg {
-	width: 250px;
+	width: 200px;
+	
+.navernews .mainimg > img {
+	width: 100%;
 }
 
 .sns {
@@ -103,37 +107,32 @@ body, html {
 	align-items: center;
 	justify-content: space-around;
 }
+
 </style>
 </head>
 
 <body>
 	<div class="news">
 		<div class="form">
-			<div class="newstitle">News</div>
+			<div class="newstitle font-bold">NEWS</div>
 			<div class="navernews">
 				<c:forEach items="${News}" var="News" varStatus="loop">
-					<c:if test="${loop.index < 5}">
-						<div>
-							<div class="title">
-								<div>
-									<img src="${News.company_img}" alt="Company Image">
-								</div>
-								<div>${News.company_name}</div>
-								<div>${News.date}</div>
-							</div>
-							<div class="body">
-								<a href="${News.news_url}" target="_blank">
-									<div class="main">
-										<div class="title2 font-bold">${News.title}</div>
-										<div class="font-medium">${News.content}</div>
-									</div>
-									<div class="mainimg">
-										<img src="${News.title_img}" alt="Company Image">
-									</div>
-								</a>
-							</div>
+        		<c:if test="${loop.index < 4}">
+				<div>
+					<div class="title">
+						<div><img src="${News.company_img}" alt="Company Image"></div>
+						<div>${News.company_name}</div>
+						<div>${News.date}</div>						
+					</div>
+					<div class="body">
+						<div class="main">
+							<div class="title2 font-bold">${News.title}</div>
+							<div class="font-medium">${News.content}</div>
 						</div>
-					</c:if>
+						<div class="mainimg"><img src="${News.title_img}" alt="Company Image"></div>
+					</div>
+				</div>
+				</c:if>
 				</c:forEach>
 			</div>
 			<div class="sns">

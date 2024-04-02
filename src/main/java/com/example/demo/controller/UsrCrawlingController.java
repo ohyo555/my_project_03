@@ -101,7 +101,7 @@ public class UsrCrawlingController {
 			driver.quit();
 		}
 	}
-	
+
 	// 네이버 기사 크롤링
 	public void crawl3() {
 		System.setProperty("webdriver.chrome.driver", "C:/work/chromedriver.exe");
@@ -114,13 +114,27 @@ public class UsrCrawlingController {
 
 		try {
 			// 크롤링할 웹 페이지 URL
-			String url = "https://sports.news.naver.com/volleyball/news/index?isphoto=N";
-			// 웹 페이지 열기
+			String url = "https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query=%EC%A0%95%EA%B4%80%EC%9E%A5+%EB%A0%88%EB%93%9C%EC%8A%A4%ED%8C%8C%ED%81%AC%EC%8A%A4";
+
 			driver.get(url);
 
+			WebElement button = driver.findElement(By.cssSelector(
+					"#snb > div.mod_group_option_filter._search_option_simple_wrap > div > div.option_area.type_sort > a:nth-child(2)"));
+			button.click();
+
 			// TOP 100 곡을 담고 있는 요소들 찾기
-			List<WebElement> elements = driver.findElements(By.cssSelector(".text")); // TOP 50 과 TOP 100 곡을 모두 포함하는 클래스
-																						// 선택자
+			// List<WebElement> elements = driver.findElements(By.cssSelector(".text")); //
+			// TOP 50 과 TOP 100 곡을 모두 포함하는 클래스
+			String b = driver
+					.findElement(By.cssSelector(
+							"#sp_nws3 > .news_wrap.api_ani_send > div > div.news_contents > a.dsc_thumb > img"))
+					.getAttribute("src");
+			System.err.println("**********************" + b);
+			String c = driver
+					.findElement(By.cssSelector(
+							"#sp_nws5 > .news_wrap.api_ani_send > div > div.news_contents > a.dsc_thumb > img"))
+					.getAttribute("src");
+			System.err.println("**********************" + c); // 선택자
 			// 결과를 파일에 저장
 			// saveToFile(elements, "test.txt");
 
@@ -198,17 +212,17 @@ public class UsrCrawlingController {
 
 	public static void main(String[] args) {
 		UsrCrawlingController webCrawler = new UsrCrawlingController();
-		// webCrawler.crawl2();
+		webCrawler.crawl3();
 
 		String textFilePath = "result.txt";
 		String csvFilePath = "result.csv";
 
-		try {
-			convertTextToCSV(textFilePath, csvFilePath);
-			System.out.println("Conversion completed successfully.");
-		} catch (IOException e) {
-			System.err.println("Error occurred during conversion: " + e.getMessage());
-		}
+//		try {
+//			convertTextToCSV(textFilePath, csvFilePath);
+//			System.out.println("Conversion completed successfully.");
+//		} catch (IOException e) {
+//			System.err.println("Error occurred during conversion: " + e.getMessage());
+//		}
 	}
 
 	// txt -> csv
