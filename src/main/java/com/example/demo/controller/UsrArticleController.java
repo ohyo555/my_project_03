@@ -80,6 +80,7 @@ public class UsrArticleController {
 		
 		int pagesCount = (int) Math.ceil(articlesCount / (double) itemsInAPage);
 		System.err.println("^^^^^^^^^^^^^^^^^" + pagesCount);
+		
 		model.addAttribute("board", board);
 		model.addAttribute("boardId", boardId);
 		model.addAttribute("page", page);

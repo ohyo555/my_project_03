@@ -126,10 +126,11 @@ form {
 		</c:choose>
 		
 		<div class="list-bar">
-			<a class="article article1" href="../article/list?boardId=1&page=1" style="${article1}" onclick="handleClick(1)">자유게시판</a>
-			<a class="article article2" href="../article/list?boardId=2&page=1" style="${article2}" onclick="handleClick(2)">공지사항</a>
-			<a class="article article3" href="../article/list?boardId=3&page=1" style="${article3}" onclick="handleClick(3)">질의응답</a>
-			<a class="article article4" href="../article/list?boardId=4&page=1" style="${article4}" onclick="handleClick(4)">나의게시판</a>
+			<a class="article article1" href="../article/list?boardId=1&page=1" style="${article1}">자유게시판</a>
+			<a class="article article2" href="../article/list?boardId=2&page=1" style="${article2}">공지사항</a>
+			<a class="article article3" href="../article/list?boardId=3&page=1" style="${article3}">질의응답</a>
+			<a class="article article4" href="../article/list?boardId=4&page=1" style="${article4}">나의게시판</a>
+			<a class="article" href="../article/write">글쓰기</a>
 		</div>
 		
 		<div class="search-bar">
