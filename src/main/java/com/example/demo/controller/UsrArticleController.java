@@ -60,8 +60,9 @@ public class UsrArticleController {
 
 		Rq rq = (Rq) req.getAttribute("rq");
 		Board board = boardService.getBoardById(boardId);
-		
-		int articlesCount = articleService.getArticlesCount(boardId, searchKeywordTypeCode, searchKeyword);
+		int id = rq.getLoginedMemberId();
+		List<Article> articles = null;
+		int articlesCount = 0;
 		
 		if (board == null) {
 			return rq.historyBackOnView("없는 게시판이야");
@@ -69,10 +70,16 @@ public class UsrArticleController {
 
 		int itemsInAPage = 15;
 		
+		if(boardId == 4) {
+			articles = articleService.getForPrintMyArticles(id, itemsInAPage, page, searchKeywordTypeCode, searchKeyword);
+			articlesCount = articleService.getMyArticlesCount(id, searchKeywordTypeCode, searchKeyword);
+		} else {
+			articles = articleService.getForPrintArticles(boardId, itemsInAPage, page, searchKeywordTypeCode, searchKeyword);
+			articlesCount = articleService.getArticlesCount(boardId, searchKeywordTypeCode, searchKeyword);
+		}
+		
 		int pagesCount = (int) Math.ceil(articlesCount / (double) itemsInAPage);
-		
-		List<Article> articles = articleService.getForPrintArticles(boardId, itemsInAPage, page, searchKeywordTypeCode, searchKeyword);
-		
+		System.err.println("^^^^^^^^^^^^^^^^^" + pagesCount);
 		model.addAttribute("board", board);
 		model.addAttribute("boardId", boardId);
 		model.addAttribute("page", page);
@@ -82,10 +89,6 @@ public class UsrArticleController {
 		model.addAttribute("articlesCount", articlesCount);
 		model.addAttribute("articles", articles);
 
-		if(boardId == 3) {
-			return "usr/article/qnalist";
-		}
-		
 		return "usr/article/list";
 	}
 	
@@ -124,35 +127,6 @@ public class UsrArticleController {
 		}
 		
 		return "usr/article/detail";
-	}
-	
-	@RequestMapping("/usr/article/mylist")
-	public String showMyList(HttpServletRequest req, Model model, @RequestParam(defaultValue = "4") int boardId,
-			@RequestParam(defaultValue = "1") int page,
-			@RequestParam(defaultValue = "title,body") String searchKeywordTypeCode,
-			@RequestParam(defaultValue = "") String searchKeyword) {
-
-		Rq rq = (Rq) req.getAttribute("rq");
-		Board board = boardService.getBoardById(boardId);
-		int id = rq.getLoginedMemberId();
-		
-		int articlesCount = articleService.getMyArticlesCount(id, searchKeywordTypeCode, searchKeyword);
-		
-		int itemsInAPage = 15;
-		
-		int pagesCount = (int) Math.ceil(articlesCount / (double) itemsInAPage);
-		
-		List<Article> myarticles = articleService.getForPrintMyArticles(id, itemsInAPage, page, searchKeywordTypeCode, searchKeyword);
-		
-		model.addAttribute("board", board);
-		model.addAttribute("page", page);
-		model.addAttribute("pagesCount", pagesCount);
-		model.addAttribute("searchKeywordTypeCode", searchKeywordTypeCode);
-		model.addAttribute("searchKeyword", searchKeyword);
-		model.addAttribute("articlesCount", articlesCount);
-		model.addAttribute("myarticles", myarticles);
-
-		return "usr/article/mylist";
 	}
 	
 	@RequestMapping("/usr/article/doIncreaseHitCountRd")

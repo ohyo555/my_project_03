@@ -112,16 +112,16 @@ form {
 
 		<c:choose>
 		    <c:when test="${board.id == 1}">
-		        <c:set var="article1" value="font-weight: bold;"/>
+		        <c:set var="article1" value="font-weight: bold; color:#800808;"/>
 		    </c:when>
 		    <c:when test="${board.id == 2}">
-		        <c:set var="article2" value="font-weight: bold;"/>
+		        <c:set var="article2" value="font-weight: bold; color:#800808;"/>
 		    </c:when>
 		    <c:when test="${board.id == 3}">
-		        <c:set var="article3" value="font-weight: bold;"/>
+		        <c:set var="article3" value="font-weight: bold; color:#800808;"/>
 		    </c:when>
 		    <c:when test="${board.id == 4}">
-		        <c:set var="article4" value="font-weight: bold;"/>
+		        <c:set var="article4" value="font-weight: bold; color:#800808;"/>
 		    </c:when>
 		</c:choose>
 		
@@ -129,11 +129,11 @@ form {
 			<a class="article article1" href="../article/list?boardId=1&page=1" style="${article1}" onclick="handleClick(1)">자유게시판</a>
 			<a class="article article2" href="../article/list?boardId=2&page=1" style="${article2}" onclick="handleClick(2)">공지사항</a>
 			<a class="article article3" href="../article/list?boardId=3&page=1" style="${article3}" onclick="handleClick(3)">질의응답</a>
-			<a class="article article4" href="../article/mylist?boardId=4&page=1" style="${article4}" onclick="handleClick(4)">나의게시판</a>
+			<a class="article article4" href="../article/list?boardId=4&page=1" style="${article4}" onclick="handleClick(4)">나의게시판</a>
 		</div>
 		
 		<div class="search-bar">
-			<div class="boardname">${board.name}</div>
+			<%-- <div class="boardname">${board.name}</div> --%>
 			<div class="articlecnt badge badge-outline">${articlesCount }개</div>
 			<form action="">
 				<input type="hidden" name="boardId" value="${param.boardId }" /> <select class="text-sm mr-3"
@@ -150,19 +150,31 @@ form {
 			<table>
 				<colgroup>
 					<col style="width: 10%" />
+					<c:if test="${board.id == 4}">
+						<col style="width: 10%" />
+					</c:if>
 					<col style="width: 20%" />
-					<col style="width: 50%" />
+					<col style="width: 40%" />
 					<col style="width: 10%" />
 					<col style="width: 10%" />
+					<c:if test="${board.id == 3}">
+						<col style="width: 10%" />
+					</c:if>
 				</colgroup>
 
 				<thead>
 					<tr>
 						<th>번호</th>
+						<c:if test="${board.id == 4}">
+							<th>구분</th>
+						</c:if>
 						<th>날짜</th>
 						<th>제목</th>
 						<th>작성자</th>
 						<th>조회수</th>
+						<c:if test="${board.id == 3}">
+							<th>답변</th>
+						</c:if>
 					</tr>
 				</thead>
 				<tbody>
@@ -176,6 +188,9 @@ form {
 					<c:forEach var="article" items="${articles }">
 						<tr class="hover">
 							<td>${article.id }</td>
+							<c:if test="${board.id == 4}">
+								<td>${article.type }</td>
+							</c:if>							
 							<td>${article.regDate.substring(0,10) }</td>
 							<c:if test="${article.cnt == 0}">
 								<td><a href="detail?id=${article.id }">${article.title }</a></td>
@@ -186,6 +201,14 @@ form {
 							</c:if>
 							<td>${article.loginId }</td>
 							<td class="article-detail__hit-count">${article.hitCount }</td>
+							<c:choose>
+								<c:when test="${board.id == 3 && article.cnt != 0}">
+									<td>완료</td>
+								</c:when>
+								<c:when test="${board.id == 3 && article.cnt == 0}">
+									<td>대기</td>
+								</c:when>
+							</c:choose>
 						</tr>
 					</c:forEach>
 				</tbody>
