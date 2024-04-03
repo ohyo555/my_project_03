@@ -61,6 +61,15 @@ form {
 	align-items: center;
 }
 
+.boardname {
+	font-size: 1rem;
+	font-weight: 600;
+}
+
+.articlecnt {
+	margin-right: 320px;
+}
+
 /* 목록 바 스타일 */
 .list-bar {
 	width: 800px;
@@ -90,52 +99,42 @@ form {
 	height: 700px;
 }
 
-.article.active {
-	background-color: red; /* Change to desired color */
-	color: white; /* Change to desired color */
-}
 </style>
-
-<script>
-    function handleClick(boardId) {
-    	// 클릭된 <a> 요소의 클래스를 설정합니다.
-        var clickedLinkClass = "article" + boardId;
-        console.log(boardId);
-        // 클릭된 <a> 요소를 찾습니다.
-        var clickedLink = document.querySelector("." + clickedLinkClass);
-        
-        // 클릭된 <a> 요소의 배경색을 변경합니다.
-        clickedLink.style.backgroundColor = "red";
-        
-        // 선택된 링크 이외의 다른 모든 <a> 요소의 배경색을 원래대로 되돌립니다.
-        // 모든 <a> 요소의 배경색을 초기화합니다.
-        var allLinks = document.querySelectorAll(".article");
-        allLinks.forEach(function(link) {
-        	// 클릭된 요소와 다른 요소에 대해서만 배경색을 초기화합니다.
-            if (link !== clickedLink) {
-                link.style.backgroundColor = ""; // 기본 배경색으로 초기화
-            }
-        });
-
-        // 필요한 경우 함수 내에서 추가 작업을 수행할 수 있습니다.
-        console.log("Clicked on boardId: " + boardId);
-        // 선택된 페이지로 리디렉션할 수도 있습니다.
-        // window.location.href = "../article/list?boardId=" + boardId + "&page=1";
-    }
-</script>
 
 <section class="text-xl px-4">
 	<input type="hidden" name="id" value="${article.id }" />
 	<div class="list mx-auto overflow-x-auto">
+	
+		<c:set var="article1" value=""/>
+		<c:set var="article2" value=""/>
+		<c:set var="article3" value=""/>
+		<c:set var="article4" value=""/>
+
+		<c:choose>
+		    <c:when test="${board.id == 1}">
+		        <c:set var="article1" value="font-weight: bold;"/>
+		    </c:when>
+		    <c:when test="${board.id == 2}">
+		        <c:set var="article2" value="font-weight: bold;"/>
+		    </c:when>
+		    <c:when test="${board.id == 3}">
+		        <c:set var="article3" value="font-weight: bold;"/>
+		    </c:when>
+		    <c:when test="${board.id == 4}">
+		        <c:set var="article4" value="font-weight: bold;"/>
+		    </c:when>
+		</c:choose>
+		
 		<div class="list-bar">
-			<a class="article article1" href="../article/list?boardId=1&page=1"  onclick="handleClick(1)">자유게시판</a>
-			<a class="article article2" href="../article/list?boardId=2&page=1" onclick="handleClick(2)">공지사항</a>
-			<a class="article article3" href="../article/list?boardId=3&page=1" onclick="handleClick(3)">질의응답</a>
-			<a class="article article4" href="../article/mylist?boardId=4&page=1" onclick="handleClick(4)">My게시판</a>
+			<a class="article article1" href="../article/list?boardId=1&page=1" style="${article1}" onclick="handleClick(1)">자유게시판</a>
+			<a class="article article2" href="../article/list?boardId=2&page=1" style="${article2}" onclick="handleClick(2)">공지사항</a>
+			<a class="article article3" href="../article/list?boardId=3&page=1" style="${article3}" onclick="handleClick(3)">질의응답</a>
+			<a class="article article4" href="../article/mylist?boardId=4&page=1" style="${article4}" onclick="handleClick(4)">나의게시판</a>
 		</div>
+		
 		<div class="search-bar">
-			<div class="badge badge-outline">${articlesCount }개</div>
-			<div>${board.name}</div> <!-- 현재 게시판 이름!!!!!!!!!이거 수정해!!!!!!!!!!!!! -->
+			<div class="boardname">${board.name}</div>
+			<div class="articlecnt badge badge-outline">${articlesCount }개</div>
 			<form action="">
 				<input type="hidden" name="boardId" value="${param.boardId }" /> <select class="text-sm mr-3"
 					name="searchKeywordTypeCode">

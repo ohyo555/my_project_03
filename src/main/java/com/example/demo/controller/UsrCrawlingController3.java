@@ -38,14 +38,8 @@ import com.example.demo.vo.Schedule;
 @Component
 public class UsrCrawlingController3 {
 
-	/*
-	 * public static void main(String[] args) { UsrCrawlingController3 webCrawler =
-	 * new UsrCrawlingController3(); webCrawler.crawl(); }
-	 */
-
 	public List<News> crawl() {
 		System.setProperty("webdriver.chrome.driver", "C:\\work\\sts-4.21.0.RELEASE-workspace\\myproject\\chromedriver.exe");
-		// System.setProperty("webdriver.chrome.driver", "C:\\OHJ\\sts-4.22.0.RELEASE-workspace\\my_project_03\\chromedriver.exe");
 
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--headless"); // 브라우저를 표시하지 않고 실행할 경우
@@ -76,46 +70,15 @@ public class UsrCrawlingController3 {
 	            News news = new News(company_img, company_name, date, title, content, title_img, news_url);
 	            newsList.add(news); 
 	        }
-//			 System.out.println("**********************" + newsList.get(0).getCompany_img());
-//			 System.out.println("**********************" + newsList.get(2).getCompany_img());
-//			 System.out.println("**********************" + newsList.get(4).getCompany_img());
-//			 System.out.println("**********************" + newsList.get(6).getCompany_img());
-			 
-			 String a = driver.findElement(By.cssSelector("#sp_nws1 > .news_wrap.api_ani_send > div > div.news_contents > a.dsc_thumb > img")).getAttribute("src");
-			 System.err.println("**********************" + a);
-			 String b = driver.findElement(By.cssSelector("#sp_nws3 > .news_wrap.api_ani_send > div > div.news_contents > a.dsc_thumb > img")).getAttribute("src");
-			 System.err.println("**********************" + b);
-			 String c = driver.findElement(By.cssSelector("#sp_nws5 > .news_wrap.api_ani_send > div > div.news_contents > a.dsc_thumb > img")).getAttribute("src");
-			 System.err.println("**********************" + c);
-			 String d = driver.findElement(By.cssSelector("#sp_nws7 > .news_wrap.api_ani_send > div > div.news_contents > a.dsc_thumb > img")).getAttribute("src");
-			 System.err.println("**********************" + d);
-			 
-			//model.addAttribute("newsList", newsList);
-			// 결과를 파일에 저장
-			//saveToFile(elements, "test.txt");
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			
 		} finally {
 			// 웹 드라이버 종료
 			driver.quit();
-			// return "usr/game/news";
 		}
 		return newsList;
 	}
-
-	// txt 파일 저장
-	/*
-	 * private void saveToFile(List<WebElement> elements, String fileName) throws
-	 * IOException { FileWriter writer = new FileWriter(fileName);
-	 * System.out.println(elements.size());
-	 * 
-	 * for (int i = 1; i < elements.size(); i++) {
-	 * 
-	 * for (int j = 1; j <= 9; j++) { WebElement title = elements.get(i); // String
-	 * text = title.findElement(By.cssSelector(".text"));
-	 * 
-	 * // writer.write(text); } } }
-	 */
 		
 }

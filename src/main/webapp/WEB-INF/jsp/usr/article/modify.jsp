@@ -72,6 +72,8 @@ body {
 			editor.focus();
 			return;
 		}
+		$('#fileInput').attr('name', 'file__article__' + ${currentId} + '__extra__Img__1');
+		
 		form.body.value = markdown;
 		ArticleModify__submitFormDone = true;
 		form.submit();
@@ -95,6 +97,9 @@ body {
 					</div>
 					<div class="ml-1 mt-2 mb-1">작성일: ${article.regDate.substring(0,10) }</div>
 					<div class="ml-1 mt-2 mb-1">수정일: ${article.updateDate.substring(0,10) }</div>
+					<div class = "ml-1 mt-2 mb-1">첨부 이미지:
+						<input id="fileInput" placeholder="이미지를 선택해주세요" type="file" />
+					</div>
 				</div>
 			</div>
 			<div class="toast-ui-editor">

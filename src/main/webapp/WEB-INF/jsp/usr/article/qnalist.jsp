@@ -8,166 +8,194 @@
 <link rel='stylesheet'
 	href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
 
- <style>
+<style>
+.board-container {
+	max-width: 800px;
+	margin: 0px auto;
+	background-color: white;
+	position: relative; /* relative position 설정 */
+	margin-top: -20px;
+}
 
-        .board-container {
-            max-width: 800px;
-            margin: 0px auto;
-            background-color: white;
-			position: relative; /* relative position 설정 */
-			margin-top: -20px;
-        }
-		
-		section {
-			justify-content:center	
-			height: 800px;	
-		}
-		
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+section {
+	justify-content: center height: 800px;
+}
 
-		tr {
-		    font-size: 13px; /* tr 안의 글자 크기 조절 */
-		}
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
+}
 
-		/* 테이블 헤더,셀의 스타일 */
-        th, td {
-            padding: 10px;
-            text-align: center;
-            border-bottom: 1px solid #ddd; 
-        }
+tr {
+	font-size: 13px; /* tr 안의 글자 크기 조절 */
+}
 
-		/* 테이블 헤더 스타일 */
-        th {
-            background-color: #f2f2f2;
-        }
-        
-        .list {
-        	margin-top: 40px;
-        	height: 700px;
-        }
-        
-        
-        /* 목록 바 스타일 */
-		.list-bar {
-			width: 800px;
-            margin: 0px auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: white;
-            height: 30px;
-            background-color: rgb(251, 243, 238);
-            border-radius: 5px;
-            
-        }
-		
-		.article {
-			width: 80px;
-			height: 30px;
-			margin: 0px auto;
-			display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 1rem;
-            text-align: center;
-		}
-		
-        
-      	/* 검색창 스타일 */
-		form {
-		    margin: 10px;
-		    display: flex;
-		    align-items: center;
-		    padding-bottom: 0;
-		}
+/* 테이블 헤더,셀의 스타일 */
+th, td {
+	padding: 10px;
+	text-align: center;
+	border-bottom: 1px solid #ddd;
+}
 
-		/* 검색 바 스타일 */
-		.search-bar {
-            width: 800px;
-            margin: 0px auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+/* 테이블 헤더 스타일 */
+th {
+	background-color: #f2f2f2;
+}
 
+.boardname {
+	font-size: 1rem;
+	font-weight: 600;
+}
+
+.articlecnt {
+	margin-right: 320px;
+}
+
+.list {
+	margin-top: 40px;
+	height: 700px;
+}
+
+/* 목록 바 스타일 */
+.list-bar {
+	width: 800px;
+	margin: 0px auto;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: white;
+	height: 30px;
+	background-color: rgb(251, 243, 238);
+	border-radius: 5px;
+}
+
+.article {
+	width: 80px;
+	height: 30px;
+	margin: 0px auto;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 1rem;
+	text-align: center;
+}
+
+/* 검색창 스타일 */
+form {
+	margin: 10px;
+	display: flex;
+	align-items: center;
+	padding-bottom: 0;
+}
+
+/* 검색 바 스타일 */
+.search-bar {
+	width: 800px;
+	margin: 0px auto;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
 </style>
 
 <section class="text-xl px-4">
 	<input type="hidden" name="id" value="${article.id }" />
 	<div class="list mx-auto overflow-x-auto">
-	<div class = "list-bar">
-			<a class = "article" href="../article/list?boardId=1&page=1">자유게시판</a>
-			<a class = "article" href="../article/list?boardId=2&page=1">공지사항</a>
-			<a class = "article" href="../article/list?boardId=3&page=1">질의응답</a>
-			<a class = "article" href="../article/mylist?page=1">My게시판</a>
+		
+		<c:set var="article1" value=""/>
+		<c:set var="article2" value=""/>
+		<c:set var="article3" value=""/>
+		<c:set var="article4" value=""/>
+
+		<c:choose>
+		    <c:when test="${board.id == 1}">
+		        <c:set var="article1" value="font-weight: bold;"/>
+		    </c:when>
+		    <c:when test="${board.id == 2}">
+		        <c:set var="article2" value="font-weight: bold;"/>
+		    </c:when>
+		    <c:when test="${board.id == 3}">
+		        <c:set var="article3" value="font-weight: bold;"/>
+		    </c:when>
+		    <c:when test="${board.id == 4}">
+		        <c:set var="article4" value="font-weight: bold;"/>
+		    </c:when>
+		</c:choose>
+		
+		<div class="list-bar">
+			<a class="article article1" href="../article/list?boardId=1&page=1" style="${article1}" onclick="handleClick(1)">자유게시판</a>
+			<a class="article article2" href="../article/list?boardId=2&page=1" style="${article2}" onclick="handleClick(2)">공지사항</a>
+			<a class="article article3" href="../article/list?boardId=3&page=1" style="${article3}" onclick="handleClick(3)">질의응답</a>
+			<a class="article article4" href="../article/mylist?boardId=4&page=1" style="${article4}" onclick="handleClick(4)">나의게시판</a>
 		</div>
 		<div class="search-bar">
-		    <div class="badge badge-outline">${articlesCount }개</div>
-		    <div>${board.name}</div> <!-- 현재 게시판 이름!!!!!!!!!이거 수정해!!!!!!!!!!!!! -->
-	        <form action="">
-	            <input type="hidden" name="boardId" value="${param.boardId }" /> 
-	            <select class="text-sm mr-3" name="searchKeywordTypeCode">
-	                <option value="title" ${searchKeywordTypeCode.equals("title") ? 'selected="selected"' : '' }>제목</option>
-	                <option value="body" ${searchKeywordTypeCode.equals("body") ? 'selected="selected"' : '' }>내용</option>
-	                <option value="memberId" ${searchKeywordTypeCode.equals("memberId") ? 'selected="selected"' : '' }>작성자</option>
-	            </select> 
-	            <input value="${param.searchKeyword }" type="text" placeholder="검색어를 입력하세요" class="input input-bordered mr-3" style="font-size: 12px; height: 30px;" name="searchKeyword" />
-	            <button class="btn btn-sm btn-outline" type="submit" style = "background-color: rgba(255,255,255,0.5)">검색</button>
-	        </form>
+			<div class="boardname">${board.name}</div>
+			<div class="articlecnt badge badge-outline">${articlesCount }개</div>
+			<form action="">
+				<input type="hidden" name="boardId" value="${param.boardId }" /> <select class="text-sm mr-3"
+					name="searchKeywordTypeCode">
+					<option value="title" ${searchKeywordTypeCode.equals("title") ? 'selected="selected"' : '' }>제목</option>
+					<option value="body" ${searchKeywordTypeCode.equals("body") ? 'selected="selected"' : '' }>내용</option>
+					<option value="memberId" ${searchKeywordTypeCode.equals("memberId") ? 'selected="selected"' : '' }>작성자</option>
+				</select> <input value="${param.searchKeyword }" type="text" placeholder="검색어를 입력하세요" class="input input-bordered mr-3"
+					style="font-size: 12px; height: 30px;" name="searchKeyword" />
+				<button class="btn btn-sm btn-outline" type="submit" style="background-color: rgba(255, 255, 255, 0.5)">검색</button>
+			</form>
 		</div>
 		<div class="board-container">
-		<table>
-			<colgroup>
-				<col style="width: 10%" />
-				<col style="width: 20%" />
-				<col style="width: 40%" />
-				<col style="width: 10%" />
-				<col style="width: 10%" />
-				<col style="width: 10%" />
-			</colgroup>
-			
-			<thead>
-				<tr>
-					<th>번호</th>
-	                <th>날짜</th>
-	                <th>제목</th>
-	                <th>작성자</th>
-	                <th>조회수</th>
-	                <th>답변</th>
-				</tr>
-			</thead>
-			<tbody>
+			<table>
+				<colgroup>
+					<col style="width: 10%" />
+					<col style="width: 20%" />
+					<col style="width: 40%" />
+					<col style="width: 10%" />
+					<col style="width: 10%" />
+					<col style="width: 10%" />
+				</colgroup>
 
-				<c:if test="${articles.size() == 0 }">
+				<thead>
 					<tr>
-						<td colspan="7">게시글 없습니다.</td>
+						<th>번호</th>
+						<th>날짜</th>
+						<th>제목</th>
+						<th>작성자</th>
+						<th>조회수</th>
+						<th>답변</th>
 					</tr>
-				</c:if>
+				</thead>
+				<tbody>
 
-				<c:forEach var="article" items="${articles }">
-					<tr class="hover">
-						<td>${article.id }</td>
-						<td>${article.regDate.substring(0,10) }</td>
-						<c:if test="${article.cnt == 0}">
-							<td><a href="detail?id=${article.id }">${article.title }</a></td>
-						</c:if>
-						<c:if test="${article.cnt != 0}">
-							<td><a href="detail?id=${article.id }">${article.title }</a>
-							<div class="inline-block" style="color: #e0316e">[${article.cnt }]</div></td>
-						</c:if>
-						<td>${article.loginId }</td>
-						<td class = "article-detail__hit-count">${article.hitCount }</td>
-						<c:choose>
-							<c:when test="${article.cnt != 0}"><td>완료</td></c:when>
-							<c:otherwise><td>대기</td></c:otherwise>
-						</c:choose>
-					</tr>
-				</c:forEach>
-			</tbody>
+					<c:if test="${articles.size() == 0 }">
+						<tr>
+							<td colspan="7">게시글 없습니다.</td>
+						</tr>
+					</c:if>
+
+					<c:forEach var="article" items="${articles }">
+						<tr class="hover">
+							<td>${article.id }</td>
+							<td>${article.regDate.substring(0,10) }</td>
+							<c:if test="${article.cnt == 0}">
+								<td><a href="detail?id=${article.id }">${article.title }</a></td>
+							</c:if>
+							<c:if test="${article.cnt != 0}">
+								<td><a href="detail?id=${article.id }">${article.title }</a>
+									<div class="inline-block" style="color: #e0316e">[${article.cnt }]</div></td>
+							</c:if>
+							<td>${article.loginId }</td>
+							<td class="article-detail__hit-count">${article.hitCount }</td>
+							<c:choose>
+								<c:when test="${article.cnt != 0}">
+									<td>완료</td>
+								</c:when>
+								<c:otherwise>
+									<td>대기</td>
+								</c:otherwise>
+							</c:choose>
+						</tr>
+					</c:forEach>
+				</tbody>
 			</table>
 		</div>
 	</div>
