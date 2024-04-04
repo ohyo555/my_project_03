@@ -26,6 +26,17 @@ public interface CommentRepository {
 			""")
 	List<Comment> getForPrintComments(int loginedMemberId, String relTypeCode, int id);
 
+	@Select("""
+			SELECT C.*, M.loginId AS loginId, M.image AS image, SUM(C.goodreactionPoint) AS `sum`
+			FROM `comment` AS C
+			INNER JOIN `member` AS M
+			ON C.memberId = M.id
+			WHERE C.relId = #{id}
+			GROUP BY C.id
+			ORDER BY C.id ${order}
+			""")
+	List<Comment> getForPrintComments2(int loginedMemberId, String relTypeCode, int id, String order);
+	
 	@Insert("""
 			INSERT INTO `comment`
 			SET regDate = NOW(),

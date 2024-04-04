@@ -32,6 +32,18 @@ public class CommentService {
 		return comments;
 	}
 
+	public List<Comment> getForPrintComments(int loginedMemberId, String relTypeCode, int id, String order) {
+//		return commentRepository.getForPrintComments(loginedMemberId, relTypeCode, relId);
+		
+		List<Comment> comments = commentRepository.getForPrintComments2(loginedMemberId, relTypeCode, id, order);
+
+		for (Comment comment : comments) {
+			controlForPrintData(loginedMemberId, comment);
+		}
+
+		return comments;
+	}
+	
 	private void controlForPrintData(int loginedMemberId, Comment comment) {
 		if (comment == null) {
 			return;
