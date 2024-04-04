@@ -21,6 +21,7 @@ import com.example.demo.util.Ut;
 import com.example.demo.vo.Article;
 import com.example.demo.vo.Board;
 import com.example.demo.vo.Comment;
+import com.example.demo.vo.ReactionPoint;
 import com.example.demo.vo.ResultData;
 import com.example.demo.vo.Rq;
 
@@ -103,14 +104,22 @@ public class UsrArticleController {
 		if (usersReactionRd.isSuccess()) {
 			model.addAttribute("userCanMakeReaction", usersReactionRd.isSuccess());
 		}
-		
+
 	    // order 값을 받아옵니다.
-	    String order = req.getParameter("order");
+	    // String order = req.getParameter("order");
 
 	    List<Comment> comments = commentService.getForPrintComments(rq.getLoginedMemberId(), "article", id);
+	    // List<ReactionPoint> reactionPoints = reactionPointService.isAlreadyAddGoodComRp(rq.getLoginedMemberId(), id, "comment");
+		/*
+		 * for (Comment comment : comments) {
+		 * reactionPointService.isAlreadyAddGoodRp(rq.getLoginedMemberId(), id,
+		 * "comment"); System.out.println("Comment ID: " + comment.getId());
+		 * System.out.println("Comment Text: " + comment.getText()); // Add more actions
+		 * as needed }
+		 */
 	    
-		// ResultData usersCommentReactionRd = reactionPointService.usersReaction(rq.getLoginedMemberId(), "comment", id);
-		
+	    // ResultData usersComme  ntReactionRd = reactionPointService.usersReaction(rq.getLoginedMemberId(), "comment", id);
+		// List<ReactionPoint> reactionPoints = reactionPointService.isAlreadyAddGoodComRp(rq.getLoginedMemberId(), id, "comment");
 		if (usersReactionRd.isSuccess()) {
 			model.addAttribute("userCanMakeReaction", usersReactionRd.isSuccess());
 		}
@@ -125,7 +134,8 @@ public class UsrArticleController {
 		model.addAttribute("genfilecnt", genfilecnt);
 		model.addAttribute("isAlreadyAddGoodRp",reactionPointService.isAlreadyAddGoodRp(rq.getLoginedMemberId(), id, "article"));
 		model.addAttribute("isAlreadyAddBadRp",reactionPointService.isAlreadyAddBadRp(rq.getLoginedMemberId(), id, "article"));
-		
+		model.addAttribute("isAlreadyAddGoodComRp",reactionPointService.isAlreadyAddGoodComRp(rq.getLoginedMemberId(), id, "comment"));
+// 댓글아이디 넘겨
 		if(article.getBoardId() == 3) {
 			return "usr/article/qnadetail";
 		}

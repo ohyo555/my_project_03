@@ -190,6 +190,7 @@ body {
 	
 	var isAlreadyAddGoodRp = ${isAlreadyAddGoodRp};
 	var isAlreadyAddBadRp = ${isAlreadyAddBadRp};
+	var isAlreadyAddGoodComRp = ${isAlreadyAddGoodComRp};
 </script>
 
 <!-- 조회수 -->
@@ -221,8 +222,13 @@ body {
 <script>
 	<!-- 좋아요 싫어요 버튼	-->
 	function checkRP() {
+		console.log("!" + isAlreadyAddGoodRp);
+		console.log("@" + isAlreadyAddGoodComRp);
 		if(isAlreadyAddGoodRp == true){
 			$('#likeButton').html('♥');
+		}else if(isAlreadyAddGoodComRp == true){
+			console.log("!!!!!!!!!!!");
+			$('#clikeButton' + commentId).html('♥');
 		}else {
 			return;
 		}
@@ -271,9 +277,6 @@ body {
 		});
 	}
 	
-	$(function() {
-		checkRP();
-	});
 	
 	/* 댓글 좋아요 */
 		function doGoodCommentReaction(commentId) {
@@ -304,19 +307,20 @@ body {
 							clikeCount.text(data.data1);
 						}
 					}
-					
 				}else {
 					alert(data.msg);
 				}
-		
 			},
 			error: function(jqXHR,textStatus,errorThrown) {
 				alert('좋아요 오류 발생 : ' + textStatus);
-
 			}
-			
 		});
 	}
+	
+
+		$(function() {
+			checkRP();
+		});
 
 </script>
 

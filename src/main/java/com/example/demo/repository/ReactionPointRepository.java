@@ -22,7 +22,7 @@ public interface ReactionPointRepository {
 			AND RP.memberId = #{memberId}
 			""")
 	public int getSumReactionPoint(int memberId, String relTypeCode, int id);
-
+	
 	@Insert("""
 			INSERT INTO reactionPoint
 			SET regDate = NOW(),

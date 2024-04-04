@@ -108,6 +108,7 @@ public class ReactionPointService {
 	}
 
 	public boolean isAlreadyAddGoodRp(int memberId, int id, String relTypeCode) {
+
 		int getPointTypeCodeByMemberId = reactionPointRepository.getSumReactionPoint(memberId, relTypeCode, id);
 
 		if (getPointTypeCodeByMemberId > 0) {
@@ -118,6 +119,20 @@ public class ReactionPointService {
 	}
 
 	public boolean isAlreadyAddBadRp(int memberId, int id, String relTypeCode) {
+		int getPointTypeCodeByMemberId = reactionPointRepository.getSumReactionPoint(memberId, relTypeCode, id);
+
+		if (getPointTypeCodeByMemberId < 0) {
+			return true;
+		}
+
+		return false;
+	}
+
+
+
+	public boolean isAlreadyAddGoodComRp(int memberId, int comid, String relTypeCode) {
+		
+		int id = comid;
 		int getPointTypeCodeByMemberId = reactionPointRepository.getSumReactionPoint(memberId, relTypeCode, id);
 
 		if (getPointTypeCodeByMemberId < 0) {

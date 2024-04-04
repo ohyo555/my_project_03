@@ -17,6 +17,22 @@ CREATE TABLE article(
 );
 
 # testdata 생성
+INSERT INTO article
+SET title = '테스트 하는중',
+`body` = '테스트테스트테스트테스트테스트테스트테스트',
+memberId = '22',
+boardId = '1',
+regDate = NOW(),
+updateDate = NOW();
+
+SELECT C.*, M.loginId AS loginId, M.image AS image, SUM(C.goodreactionPoint) AS `sum`
+			FROM `comment` AS C
+			INNER JOIN `member` AS M
+			ON C.memberId = M.id
+			WHERE C.relId = "1"
+			GROUP BY C.id
+			ORDER BY C.id DESC;
+
 
 # article 데이터 대량 
 INSERT INTO article(title, `body`, memberId, boardId, regDate, updateDate)
@@ -238,6 +254,7 @@ updateDate = NOW(),
 
 SELECT *
 FROM reactionPoint
+
 CREATE TABLE reactionPoint(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     memberId INT(10) UNSIGNED NOT NULL,
@@ -275,6 +292,8 @@ CREATE TABLE `comment`(
     updateDate DATETIME NOT NULL
 );
 
+SELECT *
+FROM `comment`
 #---------------------------------------------------------------------------
 
 # team 테이블 생성
@@ -644,8 +663,8 @@ FROM team;
 SELECT *
 FROM board;
 
-select *
-from player;
+SELECT *
+FROM player;
 
 SELECT * FROM `genFile`;
 
@@ -670,6 +689,22 @@ INNER JOIN `member` AS M ON A.memberId = M.id
 LEFT JOIN `reply` AS R ON A.id = R.relId
 GROUP BY A.id
 ORDER BY A.id DESC
+
+SELECT *
+FROM `comment`
+
+SELECT *
+FROM reactionPoint
+WHERE memberId = "22"
+
+SELECT A.id AS articleId, C.id AS commentId, C.goodReactionPoint, C.memberId AS commem, M.id
+FROM `article` AS A
+JOIN `comment` AS C
+ON A.id = C.relId
+LEFT JOIN `member` AS M
+ON A.memberId = M.id = C.memberId
+WHERE A.id = "1003"
+
 
 
 SELECT LAST_INSERT_ID();
