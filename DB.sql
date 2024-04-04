@@ -294,56 +294,6 @@ CREATE TABLE `comment`(
     regDate DATETIME NOT NULL,
     updateDate DATETIME NOT NULL
 );
-SELECT *
-FROM article
-SELECT *
-FROM `member`
-SELECT *
-FROM `comment`
-SELECT *
-FROM reactionPoint
-
-SELECT *
-FROM reactionPoint AS r
-WHERE relTypeCode = "comment"
-AND memberId = "6"
-
-SELECT *
-FROM `comment` AS c
-INNER JOIN article AS a
-ON c.relId = a.id
-INNER JOIN reactionPoint AS r
-ON c.id = r.relId
-WHERE a.id = "1000"
-AND r.relTypeCode = "comment"
-AND r.memberId = "6"
-
-
-#drop table `comment`
-INSERT INTO `comment`
-SET `comment` = '정관장1212121',
-memberId = '6',
-goodReactionPoint = 0,
-relTypeCode = "comment",
-relId = "1000",
-regDate = NOW(),
-updateDate = NOW();
-INSERT INTO `comment`
-SET `comment` = '12312321321',
-memberId = '6',
-goodReactionPoint = 0,
-relTypeCode = "comment",
-relId = "999",
-regDate = NOW(),
-updateDate = NOW();
-INSERT INTO `comment`
-SET `comment` = '정78987987',
-memberId = '4',
-goodReactionPoint = 0,
-relTypeCode = "comment",
-relId = "1000",
-regDate = NOW(),
-updateDate = NOW();
 
 #---------------------------------------------------------------------------
 
@@ -756,6 +706,56 @@ LEFT JOIN `member` AS M
 ON A.memberId = M.id = C.memberId
 WHERE A.id = "1003"
 
+SELECT *
+FROM article
+SELECT *
+FROM `member`
+SELECT *
+FROM `comment`
+SELECT *
+FROM reactionPoint
+
+SELECT *
+FROM reactionPoint AS r
+WHERE relTypeCode = "comment"
+AND memberId = "6"
+
+SELECT *
+FROM `comment` AS c
+INNER JOIN article AS a
+ON c.relId = a.id
+INNER JOIN reactionPoint AS r
+ON c.id = r.relId
+WHERE a.id = "1000"
+AND r.relTypeCode = "comment"
+AND r.memberId = "6"
+
+
+#drop table `comment`
+INSERT INTO `comment`
+SET `comment` = '정관장1212121',
+memberId = '6',
+goodReactionPoint = 0,
+relTypeCode = "comment",
+relId = "1000",
+regDate = NOW(),
+updateDate = NOW();
+INSERT INTO `comment`
+SET `comment` = '12312321321',
+memberId = '6',
+goodReactionPoint = 0,
+relTypeCode = "comment",
+relId = "999",
+regDate = NOW(),
+updateDate = NOW();
+INSERT INTO `comment`
+SET `comment` = '정78987987',
+memberId = '4',
+goodReactionPoint = 0,
+relTypeCode = "comment",
+relId = "1000",
+regDate = NOW(),
+updateDate = NOW();
 
 
 SELECT LAST_INSERT_ID();
