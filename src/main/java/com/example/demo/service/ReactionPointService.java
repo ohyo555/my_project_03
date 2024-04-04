@@ -1,9 +1,12 @@
 package com.example.demo.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.repository.ReactionPointRepository;
+import com.example.demo.vo.ReactionPoint;
 import com.example.demo.vo.ResultData;
 
 @Service
@@ -130,16 +133,11 @@ public class ReactionPointService {
 
 
 
-	public boolean isAlreadyAddGoodComRp(int memberId, int comid, String relTypeCode) {
+	public List<ReactionPoint> isAlreadyAddGoodComRp(int memberId, int id, String relTypeCode) {
 		
-		int id = comid;
-		int getPointTypeCodeByMemberId = reactionPointRepository.getSumReactionPoint(memberId, relTypeCode, id);
+		List<ReactionPoint> isAlreadyAddGoodComRp = reactionPointRepository.getSumComReactionPoint(memberId, relTypeCode, id);
 
-		if (getPointTypeCodeByMemberId < 0) {
-			return true;
-		}
-
-		return false;
+		return isAlreadyAddGoodComRp;
 	}
 
 }

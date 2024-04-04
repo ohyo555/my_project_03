@@ -190,7 +190,13 @@ body {
 	
 	var isAlreadyAddGoodRp = ${isAlreadyAddGoodRp};
 	var isAlreadyAddBadRp = ${isAlreadyAddBadRp};
-	var isAlreadyAddGoodComRp = ${isAlreadyAddGoodComRp};
+	
+	var AlreadyreactionPointId = [];
+    <c:forEach var="reactionPoint" items="${reactionPoints}">
+        var id = "${reactionPoint.id}";
+        AlreadyreactionPointId.push({ id: id});
+    </c:forEach>
+    
 </script>
 
 <!-- 조회수 -->
@@ -222,14 +228,23 @@ body {
 <script>
 	<!-- 좋아요 싫어요 버튼	-->
 	function checkRP() {
-		console.log("!" + isAlreadyAddGoodRp);
-		console.log("@" + isAlreadyAddGoodComRp);
+		
+		for(let i = 0; i < AlreadyreactionPointId.length; i++){
+			
+			var clikeButton = $('#clikeButton' + AlreadyreactionPointId[i].id);
+			clikeButton.html('♥');
+		}
+		
+	/* 	${reactionPoints}.forEach(function(reactionPoint) {
+		}
+			// $('#clikeButton'reactionPoint.id).html('♥');
+			console.log(reactionPoint.id);
+			//console.log($'#clikeButton'reactionPoint.id);
+		} */
+		
 		if(isAlreadyAddGoodRp == true){
 			$('#likeButton').html('♥');
-		}else if(isAlreadyAddGoodComRp == true){
-			console.log("!!!!!!!!!!!");
-			$('#clikeButton' + commentId).html('♥');
-		}else {
+		} else {
 			return;
 		}
 	}
@@ -573,11 +588,11 @@ function desc(articleId) {
 			
 						<!-- 좋아요 버튼과 리액션 정보 -->
 						<div class="c_option">
-							<button id="clikeButton${comments.id}" class="reaction btn btn-outline btn-error text-xl"
+							<button id="clikeButton${comments.id}" class="reaction btn btn-outline btn-error text-xl pl-0 pr-3"
 								style="border: none; background-color: transparent;" onclick="doGoodCommentReaction('${comments.id}')">♡</button>
-							<c:if test="${comments.goodReactionPoint > 0}">
-								<div id="clickCount${comments.id}" class="text-xs">${comments.goodReactionPoint }</div>
-							</c:if>
+							<%-- <c:if test="${comments.goodReactionPoint > 0}"> --%>
+								<div id="clikeCount${comments.id}" class="text-xs">${comments.goodReactionPoint }</div>
+							<%-- </c:if> --%>
 							<c:if test="${comments.memberId == rq.loginedMemberId }">
 								<!-- 수정 및 삭제 옵션 -->
 								<nav class="option">

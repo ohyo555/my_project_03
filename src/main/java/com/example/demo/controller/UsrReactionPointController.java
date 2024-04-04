@@ -35,6 +35,7 @@ public class UsrReactionPointController {
 		ResultData usersReactionRd = reactionPointService.usersReaction(rq.getLoginedMemberId(), relTypeCode, relId);
 
 		int usersReaction = (int) usersReactionRd.getData1();
+
 		int goodRP = articleService.getGoodRP(relId);
 		int badRP = articleService.getBadRP(relId);
 		
@@ -46,13 +47,13 @@ public class UsrReactionPointController {
 			rd = reactionPointService.addGoodReactionPoint(rq.getLoginedMemberId(), relTypeCode, relId);
 			return ResultData.from("S-2", "싫어요 눌렀잖어", "goodRP", goodRP, "badRP", badRP);
 		}
-
+		System.err.println("!!!!!!!!" + goodRP);
 		ResultData reactionRd = reactionPointService.addGoodReactionPoint(rq.getLoginedMemberId(), relTypeCode, relId);
-
+		
 		if(relTypeCode.equals("comment")) {
 			goodRP = commentService.getGoodRP(relId);
 		}
-		
+		System.err.println("!!!!!!!!" + goodRP);
 		if (reactionRd.isFail()) {
 			return ResultData.from(reactionRd.getResultCode(), reactionRd.getMsg());
 		}

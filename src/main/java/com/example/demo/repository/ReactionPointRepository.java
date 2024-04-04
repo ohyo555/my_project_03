@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.example.demo.vo.Comment;
+import com.example.demo.vo.ReactionPoint;
 
 @Mapper
 public interface ReactionPointRepository {
@@ -22,7 +23,7 @@ public interface ReactionPointRepository {
 			AND RP.memberId = #{memberId}
 			""")
 	public int getSumReactionPoint(int memberId, String relTypeCode, int id);
-	
+
 	@Insert("""
 			INSERT INTO reactionPoint
 			SET regDate = NOW(),
@@ -52,5 +53,18 @@ public interface ReactionPointRepository {
 			AND relId = #{relId}
 			""")
 	public void deleteReactionPoint(int memberId, String relTypeCode, int relId);
+
+	@Select("""
+			SELECT *
+			FROM `comment` AS c
+			INNER JOIN article AS a
+			ON c.relId = a.id
+			INNER JOIN reactionPoint AS r
+			ON c.id = r.relId
+			WHERE a.id = #{id}
+			AND r.relTypeCode = #{relTypeCode}
+			AND r.memberId = #{memberId}
+			""")
+	public List<ReactionPoint> getSumComReactionPoint(int memberId, String relTypeCode, int id);
 
 }

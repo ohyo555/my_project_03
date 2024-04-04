@@ -109,7 +109,7 @@ public class UsrArticleController {
 	    // String order = req.getParameter("order");
 
 	    List<Comment> comments = commentService.getForPrintComments(rq.getLoginedMemberId(), "article", id);
-	    // List<ReactionPoint> reactionPoints = reactionPointService.isAlreadyAddGoodComRp(rq.getLoginedMemberId(), id, "comment");
+	    List<ReactionPoint> reactionPoints = reactionPointService.isAlreadyAddGoodComRp(rq.getLoginedMemberId(), id, "comment");
 		/*
 		 * for (Comment comment : comments) {
 		 * reactionPointService.isAlreadyAddGoodRp(rq.getLoginedMemberId(), id,
@@ -134,11 +134,7 @@ public class UsrArticleController {
 		model.addAttribute("genfilecnt", genfilecnt);
 		model.addAttribute("isAlreadyAddGoodRp",reactionPointService.isAlreadyAddGoodRp(rq.getLoginedMemberId(), id, "article"));
 		model.addAttribute("isAlreadyAddBadRp",reactionPointService.isAlreadyAddBadRp(rq.getLoginedMemberId(), id, "article"));
-		model.addAttribute("isAlreadyAddGoodComRp",reactionPointService.isAlreadyAddGoodComRp(rq.getLoginedMemberId(), id, "comment"));
-// 댓글아이디 넘겨
-		if(article.getBoardId() == 3) {
-			return "usr/article/qnadetail";
-		}
+		model.addAttribute("reactionPoints",reactionPoints);
 		
 		return "usr/article/detail";
 	}
