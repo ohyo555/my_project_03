@@ -19,7 +19,7 @@
 
 section {
 	justify-content: center;
-	height: 800px;
+	height:95%;
 }
 
 table {
@@ -80,7 +80,7 @@ form {
 	background-color: white;
 	height: 30px;
 	background-color: rgb(251, 243, 238);
-	border-radius: 5px;
+	border-radius: 10px;
 }
 
 .article {

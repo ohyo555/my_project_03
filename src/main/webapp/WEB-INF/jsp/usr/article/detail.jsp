@@ -276,22 +276,22 @@ body {
 	});
 	
 	/* 댓글 좋아요 */
-		function doGoodCommentReaction(articleId) {
-		
+		function doGoodCommentReaction(commentId) {
 		$.ajax({
 			url: '/usr/reactionPoint/doGoodReaction',
 			type: 'POST',
-			data: {relTypeCode: 'comment', relId: articleId},
+			data: {relTypeCode: 'comment', relId: commentId},
 			dataType: 'json',
 			success: function(data){
 				console.log(data);
+				console.log(commentId);
 				console.log('data.data1Name : ' + data.data1Name);
 				console.log('data.data1 : ' + data.data1);
 				console.log('data.data2Name : ' + data.data2Name);
 				console.log('data.data2 : ' + data.data2);
 				if(data.resultCode.startsWith('S-')){
-					var clikeButton = $('#clikeButton');
-					var clikeCount = $('#clikeCount');
+					var clikeButton = $('#clikeButton' + commentId);
+					var clikeCount = $('#clikeCount' + commentId);
 					/* var DislikeButton = $('#DislikeButton');
 					var DislikeCount = $('#DislikeCount');
 					 */
@@ -337,7 +337,7 @@ function asc(articleId) {
             commentContainer.empty();
             console.log(data);
             //$(".comment").html(data);
-            commentContainer.innerHTML = "";
+            //commentContainer.innerHTML = "";
             //var getdata = document.getElementById("commnets");
             //getdata.append(data);
             
@@ -370,7 +370,33 @@ function desc(articleId) {
             // 정렬된 댓글을 화면에 출력합니다.
             //commentContainer.empty();
             console.log(data);
-            $(".comment").html(data);
+            // Empty the existing comment container
+            $(".comment").empty();
+            
+            // Iterate over the array of comments
+           /*  data.forEach(function(comment) {
+                // Create HTML elements for each comment
+                var commentHtml = `
+                    <div class="chat chat-start">
+                        <!-- Add HTML content for each comment -->
+                        <div class="chat-image avatar">
+                            <div class="w-10 rounded-full">
+                                <img alt="User Image" src="${comment.image}" />
+                            </div>
+                        </div>
+                        <div class="chat-header font-semibold">
+                            ${comment.loginId}
+                            <time class="text-xs opacity-50">${comment.updateDate.substring(0, 10)}</time>
+                        </div>
+                        <div class="commentbar">
+                            <span class="chat-bubble" id="comment-${comment.id}">${comment.comment}</span>
+                            <!-- Add other elements as needed -->
+                        </div>
+                    </div>`;
+                
+                // Append the HTML for the current comment to the comment container
+                $(".comment").append(commentHtml);
+            }); */
         },
         error: function(error) {
             console.error("Error during sorting comments:", error);
@@ -421,6 +447,8 @@ function desc(articleId) {
 	}
 
 	function toggleModifybtn(commentId) {
+		console.log(commentId);
+/* 		$('#comment-'+commentId).css('display', 'none'); */
 		$('#modify-btn-'+commentId).hide();
 		$('#save-btn-'+commentId).show();
 		$('#comment-'+commentId).hide();
@@ -464,11 +492,10 @@ function desc(articleId) {
 	}
 </script>
 
-
 </head>
 <body>
 	<div class="backbutton_div">
-		<button class="backbutton btn-outline" onclick="history.back();">뒤로가기</button>
+	<button class="backbutton btn-outline"  onclick="history.back();">뒤로가기</button>
 	</div>
 	<div class="post-container">
 		<div class="post-header">
@@ -477,9 +504,7 @@ function desc(articleId) {
 				<div style="display: flex; justify-content: space-between;">
 					<!-- ${article.id }${goodRP}${badRP} 글번호 -->
 					<p class="p-1">${article.type }</p>
-					<p class="p-1">
-						조회 <span class="article-detail__hit-count">${article.hitCount }</span> / ${article.regDate.substring(0,10) }
-					</p>
+					<p class="p-1">조회 <span class = "article-detail__hit-count">${article.hitCount }</span> / ${article.regDate.substring(0,10) }</p>
 				</div>
 				<div style="display: flex; justify-content: space-between; align-items: center;">
 					<p class="p-1 text-4xl" style="font-weight: bold;">${article.title }</p>
@@ -489,20 +514,19 @@ function desc(articleId) {
 		</div>
 		<!-- 좋아요, 수정, 삭제 -->
 		<div class="post-actions">
-			<div style="display: flex; align-items: center;">
-				<button id="likeButton" class="btn btn-outline btn-error text-xl"
-					style="border: none; background-color: transparent;" onclick="doGoodReaction(${param.id})">♡</button>
-				<div id="likeCount" class="text-xs">${article.goodReactionPoint }</div>
-			</div>
-
+		<div style="display: flex; align-items: center;">
+			<button id="likeButton" class="btn btn-outline btn-error text-xl"
+					style="border: none; background-color: transparent;" onclick="doGoodReaction(${param.id})">♡</button>			
+			<div id="likeCount" class="text-xs">${article.goodReactionPoint }</div>
+		</div>
+			
 			<div>
 				<c:if test="${article.userCanModify }">
-					<a class="btn btn-outline text-xs" style="border: none; background-color: transparent;"
-						href="../article/modify?id=${article.id }">수정</a>
+					<a class="btn btn-outline text-xs" style="border: none; background-color: transparent;" href="../article/modify?id=${article.id }">수정</a>
 				</c:if>
 				<c:if test="${article.userCanDelete }">
-					<a class="btn btn-outline text-xs" style="border: none; background-color: transparent;"
-						onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;" href="../article/doDelete?id=${article.id }">삭제</a>
+					<a class="btn btn-outline text-xs" style="border: none; background-color: transparent;" onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;"
+						href="../article/doDelete?id=${article.id }">삭제</a>
 				</c:if>
 			</div>
 		</div>
@@ -511,7 +535,7 @@ function desc(articleId) {
 			<p>${article.body }</p>
 			<c:if test="${genfilecnt != 0}">
 				<img class="w-full rounded-xl" src="${rq.getImgUri(article.id)}" onerror="${rq.profileFallbackImgOnErrorHtml}"
-					alt="" />
+							alt="" />
 			</c:if>
 			<!-- Add more content here -->
 		</div>
@@ -519,17 +543,16 @@ function desc(articleId) {
 		<!-- 등록된 댓글 -->
 		<div class="comment">
 			<div class="button mb-2">
-				<!-- <button id = "asc" class="mr-2" onclick="asc();">등록순</button> -->
-				<button id="asc" class="mr-2" onclick="asc(${param.id});">뒤로가기</button>
-				<button id="desc" onclick="desc(${param.id});">최신순</button>
+				<button id = "asc" class="mr-2" onclick="asc();">등록순</button>
+				<button id = "desc" onclick="desc();">최신순</button>
 			</div>
-			<c:forEach id = "comments" var="comments" items="${comments }">
+			<c:forEach var="comments" items="${comments }">
 				<!-- 각 댓글을 나타내는 부분 -->
 				<div class="chat chat-start">
 					<!-- 댓글 작성자의 이미지와 정보 -->
 					<div class="chat-image avatar">
 						<div class="w-10 rounded-full">
-							<img alt="Tailwind CSS Navbar component" id = "img"s rc="${comments.image }" />
+							<img alt="Tailwind CSS Navbar component" src="${comments.image }" />
 						</div>
 					</div>
 					<!-- 댓글 작성자 정보와 작성 날짜 -->
@@ -539,18 +562,17 @@ function desc(articleId) {
 					</div>
 					<!-- 댓글 내용과 수정 폼, 리액션 옵션 -->
 					<div class="commentbar">
-						<span style="background-color: #777" class="chat-bubble" id="c1 comment-${comments.id }">${comments.comment }</span>
+						<span style="background-color: #777" class="chat-bubble" id="comment-${comments.id }">${comments.comment }</span>
 						<form method="POST" id="modify-form-${comments.id }" style="display: none;" action="/usr/comment/doModify">
 							<input class="chat-bubble" type="text" value="${comments.comment }" name="comment-text-${comments.id }" />
 						</form>
-
+			
 						<!-- 좋아요 버튼과 리액션 정보 -->
 						<div class="c_option">
-							<button id="clikeButton" class="reaction btn btn-outline btn-error text-xl"
-								onclick="doGoodCommentReaction(${param.id})" style="border: none; background-color: transparent;"
-								onclick="doGoodReaction(${param.id})">♡</button>
+							<button id="clikeButton${comments.id}" class="reaction btn btn-outline btn-error text-xl"
+								style="border: none; background-color: transparent;" onclick="doGoodCommentReaction('${comments.id}')">♡</button>
 							<c:if test="${comments.goodReactionPoint > 0}">
-								<div id="clickCount" class="text-xs">${comments.goodReactionPoint }</div>
+								<div id="clickCount${comments.id}" class="text-xs">${comments.goodReactionPoint }</div>
 							</c:if>
 							<c:if test="${comments.memberId == rq.loginedMemberId }">
 								<!-- 수정 및 삭제 옵션 -->
@@ -588,13 +610,13 @@ function desc(articleId) {
 							<textarea name="comment" placeholder="댓글을 입력해주세요" class="textarea textarea-bordered h-24"></textarea>
 						</div>
 					</div>
-					<button class="btn btn-outline m-3" type="submit">댓글등록</button>
+					<button class="btn btn-outline m-3"  type="submit">댓글등록</button>
 				</label>
 			</form>
 		</c:if>
 		<c:if test="${!rq.isLogined() }">
-			<div class="backbutton_div">
-				<a class="loginbutton btn-outline" href="${rq.loginUri }">LOGIN</a> 후 이용해주세요.
+			<div class = "backbutton_div">
+				<a class="loginbutton btn-outline"  href="${rq.loginUri }">LOGIN</a> 후 이용해주세요.
 			</div>
 		</c:if>
 	</div>

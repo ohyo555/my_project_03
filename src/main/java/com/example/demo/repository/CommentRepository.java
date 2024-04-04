@@ -75,4 +75,18 @@ public interface CommentRepository {
 			WHERE id = #{relId}
 			""")
 	public int increaseGoodReactionPoint(int relId);
+	
+	@Update("""
+			UPDATE `comment`
+			SET goodReactionPoint = goodReactionPoint - 1
+			WHERE id = #{relId}
+			""")
+	public int decreaseGoodReactionPoint(int relId);
+	
+	@Select("""
+			SELECT goodReactionPoint
+			FROM `comment`
+			WHERE id = #{relId}
+			""")
+	public int getGoodRP(int relId);
 }

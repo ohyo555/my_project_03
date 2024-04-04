@@ -99,7 +99,7 @@ public class CommentService {
 		commentRepository.deleteComment(id);
 		return ResultData.from("S-1", Ut.f("%d번 댓글을 삭제했습니다", id));
 	}
-	
+
 	public ResultData increaseGoodReactionPoint(int relId) {
 		int affectedRow = commentRepository.increaseGoodReactionPoint(relId);
 
@@ -109,4 +109,18 @@ public class CommentService {
 
 		return ResultData.from("S-1", "좋아요 증가", "affectedRow", affectedRow);
 	}
+	public ResultData decreaseGoodReactionPoint(int relId) {
+		int affectedRow = commentRepository.decreaseGoodReactionPoint(relId);
+
+		if (affectedRow == 0) {
+			return ResultData.from("F-1", "없는 게시물");
+		}
+
+		return ResultData.from("S-1", "좋아요 감소", "affectedRow", affectedRow);
+	}
+	
+	public int getGoodRP(int relId) {
+		return commentRepository.getGoodRP(relId);
+	}
+
 }

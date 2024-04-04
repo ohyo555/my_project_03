@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.service.ArticleService;
+import com.example.demo.service.CommentService;
 import com.example.demo.service.ReactionPointService;
 import com.example.demo.util.Ut;
 import com.example.demo.vo.ResultData;
@@ -20,6 +21,9 @@ public class UsrReactionPointController {
 
 	@Autowired
 	private ArticleService articleService;
+	
+	@Autowired
+	private CommentService commentService;
 
 	@Autowired
 	private ReactionPointService reactionPointService;
@@ -31,29 +35,27 @@ public class UsrReactionPointController {
 		ResultData usersReactionRd = reactionPointService.usersReaction(rq.getLoginedMemberId(), relTypeCode, relId);
 
 		int usersReaction = (int) usersReactionRd.getData1();
-
+		int goodRP = articleService.getGoodRP(relId);
+		int badRP = articleService.getBadRP(relId);
+		
 		if (usersReaction == 1) {
 			ResultData rd = reactionPointService.deleteGoodReactionPoint(rq.getLoginedMemberId(), relTypeCode, relId);
-			int goodRP = articleService.getGoodRP(relId);
-			int badRP = articleService.getBadRP(relId);
 			return ResultData.from("S-1", "좋아요 취소", "goodRP", goodRP, "badRP", badRP);
 		} else if (usersReaction == -1) {
 			ResultData rd = reactionPointService.deleteBadReactionPoint(rq.getLoginedMemberId(), relTypeCode, relId);
 			rd = reactionPointService.addGoodReactionPoint(rq.getLoginedMemberId(), relTypeCode, relId);
-			int goodRP = articleService.getGoodRP(relId);
-			int badRP = articleService.getBadRP(relId);
-
 			return ResultData.from("S-2", "싫어요 눌렀잖어", "goodRP", goodRP, "badRP", badRP);
 		}
 
 		ResultData reactionRd = reactionPointService.addGoodReactionPoint(rq.getLoginedMemberId(), relTypeCode, relId);
 
+		if(relTypeCode.equals("comment")) {
+			goodRP = commentService.getGoodRP(relId);
+		}
+		
 		if (reactionRd.isFail()) {
 			return ResultData.from(reactionRd.getResultCode(), reactionRd.getMsg());
 		}
-
-		int goodRP = articleService.getGoodRP(relId);
-		int badRP = articleService.getBadRP(relId);
 
 		return ResultData.from(reactionRd.getResultCode(), reactionRd.getMsg(), "goodRP", goodRP, "badRP", badRP);
 	}

@@ -87,6 +87,10 @@ public class ReactionPointService {
 		case "article":
 			articleService.decreaseGoodReactionPoint(relId);
 			break;
+			
+		case "comment":
+			commentService.decreaseGoodReactionPoint(relId);
+			break;
 		}
 		return ResultData.from("S-1", "좋아요 취소 됨");
 
