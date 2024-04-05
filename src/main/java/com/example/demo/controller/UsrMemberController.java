@@ -61,8 +61,6 @@ public class UsrMemberController {
 
 		Rq rq = (Rq) req.getAttribute("rq");
 		
-		int selectplayer = memberService.isselectplayer(loginId);
-		
 		if (rq.isLogined()) {
 			return Ut.jsHistoryBack("F-A", "이미 로그인 함");
 		}
@@ -76,7 +74,9 @@ public class UsrMemberController {
 
 		Member member = memberService.getMemberByLoginId_1(loginId); // 응원선수 없을 때 
 		
-		if (selectplayer != 0) {
+		Member selectplayer = memberService.isselectplayer(loginId);
+		
+		if (selectplayer.getCnt() != 0) {
 			member = memberService.getMemberByLoginId(loginId); // 응원선수 있을 때 
 		}
 

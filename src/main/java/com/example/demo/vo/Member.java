@@ -34,6 +34,8 @@ public class Member {
 	private String position;
 	private String pimage;
 	
+	private int tcnt;
+	private int cnt;
 	
 	private String new_loginPw;
 	

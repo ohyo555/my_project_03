@@ -170,7 +170,7 @@ public class MemberService {
 		return memberRepository.getMemberByLoginId_1(loginId);
 	}
 
-	public int isselectplayer(String loginId) {
+	public Member isselectplayer(String loginId) {
 		return memberRepository.isselectplayer(loginId);
 	}
 

@@ -153,11 +153,11 @@ public interface MemberRepository {
 	public Member getMemberByLoginId_1(String loginId);
 
 	@Select("""
-			SELECT IFNULL(fplayer,0) as cnt
+			SELECT COUNT(*) AS `tcnt`, IFNULL(fplayer,0) as cnt
 			FROM `member`
 			WHERE loginId = #{loginId}
 			""")
-	public int isselectplayer(String loginId);
+	public Member isselectplayer(String loginId);
 
 	public void modify(int id, String sha256, Object object, Object object2, Object object3, Object object4);
 
