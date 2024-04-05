@@ -4,7 +4,6 @@
 <link rel="stylesheet" href="/resource/background.css" />
 <%@ include file="../common/head.jspf"%>
 <%@ include file="../common/toastUiEditorLib.jspf"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -192,10 +191,6 @@ body {
 	var isAlreadyAddGoodRp = ${isAlreadyAddGoodRp};
 	var isAlreadyAddBadRp = ${isAlreadyAddBadRp};
 	
-	var orderby = null;
-	var commentslen = ${comments}.length();
-	console.log(commentslen);
-	
 	var AlreadyreactionPointId = [];
     <c:forEach var="reactionPoint" items="${reactionPoints}">
         var id = "${reactionPoint.id}";
@@ -239,6 +234,13 @@ body {
 			var clikeButton = $('#clikeButton' + AlreadyreactionPointId[i].id);
 			clikeButton.html('♥');
 		}
+		
+	/* 	${reactionPoints}.forEach(function(reactionPoint) {
+		}
+			// $('#clikeButton'reactionPoint.id).html('♥');
+			console.log(reactionPoint.id);
+			//console.log($'#clikeButton'reactionPoint.id);
+		} */
 		
 		if(isAlreadyAddGoodRp == true){
 			$('#likeButton').html('♥');
@@ -378,18 +380,17 @@ function desc(articleId) {
     // AJAX 요청을 보냅니다.
     console.log(articleId);
     var commentContainer = $(".comment");
-    orderby = "desc";
     
     $.ajax({
         type: "POST",
         url: "/usr/article/detail2", // 댓글을 정렬하는 서버 측 URL
-        data: { id: articleId, order: "asc" }, // 등록순으로 정렬하는 요청
+        data: { id: articleId, order: "desc" }, // 등록순으로 정렬하는 요청
         success: function(data) {
             // 정렬된 댓글을 화면에 출력합니다.
             //commentContainer.empty();
             console.log(data);
-            
             // Empty the existing comment container
+            $(".comment").empty();
             
             // Iterate over the array of comments
            /*  data.forEach(function(comment) {
@@ -564,62 +565,7 @@ function desc(articleId) {
 				<button id = "asc" class="mr-2" onclick="asc();">등록순</button>
 				<button id = "desc" onclick="desc();">최신순</button>
 			</div>
-			<%-- <c:if test="orderby != null">
-				<% for (int i = ${comments} - 1; i >= 0; i--) { %>
-				<!-- 각 댓글을 나타내는 부분 -->
-				<div class="chat chat-start">
-					<!-- 댓글 작성자의 이미지와 정보 -->
-					<div class="chat-image avatar">
-						<div class="w-10 rounded-full">
-							<img alt="Tailwind CSS Navbar component" src="${comments.image }" />
-						</div>
-					</div>
-					<!-- 댓글 작성자 정보와 작성 날짜 -->
-					<div class="chat-header font-semibold">
-						${comments.loginId }
-						<time class="text-xs opacity-50">${comments.updateDate.substring(0,10) }</time>
-					</div>
-					<!-- 댓글 내용과 수정 폼, 리액션 옵션 -->
-					<div class="commentbar">
-						<span style="background-color: #777" class="chat-bubble" id="comment-${comments.id }">${comments.comment }</span>
-						<form method="POST" id="modify-form-${comments.id }" style="display: none;" action="/usr/comment/doModify">
-							<input class="chat-bubble" type="text" value="${comments.comment }" name="comment-text-${comments.id }" />
-						</form>
-			
-						<!-- 좋아요 버튼과 리액션 정보 -->
-						<div class="c_option">
-							<button id="clikeButton${comments.id}" class="reaction btn btn-outline btn-error text-xl pl-0 pr-3"
-								style="border: none; background-color: transparent;" onclick="doGoodCommentReaction('${comments.id}')">♡</button>
-							<c:if test="${comments.goodReactionPoint > 0}">
-								<div id="clikeCount${comments.id}" class="text-xs">${comments.goodReactionPoint }</div>
-							</c:if>
-							<c:if test="${comments.memberId == rq.loginedMemberId }">
-								<!-- 수정 및 삭제 옵션 -->
-								<nav class="option">
-									<ul>
-										<li><a class="hover:underline" href="#">···</a>
-											<ul>
-												<c:if test="${comments.userCanModify }">
-													<li><a onclick="toggleModifybtn('${comments.id}');" style="white-space: nowrap;"
-														id="modify-btn-${comments.id }">수정</a></li>
-													<li><a onclick="doModifyComment('${comments.id}');" style="white-space: nowrap; display: none;"
-														id="save-btn-${comments.id }">저장</a></li>
-												</c:if>
-												<c:if test="${comments.userCanDelete }">
-													<li><a onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;"
-														href="../comment/doDelete?id=${comments.id }">삭제</a></li>
-												</c:if>
-											</ul></li>
-									</ul>
-								</nav>
-							</c:if>
-						</div>
-					</div>
-				</div>
-			</c:forEach>
-			</c:if> 
-			<c:if test="orderby == null">--%>
-				<c:forEach var="comments" items="${comments }">
+			<c:forEach var="comments" items="${comments }">
 				<!-- 각 댓글을 나타내는 부분 -->
 				<div class="chat chat-start">
 					<!-- 댓글 작성자의 이미지와 정보 -->
@@ -671,7 +617,6 @@ function desc(articleId) {
 					</div>
 				</div>
 			</c:forEach>
-			<%-- </c:if> --%>
 		</div>
 
 		<!-- 댓글 등록 -->

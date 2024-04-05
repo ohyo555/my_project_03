@@ -34,17 +34,27 @@ public class UsrReactionPointController {
 
 		ResultData usersReactionRd = reactionPointService.usersReaction(rq.getLoginedMemberId(), relTypeCode, relId);
 		int usersReaction = (int) usersReactionRd.getData1();
+		int goodRP = 0;
+		int badRP = 0;
 		
 		if (usersReaction == 1) {
 			ResultData rd = reactionPointService.deleteGoodReactionPoint(rq.getLoginedMemberId(), relTypeCode, relId);
-			int goodRP = articleService.getGoodRP(relId);
-			int badRP = articleService.getBadRP(relId);
+			if(relTypeCode.equals("article")) {
+				goodRP = articleService.getGoodRP(relId);
+				badRP = articleService.getBadRP(relId);
+			} else {
+				goodRP = commentService.getGoodRP(relId);
+			}
 			return ResultData.from("S-1", "좋아요 취소", "goodRP", goodRP, "badRP", badRP);
 		} else if (usersReaction == -1) {
 			ResultData rd = reactionPointService.deleteBadReactionPoint(rq.getLoginedMemberId(), relTypeCode, relId);
 			rd = reactionPointService.addGoodReactionPoint(rq.getLoginedMemberId(), relTypeCode, relId);
-			int goodRP = articleService.getGoodRP(relId);
-			int badRP = articleService.getBadRP(relId);
+			if(relTypeCode == "article") {
+				goodRP = articleService.getGoodRP(relId);
+				badRP = articleService.getBadRP(relId);
+			} else {
+				goodRP = commentService.getGoodRP(relId);
+			}
 			return ResultData.from("S-3", "싫어요 눌렀잖어", "goodRP", goodRP, "badRP", badRP);
 		}
 		ResultData reactionRd = reactionPointService.addGoodReactionPoint(rq.getLoginedMemberId(), relTypeCode, relId);
@@ -53,14 +63,16 @@ public class UsrReactionPointController {
 			return ResultData.from(reactionRd.getResultCode(), reactionRd.getMsg());
 		}
 
-		int goodRP = articleService.getGoodRP(relId);
-		int badRP = articleService.getBadRP(relId);
+		//int badRP = articleService.getBadRP(relId);
 		
 		if(relTypeCode.equals("comment")) {
 			goodRP = commentService.getGoodRP(relId);
+			badRP = articleService.getBadRP(relId);
+		} else {
+			goodRP = articleService.getGoodRP(relId);
 		}
 		
-		return ResultData.from(reactionRd.getResultCode(), reactionRd.getMsg(), "goodRP", goodRP, "badRP", badRP);
+		return ResultData.from(reactionRd.getResultCode(), reactionRd.getMsg(), "goodRP", goodRP);
 	}
 
 	@RequestMapping("/usr/reactionPoint/doBadReaction")
