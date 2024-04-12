@@ -165,6 +165,7 @@ button {
       const currentDate = date || new Date(); // currentDate 선언
       const calendarBody = document.querySelector("#calendarBody");
       const currentMonthElement = document.getElementById("currentMonth");
+      
       calendarBody.innerHTML = "";
 
       const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
@@ -196,13 +197,14 @@ button {
       
       while (currentDay <= lastDayOfMonth) {
         const weekRow = document.createElement("tr");
-        const formatcurrentDay = getFormattedDate(currentDay);
+        //const formatcurrentDay = getFormattedDate(currentDay);
         
         /* 현재 월의 모든 날짜 */ 
         const allDatesOfMonth = getAllDatesOfMonth(currentDate.getMonth(), currentDate.getFullYear());
      
         for (let i = 0; i < 7; i++) {
           const dayCell = document.createElement("td");
+          const formatcurrentDay = getFormattedDate(currentDay);
           const formatcurrentDayYear = getFormattedDateYear(currentDay); //2024-03-01
           dayCell.textContent = currentDay.getDate();
           
@@ -221,30 +223,42 @@ button {
 
           if (isGameToday(currentDay, allDatesOfMonth, gameDates)) {
 
+        	  // const formatcurrentDay = getFormattedDateYear(currentDay);
+        	  
+        	  //console.log("formatcurrentDay: " + formatcurrentDay);
+        	  
+        	/*   $(".reservationdate").each(
+        			  
+        			  if(formatcurrentDay == testday4){
+               			console.log("testday3: " + testday3);
+               			reservationdate.classList.add("reservationdate2");
+               			
+               			// $(testday3).classList.add("reservationdate2");
+      	         	}
+        	  ); */
+        	  
         	  for(let i = 0; i < scheduleData.length; i++){
-         		 const formatcurrentDay = getFormattedDate(currentDay);
          		 
          		 var testday = formatcurrentDayYear.split("-");
          		 var testday2 = new Date(parseInt(testday[0]), parseInt(testday[1]) - 1, parseInt(testday[2])-5);
          		 var testday3 = getFormattedDateYear(testday2);
          		 var testday4 = getFormattedDate(testday2);
-	         		 
-	         	if(formatcurrentDay == testday4){
-	         		reservationdate.classList.add("reservationdate2");
+         		 
+         		//console.log("firstDayOfMonth: " + firstDayOfMonth);
+         		//console.log("lastDayOfMonth: " + lastDayOfMonth);
+         		
+         		if(testday2 >= firstDayOfMonth && testday2 <= lastDayOfMonth){
+         			
+         			//var elementsWithTestDay3Class = document.querySelectorAll('.' + testday3);
+         			console.log("testday3: " + testday3);
+         			//if(elementsWithTestDay3Class){
+         				//elementsWithTestDay3Class.classList.add("reservationdate2");
+         			//}
+         			
 	         	}
+         		
          		if(formatcurrentDay == scheduleData[i].date){
-         			 //if(testday3 )      				 
-	         		 // console.log(formatcurrentDayYear);
-	         		 //while (formatcurrentDay != scheduleData[i].date) {
-	                     //const reservationdate = document.querySelector(formatcurrentDayYear);
-	                     //if (reservationdate) {
-	                         //reservationdate.classList.add("reservationdate2");
-	                     //}
-	                     //testday3 = getNextDay(testday3); // You need to implement this function to get the next day
-	                 //}
          			 reservationdate.classList.add("reservationdate2");
-
-	                //testday3.classList.add("reservationdate2");
          			//formatcurrentDayYear.classList.css("background-color", "skyblue");
          		 }
 
