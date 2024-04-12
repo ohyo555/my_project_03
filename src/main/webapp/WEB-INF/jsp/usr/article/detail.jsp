@@ -353,8 +353,10 @@ function asc(articleId) {
         data: { id: articleId, order: "asc" }, // 등록순으로 정렬하는 요청
         success: function(data) {
             // 정렬된 댓글을 화면에 출력합니다.
-            commentContainer.empty();
+			commentContainer.innerHTML = "";
             console.log(data);
+            
+            
             //$(".comment").html(data);
             //commentContainer.innerHTML = "";
             //var getdata = document.getElementById("commnets");
@@ -379,7 +381,7 @@ function asc(articleId) {
 function desc(articleId) {
     // AJAX 요청을 보냅니다.
     console.log(articleId);
-    var commentContainer = $(".comment");
+    var commentContainer = $(".chat");
     
     $.ajax({
         type: "POST",
@@ -390,7 +392,15 @@ function desc(articleId) {
             //commentContainer.empty();
             console.log(data);
             // Empty the existing comment container
-            $(".comment").empty();
+            commentContainer.innerHTML = "";
+            
+            data.forEach(function(com) {
+				var option = document.getElementByClassName("option");
+				option.value = room.id;
+				option.text = room.roomNum;
+				roomSelect.appendChild(option);
+			});
+            
             
             // Iterate over the array of comments
            /*  data.forEach(function(comment) {
@@ -560,7 +570,7 @@ function desc(articleId) {
 		</div>
 
 		<!-- 등록된 댓글 -->
-		<div class="comment">
+		<div class="comment" id="comment">
 			<div class="button mb-2">
 				<button id = "asc" class="mr-2" onclick="asc();">등록순</button>
 				<button id = "desc" onclick="desc();">최신순</button>
@@ -570,7 +580,7 @@ function desc(articleId) {
 				<div class="chat chat-start">
 					<!-- 댓글 작성자의 이미지와 정보 -->
 					<div class="chat-image avatar">
-						<div class="w-10 rounded-full">
+						<div class="w-10 rounded-full ">
 							<img alt="Tailwind CSS Navbar component" src="${comments.image }" />
 						</div>
 					</div>
