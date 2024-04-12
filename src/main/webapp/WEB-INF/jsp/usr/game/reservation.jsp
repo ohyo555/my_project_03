@@ -221,22 +221,6 @@ button {
               dayCell.classList.add("highlight");
           }
 
-          if (isGameToday(currentDay, allDatesOfMonth, gameDates)) {
-
-        	  // const formatcurrentDay = getFormattedDateYear(currentDay);
-        	  
-        	  //console.log("formatcurrentDay: " + formatcurrentDay);
-        	  
-        	/*   $(".reservationdate").each(
-        			  
-        			  if(formatcurrentDay == testday4){
-               			console.log("testday3: " + testday3);
-               			reservationdate.classList.add("reservationdate2");
-               			
-               			// $(testday3).classList.add("reservationdate2");
-      	         	}
-        	  ); */
-        	  
         	  for(let i = 0; i < scheduleData.length; i++){
          		 
          		 var testday = formatcurrentDayYear.split("-");
@@ -246,7 +230,9 @@ button {
          		 
          		//console.log("firstDayOfMonth: " + firstDayOfMonth);
          		//console.log("lastDayOfMonth: " + lastDayOfMonth);
-         		
+         		if(testday3){
+         			
+         		}
          		if(testday2 >= firstDayOfMonth && testday2 <= lastDayOfMonth){
          			
          			//var elementsWithTestDay3Class = document.querySelectorAll('.' + testday3);
@@ -263,8 +249,6 @@ button {
          		 }
 
         	 }
-        	
-        	}
 
        // 일요일은 빨간색, 토요일은 파란색
           if (i === 0) {
