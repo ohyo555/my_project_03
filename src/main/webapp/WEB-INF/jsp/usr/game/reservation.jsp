@@ -220,7 +220,7 @@ button {
 
       currentMonthElement.textContent = getMonthName(currentDate.getMonth()) + " " + currentDate.getFullYear();
       
-      while (currentDay <= lastDayOfMonth) {
+      while (currentDay <= lastDayOfMonth) {9
         const weekRow = document.createElement("tr");
         //const formatcurrentDay = getFormattedDate(currentDay);
         
@@ -238,6 +238,14 @@ button {
 		  reservationdate.classList.add(formatcurrentDay); // div의 클래스명을 지정해줘
 		  dayCell.appendChild(reservationdate);
 		  
+		// 현재 날짜가 예약 가능한 날짜 범위에 있는지 확인
+		    const isReservationDayResult = isReservationDay(currentDay, allDatesOfMonth, gameDates5DaysBefore, gameDates);
+		    if (isReservationDayResult.isInGameDates5DaysBefore || isReservationDayResult.isInGameDates) {
+		        reservationdate.classList.add("reservationdate2");
+		    }
+
+		    dayCell.appendChild(reservationdate);
+		  
           if (currentDay.getMonth() !== currentDate.getMonth()) {
             dayCell.classList.add("other-month"); // 현재 월의 날짜인지 여부를 체크
           }
@@ -247,37 +255,36 @@ button {
           }
           
           //isReservationDay(currentDay, gameDates5DaysBefore, gameDates);
-          if (isReservationDay(currentDay, allDatesOfMonth, gameDates5DaysBefore) || isGameToday(currentDay, allDatesOfMonth, gameDates)) {
-        	  
+          /* if (isReservationDay(currentDay, allDatesOfMonth, gameDates5DaysBefore, gameDates)) {
+
         	  console.log("###" + formatcurrentDay);
         	  for(let i = 0; i < gameDates5DaysBefore.length; i++){
-        		 /* 
-        			  console.log(i + " : " + gameDates5DaysBefore[i]);
-              		  console.log(i + " : " + gameDates[i]);
-              		   */
-              		  
+        		  if(isInGameDates5DaysBefore >= formatcurrentDay && isInGameDates <= formatcurrentDay){
+        			  reservationdate.classList.add("reservationdate2");
+        		  } */
+              		/*   
               		$(".reservationdate").each(
               				function() {
               					if(gameDates5DaysBefore[i] < formatcurrentDay && gameDates[i] > formatcurrentDay){
               					$(this).css("background-color", "skyblue");
               					}
               				}
-              		);
+              		); */
               		
               		// 현재 날짜의 클래스명을 가져옵니다.
                       //const currentDateClass = gameDates[i]; // 클래스명에서 날짜 부분만 추출합니다.
                       //console.log("Current date class: " + currentDateClass);
 
                       // 해당 클래스명을 가진 요소들의 배경색을 분홍색으로 변경합니다.
-                       /* const elements = document.querySelectorAll(currentDateClass);
-			           for (let j = 0; j < elements.length; j++) {
-			                console.log(j);
-			                console.log("elements[j] " + elements[j]);
-			                elements[j].style.backgroundColor = "pink";
-			           } */
-                  }
+                      // const elements = document.querySelectorAll(currentDateClass);
+			           //for (let j = 0; j < elements.length; j++) {
+			               // console.log(j);
+			              //  console.log("elements[j] " + elements[j]);
+			                //elements[j].style.backgroundColor = "pink";
+			          // } 
+         /*          }
               }
-
+ */
        // 일요일은 빨간색, 토요일은 파란색
           if (i === 0) {
             dayCell.classList.add("sunday");
@@ -338,10 +345,19 @@ button {
         return Date;
     }
     
-    function isReservationDay(currentDate, allDatesOfMonth, gameDates5DaysBefore) {
-        const formattedCurrentDate2 = getFormattedDate(currentDate);
-        //console.log("gameDates5DaysBefore:" + gameDates5DaysBefore);
-        return gameDates5DaysBefore.includes(formattedCurrentDate2);
+    function isReservationDay(currentDate, allDatesOfMonth, gameDates5DaysBefore, gameDates) {
+        const formattedCurrentDate = getFormattedDate(currentDate);
+
+        const isInGameDates5DaysBefore = gameDates5DaysBefore.includes(formattedCurrentDate);
+        const isInGameDates = gameDates.includes(formattedCurrentDate);
+        
+  /*       console.log("isInGameDates5DaysBefore: " + isInGameDates5DaysBefore);
+        console.log("isInGameDates: " + isInGameDates); */
+        
+        return {
+            isInGameDates5DaysBefore: isInGameDates5DaysBefore,
+            isInGameDates: isInGameDates 
+        };
     }
     
     function isGameToday(currentDate, allDatesOfMonth, gameDates) { // 경기 있는 날

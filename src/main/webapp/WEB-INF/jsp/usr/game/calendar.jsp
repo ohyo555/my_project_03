@@ -473,6 +473,7 @@ button {
     
     function isGameToday(currentDate, allDatesOfMonth, gameDates) { // 경기 있는 날
         const formattedCurrentDate = getFormattedDate(currentDate);
+        
         return gameDates.includes(formattedCurrentDate);
     }
     
