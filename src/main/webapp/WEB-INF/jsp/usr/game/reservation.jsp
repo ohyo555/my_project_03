@@ -101,12 +101,11 @@ button {
 	align-items: center;
 	height: 20px;
 	font-size: 8px;
-	border: 3px solid #dddddd;
 }
 
 .reservationdate2 {
-	background-color: pink;
-	border: 3px solid pink;
+	background-color: rgba(255, 192, 203, 0.5);
+	border: rgba(255, 192, 203, 0.5); 
 }
 
 @keyframes shake {
@@ -179,6 +178,32 @@ button {
           </c:forEach>
       ];
       
+   	  // 경기 5일전 날짜 배열
+      const gameDates5DaysBefore = [];
+
+      gameDates.forEach(date => {
+    	  
+          const [monthStr, dayStr] = date.split('.'); 
+          
+          const month = parseInt(monthStr, 10);
+          const day = parseInt(dayStr, 10);
+
+          const originalDate = new Date();
+          originalDate.setMonth(month - 1);
+          originalDate.setDate(day);
+          
+          const fiveDaysBefore = new Date(originalDate);
+          fiveDaysBefore.setDate(originalDate.getDate() - 5);
+
+          const formattedMonth = String(fiveDaysBefore.getMonth() + 1).padStart(2, '0');
+          const formattedDay = String(fiveDaysBefore.getDate()).padStart(2, '0');
+
+          const a = new Date(currentDate.getFullYear(), formattedMonth - 1, formattedDay);
+
+          gameDates5DaysBefore.push(getFormattedDate(a));
+      });
+      
+      console.log(gameDates5DaysBefore);
       // scheduleData 스케줄과 경기장을 담은 배열 + 경기번호
       var scheduleData = [];
 	    <c:forEach var="item" items="${schedule}">
@@ -210,7 +235,7 @@ button {
           
           const reservationdate = document.createElement("div");
           reservationdate.classList.add("reservationdate");
-		  reservationdate.classList.add(formatcurrentDayYear); // div의 클래스명을 지정해줘
+		  reservationdate.classList.add(formatcurrentDay); // div의 클래스명을 지정해줘
 		  dayCell.appendChild(reservationdate);
 		  
           if (currentDay.getMonth() !== currentDate.getMonth()) {
@@ -220,35 +245,38 @@ button {
           if (isToday(currentDay)) { // 오늘 날짜에 대한 표시
               dayCell.classList.add("highlight");
           }
+          
+          //isReservationDay(currentDay, gameDates5DaysBefore, gameDates);
+          if (isReservationDay(currentDay, allDatesOfMonth, gameDates5DaysBefore) || isGameToday(currentDay, allDatesOfMonth, gameDates)) {
+        	  
+        	  console.log("###" + formatcurrentDay);
+        	  for(let i = 0; i < gameDates5DaysBefore.length; i++){
+        		 /* 
+        			  console.log(i + " : " + gameDates5DaysBefore[i]);
+              		  console.log(i + " : " + gameDates[i]);
+              		   */
+              		  
+              		$(".reservationdate").each(
+              				function() {
+              					if(gameDates5DaysBefore[i] < formatcurrentDay && gameDates[i] > formatcurrentDay){
+              					$(this).css("background-color", "skyblue");
+              					}
+              				}
+              		);
+              		
+              		// 현재 날짜의 클래스명을 가져옵니다.
+                      //const currentDateClass = gameDates[i]; // 클래스명에서 날짜 부분만 추출합니다.
+                      //console.log("Current date class: " + currentDateClass);
 
-        	  for(let i = 0; i < scheduleData.length; i++){
-         		 
-         		 var testday = formatcurrentDayYear.split("-");
-         		 var testday2 = new Date(parseInt(testday[0]), parseInt(testday[1]) - 1, parseInt(testday[2])-5);
-         		 var testday3 = getFormattedDateYear(testday2);
-         		 var testday4 = getFormattedDate(testday2);
-         		 
-         		//console.log("firstDayOfMonth: " + firstDayOfMonth);
-         		//console.log("lastDayOfMonth: " + lastDayOfMonth);
-         		if(testday3){
-         			
-         		}
-         		if(testday2 >= firstDayOfMonth && testday2 <= lastDayOfMonth){
-         			
-         			//var elementsWithTestDay3Class = document.querySelectorAll('.' + testday3);
-         			console.log("testday3: " + testday3);
-         			//if(elementsWithTestDay3Class){
-         				//elementsWithTestDay3Class.classList.add("reservationdate2");
-         			//}
-         			
-	         	}
-         		
-         		if(formatcurrentDay == scheduleData[i].date){
-         			 reservationdate.classList.add("reservationdate2");
-         			//formatcurrentDayYear.classList.css("background-color", "skyblue");
-         		 }
-
-        	 }
+                      // 해당 클래스명을 가진 요소들의 배경색을 분홍색으로 변경합니다.
+                       /* const elements = document.querySelectorAll(currentDateClass);
+			           for (let j = 0; j < elements.length; j++) {
+			                console.log(j);
+			                console.log("elements[j] " + elements[j]);
+			                elements[j].style.backgroundColor = "pink";
+			           } */
+                  }
+              }
 
        // 일요일은 빨간색, 토요일은 파란색
           if (i === 0) {
@@ -262,8 +290,8 @@ button {
         }
 
         calendarBody.appendChild(weekRow);
-      }
     }
+}
 
     function prevMonth() { // 이전달에 대한 달력 나오도록
       currentDate.setMonth(currentDate.getMonth() - 1);
@@ -310,11 +338,18 @@ button {
         return Date;
     }
     
-    function isGameToday(currentDate, allDatesOfMonth, gameDates) { // 경기 있는 날
-        const formattedCurrentDate = getFormattedDate(currentDate);
-        return gameDates.includes(formattedCurrentDate);
+    function isReservationDay(currentDate, allDatesOfMonth, gameDates5DaysBefore) {
+        const formattedCurrentDate2 = getFormattedDate(currentDate);
+        //console.log("gameDates5DaysBefore:" + gameDates5DaysBefore);
+        return gameDates5DaysBefore.includes(formattedCurrentDate2);
     }
     
+    function isGameToday(currentDate, allDatesOfMonth, gameDates) { // 경기 있는 날
+        const formattedCurrentDate = getFormattedDate(currentDate);
+        //console.log("gameDates:" + gameDates);
+        return gameDates.includes(formattedCurrentDate);
+    }
+
     function GameTeamInfo(team) {
     	
     	// Team 정보를 담은 배열(이미지)
