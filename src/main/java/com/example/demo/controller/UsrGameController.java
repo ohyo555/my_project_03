@@ -82,6 +82,12 @@ public class UsrGameController {
 	@RequestMapping("/usr/game/reservation2")
 	public String showreservation2(Model model) {
 		
+		List<String> gamedate = gameService.getGamedate();
+		List<Schedule> schedule = gameService.getGamelist();
+
+		model.addAttribute("gamedate", gamedate);
+		model.addAttribute("schedule", schedule);
+	
 		return "/usr/game/reservation2";
 	}
 

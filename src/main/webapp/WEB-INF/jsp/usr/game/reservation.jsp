@@ -203,7 +203,6 @@ button {
           gameDates5DaysBefore.push(getFormattedDate(a));
       });
       
-      console.log(gameDates5DaysBefore);
       // scheduleData 스케줄과 경기장을 담은 배열 + 경기번호
       var scheduleData = [];
 	    <c:forEach var="item" items="${schedule}">
@@ -238,14 +237,24 @@ button {
 		  reservationdate.classList.add(formatcurrentDay); // div의 클래스명을 지정해줘
 		  dayCell.appendChild(reservationdate);
 		  
-		// 현재 날짜가 예약 가능한 날짜 범위에 있는지 확인
-		    const isReservationDayResult = isReservationDay(currentDay, allDatesOfMonth, gameDates5DaysBefore, gameDates);
-		    if (isReservationDayResult.isInGameDates5DaysBefore || isReservationDayResult.isInGameDates) {
-		        reservationdate.classList.add("reservationdate2");
-		    }
+		// 여기서 추가한 부분입니다.
+	       if (gameDates.some(date => date === formatcurrentDay)) {
+            const gameIndex = gameDates.indexOf(formatcurrentDay);
+			console.log("gameIndex: " + gameIndex);
+			
+			console.log("formatcurrentDay: " + currentDay);
+			console.log("gameDates5DaysBefore[gameIndex]: " + gameDates5DaysBefore[32]);
 
-		    dayCell.appendChild(reservationdate);
-		  
+            if (
+                new Date(formatcurrentDay) >= new Date(gameDates5DaysBefore[gameIndex]) && 
+                new Date(formatcurrentDay) <= new Date(formatcurrentDayYear)
+            ) {
+            	
+            	
+            	reservationdate.classList.add("reservationdate2"); 
+            }
+        }
+		
           if (currentDay.getMonth() !== currentDate.getMonth()) {
             dayCell.classList.add("other-month"); // 현재 월의 날짜인지 여부를 체크
           }
@@ -254,37 +263,6 @@ button {
               dayCell.classList.add("highlight");
           }
           
-          //isReservationDay(currentDay, gameDates5DaysBefore, gameDates);
-          /* if (isReservationDay(currentDay, allDatesOfMonth, gameDates5DaysBefore, gameDates)) {
-
-        	  console.log("###" + formatcurrentDay);
-        	  for(let i = 0; i < gameDates5DaysBefore.length; i++){
-        		  if(isInGameDates5DaysBefore >= formatcurrentDay && isInGameDates <= formatcurrentDay){
-        			  reservationdate.classList.add("reservationdate2");
-        		  } */
-              		/*   
-              		$(".reservationdate").each(
-              				function() {
-              					if(gameDates5DaysBefore[i] < formatcurrentDay && gameDates[i] > formatcurrentDay){
-              					$(this).css("background-color", "skyblue");
-              					}
-              				}
-              		); */
-              		
-              		// 현재 날짜의 클래스명을 가져옵니다.
-                      //const currentDateClass = gameDates[i]; // 클래스명에서 날짜 부분만 추출합니다.
-                      //console.log("Current date class: " + currentDateClass);
-
-                      // 해당 클래스명을 가진 요소들의 배경색을 분홍색으로 변경합니다.
-                      // const elements = document.querySelectorAll(currentDateClass);
-			           //for (let j = 0; j < elements.length; j++) {
-			               // console.log(j);
-			              //  console.log("elements[j] " + elements[j]);
-			                //elements[j].style.backgroundColor = "pink";
-			          // } 
-         /*          }
-              }
- */
        // 일요일은 빨간색, 토요일은 파란색
           if (i === 0) {
             dayCell.classList.add("sunday");
@@ -330,8 +308,8 @@ button {
     
     function getFormattedDate(date) { // 날짜 형식 바꿔주는거
     	
-        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Extract month with leading zero if necessary
-        const day = date.getDate().toString().padStart(2, '0'); // Extract day with leading zero if necessary
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
         var Date = month + "." + day;
         return Date;
     }
@@ -343,27 +321,6 @@ button {
         const day = date.getDate().toString().padStart(2, '0');
         var Date = year + "-" + month + "-" + day;
         return Date;
-    }
-    
-    function isReservationDay(currentDate, allDatesOfMonth, gameDates5DaysBefore, gameDates) {
-        const formattedCurrentDate = getFormattedDate(currentDate);
-
-        const isInGameDates5DaysBefore = gameDates5DaysBefore.includes(formattedCurrentDate);
-        const isInGameDates = gameDates.includes(formattedCurrentDate);
-        
-  /*       console.log("isInGameDates5DaysBefore: " + isInGameDates5DaysBefore);
-        console.log("isInGameDates: " + isInGameDates); */
-        
-        return {
-            isInGameDates5DaysBefore: isInGameDates5DaysBefore,
-            isInGameDates: isInGameDates 
-        };
-    }
-    
-    function isGameToday(currentDate, allDatesOfMonth, gameDates) { // 경기 있는 날
-        const formattedCurrentDate = getFormattedDate(currentDate);
-        //console.log("gameDates:" + gameDates);
-        return gameDates.includes(formattedCurrentDate);
     }
 
     function GameTeamInfo(team) {
@@ -382,10 +339,48 @@ button {
      		}
         } 
     }
-  
+   
     // 최초 로딩 시 달력 표시
     displayCalendar();
   </script>
+  <script>
+	//각 td 태그에 대해 반복문 수행
+	
+	$(".reservationdate").each(
+			function() {
+				$(this).css("background-color", "red");
+				const year = currentDate.getFullYear(); // 현재 달력에서의 year 가져오기
+				
+				 for(let i = 0; i < gameDates5DaysBefore.length; i++){
+					 const [monthStr, dayStr] = gameDates5DaysBefore[i].split('.'); 
+					 const month = parseInt(monthStr, 10) - 1; // JavaScript의 month는 0부터 시작하므로 1을 빼줍니다.
+				     const day = parseInt(dayStr, 10);
+					 const gameDateObjects = new Date (year, month, day); 
+				 }
+				
+				 console.log("gameDateObjects: " + gameDateObjects);
+				 
+			    // gameDates 배열의 각 요소를 Date 객체로 변환
+			    const gameDateObjects = gameDates.map(date => {
+			        const [monthStr, dayStr] = date.split('.'); 
+			        const month = parseInt(monthStr, 10) - 1; // JavaScript의 month는 0부터 시작하므로 1을 빼줍니다.
+			        const day = parseInt(dayStr, 10);
+			        return new Date(year, month, day);
+			    });
+				
+				//console.log("gameDateObjects: " + gameDateObjects);
+
+			    // gameDates5DaysBefore 배열의 각 요소를 Date 객체로 변환
+			    const gameDate5DaysBeforeObjects = gameDates5DaysBefore.map(date => {
+			        const [monthStr, dayStr] = date.split('.'); 
+			        const month = parseInt(monthStr, 10) - 1; // JavaScript의 month는 0부터 시작하므로 1을 빼줍니다.
+			        const day = parseInt(dayStr, 10);
+			        return new Date(year, month, day);
+			    });
+				
+			});
+  </script>
+  
 
 </body>
 </html>
