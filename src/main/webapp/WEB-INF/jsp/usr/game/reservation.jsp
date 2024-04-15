@@ -236,8 +236,14 @@ button {
           reservationdate.classList.add("reservationdate");
 		  reservationdate.classList.add(formatcurrentDay); // div의 클래스명을 지정해줘
 		  dayCell.appendChild(reservationdate);
+
+		  if(document.querySelector(".reservationdate")){
+			  for(let i = 0; i < gameDates5DaysBefore.length; i++){
+				  
+			  }
+			  
+		  }
 		  
-		// 여기서 추가한 부분입니다.
 	       if (gameDates.some(date => date === formatcurrentDay)) {
             const gameIndex = gameDates.indexOf(formatcurrentDay);
 			console.log("gameIndex: " + gameIndex);

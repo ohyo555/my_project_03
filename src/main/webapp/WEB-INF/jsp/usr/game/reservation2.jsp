@@ -260,38 +260,44 @@ button {
           if (isToday(currentDay)) { // 오늘 날짜에 대한 표시
               dayCell.classList.add("highlight");
           }
-          
-          //isReservationDay(currentDay, gameDates5DaysBefore, gameDates);
-          /* if (isReservationDay(currentDay, allDatesOfMonth, gameDates5DaysBefore, gameDates)) {
+ 		  
+		 if (isGameToday(currentDay, allDatesOfMonth, gameDates)) {
+			 const game1 = [];
+			 
+			  for(let i = 0; i < gameDates.length; i++){
 
-        	  console.log("###" + formatcurrentDay);
-        	  for(let i = 0; i < gameDates5DaysBefore.length; i++){
-        		  if(isInGameDates5DaysBefore >= formatcurrentDay && isInGameDates <= formatcurrentDay){
-        			  reservationdate.classList.add("reservationdate2");
-        		  } */
-              		/*   
-              		$(".reservationdate").each(
-              				function() {
-              					if(gameDates5DaysBefore[i] < formatcurrentDay && gameDates[i] > formatcurrentDay){
-              					$(this).css("background-color", "skyblue");
-              					}
-              				}
-              		); */
-              		
-              		// 현재 날짜의 클래스명을 가져옵니다.
-                      //const currentDateClass = gameDates[i]; // 클래스명에서 날짜 부분만 추출합니다.
-                      //console.log("Current date class: " + currentDateClass);
+		          const [monthStr, dayStr] = gameDates[i].split('.'); 
+		          
+		          const month = parseInt(monthStr, 10);
+		          const day = parseInt(dayStr, 10);
 
-                      // 해당 클래스명을 가진 요소들의 배경색을 분홍색으로 변경합니다.
-                      // const elements = document.querySelectorAll(currentDateClass);
-			           //for (let j = 0; j < elements.length; j++) {
-			               // console.log(j);
-			              //  console.log("elements[j] " + elements[j]);
-			                //elements[j].style.backgroundColor = "pink";
-			          // } 
-         /*          }
-              }
- */
+		          /*  const originalDate = new Date();
+		          originalDate.setMonth(month - 1);
+		          originalDate.setDate(day);
+		          
+		          const fiveDaysBefore = new Date(originalDate);
+		          fiveDaysBefore.setDate(originalDate.getDate() - 5); 
+		          const formattedMonth = String(fiveDaysBefore.getMonth() + 1).padStart(2, '0');
+		          const formattedDay = String(fiveDaysBefore.getDate()).padStart(2, '0');*/
+
+		          const a = new Date(currentDate.getFullYear(), month - 1, day);
+
+		          game1.push(a);
+
+		          const test = new Date(currentDate.getFullYear(), game1[i].getMonth(), (game1[i].getDate()-5));
+		          console.log("game1:" + game1[i]);
+		          console.log("test:" + test);
+		          
+		          if(test.getTime() === currentDay.getTime()){
+		        	  console.log("dddddd");
+		        	  reservationdate.classList.add("reservationdate2");
+		          }
+		          if(game1[i].getTime() === currentDay.getTime()){
+		        	  reservationdate.classList.add("reservationdate2");
+					          }
+						};
+		      };
+
        // 일요일은 빨간색, 토요일은 파란색
           if (i === 0) {
             dayCell.classList.add("sunday");
