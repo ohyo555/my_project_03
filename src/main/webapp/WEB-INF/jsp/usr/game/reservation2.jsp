@@ -121,6 +121,7 @@ button {
 }
 </style>
 </head>
+
 <body>
 
 	<h2 id="currentMonth">간단한 달력</h2>
@@ -146,7 +147,9 @@ button {
 
 	<a href="../game/gamelist">list</a>
 
-	<script>
+</body>
+
+<script>
 	
   	let currentDate = new Date(); // 블록 범위 변수를 선언하는 데 사용되는 키워드
     
@@ -365,12 +368,5 @@ button {
     displayCalendar();
   </script>
   
-  <script>
- 
-  </script>
-
-</body>
 </html>
-
-
 <%@ include file="../common/foot.jspf"%>
