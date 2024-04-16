@@ -150,9 +150,19 @@ button {
 </body>
 
 <script>
-	
+
+	//경기날짜 담은 배열
+	const gameDates = [ 
+	    // gamedate 배열의 각 요소를 JavaScript 배열에 추가
+	    <c:forEach var="date" items="${gamedate}">
+	    	"${date.substring(0, 5)}", // 각 날짜를 따옴표로 묶어서 배열에 추가
+	    </c:forEach>
+	];
+
   	let currentDate = new Date(); // 블록 범위 변수를 선언하는 데 사용되는 키워드
-    
+  	
+  	const allDatesOfMonth = getAllDatesOfMonth(currentDate.getMonth(), currentDate.getFullYear());
+  	
     function getAllDatesOfMonth(month, year) {
 	    const numDays = new Date(year, month + 1, 0).getDate();
 	    const datesArray = [];
@@ -172,40 +182,7 @@ button {
 
       const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
 	  const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
-  	
-   	  // 경기날짜 담은 배열
-      const gameDates = [ 
-          // gamedate 배열의 각 요소를 JavaScript 배열에 추가
-          <c:forEach var="date" items="${gamedate}">
-          	"${date.substring(0, 5)}", // 각 날짜를 따옴표로 묶어서 배열에 추가
-          </c:forEach>
-      ];
-      
-   	  // 경기 5일전 날짜 배열
-      const gameDates5DaysBefore = [];
-
-      gameDates.forEach(date => {
-    	  
-          const [monthStr, dayStr] = date.split('.'); 
-          
-          const month = parseInt(monthStr, 10);
-          const day = parseInt(dayStr, 10);
-
-          const originalDate = new Date();
-          originalDate.setMonth(month - 1);
-          originalDate.setDate(day);
-          
-          const fiveDaysBefore = new Date(originalDate);
-          fiveDaysBefore.setDate(originalDate.getDate() - 5);
-
-          const formattedMonth = String(fiveDaysBefore.getMonth() + 1).padStart(2, '0');
-          const formattedDay = String(fiveDaysBefore.getDate()).padStart(2, '0');
-
-          const a = new Date(currentDate.getFullYear(), formattedMonth - 1, formattedDay);
-
-          gameDates5DaysBefore.push(getFormattedDate(a));
-      });
-      
+	  
       // scheduleData 스케줄과 경기장을 담은 배열 + 경기번호
       var scheduleData = [];
 	    <c:forEach var="item" items="${schedule}">
@@ -222,7 +199,7 @@ button {
 
       currentMonthElement.textContent = getMonthName(currentDate.getMonth()) + " " + currentDate.getFullYear();
       
-      while (currentDay <= lastDayOfMonth) {9
+      while (currentDay <= lastDayOfMonth) {
         const weekRow = document.createElement("tr");
         //const formatcurrentDay = getFormattedDate(currentDay);
         
@@ -261,6 +238,56 @@ button {
 	
 	        calendarBody.appendChild(weekRow);
 	    }
+      
+      const gamelist = []; // game Date형 배열
+  	  const gameMinuslist = []; // game5일전 Date형 배열
+
+  	  for(let i = 0; i < gameDates.length; i++){
+
+            const [monthStr, dayStr] = gameDates[i].split('.'); 
+            
+            const month = parseInt(monthStr, 10);
+            const day = parseInt(dayStr, 10);
+            
+            const gamelistDate = new Date(currentDate.getFullYear(), month - 1, day);
+
+            gamelist.push(gamelistDate);
+            //console.log("!!!" + gamelist[35]);
+            const gameMinusDate = new Date(currentDate.getFullYear(), gamelistDate.getMonth(), (gamelistDate.getDate()-5));
+            
+            gameMinuslist.push(gameMinusDate);
+            //console.log("@@@" + gameMinuslist[35]);
+  	  }
+  	
+      $(".reservationdate").each(
+  			function() {
+
+  				// 클래스이름을 조회해서 split
+ 					var classes = $(this).attr("class").split(" ");
+ 					
+ 					const thisdate = classes[1];
+ 					
+     				const [yearStr, monthStr, dayStr] = thisdate.split('-'); 
+ 			          
+     			 	  const year = parseInt(yearStr, 10); //parseInt(string, radix(진수)) 문자열 분석하고 정수로 변환
+			          const month = parseInt(monthStr, 10);
+			          const day = parseInt(dayStr, 10);
+			          
+ 			          const thisday = new Date(year, month - 1, day); // 현재 날짜 Data
+ 			         // console.log("thisday: " + thisday);
+			    	 	
+/*  			       	 if (isGameToday(thisday, allDatesOfMonth, gameDates) === thisday) {
+ 			       		console.log("thisday: " + thisday);
+ 			    	 	 */
+ 			       		for(let i = 0; i <= gamelist.length; i++){
+ 			    	 		
+  			        	  if(thisday <= gamelist[i] && thisday >= gameMinuslist[i]){
+  			        		 $(this).css("background-color", "pink");
+  			        	  }
+  			          }
+ 			       /*  } */      
+ 			});
+        
 	}
 			
     function prevMonth() { // 이전달에 대한 달력 나오도록
@@ -289,6 +316,17 @@ button {
             date.getMonth() === today.getMonth() &&
             date.getFullYear() === today.getFullYear()
         );
+    }
+    
+    function isGameToday(thisday, allDatesOfMonth, gameDates) { // 경기 있는 날
+        const formattedCurrentDate = getFormattedDate(thisday);
+        //console.log("formattedCurrentDate:" + formattedCurrentDate);
+        for(let i = 0; i <= gameDates.length; i++){
+        	//console.log("gameDates:" + gameDates[i]);
+        	 if(gameDates[i] === formattedCurrentDate){
+        		  return thisday;       		 
+        	  }
+          }
     }
     
     function getFormattedDate(date) { // 날짜 형식 바꿔주는거
@@ -325,42 +363,11 @@ button {
         } 
     }
 
+  /*     
     $(document).ready(function() {
-    	$(".reservationdate").each(
-    			function() {
-    				
-    				// 경기날, 경기 예매 시작 일의 Date형식을 담는 배열
-    				//const GameDateList = [];
-    				//const FiveDaysBefore = [];
-    				
-    				// 클래스이름을 조회해서 split
-   					var classes = $(this).attr("class").split(" ");
-   					
-   					const gameday = classes[1];
-   					
-       				const [yearStr, monthStr, dayStr] = gameday.split('-'); 
-   			          
-       			 	  const year = parseInt(yearStr, 10); //parseInt(string, radix(진수)) 문자열 분석하고 정수로 변환
-			          const month = parseInt(monthStr, 10);
-			          const day = parseInt(dayStr, 10);
-
-   			          const GameDays = new Date(year, month - 1, day);
-
-   			          //GameDateList.push(GameDays);
-
-   			          const DayBefore = new Date(GameDays.getYear(), GameDays.getMonth(), (GameDays.getDate()-5));
-   			          
-   			          //FiveDaysBefore.push(DayBefore);
-
-   			          if(DayBefore <= GameDays){
-   			        	console.log("DayBefore: " + DayBefore);
-   			        	console.log("GameDays: " + GameDays);
-   			        	//$(this).css("background-color", "pink");
-   			          }
-
-   			});
+    	
      });
-    
+     */
     // 최초 로딩 시 달력 표시
     displayCalendar();
   </script>

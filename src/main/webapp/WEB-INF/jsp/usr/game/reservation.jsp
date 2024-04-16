@@ -219,7 +219,7 @@ button {
 
       currentMonthElement.textContent = getMonthName(currentDate.getMonth()) + " " + currentDate.getFullYear();
       
-      while (currentDay <= lastDayOfMonth) {9
+      while (currentDay <= lastDayOfMonth) {
         const weekRow = document.createElement("tr");
         //const formatcurrentDay = getFormattedDate(currentDay);
         
