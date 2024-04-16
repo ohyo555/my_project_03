@@ -206,7 +206,6 @@ button {
           gameDates5DaysBefore.push(getFormattedDate(a));
       });
       
-      console.log(gameDates5DaysBefore);
       // scheduleData 스케줄과 경기장을 담은 배열 + 경기번호
       var scheduleData = [];
 	    <c:forEach var="item" items="${schedule}">
@@ -238,7 +237,7 @@ button {
           
           const reservationdate = document.createElement("div");
           reservationdate.classList.add("reservationdate");
-		  reservationdate.classList.add(formatcurrentDay); // div의 클래스명을 지정해줘
+		  reservationdate.classList.add(formatcurrentDayYear); // div의 클래스명을 지정해줘
 		  dayCell.appendChild(reservationdate);
 		  
           if (currentDay.getMonth() !== currentDate.getMonth()) {
@@ -326,44 +325,42 @@ button {
         } 
     }
 
-    $(".reservationdate").each(
-			function() {
-				const game1 = [];
-				const test = [];
-				 console.log("123132");
-				  for(let i = 0; i < gameDates.length; i++){
-
-			          const [monthStr, dayStr] = gameDates[i].split('.'); 
-			          
+    $(document).ready(function() {
+    	$(".reservationdate").each(
+    			function() {
+    				
+    				// 경기날, 경기 예매 시작 일의 Date형식을 담는 배열
+    				//const GameDateList = [];
+    				//const FiveDaysBefore = [];
+    				
+    				// 클래스이름을 조회해서 split
+   					var classes = $(this).attr("class").split(" ");
+   					
+   					const gameday = classes[1];
+   					
+       				const [yearStr, monthStr, dayStr] = gameday.split('-'); 
+   			          
+       			 	  const year = parseInt(yearStr, 10); //parseInt(string, radix(진수)) 문자열 분석하고 정수로 변환
 			          const month = parseInt(monthStr, 10);
 			          const day = parseInt(dayStr, 10);
 
-			          const a = new Date(currentDate.getFullYear(), month - 1, day);
+   			          const GameDays = new Date(year, month - 1, day);
 
-			          game1.push(a);
+   			          //GameDateList.push(GameDays);
 
-			          const b = new Date(currentDate.getFullYear(), game1[i].getMonth(), (game1[i].getDate()-5));
-			          
-			          test.push(b);
-			          
-			          const m = test[i].getMonth();
-			          const d = test[i].getDate();
-			          
-			          const m1 = currentDay.getMonth();
-			          const d1 = currentDay.getDate();
-			          
-			          if(test[i].getTime() === currentDay.getTime()){
-			        	  console.log("dddddd");
-			        	  reservationdate.classList.add("reservationdate2");
-			          }
-			          
-			          if(m == m1 && d <= d1){
-			        	  console.log("123132");
-			        	  reservationdate.classList.add("reservationdate2");
-					  }
-				  }
-				
-			});
+   			          const DayBefore = new Date(GameDays.getYear(), GameDays.getMonth(), (GameDays.getDate()-5));
+   			          
+   			          //FiveDaysBefore.push(DayBefore);
+
+   			          if(DayBefore <= GameDays){
+   			        	console.log("DayBefore: " + DayBefore);
+   			        	console.log("GameDays: " + GameDays);
+   			        	//$(this).css("background-color", "pink");
+   			          }
+
+   			});
+     });
+    
     // 최초 로딩 시 달력 표시
     displayCalendar();
   </script>

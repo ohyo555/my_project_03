@@ -51,21 +51,7 @@ FROM (
         (SELECT 0 AS N UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9) b,
         (SELECT 0 AS N UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9) c
     ) AS numbers;
-
-SELECT A.*, M.loginId AS loginId, B.name AS `type`, CASE 
-        WHEN M.authLevel = 1 THEN '골드'
-        WHEN M.authLevel = 2 THEN '실버'
-        WHEN M.authLevel = 7 THEN '관리자'
-        ELSE '일반'  -- 다른 경우에 대한 기본값 설정 (optional)
-    END AS userLevel
-FROM article AS A
-INNER JOIN `member` AS M
-ON A.memberId = M.id
-INNER JOIN board AS B
-ON A.boardId = B.id
-WHERE A.id = 1003
-GROUP BY A.id
-			
+	
 #---------------------------------------------------------------------------
 
 # member 테이블 생성
@@ -92,9 +78,6 @@ CREATE TABLE `member`(
 
 UPDATE `member`
 SET loginPw = SHA2(loginPw,256);
-
-ALTER TABLE `member`
-MODIFY COLUMN loginPw CHAR(100) NOT NULL;
 
 # testdata 생성
 INSERT INTO `member`
@@ -151,9 +134,6 @@ email = 'oioi@gmail.com',
 regDate = NOW(),
 updateDate = NOW();
 
-SELECT *
-FROM `member`
-
 #---------------------------------------------------------------------------
 
 # membership 테이블 생성
@@ -181,7 +161,7 @@ CREATE TABLE `schedule`(
     stadium CHAR(20) NOT NULL,
     boradcasting CHAR(100) NOT NULL,
     `round` INT(10) NOT NULL,
-    info CHAR(20) NOT NULL,
+    info CHAR(20) NOT NULL
 );
 
 SELECT *
@@ -615,6 +595,7 @@ CREATE TABLE genFile (
 SELECT *
 FROM genFile;
 ###############################################
+
 SELECT m.*, pname, `number` AS pnumber, `position`
 			FROM `member` AS m
 			INNER JOIN player AS p
