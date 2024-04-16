@@ -253,7 +253,7 @@ button {
 
             gamelist.push(gamelistDate);
             //console.log("!!!" + gamelist[35]);
-            const gameMinusDate = new Date(currentDate.getFullYear(), gamelistDate.getMonth(), (gamelistDate.getDate()-5));
+            const gameMinusDate = new Date(currentDate.getFullYear(), gamelistDate.getMonth(), (gamelistDate.getDate()-4));
             
             gameMinuslist.push(gameMinusDate);
             //console.log("@@@" + gameMinuslist[35]);
@@ -282,6 +282,9 @@ button {
  			       		for(let i = 0; i <= gamelist.length; i++){
  			    	 		
   			        	  if(thisday <= gamelist[i] && thisday >= gameMinuslist[i]){
+  			        		
+  			        		  console.log("gamelist[i]: " + gamelist[i]);
+  			        		 console.log("gameMinuslist[i]: " + gameMinuslist[i]);
   			        		 $(this).css("background-color", "pink");
   			        	  }
   			          }
