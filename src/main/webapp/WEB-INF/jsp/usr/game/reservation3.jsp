@@ -10,16 +10,47 @@
   <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>  
   
   <style>
-
+  /* 달력 */
+  	#calendar {
+  		height: 80%;
+  		margin: 5% 10%;
+  	}
   	
+  	
+  	.fc-button {
+  		background-color: rgb(251, 243, 238);
+  	}
+  	
+	.fc-scroller::-webkit-scrollbar-track {
+	   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	   border-radius: 10px;
+	   background-color: rgb(255, 255, 255);
+	}
+	
+	.fc-scroller::-webkit-scrollbar {
+	    width: 12px;
+	    background-color: #f2ede2;
+	}
+	
+	.fc-scroller::-webkit-scrollbar-thumb {
+	    border-radius: 10px;
+	    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	    background-color: rgb(251, 243, 238);
+	}
   </style>
 
   <script>  
   
-    document.addEventListener('DOMContentLoaded', function() {  
-      console.log('DomContentLoaded');  
-      const calendarEl = document.getElementById('calendar');  
+    document.addEventListener('DOMContentLoaded', function() { 
+    	
+      const calendarEl = document.getElementById('calendar');
+  
       const calendar = new FullCalendar.Calendar(calendarEl, {  
+    	headerToolbar: { // 헤더 설정
+    		left: 'prev',
+      		center: 'title',
+      		right: 'next today'
+    	},
         initialView: 'dayGridMonth',  
         events:[  
           {  
