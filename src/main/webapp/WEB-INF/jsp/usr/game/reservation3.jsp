@@ -13,14 +13,36 @@
   /* 달력 */
   	#calendar {
   		height: 80%;
-  		margin: 5% 10%;
+  		margin: 3% 10%;
+  	}
+  	
+  /* 헤더 버튼 */
+  	.fc .fc-button-primary{
+  		background-color: #800808;
+  		border-style: none;
+  		padding: 3px;
+  	}
+  	
+  	/* today를 표시할 수 없을 때 */
+	.fc .fc-button-primary:disabled {
+		background-color: rgb(251, 243, 238);
+		color: #2c3e50;
+		padding: 3px 5px;
+		border-style: none;
+	}
+	
+  	.fc .fc-button-primary:hover{
+  		background-color: #c76161; /* 색 더 찾아바 */
+  		border-style: none;
+  		padding: 3px;
   	}
   	
   	
-  	.fc-button {
-  		background-color: rgb(251, 243, 238);
-  	}
+  h2 {
+  	font-weight: 600;
+  }
   	
+  /* 스크롤바 */
 	.fc-scroller::-webkit-scrollbar-track {
 	   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 	   border-radius: 10px;
@@ -49,7 +71,7 @@
     	headerToolbar: { // 헤더 설정
     		left: 'prev',
       		center: 'title',
-      		right: 'next today'
+      		right: 'today next'
     	},
         initialView: 'dayGridMonth',  
         events:[  
