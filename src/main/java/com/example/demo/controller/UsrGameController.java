@@ -90,6 +90,12 @@ public class UsrGameController {
 	
 		return "/usr/game/reservation2";
 	}
+	
+	@RequestMapping("/usr/game/reservation3")
+	public String showreservation3(Model model) {
+		
+		return "/usr/game/reservation3";
+	}
 
 	
 	/*
