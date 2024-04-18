@@ -94,6 +94,10 @@ public class UsrGameController {
 	@RequestMapping("/usr/game/reservation3")
 	public String showreservation3(Model model) {
 		
+		List<String> gamedate = gameService.getGamedate();
+		
+		model.addAttribute("gamedate", gamedate);
+		
 		return "/usr/game/reservation3";
 	}
 
