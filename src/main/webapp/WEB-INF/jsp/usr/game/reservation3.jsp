@@ -7,16 +7,34 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' />
+<!-- fullcalendar 사용 -->
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
-<!-- tippy 사용을 위한 연결 -->
-<script src='https://unpkg.com/@popperjs/core@2'></script>
-<script src='https://unpkg.com/tippy@6'></script>
+
+<!-- bootstrap 4 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 
 <style>
 /* 달력 */
 #calendar {
 	height: 80%;
 	margin: 3% 10%;
+}
+
+/* member */
+#calendar > span {
+	width: 20px;
+	height: 20px;
+	padding-bottom: 3px;
+}
+
+#calendar > span > .gold{
+	background-color: #fbf3ee;
+}
+
+#calendar > span > .silver{
+	fad8d7;
 }
 
 /* 헤더 버튼 */
@@ -44,26 +62,13 @@ h2 {
 	font-weight: 600;
 }
 
-/*  .fc-event-title-container {
-  	border-style: none;
-  	} */
-
 .fc-event {
-	margin-bottom: 5px;
+	border-style: none;
 }
-/* 
-.fc-event-main {
-	padding-bottom: 10px;
-}
-
 .fc-event-main-frame {
 	margin-bottom: 5px;
 }
 
-.fc-event-title-container {
-	margin-bottom: 5px;
-}
- */
 
 /* 스크롤바 */
 .fc-scroller::-webkit-scrollbar-track {
@@ -103,10 +108,11 @@ h2 {
 	});
 	
 	const gamelist = []; // game Date형 배열
-	const gameMinuslist = []; // game5일전 Date형 배열
+	const game5Minuslist = []; // game5일전 Date형 배열
+	const game3Minuslist = []; // game5일전 Date형 배열
 	
 	// 년도 포함한 경기 5일전 날짜 배열(2023-10-13)
-	const modifiedGameMinusDates = modifiedGameDates.map(date => {
+	const modifiedgameMinusDates = modifiedGameDates.map(date => {
 		const [yearStr, monthStr, dayStr] = date.split('-'); 
 	     
 		const year = parseInt(yearStr, 10); //parseInt(string, radix(진수)) 문자열 분석하고 정수로 변환
@@ -120,18 +126,19 @@ h2 {
 	          const year = parseInt(yearStr, 10);
 	          const month = parseInt(monthStr, 10);
 	          const day = parseInt(dayStr, 10);
-	          //console.log("year: " + year);
+
 	          const gamelistDate = new Date(year, month - 1, day);
 	          gamelist.push(gamelistDate);
 	          console.log("gamelistDate: " + gamelistDate);
 	          
-	          const gameMinusDate = new Date(gamelistDate.getFullYear(), gamelistDate.getMonth(), (gamelistDate.getDate()-3));     
-		  
-	          const formattedDate = gameMinusDate.toISOString().split('T')[0]; //날짜 개체를 ISO 문자열로 변환한 다음 "YYYY-MM-DD 형식의 날짜 부분을 추출
-	          gameMinuslist.push(formattedDate);
-		  }
-		
-		  return gameMinuslist;	  
+	          const game3MinusDate = new Date(gamelistDate.getFullYear(), gamelistDate.getMonth(), (gamelistDate.getDate()-1));  
+	          const formattedDate3 = game3MinusDate.toISOString().split('T')[0]; //날짜 개체를 ISO 문자열로 변환한 다음 "YYYY-MM-DD 형식의 날짜 부분을 추출
+	          game3Minuslist.push(formattedDate3)
+	          
+	          const game5MinusDate = new Date(gamelistDate.getFullYear(), gamelistDate.getMonth(), (gamelistDate.getDate()-3));      
+	          const formattedDate5 = game5MinusDate.toISOString().split('T')[0]; //날짜 개체를 ISO 문자열로 변환한 다음 "YYYY-MM-DD 형식의 날짜 부분을 추출
+	          game5Minuslist.push(formattedDate5);
+		  }  
 	});
 	
 	
@@ -139,44 +146,107 @@ h2 {
     	
       const calendarEl = document.getElementById('calendar');
 
-        const events = [];
+      const events = [];
 
-        // Loop through modifiedDates and gameMinuslist arrays to populate events
-        for (let i = 0; i < modifiedGameDates.length; i++) {
-            const event = {
-                id: `event${i}`,
-                title: '예매하기',
-                start: gameMinuslist[i],
-                end: modifiedGameDates[i],
-                allDay: true,
-                backgroundColor: 'pink',
-                textColor: 'black',
-                extendedProps: {
-                    comment: '골드회원 예매일'
-                }
-            };
+      for (let i = 0; i < modifiedGameDates.length; i++) {
+          const goldmember = {
+              id: `event${i}`,
+              title: modifiedGameDates[i].substring(5,modifiedGameDates[i].length) + ' 경기 예매',
+              start: game5Minuslist[i],
+              end: modifiedGameDates[i],
+              allDay: true, // event가 하루 종일인지 여부
+              backgroundColor: "#fbf3ee",
+              textColor: 'black',
+              extendedProps: {
+                  comment: ''
+              }
+          };
 
-            events.push(event);
-        }
-    	
-        const calendar = new FullCalendar.Calendar(calendarEl, {  
-        	headerToolbar: { // 헤더 설정
-        		left: 'prev',
-          		center: 'title',
-          		right: 'today next'
-        	},
-            initialView: 'dayGridMonth',
-            fixedWeekCount: false,
-            events: events     
-	      });  
-	      calendar.render();  
-	    });  
+          events.push(goldmember);
+          
+          const silvermember = {
+                  id: `event${i}`,
+                  title: modifiedGameDates[i].substring(5,modifiedGameDates[i].lengthS) + ' 경기 예매',
+                  start: game3Minuslist[i],
+                  end: modifiedGameDates[i],
+                  allDay: true,
+                  backgroundColor: "#fad8d7",
+                  textColor: 'black',
+                  extendedProps: {
+                      comment: ''
+                  }
+              };
+
+          events.push(silvermember);
+      }
+  	
+      const calendar = new FullCalendar.Calendar(calendarEl, {  
+
+      	headerToolbar: { // 헤더 설정
+      		left: 'prev',
+        		center: 'title',
+        		right: 'today next'
+      	},
+      	// locale: 'ko',
+        initialView: 'dayGridMonth',
+        fixedWeekCount: false,
+        events: events,
+       	eventClick : function() { // 이벤트 클릭
+			console.log("!@!@");
+       		$("#calendarModal").modal("show"); // modal 나타내기
+       		//window.open('https://kovo.co.kr/KOVO/ticket/ticket-buy?ticket=%EC%97%AC%EC%9E%90%EB%B6%80', '_blank');
+	  	}
+     });  
+     calendar.render();  
+   });  
 	  
 </script>
 </head>
 
 <body>
+	<!-- <div class="modal" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <h5 class="modal-title" id="exampleModalLabel">일정</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div> -->
+    <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">일정을 입력하세요.</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="taskId" class="col-form-label">일정 내용</label>
+                        <input type="text" class="form-control" id="calendar_content" name="calendar_content">
+                        <label for="taskId" class="col-form-label">시작 날짜</label>
+                        <input type="date" class="form-control" id="calendar_start_date" name="calendar_start_date">
+                        <label for="taskId" class="col-form-label">종료 날짜</label>
+                        <input type="date" class="form-control" id="calendar_end_date" name="calendar_end_date">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" id="addCalendar">추가</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                        id="sprintSettingModalClose">취소</button>
+                </div>
+    
+            </div>
+        </div>
+        </div>
 	<div id='calendar'></div>
+<!--     <div><span class="gold"></span>gold 회원</div>
+	<div><span class="silver"></span>silver 회원</div>   --> 
+    
+
+
+
 </body>
 
 </html>

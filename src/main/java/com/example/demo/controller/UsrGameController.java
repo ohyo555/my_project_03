@@ -100,7 +100,16 @@ public class UsrGameController {
 		
 		return "/usr/game/reservation3";
 	}
-
+	
+	@RequestMapping("/usr/game/reservation4")
+	public String showreservation4(Model model) {
+		
+		List<String> gamedate = gameService.getGamedate();
+		
+		model.addAttribute("gamedate", gamedate);
+		
+		return "/usr/game/reservation4";
+	}
 	
 	/*
 	 * @RequestMapping("/usr/game/news") public String shownews() {
