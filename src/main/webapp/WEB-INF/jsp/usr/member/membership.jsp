@@ -1,41 +1,44 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:set var="pageTitle" value="MEMBER JOIN"></c:set>
+<c:set var="pageTitle" value="MEMBERSHIP"></c:set>
 <%@ include file="../common/head.jspf"%>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/jquery-3.6.4.js"></script>
+
+<!-- 주소 api -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- 결제 api -->
+<script src="https://js.tosspayments.com/v1/payment"></script>
+
 <link rel="stylesheet" href="/resource/background.css" />
 <style>
 
 .signup-form {
-	width: 400px; 
+	width: 350px; 
 	background-color: rgba(255, 255, 255, 0.4);
 	margin: 100px auto;
 	padding: 20px;
 	border-radius: 8px;
-	overflow-x: auto;
-	overflow-y: auto;
 	}
 
-.signup-form .form{
+form {
 	text-align: center;
 }
 
 .signup-form .text{
 	font-size: 0.7rem;
-	text-align: right; /* 오른쪽 정렬 추가 */
-    margin-left: -5rem;
-    color: #a32222;
-    position: relative; /* 상대 위치 설정 */
+	margin-left: 13rem;
+	color: #a32222;
 }
-
 
 .signup-form div {
 	display: inline-block;
 	width: 100%;
 	font-size: 1rem;
+	text-align: left;
+}
+
+.signup-form div:last-child {
+	text-align: center;
+	padding-right: 40px;
 }
 
 .signup-form label {
@@ -44,7 +47,6 @@
 }
 
 .signup-form div .msg {
-	display: inline;
 	color: #800808;
 	font-size: 0.75rem;
 }
@@ -97,16 +99,6 @@
 </style>
 
 <script>
-$(function() {
-    $("#birthdate").datepicker({
-        changeMonth: true,
-        changeYear: true,
-        yearRange: 'c-100:c+0'
-    });
-});
-</script>
-
-<script>
 	function callByAjax(loginId) {
 		
 		var form = document.form1;
@@ -124,7 +116,45 @@ $(function() {
 </script>
 
 <script>
- var membershipLevel = ${member.authLevel};
+
+function makePayment() {
+    var clientKey = "test_ck_GjLJoQ1aVZbJQKJRZAAlVw6KYe2R";
+    var tossPayments = TossPayments(clientKey);
+
+    var amount = 0;
+    var level = document.querySelector('input[name="level"]:checked').value;
+
+    var orderName = null;
+    
+    if (level === "1") { // Gold membership
+        amount = 100000;
+        orderName = "Gold membership";
+    } else if (level === "2") { // Silver membership
+        amount = 70000;
+        orderName = "Silver membership";
+    }
+    
+    tossPayments.requestPayment("카드", {
+        amount: amount,
+        orderId: "CtaMgVA6Dxw9X7hanNsLY",
+        orderName: orderName,
+        customerName: ${member.mname }
+    }).then(function () {
+    	 document.getElementById("membershipForm").submit();
+    }).catch(function (error) {
+        // Handle payment error
+        console.error("Payment error:", error);
+        // Optionally, display an error message to the user
+        alert("결제가 실패했습니다. 잠시 후 다시 시도해주세요.");
+    });
+}
+
+</script>
+
+<script>
+/* 라디오 버튼 */
+document.addEventListener("DOMContentLoaded", function () {
+	var membershipLevel = ${member.authLevel};
 
     function setMembershipCheckbox() {
         // 해당 등급에 맞는 라디오 버튼 찾기
@@ -134,22 +164,85 @@ $(function() {
                 radioButtons[i].checked = true;
             }
         }
-    }
-
-    var alertMessage = "${alertMessage}";
-    if (alertMessage) {
-        alert(alertMessage);
-    }
+	    document.getElementById("membershipForm").addEventListener("submit", function (event) {
+	        // Prevent default form submission behavior
+	        event.preventDefault();
+	        // Initiate payment process
+	        makePayment();
+	    });
+	}
     
-// 페이지 로딩 시 실행 (예시)
-window.onload = setMembershipCheckbox;
+ // 페이지 로딩 시 실행 (예시)
+    window.onload = setMembershipCheckbox;
+});
+
+/* 이름 클릭 */
+ document.addEventListener("DOMContentLoaded", function() {
+	 
+        var goldlabel = document.getElementById("goldlabel");
+        var goldradio = document.getElementById("gold");
+        var silverlabel = document.getElementById("silverlabel");
+        var silverradio  = document.getElementById("silver");
+        console.log("!@!@!~~~~");
+        goldlabel.addEventListener('click', function() {
+        	console.log("!@!@!");
+        	goldradio.checked = true;
+        });
+        silverlabel.addEventListener('click', function() {
+        	silverradio.checked = true;
+        });
+        
+    });
 </script>
+
+<!-- <script>
+
+	var clientKey = "test_ck_GjLJoQ1aVZbJQKJRZAAlVw6KYe2R";
+	var tossPayments = TossPayments(clientKey);
+	document.addEventListener("DOMContentLoaded", function () {
+	const button = document.getElementById("membershipjoin");
+	button.addEventListener("click", function () {
+	  // ------ 결제창 띄우기 ------
+	  console.log("!!!!!!!!!!!!!!!!!!!!!!!!");
+	  tossPayments
+	    .requestPayment("카드", {
+	      // 결제수단 파라미터 (카드, 계좌이체, 가상계좌, 휴대폰 등)
+	      // 결제 정보 파라미터
+	      // 더 많은 결제 정보 파라미터는 결제창 Javascript SDK에서 확인하세요.
+	      // https://docs.tosspayments.com/reference/js-sdk
+	      amount: 100, // 결제 금액
+	      orderId: "CtaMgVA6Dxw9X7hanNsLY", // 주문번호(주문번호는 상점에서 직접 만들어주세요.)
+	      orderName: "테스트 결제", // 구매상품
+	      customerName: "김토스", // 구매자 이름
+	      successUrl: "https://docs.tosspayments.com/guides/payment/test-success", // 결제 성공 시 이동할 페이지(이 주소는 예시입니다. 상점에서 직접 만들어주세요.)
+	      failUrl: "https://docs.tosspayments.com/guides/payment/test-fail" // 결제 실패 시 이동할 페이지(이 주소는 예시입니다. 상점에서 직접 만들어주세요.)
+	    })
+	    .then(function () {
+        // If payment is successful, manually submit the form
+        document.form1.submit();
+      	})
+	    // ------결제창을 띄울 수 없는 에러 처리 ------
+	    // 메서드 실행에 실패해서 reject 된 에러를 처리하는 블록입니다.
+	    // 결제창에서 발생할 수 있는 에러를 확인하세요.
+	    // https://docs.tosspayments.com/reference/error-codes#결제창공통-sdk-에러
+	    .catch(function (error) {
+	      if (error.code === "USER_CANCEL") {
+	        // 결제 고객이 결제창을 닫았을 때 에러 처리
+	      } else if (error.code === "INVALID_CARD_COMPANY") {
+	        // 유효하지 않은 카드 코드에 대한 에러 처리
+	      }
+	    });
+	});
+	});
+
+</script>
+ -->
 <body>
 	
 
 <section class="mt-8 text-xl px-4">
 	<div class="signup-form">
-		<form class="form" name="form1" action="../member/doMembership" method="POST">
+		<form class="form" id="membershipForm" name="form1" action="../member/doMembership" method="POST">
 			<div class="text">*는 필수정보</div>
 			<div>
 				<label for="username">*아이디:</label> <input type="text" id="loginId" name="loginId" autocomplete="off" value="${member.loginId }" readonly>
@@ -165,15 +258,11 @@ window.onload = setMembershipCheckbox;
 				<label for="email">*이메일:</label> <input type="email" id="email" name="email" autocomplete="off" value="${member.email }" required>
 			</div>
 			<div>
-				<label for="address">*주소: </label> 
-				<input type="text" class = "w-20" id="postcode" name="postcode" value="${member.postcode }" placeholder="우편번호"> 
-				<input type="button" onclick="execDaumPostcode()" value="찾기"><br>
-				<label for="address"></label> 
-				<input type="text" id="address" name="address" placeholder="주소" value="${member.address }"><br>
-				<label for="address"></label> 
-				<input type="text" class = "w-25" id="detailAddress" name="detailAddress" placeholder="상세주소"><br>
-				<label for="address"></label> 
-				<input type="text" class = "w-20" id="extraAddress" name="extraAddress" placeholder="참고항목">
+				<label for="address">*주소:</label> <input type="text" class="w-20" id="postcode" name="postcode" placeholder="우편번호">
+				<input type="button" onclick="execDaumPostcode()" value="찾기"><br> <label for="address"></label> <input
+					type="text" id="address" name="address" placeholder="주소"><br> <label for="address"></label> <input
+					type="text" class="w-25" id="detailAddress" name="detailAddress" placeholder="상세주소"><br> <label
+					for="address"></label> <input type="text" class="w-20" id="extraAddress" name="extraAddress" placeholder="참고항목">
 
 				<script>
 				    function execDaumPostcode() {
@@ -228,12 +317,12 @@ window.onload = setMembershipCheckbox;
 			<div>
 				<label for="level">*등급:</label>
 		        <input type="radio" id="gold" name="level" class="form-check-input" value="1" required>
-		        <label for="open" class="form-check-label mr-5 text-base">골드</label>
+		        <label for="open" class="form-check-label mr-5 text-base" id="goldlabel">골드</label>
 		        <input type="radio" id="silver" name="level" class="form-check-input" value="2" required>
-		        <label for="open" class="form-check-label text-base mr-5">실버</label>
+		        <label for="open" class="form-check-label text-base mr-5" id="silverlabel">실버</label>
 			</div>
 			<div class="center-text mt-5">
-				<button type="submit">멤버쉽 가입</button>
+				<button type="submit" id="membershipjoin">멤버쉽 가입</button>
 				<button type="button" onclick="history.back();">뒤로가기</button>
 			</div>
 		</form>

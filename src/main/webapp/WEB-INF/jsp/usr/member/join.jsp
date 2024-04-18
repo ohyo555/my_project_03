@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="/resource/background.css" />
 <style>
 .signup-form {
-	max-width: 380px;
+	max-width: 400px;
 	background-color: rgba(255, 255, 255, 0.4);
 	margin: 100px auto;
 	padding: 20px;
@@ -24,7 +24,7 @@ form {
 
 .signup-form .text {
 	font-size: 0.7rem;
-	margin-left: 15rem;
+	margin-left: 14rem;
 	color: #a32222;
 }
 
