@@ -9,10 +9,7 @@
 <meta charset='utf-8' />
 <!-- fullcalendar 사용 -->
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
-
-<!-- bootstrap 4 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!-- <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script> -->
 
 
 <style>
@@ -87,6 +84,24 @@ h2 {
 	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
 	background-color: rgb(251, 243, 238);
 }
+
+/* 모달 */
+#Modal {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(50, 150, 150, 0.7);
+            display: none;
+            z-index: 1000;
+        }
+
+        #cont {
+            margin: 50px auto;
+            width: 50%;
+            height: 70%;
+            background-color: pink;
+            color: black;
+        }
 </style>
 
 <script>  
@@ -179,7 +194,8 @@ h2 {
 
           events.push(silvermember);
       }
-  	
+      const Modal = document.querySelector("#Modal");
+      
       const calendar = new FullCalendar.Calendar(calendarEl, {  
 
       	headerToolbar: { // 헤더 설정
@@ -193,13 +209,20 @@ h2 {
         events: events,
        	eventClick : function() { // 이벤트 클릭
 			console.log("!@!@");
-       		$("#calendarModal").modal("show"); // modal 나타내기
+       		//$("#Modal").modal("show"); // modal 나타내기
+       		Modal.style.display = "block";
        		//window.open('https://kovo.co.kr/KOVO/ticket/ticket-buy?ticket=%EC%97%AC%EC%9E%90%EB%B6%80', '_blank');
 	  	}
      });  
      calendar.render();  
    });  
-	  
+	
+    
+    // 모달 닫기
+    function fMClose() {
+        Modal.style.display = "none";
+    }
+    
 </script>
 </head>
 
@@ -211,35 +234,19 @@ h2 {
             <span aria-hidden="true">&times;</span>
         </button>
     </div> -->
-    <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">일정을 입력하세요.</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="taskId" class="col-form-label">일정 내용</label>
-                        <input type="text" class="form-control" id="calendar_content" name="calendar_content">
-                        <label for="taskId" class="col-form-label">시작 날짜</label>
-                        <input type="date" class="form-control" id="calendar_start_date" name="calendar_start_date">
-                        <label for="taskId" class="col-form-label">종료 날짜</label>
-                        <input type="date" class="form-control" id="calendar_end_date" name="calendar_end_date">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" id="addCalendar">추가</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                        id="sprintSettingModalClose">취소</button>
-                </div>
-    
-            </div>
+	<div id="Modal">
+        <div id="cont" style="text-align: center;">
+            <br>
+            <h1>모달</h1>
+            <button onclick="fMClose()">X</button><br>
+            시작일 <input type="text" id="schStart" value=""><br>
+            종료일 <input type="text" id="schEnd" value=""><br>
+            제목 <input type="text" id="schTitle" value=""><br>
+            하루종일 <input type="checkbox" id="allDay"><br>
+            배경색<input type="color" id="schBColor" value="">
+            글자색<input type="color" id="schFColor" value="">
         </div>
-        </div>
+    </div>
 	<div id='calendar'></div>
 <!--     <div><span class="gold"></span>gold 회원</div>
 	<div><span class="silver"></span>silver 회원</div>   --> 

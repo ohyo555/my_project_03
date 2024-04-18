@@ -32,8 +32,8 @@
             margin: 50px auto;
             width: 50%;
             height: 70%;
-            background-color: darkblue;
-            color: yellow;
+            background-color: pink;
+            color: black;
         }
     </style>
 </head>
@@ -44,6 +44,7 @@
         <div id="cont" style="text-align: center;">
             <br>
             <h1>모달</h1>
+            <button onclick="fMClose()">X</button><br>
             시작일 <input type="text" id="schStart" value=""><br>
             종료일 <input type="text" id="schEnd" value=""><br>
             제목 <input type="text" id="schTitle" value=""><br>
@@ -80,12 +81,9 @@
         const calendarOption = {
             height: '700px', // calendar 높이 설정
             expandRows: true, // 화면에 맞게 높이 재설정
-            slotMinTime: '09:00', // Day 캘린더 시작 시간
-            slotMaxTime: '18:00', // Day 캘린더 종료 시간
             // 맨 위 헤더 지정
             headerToolbar: headerToolbar,
             initialView: 'dayGridMonth',  // default: dayGridMonth 'dayGridWeek', 'timeGridDay', 'listWeek'
-            locale: 'kr',        // 언어 설정
             selectable: true,    // 영역 선택
             selectMirror: true,  // 오직 TimeGrid view에만 적용됨, default false
             navLinks: true,      // 날짜,WeekNumber 클릭 여부, default false
@@ -105,11 +103,7 @@
             */
             nowIndicator: true,
             //events:[],
-            eventSources: [
-                './commonEvents.json',  // Ajax 요청 URL임에 유의!
-                './KYREvents.json',
-                './SYREvents.json'
-            ]
+
         }
 
         // 캘린더 생성
@@ -131,12 +125,10 @@
         });
         calendar.on("eventMouseEnter", info => console.log("eEnter:", info));
         calendar.on("eventMouseLeave", info => console.log("eLeave:", info));
-        calendar.on("dateClick", info => console.log("dateClick:", info));
+        calendar.on("eventClick", info => console.log("eventClick:", info));
         calendar.on("select", info => {
-            console.log("체킁:", info);
-
-            mySchStart.value = info.startStr;
-            mySchEnd.value = info.endStr;
+            //mySchStart.value = info.startStr;
+            //mySchEnd.value = info.endStr;
 
             Modal.style.display = "block";
         });
