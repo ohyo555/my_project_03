@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:set var="pageTitle" value="MAP"></c:set>
+<c:set var="pageTitle" value="Reservation"></c:set>
 <%@ include file="../common/head.jspf"%>
 <link rel="stylesheet" href="/resource/background.css" />
 
@@ -17,7 +17,7 @@
 #calendar {
 	margin: 30px auto; /* 가운데 정렬 */
 	max-width: 900px; /* 최대 너비 지정 */
-	height: 800px;
+	height: auto;
 }
 
 /* member */
@@ -35,11 +35,19 @@
 	background-color:fad8d7;
 }
  */
+ 
+#calendar > div.fc-view-harness.fc-view-harness-active > div > table > thead > tr {
+ 	overflow-y: hidden; 
+ }
 /* 헤더 버튼 */
 .fc .fc-button-primary {
 	background-color: #800808;
 	border-style: none;
 	padding: 3px;
+}
+
+.fc .fc-button:focus {
+    outline: none; /* 포커스 시 테두리 제거 */
 }
 
 /* today를 표시할 수 없을 때 */
@@ -81,6 +89,16 @@ h2 {
 	text-align: center;
     font-size: 13px;
 }
+
+/* 주말 */
+.fc-day-sun {
+    color: red;
+    }
+
+.fc-day-sat {
+    color: blue;
+}
+
 /* 스크롤바 */
 .fc-scroller::-webkit-scrollbar-track {
 	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);

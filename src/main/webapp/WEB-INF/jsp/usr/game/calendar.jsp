@@ -48,7 +48,7 @@ td {
 .form {
 	margin: 30 auto;
 	max-width: 900px;
-	height: 800px;
+	height: 730px;
 }
 
 /* 달력 헤더 */
@@ -92,10 +92,6 @@ h2 {
 
 #currentMonth {
 	text-align: center; /* 월과 년도 중앙 정렬 */
-}
-
-#calendar {
-	height: 634px;
 }
 
 .other-month {
