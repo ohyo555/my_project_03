@@ -26,15 +26,15 @@
 	height: 20px;
 	padding-bottom: 3px;
 }
-
+/* 
 #calendar > span > .gold{
 	background-color: #fbf3ee;
 }
 
 #calendar > span > .silver{
-	fad8d7;
+	background-color:fad8d7;
 }
-
+ */
 /* 헤더 버튼 */
 .fc .fc-button-primary {
 	background-color: #800808;
@@ -67,7 +67,20 @@ h2 {
 	margin-bottom: 5px;
 }
 
+.fc .fc-col-header-cell {
+	background-color: #f2f2f2;
+}
 
+.fc .fc-col-header-cell-cushion {
+	padding: 6px;
+	font-size: 14px;
+}
+
+.fc .fc-daygrid-day-top a{
+	width: 100%;
+	text-align: center;
+    font-size: 13px;
+}
 /* 스크롤바 */
 .fc-scroller::-webkit-scrollbar-track {
 	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
@@ -126,13 +139,28 @@ h2 {
 	    </c:forEach>
 	];
 	
+	const modifiedGameDates = [];
+	
 	// 년도 포함한 경기날짜 배열(2023-10-17)
-	const modifiedGameDates = gameDates.map(date => {
-	    const [month, day] = date.split(".");
-	    const year = (month === "01" || month === "02" || month === "03") ? "2024" : "2023";
-	    const modifiedGameDate = year + "-" + month + "-" + day;
-	    return modifiedGameDate;
+	gameDates.forEach(date => {
+    const [month, day] = date.split(".");
+    const year = (month === "01" || month === "02" || month === "03") ? "2024" : "2023";
+    const modifiedGameDate = year + "-" + month + "-" + day;
+    
+    const [yearStr, monthStr, dayStr] = modifiedGameDate.split('-');
+    const newyear = parseInt(yearStr, 10);
+    const newmonth = parseInt(monthStr, 10);
+    const newday = parseInt(dayStr, 10);
+
+    const newmodifiedGameDate = new Date(newyear, newmonth - 1, newday);
+    newmodifiedGameDate.setDate(newmodifiedGameDate.getDate() + 1);
+    
+    const formattednewmodifiedGameDate = newmodifiedGameDate.toISOString().split('T')[0]; //날짜 개체를 ISO 문자열로 변환한 다음 "YYYY-MM-DD 형식의 날짜 부분을 추출
+
+    modifiedGameDates.push(formattednewmodifiedGameDate);     
 	});
+
+	console.log(modifiedGameDates);
 	
 	const gamelist = []; // game Date형 배열
 	const game5Minuslist = []; // game5일전 Date형 배열
@@ -156,7 +184,6 @@ h2 {
 
 	          const gamelistDate = new Date(year, month - 1, day);
 	          gamelist.push(gamelistDate);
-	          console.log("gamelistDate: " + gamelistDate);
 	          
 	          const game3MinusDate = new Date(gamelistDate.getFullYear(), gamelistDate.getMonth(), (gamelistDate.getDate()-1));  
 	          const formattedDate3 = game3MinusDate.toISOString().split('T')[0]; //날짜 개체를 ISO 문자열로 변환한 다음 "YYYY-MM-DD 형식의 날짜 부분을 추출
@@ -189,6 +216,7 @@ h2 {
               }
           };
 
+          console.log("goldmember" + goldmember.end);
           events.push(goldmember);
           
           const silvermember = {
@@ -233,7 +261,6 @@ h2 {
      });  
      calendar.render();  
    });  
-	
     
     // 모달 닫기
     function fMClose() {

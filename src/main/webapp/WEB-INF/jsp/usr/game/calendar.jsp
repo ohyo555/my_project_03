@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:set var="pageTitle" value="MAIN"></c:set>
+<c:set var="pageTitle" value="CALENDAR"></c:set>
 
 <link rel="stylesheet" href="/resource/background.css" />
 <%@ include file="../common/head.jspf"%>
@@ -20,7 +20,6 @@ body {
 table {
 	width: 100%;
 	border-collapse: collapse;
-	margin-top: 20px;
 }
 
 tbody tr {
@@ -46,11 +45,36 @@ td {
 	padding-bottom: 10px;
 }
 
+.form {
+	margin: 30 auto;
+	max-width: 900px;
+	height: 700px;
+}
+
+/* 달력 헤더 */
+
+.calendar-header {
+	margin-bottom: 24px;
+	display:flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 42px;
+}
+
 button {
-	margin: 10px;
-	padding: 5px 10px;
-	font-size: 16px;
+	width: 30px;
+	height: 30px;
+	padding: 3px 3px;
+	font-size: 13px;
 	cursor: pointer;
+	background-color: #800808;
+	border-radius: 4px;
+	color: white;
+}
+
+h2 { 
+    font-size: 1.75em;
+    font-weight: 600;
 }
 
 .scoreresult {
@@ -68,13 +92,10 @@ button {
 
 #currentMonth {
 	text-align: center; /* 월과 년도 중앙 정렬 */
-	margin-top: 10px; /* 월과 년도 상단 마진 추가 */
 }
 
 #calendar {
-	margin: 30 auto; /* 가운데 정렬 */
-	max-width: 900px; /* 최대 너비 지정 */
-	height: 700px;
+	height: 634px;
 }
 
 .other-month {
@@ -231,8 +252,6 @@ button {
 </head>
 <body>
 
-	<h2 id="currentMonth">간단한 달력</h2>
-
 	<div id="myModal" class="myModal">
 		<div id="modal-content">
 			<span class="modal_close_btn" onclick="closeModal()">&times;</span>
@@ -255,26 +274,31 @@ button {
 		</div>
 	</div>
 
-	<table id="calendar">
-		<thead>
-			<tr>
-				<th class="sunday">일</th>
-				<th>월</th>
-				<th>화</th>
-				<th>수</th>
-				<th>목</th>
-				<th>금</th>
-				<th class="saturday">토</th>
-			</tr>
-		</thead>
-		<tbody id="calendarBody"></tbody>
+	<div class="form">
+		<div class="calendar-header">
+		    <button onclick="prevMonth()">◀</button>
+		    <h2 id="currentMonth">간단한 달력</h2>
+		    <button onclick="nextMonth()">▶</button>
+  		</div>
+  	
+		<table id="calendar">
+			<thead>
+				<tr>
+					<th class="sunday">Sun</th>
+					<th>Mon</th>
+					<th>Tue</th>
+					<th>Wen</th>
+					<th>Thu</th>
+					<th>Fri</th>
+					<th class="saturday">Sat</th>
+				</tr>
+			</thead>
+			<tbody id="calendarBody"></tbody>
+	
+		</table>
 
-	</table>
-
-	<button onclick="prevMonth()">이전 달</button>
-	<button onclick="nextMonth()">다음 달</button>
-
-	<a href="../game/gamelist">list</a>
+		<a href="../game/gamelist">list</a>
+	</div>
 
 	<script>
 	
@@ -437,8 +461,8 @@ button {
     
     function getMonthName(month) {
         const monthNames = [
-          "1월", "2월", "3월", "4월", "5월", "6월",
-          "7월", "8월", "9월", "10월", "11월", "12월"
+          "January", "February", "March", "April", "May", "June",
+          "July", "August", "September", "October", "November", "December"
         ];
         return monthNames[month];
      }
