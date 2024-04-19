@@ -73,8 +73,8 @@ button {
 
 #calendar {
 	margin: 30 auto; /* 가운데 정렬 */
-	max-width: 800px; /* 최대 너비 지정 */
-	height: 600px;
+	max-width: 900px; /* 최대 너비 지정 */
+	height: 700px;
 }
 
 .other-month {

@@ -15,8 +15,9 @@
 <style>
 /* 달력 */
 #calendar {
-	height: 80%;
-	margin: 3% 10%;
+	margin: 30px auto; /* 가운데 정렬 */
+	max-width: 900px; /* 최대 너비 지정 */
+	height: 700px;
 }
 
 /* member */
@@ -87,21 +88,32 @@ h2 {
 
 /* 모달 */
 #Modal {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(50, 150, 150, 0.7);
-            display: none;
-            z-index: 1000;
-        }
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    display: none;
+    z-index: 1000;
+}
 
-        #cont {
-            margin: 50px auto;
-            width: 50%;
-            height: 70%;
-            background-color: pink;
-            color: black;
-        }
+#cont {
+    margin: 50px auto;
+    width: 300px;
+    height: 208px;
+    color: black;
+   	background-color: #fefefe;
+	border: 1px solid #888;
+	border-radius: 10px;
+	font-size: 1rem;
+	text-align: right;
+}
+
+#modalform {
+	margin: 12px;
+	text-align: left;
+	
+}
+
 </style>
 
 <script>  
@@ -207,11 +219,16 @@ h2 {
         initialView: 'dayGridMonth',
         fixedWeekCount: false,
         events: events,
-       	eventClick : function() { // 이벤트 클릭
-			console.log("!@!@");
-       		//$("#Modal").modal("show"); // modal 나타내기
+       	eventClick : function(eventInfo) { // 이벤트 클릭
        		Modal.style.display = "block";
-       		//window.open('https://kovo.co.kr/KOVO/ticket/ticket-buy?ticket=%EC%97%AC%EC%9E%90%EB%B6%80', '_blank');
+       	
+       		// 클릭한 이벤트의 정보 가져오기
+            const eventTitle = eventInfo.event.title.substring(0,6);
+       		
+       		console.log(eventTitle);
+
+            // 모달에 정보 넣기
+            document.getElementById('eventTitle').textContent = eventTitle;
 	  	}
      });  
      calendar.render();  
@@ -227,33 +244,20 @@ h2 {
 </head>
 
 <body>
-	<!-- <div class="modal" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <h5 class="modal-title" id="exampleModalLabel">일정</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div> -->
 	<div id="Modal">
-        <div id="cont" style="text-align: center;">
-            <br>
-            <h1>모달</h1>
-            <button onclick="fMClose()">X</button><br>
-            시작일 <input type="text" id="schStart" value=""><br>
-            종료일 <input type="text" id="schEnd" value=""><br>
-            제목 <input type="text" id="schTitle" value=""><br>
-            하루종일 <input type="checkbox" id="allDay"><br>
-            배경색<input type="color" id="schBColor" value="">
-            글자색<input type="color" id="schFColor" value="">
+        <div id="cont">
+    	   <button onclick="fMClose()" class="mt-3 mr-5">X</button><br>	        	
+	       <div id="modalform">
+	            <label for="date">경기일</label><div id="eventTitle"></div><br>
+	            <a href="https://kovo.co.kr/KOVO/ticket/ticket-buy?ticket=%EC%97%AC%EC%9E%90%EB%B6%80" target="_blank">예매하기</a><br>
+	            <!-- 하루종일 <input type="checkbox" id="allDay"><br> -->
+	            <!-- 배경색<input type="color" id="schBColor" value=""> -->
+        	</div>
         </div>
     </div>
 	<div id='calendar'></div>
 <!--     <div><span class="gold"></span>gold 회원</div>
 	<div><span class="silver"></span>silver 회원</div>   --> 
-    
-
-
-
 </body>
 
 </html>
