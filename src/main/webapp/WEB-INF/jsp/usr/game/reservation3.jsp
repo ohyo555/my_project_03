@@ -17,7 +17,7 @@
 #calendar {
 	margin: 30px auto; /* 가운데 정렬 */
 	max-width: 900px; /* 최대 너비 지정 */
-	height: 700px;
+	height: 800px;
 }
 
 /* member */
@@ -139,7 +139,8 @@ h2 {
 	    </c:forEach>
 	];
 	
-	const modifiedGameDates = [];
+	const start_modifiedGameDates = [];
+	const end_modifiedGameDates = [];
 	
 	// 년도 포함한 경기날짜 배열(2023-10-17)
 	gameDates.forEach(date => {
@@ -147,36 +148,40 @@ h2 {
     const year = (month === "01" || month === "02" || month === "03") ? "2024" : "2023";
     const modifiedGameDate = year + "-" + month + "-" + day;
     
+    start_modifiedGameDates.push(modifiedGameDate);     
+    
     const [yearStr, monthStr, dayStr] = modifiedGameDate.split('-');
     const newyear = parseInt(yearStr, 10);
     const newmonth = parseInt(monthStr, 10);
     const newday = parseInt(dayStr, 10);
 
     const newmodifiedGameDate = new Date(newyear, newmonth - 1, newday);
-    newmodifiedGameDate.setDate(newmodifiedGameDate.getDate() + 1);
+    
+    newmodifiedGameDate.setDate(newmodifiedGameDate.getDate() + 2);
     
     const formattednewmodifiedGameDate = newmodifiedGameDate.toISOString().split('T')[0]; //날짜 개체를 ISO 문자열로 변환한 다음 "YYYY-MM-DD 형식의 날짜 부분을 추출
 
-    modifiedGameDates.push(formattednewmodifiedGameDate);     
+    end_modifiedGameDates.push(formattednewmodifiedGameDate);     
 	});
 
-	console.log(modifiedGameDates);
+	console.log(start_modifiedGameDates);
+	console.log(end_modifiedGameDates);
 	
 	const gamelist = []; // game Date형 배열
 	const game5Minuslist = []; // game5일전 Date형 배열
 	const game3Minuslist = []; // game5일전 Date형 배열
 	
 	// 년도 포함한 경기 5일전 날짜 배열(2023-10-13)
-	const modifiedgameMinusDates = modifiedGameDates.map(date => {
+	const modifiedgameMinusDates = start_modifiedGameDates.map(date => {
 		const [yearStr, monthStr, dayStr] = date.split('-'); 
 	     
 		const year = parseInt(yearStr, 10); //parseInt(string, radix(진수)) 문자열 분석하고 정수로 변환
 	    const month = parseInt(monthStr, 10);
 	    const day = parseInt(dayStr, 10);
 
-		  for(let i = 0; i < modifiedGameDates.length; i++){
+		  for(let i = 0; i < start_modifiedGameDates.length; i++){
 			  
-	          const [yearStr, monthStr, dayStr] = modifiedGameDates[i].split('-');
+	          const [yearStr, monthStr, dayStr] = start_modifiedGameDates[i].split('-');
 	          
 	          const year = parseInt(yearStr, 10);
 	          const month = parseInt(monthStr, 10);
@@ -199,15 +204,16 @@ h2 {
     document.addEventListener('DOMContentLoaded', function() { 
     	
       const calendarEl = document.getElementById('calendar');
-
+      
+   	  // 일정 그려주기
       const events = [];
 
-      for (let i = 0; i < modifiedGameDates.length; i++) {
+      for (let i = 0; i < start_modifiedGameDates.length; i++) {
           const goldmember = {
               id: `event${i}`,
-              title: modifiedGameDates[i].substring(5,modifiedGameDates[i].length) + ' 경기 예매',
+              title: start_modifiedGameDates[i].substring(5,start_modifiedGameDates[i].length) + ' 경기 예매',
               start: game5Minuslist[i],
-              end: modifiedGameDates[i],
+              end: end_modifiedGameDates[i], // end의 날짜 전날까지 입력 일정이 들어가!
               allDay: true, // event가 하루 종일인지 여부
               backgroundColor: "#fbf3ee",
               textColor: 'black',
@@ -216,14 +222,13 @@ h2 {
               }
           };
 
-          console.log("goldmember" + goldmember.end);
           events.push(goldmember);
           
           const silvermember = {
                   id: `event${i}`,
-                  title: modifiedGameDates[i].substring(5,modifiedGameDates[i].lengthS) + ' 경기 예매',
+                  title: start_modifiedGameDates[i].substring(5,start_modifiedGameDates[i].lengthS) + ' 경기 예매',
                   start: game3Minuslist[i],
-                  end: modifiedGameDates[i],
+                  end: end_modifiedGameDates[i],
                   allDay: true,
                   backgroundColor: "#fad8d7",
                   textColor: 'black',

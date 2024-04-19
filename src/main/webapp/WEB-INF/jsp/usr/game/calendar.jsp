@@ -48,7 +48,7 @@ td {
 .form {
 	margin: 30 auto;
 	max-width: 900px;
-	height: 700px;
+	height: 800px;
 }
 
 /* 달력 헤더 */
@@ -297,8 +297,8 @@ h2 {
 	
 		</table>
 
-		<a href="../game/gamelist">list</a>
-	</div>
+		<!-- <a href="../game/gamelist">list</a>
+ -->	</div>
 
 	<script>
 	
