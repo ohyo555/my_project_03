@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import com.example.demo.repository.MemberRepository;
 import com.example.demo.util.Ut;
 import com.example.demo.vo.Member;
 import com.example.demo.vo.ResultData;
+
+import net.nurigo.sdk.message.model.Message;
 
 @Service
 public class MemberService {
@@ -194,6 +197,6 @@ public class MemberService {
 	private void setTempPassword(Member actor, String tempPassword) {
 		memberRepository.setMember_pw(actor.getId(), Ut.sha256(tempPassword));
 	}
-
+		
 
 }

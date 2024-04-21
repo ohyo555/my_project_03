@@ -17,7 +17,7 @@
 #calendar {
 	margin: 30px auto; /* 가운데 정렬 */
 	max-width: 900px; /* 최대 너비 지정 */
-	height: auto;
+	height: auto;	
 }
 
 /* member */

@@ -10,23 +10,23 @@
 <head>
 <meta charset="utf-8">
 <style>
-body, html {
+/* body, html {
 	height: 100%;
 	overflow: hidden; 
 	margin: 0;
 }
-
+ */
 .news {
 	width: 100%;
-	height: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
 
 .form {
-	width: 700px;
-	height: 830px;
+	width: 80%;
+	height: 80%;
+	margin-top: 30px;
 	margin-bottom: 100px;
 	padding: 10px;
 	padding-bottom: 20px;

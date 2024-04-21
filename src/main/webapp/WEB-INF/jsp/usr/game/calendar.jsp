@@ -48,7 +48,7 @@ td {
 .form {
 	margin: 30 auto;
 	max-width: 900px;
-	height: 730px;
+	height: 800px;
 }
 
 /* 달력 헤더 */

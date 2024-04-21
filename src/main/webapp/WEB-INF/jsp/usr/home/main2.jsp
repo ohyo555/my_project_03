@@ -7,24 +7,6 @@
 
 <style>
 
-/* :root {
-  --clr-text: hsl(0, 0%, 100%);
-}
- */
-/* * {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-  font-family: "Quicksand", sans-serif;
-}
- */
-/* body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-} */
-
 section {
   display: flex;
   flex-direction: column;
@@ -39,8 +21,7 @@ section {
   display: flex; /* 슬라이드를 한 줄로 표시 */
   overflow-x: auto; /* 가로 스크롤 가능하도록 설정 */
   width: 100%; /* 전체 너비 차지 */
-  height: 80%;
-  
+  height: 90%;
 }
 
 .swiper-wrapper {
@@ -53,11 +34,11 @@ section {
 
 /* 목록 */
 .post {
-  max-width: 400px;
+  max-width: 450px;
   font-size: 1rem;
   font-weight: 500;
   color: var(--clr-text);
-  background: rgba(236, 149, 200, 0.2);
+  background: rgba(251,243,238,0.8);
   border-radius: 10px;
   padding: 16px 16px 0;
   margin-bottom: 16px;
@@ -65,7 +46,7 @@ section {
 
 .post-img {
   width: 100%;
-  max-width: 400px;
+  max-width: 450px;
   object-fit: cover;
   overflow: hidden;
   aspect-ratio: 4/3;
@@ -340,6 +321,35 @@ section {
 		        content.addEventListener('mouseout', handleMouseout);
 		    });
 });
+</script>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+	    document.querySelectorAll('.swiper').forEach(function(swiperElement) {
+	        swiperElement.addEventListener('click', function(event) {
+	            // 클릭된 .swiper의 post-name 요소의 텍스트 내용 가져오기
+	            var postName = event.target.querySelector('.post-name').textContent.trim();
+	            
+	            // postName에 기반한 URL 매핑 정의
+	            var urlMappings = {
+	                "경기일정 및 경기정보": "../game/calendar",
+	                "등급별 예매일정": "../game/reservation3",
+	                "멤버쉽 가입": "../member/membership",
+	                "경기장 및 편의시설": "../game/map",
+	                "게시판": "../article/list",
+	                "뉴스 & SNS": "../game/news"
+	                // 필요에 따라 추가적인 매핑 추가
+	            };
+
+	            // 클릭된 .swiper에 해당하는 URL로 이동
+	            if (urlMappings.hasOwnProperty(postName)) {
+	                window.location.href = urlMappings[postName];
+	            } else {
+	                console.error("포스트에 대한 URL 매핑이 없습니다:", postName);
+	            }
+	        });
+	    });
+	});
 </script>
 
   <body>
