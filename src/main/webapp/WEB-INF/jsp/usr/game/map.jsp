@@ -218,7 +218,7 @@ body, html {
                 latlng: new kakao.maps.LatLng(lat, lon)
             }];
 
-            var imageSrc = "/resource/KakaoTalk_20240305_140207461.png";
+            var imageSrc = "/resource/mapmarker.png";
             var imageSize = new kakao.maps.Size(40, 50);
             var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 
