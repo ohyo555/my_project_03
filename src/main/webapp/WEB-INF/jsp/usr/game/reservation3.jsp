@@ -17,7 +17,7 @@
 #calendar {
 	margin: 30px auto; /* 가운데 정렬 */
 	max-width: 900px; /* 최대 너비 지정 */
-	height: auto;
+	height: auto;	
 }
 
 /* member */
@@ -100,18 +100,18 @@ h2 {
 }
 
 /* 스크롤바 */
-.fc-scroller::-webkit-scrollbar-track {
+.fc-scroller-liquid-absolute::-webkit-scrollbar-track {
 	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 	border-radius: 10px;
 	background-color: rgb(255, 255, 255);
 }
 
-.fc-scroller::-webkit-scrollbar {
+.fc-scroller-liquid-absolute::-webkit-scrollbar {
 	width: 12px;
 	background-color: #f2ede2;
 }
 
-.fc-scroller::-webkit-scrollbar-thumb {
+.fc-scroller-liquid-absolute::-webkit-scrollbar-thumb {
 	border-radius: 10px;
 	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
 	background-color: rgb(251, 243, 238);
@@ -130,7 +130,7 @@ h2 {
 #cont {
     margin: 50px auto;
     width: 300px;
-    height: 208px;
+    height: 150px;
     color: black;
    	background-color: #fefefe;
 	border: 1px solid #888;
@@ -139,12 +139,32 @@ h2 {
 	text-align: right;
 }
 
-#modalform {
-	margin: 12px;
-	text-align: left;
-	
+#eventTitle {
+    display: inline-block; /* 한 줄에 표시되도록 설정 */
 }
 
+#modalform {
+	margin: 12px;
+	text-align: left; /* 텍스트를 오른쪽으로 정렬 */
+}
+
+#modalform a{
+	width: 60px;
+	height: 30px;
+	text-align: center;
+	padding: 5px;
+	font-size: 12px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+} 
+
+#reservation {
+    text-align: right;
+}
+
+#modalform label {
+    display: inline-block;
+}
 </style>
 
 <script>  
@@ -298,8 +318,13 @@ h2 {
         <div id="cont">
     	   <button onclick="fMClose()" class="mt-3 mr-5">X</button><br>	        	
 	       <div id="modalform">
-	            <label for="date">경기일</label><div id="eventTitle"></div><br>
-	            <a href="https://kovo.co.kr/KOVO/ticket/ticket-buy?ticket=%EC%97%AC%EC%9E%90%EB%B6%80" target="_blank">예매하기</a><br>
+	            <div>
+	                <label for="date">경기일: </label>
+	                <div id="eventTitle"></div>
+            	</div>
+            	<div id="reservation">
+            	<a href="https://kovo.co.kr/KOVO/ticket/ticket-buy?ticket=%EC%97%AC%EC%9E%90%EB%B6%80" target="_blank">예매하기</a><br>
+            	</div>
 	            <!-- 하루종일 <input type="checkbox" id="allDay"><br> -->
 	            <!-- 배경색<input type="color" id="schBColor" value=""> -->
         	</div>

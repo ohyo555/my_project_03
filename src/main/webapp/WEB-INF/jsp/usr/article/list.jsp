@@ -70,6 +70,18 @@ form {
 	margin-right: 320px;
 }
 
+form > button {
+	border: 1.5px solid rgba(102, 100, 100);
+	border-radius: 10px;
+	font-size: 12px;
+	padding: 0 15px;
+	
+}
+form > button:hover {
+	color: #800808;
+	font-weight: 600;
+}
+
 /* 목록 바 스타일 */
 .list-bar {
 	width: 800px;
@@ -144,7 +156,7 @@ form {
 					<option value="memberId" ${searchKeywordTypeCode.equals("memberId") ? 'selected="selected"' : '' }>작성자</option>
 				</select> <input value="${param.searchKeyword }" type="text" placeholder="검색어를 입력하세요" class="input input-bordered mr-3"
 					style="font-size: 12px; height: 30px;" name="searchKeyword" />
-				<button class="btn btn-sm btn-outline" type="submit" style="background-color: rgba(255, 255, 255, 0.5)">검색</button>
+				<button type="submit" style="background-color: rgba(255, 255, 255, 0.5)">검색</button>
 			</form>
 		</div>
 		<div class="board-container">
@@ -187,7 +199,7 @@ form {
 					</c:if>
 
 					<c:forEach var="article" items="${articles }">
-						<tr class="hover">
+						<tr >
 							<td>${article.id }</td>
 							<c:if test="${board.id == 4}">
 								<td>${article.type }</td>

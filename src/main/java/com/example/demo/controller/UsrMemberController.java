@@ -389,7 +389,6 @@ public class UsrMemberController {
 		
         // 이후 페이지로 리다이렉트 또는 다른 처리를 수행할 수 있습니다.
         return image;
-    }
-	
+	}
 
 }

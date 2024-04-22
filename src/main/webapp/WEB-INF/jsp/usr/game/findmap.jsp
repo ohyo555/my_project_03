@@ -266,7 +266,7 @@ body, html {
 		// 지도를 생성합니다    
 		var map = new kakao.maps.Map(mapContainer, mapOption);
 
-		var imageSrc = "/resource/KakaoTalk_20240305_140207461.png",    
+		var imageSrc = "/resource/mapmarker.png",    
 		imageSize = new kakao.maps.Size(40, 50), // 마커이미지의 크기입니다
 		imageOption = {
 			offset : new kakao.maps.Point(27, 69)
