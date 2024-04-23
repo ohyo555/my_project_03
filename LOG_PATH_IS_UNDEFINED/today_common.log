@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 2024-04-23 16:34:56 [INFO ] c.example.demo.MyprojectApplication - Starting MyprojectApplication using Java 17.0.9 with PID 15596 (C:\work\sts-4.21.0.RELEASE-workspace\myproject\target\classes started by admin in C:\work\sts-4.21.0.RELEASE-workspace\myproject)
 2024-04-23 16:34:56 [DEBUG] c.example.demo.MyprojectApplication - Running with Spring Boot v3.1.9-SNAPSHOT, Spring v6.0.17
 2024-04-23 16:34:56 [INFO ] c.example.demo.MyprojectApplication - No active profile set, falling back to 1 default profile: "default"
@@ -4617,3 +4618,5 @@ WHERE loginId = '000'
 2024-04-23 17:12:04 [DEBUG] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - After shutdown stats (total=0, active=0, idle=0, waiting=0)
 2024-04-23 17:12:04 [INFO ] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
 2024-04-23 17:12:04 [DEBUG] o.s.boot.devtools.restart.Restarter - Starting application com.example.demo.MyprojectApplication with URLs [file:/C:/work/sts-4.21.0.RELEASE-workspace/myproject/target/classes/]
+=======
+>>>>>>> 12ce01c98c5599658f13f8e62853abb80cf06bea
