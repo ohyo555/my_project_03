@@ -345,8 +345,7 @@ public class UsrMemberController {
 			return Ut.jsHistoryBack(membershipRd.getResultCode(), membershipRd.getMsg());
 		}
 
-		return Ut.jsHistoryBack(membershipRd.getResultCode(), membershipRd.getMsg());
-
+		return Ut.jsReplace(membershipRd.getResultCode(), membershipRd.getMsg(), "/usr/home/main2");
 	}
 	
 	//test ajax

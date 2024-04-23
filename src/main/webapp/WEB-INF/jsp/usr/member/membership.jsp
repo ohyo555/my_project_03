@@ -42,7 +42,7 @@ form {
 }
 
 .signup-form label {
-	width: 20%;
+	width: 22%;
 	display: inline-block;
 }
 
@@ -85,7 +85,7 @@ form {
 	font-size: 0.75rem;
 	color: #a32222;
 	text-align: left; /* 오른쪽 정렬 추가 */
-	padding-left: 42px;
+	padding-left: 70px;
 }
 
 .signup-form .cellphoneNum {

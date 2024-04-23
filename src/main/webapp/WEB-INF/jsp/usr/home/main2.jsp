@@ -47,6 +47,7 @@ section {
 
 .post-img {
   width: 100%;
+  height: 70%;
   object-fit: cover;
   overflow: hidden;
   aspect-ratio: 4/3;
@@ -73,105 +74,12 @@ section {
   white-space: nowrap;
 }
 
-.post-author {
+.post-subname {
   width: fit-content;
   font-size: 1rem;
   font-weight: 600;
   opacity: 0.6;
   color: var(--clr-text);
-}
-
-.post-avatar {
-  width: 40px;
-  aspect-ratio: 1/1;
-  object-fit: cover;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.post-actions {
-  position: relative;
-}
-
-.post-actions-content {
-  position: absolute;
-  bottom: 130%;
-  right: 0;
-  padding: 8px;
-  border-radius: 8px;
-  background: rgba(172, 172, 172, 0.2);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 2px 2px 10px 2px hsl(0, 0%, 0%, 0.25);
-  transition: opacity 0.25s, scale 0.25s;
-  transform-origin: bottom right;
-}
-
-.post-actions-content[data-visible="false"] {
-  pointer-events: none;
-  opacity: 0;
-  scale: 0;
-}
-
-.post-actions-content[data-visible="true"] {
-  pointer-events: unset;
-  scale: 1;
-  opacity: 1;
-}
-
-.post-actions-content li {
-  padding: 0.5rem 0.65rem;
-  border-radius: 0.25rem;
-  list-style: none;
-}
-
-.post-actions-content li:is(:hover, :focus-within) {
-  background-color: rgba(248, 132, 169, 0.7);
-}
-
-.post-actions-link {
-  width: max-content;
-  display: grid;
-  grid-template-columns: 1rem 1fr;
-  align-items: center;
-  gap: 0.6rem;
-  color: inherit;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.post-like {
-  text-decoration: none;
-  color: var(--clr-text);
-  margin-right: 5px;
-  font-size: 1.1rem;
-  opacity: 0.65;
-  border-radius: 50%;
-  overflow: hidden;
-  transition: all 0.35s ease;
-}
-
-.post-actions-controller {
-  border: 0;
-  background: none;
-  color: var(--clr-text);
-  cursor: pointer;
-  opacity: 0.65;
-}
-
-.post-like:hover,
-.post-actions-controller:hover {
-  opacity: 1;
-}
-
-.post-like:focus {
-  outline: none;
-}
-
-.post-like.active {
-  color: rgb(255, 0, 0);
-  opacity: 1;
-  transform: scale(1.2);
 }
 
 /* MEDIA QUERIES */
@@ -343,13 +251,32 @@ section {
 
 	            // 클릭된 .swiper에 해당하는 URL로 이동
 	            if (urlMappings.hasOwnProperty(postName)) {
-	                window.location.href = urlMappings[postName];
+	            	
+	            	if(postName == "멤버쉽 가입") {
+	            		memberCheck();
+	            	}
+	            	else {
+	            		window.location.href = urlMappings[postName];
+	            	}
 	            } else {
 	                console.error("포스트에 대한 URL 매핑이 없습니다:", postName);
 	            }
 	        });
 	    });
 	});
+</script>
+
+<script>
+	// 멤버쉽 체크
+	function memberCheck(){
+		if(${rq.loginedMember.type != null}){
+			alert("이미 멤버쉽이 등록되었습니다.");
+			window.location.href = "../home/main2";
+		} else {
+		      // 여기에 원하는 페이지 이동 로직 추가
+		      window.location.href = "../member/membership";
+		    }
+	}
 </script>
 
   <body>
@@ -365,7 +292,7 @@ section {
               <div class="post-body">
                 <div class="post-detail">
                   <h2 class="post-name">경기일정 및 경기정보</h2>
-                  <p class="post-author">Evelyn Taylor</p>
+                  <p class="post-subname">Evelyn Taylor</p>
                 </div>
               </div>
             </div>
@@ -376,7 +303,7 @@ section {
               <div class="post-body">
                 <div class="post-detail">
                   <h2 class="post-name">등급별 예매일정</h2>
-                  <p class="post-author">Ethan Wilson</p>
+                  <p class="post-subname">Ethan Wilson</p>
                 </div>
               </div>
             </div>
@@ -387,7 +314,7 @@ section {
               <div class="post-body">
                 <div class="post-detail">
                   <h2 class="post-name">멤버쉽 가입</h2>
-                  <p class="post-author">Bella Smith</p>
+                  <p class="post-subname">Bella Smith</p>
                 </div>
               </div>
             </div>
@@ -401,7 +328,7 @@ section {
               <div class="post-body">
                 <div class="post-detail">
                   <h2 class="post-name">경기장 및 편의시설</h2>
-                  <p class="post-author">Mia Dixon</p>
+                  <p class="post-subname">Mia Dixon</p>
                 </div>
               </div>
             </div>
@@ -412,7 +339,7 @@ section {
               <div class="post-body">
                 <div class="post-detail">
                   <h2 class="post-name">게시판</h2>
-                  <p class="post-author">자유게시판, 공지사항, 문의사항, 나의 게시판</p>
+                  <p class="post-subname">자유게시판, 공지사항, 문의사항, 나의 게시판</p>
                 </div>
               </div>
             </div>
@@ -426,7 +353,7 @@ section {
               <div class="post-body">
                 <div class="post-detail">
                   <h2 class="post-name">뉴스 & SNS</h2>
-                  <p class="post-author">네이버 뉴스, Youtube, Instagram 등</p>
+                  <p class="post-subname">네이버 뉴스, Youtube, Instagram 등</p>
                 </div>
             </div>
           </div>

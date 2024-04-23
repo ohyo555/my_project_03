@@ -152,7 +152,7 @@
 <body>
 	<header>
 		<div class="h-100% flex items-center text-3xl">
-			<a class="hover:underline" href="/"><i class="fa-solid fa-house-chimney"></i></a>
+			<a class="hover:underline" href="/usr/home/main2"><i class="fa-solid fa-house-chimney"></i></a>
 			<div class="flex-grow"></div>
 			<ul class="flex">
 				<c:if test="${pageContext.request.requestURI != '/WEB-INF/jsp//usr/home/main2.jsp'}">
