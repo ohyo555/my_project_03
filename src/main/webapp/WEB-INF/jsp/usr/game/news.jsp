@@ -110,7 +110,7 @@
 	color: #800808;
 	display:block;
   	text-align: right;
-  	margin-left: 610px;
+  	margin-left: 93%;
 } 
 
 .all:hover {

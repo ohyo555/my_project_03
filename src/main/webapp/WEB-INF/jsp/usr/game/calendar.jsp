@@ -183,10 +183,7 @@ h2 {
 	border: 1px solid #888;
 	border-radius: 10px;
 	font-size: 1rem;
-	/* background-color: white; */
-	/* background-image: url('https://img.freepik.com/premium-vector/woman-volleyball-player-tosses-ball-to-score-goal-for-opposing-team-during-tournament-or-training_160308-6892.jpg'); */
 	background-image: linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.4)), url('https://github.com/ohyo555/my_project_03/assets/153146836/c4813f71-d123-43e4-a04a-c1f9fbd17e91');
-	/* background-image: url('https://images.unsplash.com/photo-1593115379577-a21ea97d6645?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8JUVCJUIwJUIwJUVBJUI1JUFDJUVBJUIzJUI1fGVufDB8fDB8fHww'); */
 	background-size: cover;
     background-position: center;
 }

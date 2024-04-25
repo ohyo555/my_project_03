@@ -19,7 +19,7 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
-		<!--문자 인증관련 라이브러리-->
+		<!-- 문자 서비스 -->
 		<dependency>
 		    <groupId>net.nurigo</groupId>
 		    <artifactId>sdk</artifactId>

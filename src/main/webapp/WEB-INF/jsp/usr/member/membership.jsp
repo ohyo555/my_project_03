@@ -125,6 +125,7 @@ function makePayment() {
     var level = document.querySelector('input[name="level"]:checked').value;
 
     var orderName = null;
+    var customerName = document.getElementById('mname').value;
     
     if (level === "1") { // Gold membership
         amount = 100000;
@@ -138,7 +139,7 @@ function makePayment() {
         amount: amount,
         orderId: "CtaMgVA6Dxw9X7hanNsLY",
         orderName: orderName,
-        customerName: ${member.mname }
+        customerName: customerName
     }).then(function () {
     	 document.getElementById("membershipForm").submit();
     }).catch(function (error) {
@@ -183,9 +184,8 @@ document.addEventListener("DOMContentLoaded", function () {
         var goldradio = document.getElementById("gold");
         var silverlabel = document.getElementById("silverlabel");
         var silverradio  = document.getElementById("silver");
-        console.log("!@!@!~~~~");
+
         goldlabel.addEventListener('click', function() {
-        	console.log("!@!@!");
         	goldradio.checked = true;
         });
         silverlabel.addEventListener('click', function() {

@@ -341,6 +341,8 @@ public class UsrMemberController {
 
 		memberService.setMember2(loginId, mname, cellphoneNum, email, address, lv, membercode, type);
 
+		memberService.sendMessage(mname, cellphoneNum, membercode, type);
+		
 		if (membershipRd.isFail()) {
 			return Ut.jsHistoryBack(membershipRd.getResultCode(), membershipRd.getMsg());
 		}

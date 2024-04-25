@@ -21,11 +21,7 @@ section {
   display: flex; /* 슬라이드를 한 줄로 표시 */
   overflow-x: auto; /* 가로 스크롤 가능하도록 설정 */
   width: 100%; /* 전체 너비 차지 */
-<<<<<<< HEAD
   height: 70%;
-=======
-  height: 90%;
->>>>>>> 12ce01c98c5599658f13f8e62853abb80cf06bea
 }
 
 .swiper-wrapper {
@@ -51,11 +47,7 @@ section {
 
 .post-img {
   width: 100%;
-<<<<<<< HEAD
   height: 70%;
-=======
-  max-width: 450px;
->>>>>>> 12ce01c98c5599658f13f8e62853abb80cf06bea
   object-fit: cover;
   overflow: hidden;
   aspect-ratio: 4/3;
@@ -259,17 +251,14 @@ section {
 
 	            // 클릭된 .swiper에 해당하는 URL로 이동
 	            if (urlMappings.hasOwnProperty(postName)) {
-<<<<<<< HEAD
-	            	
+ 	
 	            	if(postName == "멤버쉽 가입") {
 	            		memberCheck();
 	            	}
 	            	else {
 	            		window.location.href = urlMappings[postName];
 	            	}
-=======
-	                window.location.href = urlMappings[postName];
->>>>>>> 12ce01c98c5599658f13f8e62853abb80cf06bea
+
 	            } else {
 	                console.error("포스트에 대한 URL 매핑이 없습니다:", postName);
 	            }
@@ -278,7 +267,6 @@ section {
 	});
 </script>
 
-<<<<<<< HEAD
 <script>
 	// 멤버쉽 체크
 	function memberCheck(){
@@ -292,8 +280,6 @@ section {
 	}
 </script>
 
-=======
->>>>>>> 12ce01c98c5599658f13f8e62853abb80cf06bea
   <body>
     <section>
         <div class="swiper">
@@ -307,11 +293,7 @@ section {
               <div class="post-body">
                 <div class="post-detail">
                   <h2 class="post-name">경기일정 및 경기정보</h2>
-<<<<<<< HEAD
                   <p class="post-subname">Evelyn Taylor</p>
-=======
-                  <p class="post-author">Evelyn Taylor</p>
->>>>>>> 12ce01c98c5599658f13f8e62853abb80cf06bea
                 </div>
               </div>
             </div>
@@ -322,11 +304,7 @@ section {
               <div class="post-body">
                 <div class="post-detail">
                   <h2 class="post-name">등급별 예매일정</h2>
-<<<<<<< HEAD
                   <p class="post-subname">Ethan Wilson</p>
-=======
-                  <p class="post-author">Ethan Wilson</p>
->>>>>>> 12ce01c98c5599658f13f8e62853abb80cf06bea
                 </div>
               </div>
             </div>
@@ -337,11 +315,7 @@ section {
               <div class="post-body">
                 <div class="post-detail">
                   <h2 class="post-name">멤버쉽 가입</h2>
-<<<<<<< HEAD
                   <p class="post-subname">Bella Smith</p>
-=======
-                  <p class="post-author">Bella Smith</p>
->>>>>>> 12ce01c98c5599658f13f8e62853abb80cf06bea
                 </div>
               </div>
             </div>
@@ -355,11 +329,7 @@ section {
               <div class="post-body">
                 <div class="post-detail">
                   <h2 class="post-name">경기장 및 편의시설</h2>
-<<<<<<< HEAD
                   <p class="post-subname">Mia Dixon</p>
-=======
-                  <p class="post-author">Mia Dixon</p>
->>>>>>> 12ce01c98c5599658f13f8e62853abb80cf06bea
                 </div>
               </div>
             </div>
@@ -370,11 +340,7 @@ section {
               <div class="post-body">
                 <div class="post-detail">
                   <h2 class="post-name">게시판</h2>
-<<<<<<< HEAD
                   <p class="post-subname">자유게시판, 공지사항, 문의사항, 나의 게시판</p>
-=======
-                  <p class="post-author">자유게시판, 공지사항, 문의사항, 나의 게시판</p>
->>>>>>> 12ce01c98c5599658f13f8e62853abb80cf06bea
                 </div>
               </div>
             </div>
@@ -388,11 +354,7 @@ section {
               <div class="post-body">
                 <div class="post-detail">
                   <h2 class="post-name">뉴스 & SNS</h2>
-<<<<<<< HEAD
                   <p class="post-subname">네이버 뉴스, Youtube, Instagram 등</p>
-=======
-                  <p class="post-author">네이버 뉴스, Youtube, Instagram 등</p>
->>>>>>> 12ce01c98c5599658f13f8e62853abb80cf06bea
                 </div>
             </div>
           </div>
