@@ -52,9 +52,53 @@ body {
 	background-color: #fff;
 	padding: 10px;
 }
+
+/* 파일업로드 */
+.filebox .upload-name {
+    display: inline-block;
+    height: 40px;
+    padding: 0 10px;
+    vertical-align: middle;
+    border: 1px solid #ccc;
+	border-radius: 10px;
+    width: 30%;
+    color: #999999;
+}
+
+.filebox label {
+    display: inline-block;
+    padding: 10px 15px;
+    color: black;
+    vertical-align: middle;
+    background-color: rgb(251,243,238);
+    border-radius: 10px;
+    cursor: pointer;
+    height: 40px;
+    margin-left: 5px;
+}
+
+.filebox input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
+
 </style>
 
 <!-- Article write 관련 -->
+<script>
+$(document).ready(function() { //DOM이 준비되지 않음 -> 해결!
+	$("#file").on('change',function(){
+		 var fileName = $("#file").val();
+		  $(".upload-name").val(fileName);
+		});
+});
+	 
+</script>
+
 <script type="text/javascript">
 	let ArticleWrite__submitFormDone = false;
 	function ArticleWrite__submit(form) {
@@ -105,12 +149,14 @@ body {
 						</select>
 					<button class="backbutton writebutton btn-outline" type="submit" value="작성">작성</button>
 					</div>
-					<div class = "ml-1 mt-2 mb-1">제목:  
+					<div class = "ml-1 mt-2">제목:  
 						<input class="input input-bordered w-full max-w-xs mb-3" autocomplete="off" type="text"
 								placeholder="제목을 입력해주세요" name="title" style="height:40px"/>
 					</div>
-					<div class = "ml-1 mt-2 mb-1">첨부 이미지:
-						<input id="fileInput" placeholder="이미지를 선택해주세요" type="file" />
+					<div class = "filebox ml-1 mb-1">첨부 이미지:
+						    <input class="upload-name" value="첨부파일" placeholder="첨부파일">
+						    <label for="file" class="text-sm">파일찾기</label> 
+						    <input type="file" id="file">
 					</div>
 					<div class="toast-ui-editor">
 						<script type="text/x-template">
