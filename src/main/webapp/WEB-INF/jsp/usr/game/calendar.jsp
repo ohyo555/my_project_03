@@ -263,7 +263,6 @@ h2 {
 				<a href="" target="_blank" id="gameresult" class = "font-bold">경기결과&nbsp;&nbsp;&nbsp;</a> 
 				<a href="" target="_blank" id="gamehighlight" class = "font-bold">하이라이트</a>
 			</div>
-			<!-- 필요에 따라 모달에 더 많은 내용을 추가하세요 -->
 		</div>
 	</div>
 

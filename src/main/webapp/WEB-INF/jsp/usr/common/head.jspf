@@ -160,15 +160,13 @@
 						href="../article/list?boardId=1&page=1"><img width="24" height="24"
 							src="https://img.icons8.com/material-outlined/24/circled-menu.png" alt="circled-menu" /></a>
 						<ul>
-							<li><a class="hover:underline" href="javascript:void(0);" onclick="memberCheck()">membership</a></li>
 							<li><a class="hover:underline" href="../game/calendar">Game Schedule</a></li>
-							<li><a class="hover:underline" href="../game/map">map</a></li>
-							<li><a class="hover:underline" href="../article/list?boardId=1&page=1">NOTICE</a></li>
-							<li><a class="hover:underline" href="../article/list?boardId=2&page=1">FREE</a></li>
-							<li><a class="hover:underline" href="../article/list?boardId=3&page=1">QnA</a></li>
-							<li><a class="hover:underline" href="../article/mylist?page=1">MY LIST</a></li>
+							<li><a class="hover:underline" href="../game/reservation3">Reservation</a></li>
+							<li><a class="hover:underline" href="javascript:void(0);" onclick="memberCheck()">Membership</a></li>
+							<li><a class="hover:underline" href="../game/map">Map</a></li>
+							<li><a class="hover:underline" href="../article/list?boardId=1&page=1">Article</a></li>
 							<c:if test="${rq.loginedMemberId != 0}">
-								<li><a class="hover:underline" href="../article/write">write</a></li>
+								<li><a class="hover:underline" href="../article/write">Write</a></li>
 							</c:if>
 						</ul></li>
 				</c:if>

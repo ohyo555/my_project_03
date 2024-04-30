@@ -16,24 +16,6 @@ CREATE TABLE article(
     updateDate DATETIME NOT NULL
 );
 
-# testdata 생성
-INSERT INTO article
-SET title = '테스트 하는중',
-`body` = '테스트테스트테스트테스트테스트테스트테스트',
-memberId = '22',
-boardId = '1',
-regDate = NOW(),
-updateDate = NOW();
-
-SELECT C.*, M.loginId AS loginId, M.image AS image, SUM(C.goodreactionPoint) AS `sum`
-			FROM `comment` AS C
-			INNER JOIN `member` AS M
-			ON C.memberId = M.id
-			WHERE C.relId = "1"
-			GROUP BY C.id
-			ORDER BY C.id DESC;
-
-
 # article 데이터 대량 
 INSERT INTO article(title, `body`, memberId, boardId, regDate, updateDate)
 SELECT
@@ -114,26 +96,6 @@ address = '대구광역시',
 regDate = NOW(),
 updateDate = NOW();
 
-INSERT INTO `member`
-SET loginId = 'test1',
-loginPw = 'test1',
-birth = '2000-02-26',
-mname = '회원1',
-cellphoneNum = '01043214321',
-email = 'abcde@gmail.com',
-regDate = NOW(),
-updateDate = NOW();
-
-INSERT INTO `member`
-SET loginId = 'test2',
-loginPw = 'test2',
-birth = '2000-02-26',
-mname = '회원2',
-cellphoneNum = '01098746513',
-email = 'oioi@gmail.com',
-regDate = NOW(),
-updateDate = NOW();
-
 #---------------------------------------------------------------------------
 
 # membership 테이블 생성
@@ -164,9 +126,6 @@ CREATE TABLE `schedule`(
     info CHAR(20) NOT NULL
 );
 
-SELECT *
-FROM `schedule`;
-
 #---------------------------------------------------------------------------
 
 # game 테이블 생성
@@ -186,8 +145,6 @@ CREATE TABLE game(
     dig INT(10) NOT NULL
 );
 
-# testdata 생성
-
 #---------------------------------------------------------------------------
 
 # board 테이블 생성
@@ -200,10 +157,6 @@ CREATE TABLE board(
     delStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '삭제 여부 (0=삭제 전, 1=삭제 후)',
     delDate DATETIME COMMENT '삭제 날짜'
 );
-
-SELECT *
-FROM board
-
 
 # board TD 생성
 
@@ -234,10 +187,6 @@ updateDate = NOW(),
 #---------------------------------------------------------------------------
 
 # reactionPoint 테이블 생성
-
-SELECT *
-FROM reactionPoint
-
 CREATE TABLE reactionPoint(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     memberId INT(10) UNSIGNED NOT NULL,
@@ -278,7 +227,6 @@ CREATE TABLE `comment`(
 #---------------------------------------------------------------------------
 
 # team 테이블 생성
-
 CREATE TABLE team(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     tname CHAR(20) NOT NULL,
@@ -592,52 +540,12 @@ CREATE TABLE genFile (
   KEY relId (relTypeCode,relId,typeCode,type2Code,fileNo)
 );
 
-SELECT *
-FROM genFile;
 ###############################################
-
-SELECT m.*, pname, `number` AS pnumber, `position`
-			FROM `member` AS m
-			INNER JOIN player AS p
-			ON m.fplayer = p.id
-			WHERE loginId = '333';
-			
-UPDATE `comment` AS C
-INNER JOIN (
-    SELECT RP.relTypeCode,RP.relId,
-    SUM(IF(RP.point > 0, RP.point, 0)) AS goodReactionPoint
-    FROM reactionPoint AS RP
-    GROUP BY RP.relTypeCode, RP.relId
-) AS RP_SUM
-ON C.id = RP_SUM.relId
-SET C.goodReactionPoint = RP_SUM.goodReactionPoint;
-
-SHOW FULL COLUMNS FROM `member`;
-DESC `member`;
-
-SELECT C.*, M.loginId AS loginId, M.image AS image, SUM(C.goodreactionPoint) AS `sum`
-			FROM `comment` AS C
-			INNER JOIN `member` AS M
-			ON C.memberId = M.id
-			WHERE C.relId = 1
-			GROUP BY C.id
-			
 SELECT *
 FROM article; 
  
 SELECT *
 FROM `comment`; 
-
-SELECT *
-FROM reactionpoint;
-SELECT *
-FROM `member`; 
-
-SELECT p.id
-FROM player AS p
-INNER JOIN `member` AS m
-ON m.fplayer = p.id
-WHERE m.id = 3
 
 SELECT *
 FROM team; 
@@ -648,95 +556,8 @@ FROM board;
 SELECT *
 FROM player;
 
-SELECT * FROM `genFile`;
+SELECT * 
+FROM `genFile`;
 
 SELECT *
-FROM reply
-WHERE relTypeCode = 'article'
-AND relId = 1
-
-SELECT A.*, M.nickname AS extra__writer, IFNULL(R.cnt,0) AS cnt
-FROM article AS A
-INNER JOIN `member` AS M
-ON A.memberId = M.id
-LEFT JOIN (SELECT relId, COUNT(*) AS cnt FROM reply GROUP BY relId) AS R
-ON A.id = R.relId
-GROUP BY A.id
-ORDER BY A.id DESC
-
-
-SELECT A.*, M.nickname AS extra__writer, COUNT(R.id) AS cnt
-FROM article AS A
-INNER JOIN `member` AS M ON A.memberId = M.id
-LEFT JOIN `reply` AS R ON A.id = R.relId
-GROUP BY A.id
-ORDER BY A.id DESC
-
-SELECT *
-FROM `comment`
-
-SELECT *
-FROM reactionPoint
-WHERE memberId = "22"
-
-SELECT A.id AS articleId, C.id AS commentId, C.goodReactionPoint, C.memberId AS commem, M.id
-FROM `article` AS A
-JOIN `comment` AS C
-ON A.id = C.relId
-LEFT JOIN `member` AS M
-ON A.memberId = M.id = C.memberId
-WHERE A.id = "1003"
-
-SELECT *
-FROM article
-SELECT *
-FROM `member`
-SELECT *
-FROM `comment`
-SELECT *
-FROM reactionPoint
-
-SELECT *
-FROM reactionPoint AS r
-WHERE relTypeCode = "comment"
-AND memberId = "6"
-
-SELECT *
-FROM `comment` AS c
-INNER JOIN article AS a
-ON c.relId = a.id
-INNER JOIN reactionPoint AS r
-ON c.id = r.relId
-WHERE a.id = "1000"
-AND r.relTypeCode = "comment"
-AND r.memberId = "6"
-
-
-#drop table `comment`
-INSERT INTO `comment`
-SET `comment` = '정관장1212121',
-memberId = '6',
-goodReactionPoint = 0,
-relTypeCode = "comment",
-relId = "1000",
-regDate = NOW(),
-updateDate = NOW();
-INSERT INTO `comment`
-SET `comment` = '12312321321',
-memberId = '6',
-goodReactionPoint = 0,
-relTypeCode = "comment",
-relId = "999",
-regDate = NOW(),
-updateDate = NOW();
-INSERT INTO `comment`
-SET `comment` = '정78987987',
-memberId = '4',
-goodReactionPoint = 0,
-relTypeCode = "comment",
-relId = "1000",
-regDate = NOW(),
-updateDate = NOW();
-
-
-SELECT LAST_INSERT_ID();
+FROM reactionPoint;

@@ -9,6 +9,7 @@ import com.example.demo.repository.ArticleRepository;
 import com.example.demo.util.Ut;
 import com.example.demo.vo.Article;
 import com.example.demo.vo.Comment;
+import com.example.demo.vo.Member;
 import com.example.demo.vo.ReactionPoint;
 import com.example.demo.vo.ResultData;
 
@@ -229,6 +230,10 @@ public class ArticleService {
 	public int getCurrentArticleId() {
 		return articleRepository.getCurrentArticleId();
 
+	}
+	
+	public String getMemberByLoginPw(int id) {
+		return articleRepository.getMemberByLoginPw(id);
 	}
 
 

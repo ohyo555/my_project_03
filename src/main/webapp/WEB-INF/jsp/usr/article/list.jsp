@@ -72,7 +72,7 @@ form {
 
 form > button {
 	border: 1.5px solid rgba(102, 100, 100);
-	border-radius: 10px;
+	border-radius: 5px;
 	font-size: 12px;
 	padding: 0 15px;
 	
@@ -110,8 +110,108 @@ form > button:hover {
 	margin-top: 40px;
 	height: 700px;
 }
+.myModal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    padding: 30px;
+    border: 1px solid #888;
+    border-radius: 10px;
+    background-color: #fff;
+    z-index: 10000;
+}
 
+.modal-content {
+    position: relative;
+}
+
+.modal_close_btn {
+    position: absolute;
+    top: 5px;
+    right: 20px;
+    cursor: pointer;
+}
+
+.pw_modal {
+	display: flex;
+    align-items: center;
+}
+
+.pw_modal > input {
+	font-size: 12px;
+	height: 30px;
+	margin-right: 5px;
+	width: 80%;
+}
+
+.password_btn {
+	border: 1.5px solid rgba(102, 100, 100);
+	border-radius: 5px;
+	font-size: 12px;
+	padding: 5px 10px;
+}
+	
 </style>
+
+<script>
+    // Function to open the modal
+    function openModal(articleId) {
+        var modal = document.getElementById('myModal');
+        var inputPassword = document.getElementById('inputPassword');
+        inputPassword.value = ''; // 초기화
+        inputPassword.dataset.articleId = articleId; // articleId 설정
+        modal.style.display = 'block';
+
+     	// 모달 열릴 때 articleId를 form의 hidden input에 설정
+        var a = document.getElementById('id');
+        a.value = articleId;
+    }
+
+    // Function to close the modal
+    function closeModal() {
+        var modal = document.getElementById('myModal');
+        var inputPassword = document.getElementById('inputPassword');
+        inputPassword.value = ''; // 초기화
+        
+        modal.style.display = 'none';
+    }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        var links = document.querySelectorAll('a[href^="detail?id="]');
+        links.forEach(function(link) {
+            link.addEventListener('click', function(event) {
+            	var articleId = this.getAttribute('href').match(/\d+$/)[0]; // Extract article ID from URL
+                console.log('Clicked link with article ID:', articleId);
+            	
+                var boardId = this.getAttribute('data-boardId');
+                console.log('Clicked link with boardId:', boardId);
+                
+                var inputPassword = document.getElementById('inputPassword');
+                inputPassword.dataset.articleId = articleId;
+                
+                if (boardId === '3') {
+                    event.preventDefault(); 
+                    openModal(articleId); 
+                }
+            });
+        });
+    });
+</script>
+
+
+<form action="../article/doAction" method="POST">
+	<div id="myModal" class="myModal">
+		<input id ="id" type="hidden" name="id" value="" />
+	      <span class="modal_close_btn" onclick="closeModal()">&times;</span>
+	      <div class="pw_modal">
+		      <input id="inputPassword" type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" style=""/>
+		      <button class="password_btn" type="submit">입력</button>
+	      </div>
+	</div>
+</form>
 
 <section class="text-xl px-4">
 	<input type="hidden" name="id" value="${article.id }" />
@@ -206,10 +306,10 @@ form > button:hover {
 							</c:if>							
 							<td>${article.regDate.substring(0,10) }</td>
 							<c:if test="${article.cnt == 0}">
-								<td><a href="detail?id=${article.id }">${article.title }</a></td>
+								<td><a href="detail?id=${article.id }" data-boardId="${article.boardId }">${article.title }</a></td>
 							</c:if>
 							<c:if test="${article.cnt != 0}">
-								<td><a href="detail?id=${article.id }">${article.title }</a>
+								<td><a href="detail?id=${article.id }" data-boardId="${article.boardId }">${article.title }</a>
 									<div class="inline-block" style="color: #e0316e">[${article.cnt }]</div></td>
 							</c:if>
 							<td>${article.loginId }</td>

@@ -21,6 +21,7 @@ import com.example.demo.util.Ut;
 import com.example.demo.vo.Article;
 import com.example.demo.vo.Board;
 import com.example.demo.vo.Comment;
+import com.example.demo.vo.Member;
 import com.example.demo.vo.ReactionPoint;
 import com.example.demo.vo.ResultData;
 import com.example.demo.vo.Rq;
@@ -93,6 +94,23 @@ public class UsrArticleController {
 
 		return "usr/article/list";
 	}
+
+	@RequestMapping("/usr/article/doAction")
+	@ResponseBody
+	public String doAction(int id, String loginPw) {
+		System.out.println("#$$$$$$$");
+		String password = articleService.getMemberByLoginPw(id);
+
+		loginPw = Ut.sha256(loginPw);
+		
+		if (password.equals(loginPw)) {
+			System.err.println("성공!!!");
+			return "usr/article/detail?id=" + id;
+		}
+		
+		return Ut.jsHistoryBack("F-1", "비밀번호가 일치하지 않습니다.");
+	}
+
 	
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(HttpServletRequest req, Model model, int id) {

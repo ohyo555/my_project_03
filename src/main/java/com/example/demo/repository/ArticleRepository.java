@@ -322,4 +322,13 @@ public interface ArticleRepository {
 			""")
 	public int getCurrentArticleId();
 
+	@Select("""
+			SELECT M.loginPw
+			FROM article AS A
+			INNER JOIN `member` AS M
+			ON A.memberId = M.id
+			WHERE A.id = #{id}
+			""")
+	public String getMemberByLoginPw(int id);
+
 }

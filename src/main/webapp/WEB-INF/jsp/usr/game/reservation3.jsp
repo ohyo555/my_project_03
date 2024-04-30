@@ -15,7 +15,7 @@
 <style>
 /* 달력 */
 #calendar {
-	margin: 30px auto; /* 가운데 정렬 */
+	margin: 10px auto 30px auto; /* 가운데 정렬 */
 	max-width: 900px; /* 최대 너비 지정 */
 	height: auto;	
 }
@@ -165,7 +165,37 @@ h2 {
 #modalform label {
     display: inline-block;
 }
+
+.info {
+ 	display: flex;
+    justify-content: flex-end;
+	margin: 20px auto 0 auto;
+	max-width: 900px;
+	height: auto;
+}
+
+.box {
+	width: 35px;
+	height: 100%;
+	margin-right: 5px;
+	padding: 0 3px;
+	text-align:center;
+	background-color: black;
+	display: inline-block;
+}
+
 </style>
+
+<script>
+	const a = document.createElement("div");
+	a.classList.add("info");
+	//x.appendChild(a);
+	
+	const b = document.createElement("div");
+  	b.classList.add("box"); // div의 클래스명을 지정해줘
+  	a.appendChild(b);
+  	  
+</script>
 
 <script>  
 	
@@ -206,8 +236,9 @@ h2 {
 	console.log(end_modifiedGameDates);
 	
 	const gamelist = []; // game Date형 배열
-	const game5Minuslist = []; // game5일전 Date형 배열
-	const game3Minuslist = []; // game5일전 Date형 배열
+	const gamelist_gold = []; // game7일전 Date형 배열
+	const gamelist_silver = []; // game5일전 Date형 배열
+	const gamelist_normal = []; // game3일전 Date형 배열
 	
 	// 년도 포함한 경기 5일전 날짜 배열(2023-10-13)
 	const modifiedgameMinusDates = start_modifiedGameDates.map(date => {
@@ -228,13 +259,17 @@ h2 {
 	          const gamelistDate = new Date(year, month - 1, day);
 	          gamelist.push(gamelistDate);
 	          
-	          const game3MinusDate = new Date(gamelistDate.getFullYear(), gamelistDate.getMonth(), (gamelistDate.getDate()-1));  
-	          const formattedDate3 = game3MinusDate.toISOString().split('T')[0]; //날짜 개체를 ISO 문자열로 변환한 다음 "YYYY-MM-DD 형식의 날짜 부분을 추출
-	          game3Minuslist.push(formattedDate3)
+	          const game1MinusDate = new Date(gamelistDate.getFullYear(), gamelistDate.getMonth(), (gamelistDate.getDate()-1));  
+	          const formattedDate1 = game1MinusDate.toISOString().split('T')[0]; //날짜 개체를 ISO 문자열로 변환한 다음 "YYYY-MM-DD 형식의 날짜 부분을 추출
+	          gamelist_normal.push(formattedDate1);
 	          
-	          const game5MinusDate = new Date(gamelistDate.getFullYear(), gamelistDate.getMonth(), (gamelistDate.getDate()-3));      
+	          const game3MinusDate = new Date(gamelistDate.getFullYear(), gamelistDate.getMonth(), (gamelistDate.getDate()-3));  
+	          const formattedDate3 = game3MinusDate.toISOString().split('T')[0]; //날짜 개체를 ISO 문자열로 변환한 다음 "YYYY-MM-DD 형식의 날짜 부분을 추출
+	          gamelist_silver.push(formattedDate3);
+	          
+	          const game5MinusDate = new Date(gamelistDate.getFullYear(), gamelistDate.getMonth(), (gamelistDate.getDate()-5));      
 	          const formattedDate5 = game5MinusDate.toISOString().split('T')[0]; //날짜 개체를 ISO 문자열로 변환한 다음 "YYYY-MM-DD 형식의 날짜 부분을 추출
-	          game5Minuslist.push(formattedDate5);
+	          gamelist_gold.push(formattedDate5);
 		  }  
 	});
 	
@@ -250,13 +285,13 @@ h2 {
           const goldmember = {
               id: `event${i}`,
               title: start_modifiedGameDates[i].substring(5,start_modifiedGameDates[i].length) + ' 경기 예매',
-              start: game5Minuslist[i],
+              start: gamelist_gold[i],
               end: end_modifiedGameDates[i], // end의 날짜 전날까지 입력 일정이 들어가!
               allDay: true, // event가 하루 종일인지 여부
               backgroundColor: "#fbf3ee",
               textColor: 'black',
               extendedProps: {
-                  comment: ''
+                  comment: '골드회원'
               }
           };
 
@@ -265,17 +300,32 @@ h2 {
           const silvermember = {
                   id: `event${i}`,
                   title: start_modifiedGameDates[i].substring(5,start_modifiedGameDates[i].lengthS) + ' 경기 예매',
-                  start: game3Minuslist[i],
+                  start: gamelist_silver[i],
                   end: end_modifiedGameDates[i],
                   allDay: true,
                   backgroundColor: "#fad8d7",
                   textColor: 'black',
                   extendedProps: {
-                      comment: ''
+                      comment: '실버회원'
                   }
               };
 
           events.push(silvermember);
+          
+          const member = {
+                  id: `event${i}`,
+                  title: start_modifiedGameDates[i].substring(5,start_modifiedGameDates[i].lengthS) + ' 경기 예매',
+                  start: gamelist_normal[i],
+                  end: end_modifiedGameDates[i],
+                  allDay: true,
+                  backgroundColor: "#d4d4d4",
+                  textColor: 'black',
+                  extendedProps: {
+                      comment: '일반회원'
+                  }
+              };
+
+          events.push(member);
       }
       const Modal = document.querySelector("#Modal");
       
@@ -295,11 +345,10 @@ h2 {
        	
        		// 클릭한 이벤트의 정보 가져오기
             const eventTitle = eventInfo.event.title.substring(0,6);
-       		
-       		console.log(eventTitle);
+            const memberLevel = eventInfo.event.extendedProps.comment;
 
-            // 모달에 정보 넣기
             document.getElementById('eventTitle').textContent = eventTitle;
+            document.getElementById('memberlevel').textContent = memberLevel;
 	  	}
      });  
      calendar.render();  
@@ -319,6 +368,7 @@ h2 {
     	   <button onclick="fMClose()" class="mt-3 mr-5">X</button><br>	        	
 	       <div id="modalform">
 	            <div>
+ 					<div id="memberlevel"></div>
 	                <label for="date">경기일: </label>
 	                <div id="eventTitle"></div>
             	</div>
@@ -330,9 +380,13 @@ h2 {
         	</div>
         </div>
     </div>
+      <div class="info text-sm">
+     	<div class="box" style="background-color: #fbf3ee;">골드</div>
+	 	<div class="box" style="background-color: #fad8d7;">실버</div>
+	 	<div class="box" style="background-color: #d4d4d4;">일반</div>
+	 </div> 
 	<div id='calendar'></div>
-<!--     <div><span class="gold"></span>gold 회원</div>
-	<div><span class="silver"></span>silver 회원</div>   --> 
+   
 </body>
 
 </html>

@@ -15,6 +15,9 @@ public class UsrNewsController {
 	@Autowired
 	private UsrCrawlingController3 news;
 
+	@Autowired
+	private UsrCrawlingController2 news2;
+	
 	@RequestMapping("/usr/game/news")
 	public String showNews(Model model) {
 
@@ -22,6 +25,15 @@ public class UsrNewsController {
 		model.addAttribute("News", News);
 
 		return "usr/game/news";
+
+	}
+
+	@RequestMapping("/usr/game/news2")
+	public String showNews2(Model model) {
+
+		news2.crawl();
+		
+		return "usr/game/news2";
 
 	}
 
