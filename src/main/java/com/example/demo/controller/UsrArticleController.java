@@ -157,53 +157,6 @@ public class UsrArticleController {
 		return "usr/article/detail";
 	}
 	
-	@RequestMapping("/usr/article/detail2")
-	@ResponseBody
-	public List<Comment> showDetail2(HttpServletRequest req, Model model, int id) {
-		Rq rq = (Rq) req.getAttribute("rq");
-		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
-
-		ResultData usersReactionRd = reactionPointService.usersReaction(rq.getLoginedMemberId(), "article", id);
-		
-		if (usersReactionRd.isSuccess()) {
-			model.addAttribute("userCanMakeReaction", usersReactionRd.isSuccess());
-		}
-		
-	    // order 값을 받아옵니다.
-	    String order = req.getParameter("order");
-
-	    List<Comment> comments = commentService.getForPrintComments(rq.getLoginedMemberId(), "article", id);
-	    
-	    // order 값이 null이 아니라면 적절한 처리를 수행합니다.
-	    if (order != null) {
-	        // order 값이 "asc"이면 등록순으로 댓글을 정렬합니다.
-	        if (order.equals("asc")) {
-	        	comments = commentService.getForPrintComments(rq.getLoginedMemberId(), "article", id, order);
-	        }
-	        // order 값이 "desc"이면 최신순으로 댓글을 정렬합니다.
-	        else if (order.equals("desc")) {
-	        	comments = commentService.getForPrintComments(rq.getLoginedMemberId(), "article", id, order);
-	        }
-	    }
-		if (usersReactionRd.isSuccess()) {
-			model.addAttribute("userCanMakeReaction", usersReactionRd.isSuccess());
-		}
-		
-		int commentsCount = comments.size();
-		int genfilecnt = genFileService.getGenFilecnt(id);
-		
-		model.addAttribute("loginedMember", rq.getLoginedMemberId());
-		model.addAttribute("article", article);
-		model.addAttribute("comments", comments);
-		model.addAttribute("commentsCount", commentsCount);
-		model.addAttribute("genfilecnt", genfilecnt);
-		model.addAttribute("isAlreadyAddGoodRp",reactionPointService.isAlreadyAddGoodRp(rq.getLoginedMemberId(), id, "article"));
-		model.addAttribute("isAlreadyAddBadRp",reactionPointService.isAlreadyAddBadRp(rq.getLoginedMemberId(), id, "article"));
-		
-		return comments;
-	}
-	
-	
 	@RequestMapping("/usr/article/doIncreaseHitCountRd")
 	@ResponseBody
 	public ResultData doIncreaseHitCountRd(int id) {

@@ -378,79 +378,25 @@ function asc(articleId) {
     });
 }
 
-function desc(articleId) {
-    // AJAX 요청을 보냅니다.
-    console.log(articleId);
-    var commentContainer = $(".chat");
-    
-    $.ajax({
-        type: "POST",
-        url: "/usr/article/detail2", // 댓글을 정렬하는 서버 측 URL
-        data: { id: articleId, order: "desc" }, // 등록순으로 정렬하는 요청
-        success: function(data) {
-            // 정렬된 댓글을 화면에 출력합니다.
-            //commentContainer.empty();
-            console.log(data);
-            // Empty the existing comment container
-            commentContainer.innerHTML = "";
-            
-            data.forEach(function(com) {
-				var option = document.getElementByClassName("option");
-				option.value = room.id;
-				option.text = room.roomNum;
-				roomSelect.appendChild(option);
-			});
-            
-            
-            // Iterate over the array of comments
-           /*  data.forEach(function(comment) {
-                // Create HTML elements for each comment
-                var commentHtml = `
-                    <div class="chat chat-start">
-                        <!-- Add HTML content for each comment -->
-                        <div class="chat-image avatar">
-                            <div class="w-10 rounded-full">
-                                <img alt="User Image" src="${comment.image}" />
-                            </div>
-                        </div>
-                        <div class="chat-header font-semibold">
-                            ${comment.loginId}
-                            <time class="text-xs opacity-50">${comment.updateDate.substring(0, 10)}</time>
-                        </div>
-                        <div class="commentbar">
-                            <span class="chat-bubble" id="comment-${comment.id}">${comment.comment}</span>
-                            <!-- Add other elements as needed -->
-                        </div>
-                    </div>`;
-                
-                // Append the HTML for the current comment to the comment container
-                $(".comment").append(commentHtml);
-            }); */
-        },
-        error: function(error) {
-            console.error("Error during sorting comments:", error);
-        }
-    });
-}
+var CommentWrite__submitDone = false;
 
-		var CommentWrite__submitDone = false;
-		function CommentWrite__submit(form) {
-			if (CommentWrite__submitDone) {
-				alert('이미 처리중입니다');
-				return;
-			}
-			
-			console.log(form.body.value);
-			
-			if (form.body.value.length < 3) {
-				alert('댓글은 3글자 이상 입력해');
-				form.body.focus();
-				return;
-			}
-			CommentWrite__submitDone = true;
-			form.submit();
-		}
-	</script>
+function CommentWrite__submit(form) {
+	if (CommentWrite__submitDone) {
+		alert('이미 처리중입니다');
+		return;
+	}
+	
+	console.log(form.body.value);
+	
+	if (form.body.value.length < 3) {
+		alert('댓글은 3글자 이상 입력해');
+		form.body.focus();
+		return;
+	}
+	CommentWrite__submitDone = true;
+	form.submit();
+}
+</script>
 
 <!-- 댓글 수정, 삭제-->
 <script>
