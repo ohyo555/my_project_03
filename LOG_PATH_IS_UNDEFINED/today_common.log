@@ -25670,3 +25670,164 @@ FROM team
 2024-05-02 09:58:20 [DEBUG] org.mybatis.spring.SqlSessionUtils - Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@472827ba]
 2024-05-02 09:58:41 [DEBUG] com.zaxxer.hikari.pool.HikariPool - HikariPool-8 - Pool stats (total=10, active=0, idle=10, waiting=0)
 2024-05-02 09:58:41 [DEBUG] com.zaxxer.hikari.pool.HikariPool - HikariPool-8 - Fill pool skipped, pool has sufficient level or currently being filled (queueDepth=0).
+2024-05-02 09:59:11 [DEBUG] com.zaxxer.hikari.pool.HikariPool - HikariPool-8 - Pool stats (total=10, active=0, idle=10, waiting=0)
+2024-05-02 09:59:11 [DEBUG] com.zaxxer.hikari.pool.HikariPool - HikariPool-8 - Fill pool skipped, pool has sufficient level or currently being filled (queueDepth=0).
+2024-05-02 09:59:39 [DEBUG] org.mybatis.spring.SqlSessionUtils - Creating a new SqlSession
+2024-05-02 09:59:39 [DEBUG] org.mybatis.spring.SqlSessionUtils - SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@16b0dbe4] was not registered for synchronization because synchronization is not active
+2024-05-02 09:59:39 [DEBUG] o.s.jdbc.datasource.DataSourceUtils - Fetching JDBC Connection from DataSource
+2024-05-02 09:59:39 [DEBUG] o.m.s.t.SpringManagedTransaction - JDBC Connection [HikariProxyConnection@2082946508 wrapping net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@535bcec8] will not be managed by Spring
+2024-05-02 09:59:39 [DEBUG] c.e.d.r.MemberRepository.getMember - ==>  Preparing: SELECT * FROM `member` WHERE id = ?
+2024-05-02 09:59:39 [DEBUG] c.e.d.r.MemberRepository.getMember - ==> Parameters: 25(Integer)
+2024-05-02 09:59:39 [DEBUG] jdbc.sqltiming -  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+71. SELECT * FROM `member` WHERE id = 25
+ {executed in 1 msec}
+2024-05-02 09:59:39 [INFO ] jdbc.resultsettable - 
+|---|--------|-----------------------------------------------------------------|-----------|------|-------------|--------------|---------|--------|----------|-----|-----------|----------------------|--------|--------------------|--------------------|----------|--------|
+|id |loginid |loginpw                                                          |birth      |mname |cellphonenum |email         |postcode |address |authlevel |type |membercode |image                 |fplayer |regdate             |updatedate          |delstatus |deldate |
+|---|--------|-----------------------------------------------------------------|-----------|------|-------------|--------------|---------|--------|----------|-----|-----------|----------------------|--------|--------------------|--------------------|----------|--------|
+|25 |1313    |1cfafff6d51a03662b85b93dc3417f51687034ba9a46682f5328257eff7133ed |2024-04-03 |1313  |13131        |1313@sdfsdfsd |0        |        |1         |골드   |G23856     |/resource/profile.png |[null]  |2024-04-18 16:51:10 |2024-04-18 16:58:52 |false     |null    |
+|---|--------|-----------------------------------------------------------------|-----------|------|-------------|--------------|---------|--------|----------|-----|-----------|----------------------|--------|--------------------|--------------------|----------|--------|
+
+2024-05-02 09:59:39 [DEBUG] c.e.d.r.MemberRepository.getMember - <==      Total: 1
+2024-05-02 09:59:39 [DEBUG] org.mybatis.spring.SqlSessionUtils - Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@16b0dbe4]
+2024-05-02 09:59:39 [DEBUG] org.mybatis.spring.SqlSessionUtils - Creating a new SqlSession
+2024-05-02 09:59:39 [DEBUG] org.mybatis.spring.SqlSessionUtils - SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@17922375] was not registered for synchronization because synchronization is not active
+2024-05-02 09:59:39 [DEBUG] o.s.jdbc.datasource.DataSourceUtils - Fetching JDBC Connection from DataSource
+2024-05-02 09:59:39 [DEBUG] o.m.s.t.SpringManagedTransaction - JDBC Connection [HikariProxyConnection@2132064824 wrapping net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@535bcec8] will not be managed by Spring
+2024-05-02 09:59:39 [DEBUG] c.e.d.r.GameRepository.getGamedate - ==>  Preparing: SELECT date FROM `schedule`
+2024-05-02 09:59:39 [DEBUG] c.e.d.r.GameRepository.getGamedate - ==> Parameters: 
+2024-05-02 09:59:39 [DEBUG] jdbc.sqltiming -  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+71. SELECT date
+FROM `schedule`
+ {executed in 1 msec}
+2024-05-02 09:59:39 [INFO ] jdbc.resultsettable - 
+|----------|
+|date      |
+|----------|
+|10.17 (화) |
+|10.20 (금) |
+|10.26 (목) |
+|10.29 (일) |
+|11.02 (목) |
+|11.05 (일) |
+|11.09 (목) |
+|11.14 (화) |
+|11.18 (토) |
+|11.21 (화) |
+|11.24 (금) |
+|11.28 (화) |
+|12.02 (토) |
+|12.08 (금) |
+|12.13 (수) |
+|12.16 (토) |
+|12.21 (목) |
+|12.24 (일) |
+|12.28 (목) |
+|01.01 (월) |
+|01.06 (토) |
+|01.11 (목) |
+|01.14 (일) |
+|01.18 (목) |
+|02.01 (목) |
+|02.04 (일) |
+|02.08 (목) |
+|02.11 (일) |
+|02.16 (금) |
+|02.21 (수) |
+|02.24 (토) |
+|02.27 (화) |
+|03.02 (토) |
+|03.07 (목) |
+|03.13 (수) |
+|03.17 (일) |
+|03.22 (금) |
+|03.24 (일) |
+|03.26 (화) |
+|----------|
+
+2024-05-02 09:59:39 [DEBUG] c.e.d.r.GameRepository.getGamedate - <==      Total: 39
+2024-05-02 09:59:39 [DEBUG] org.mybatis.spring.SqlSessionUtils - Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@17922375]
+2024-05-02 09:59:39 [DEBUG] org.mybatis.spring.SqlSessionUtils - Creating a new SqlSession
+2024-05-02 09:59:39 [DEBUG] org.mybatis.spring.SqlSessionUtils - SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@67a7466f] was not registered for synchronization because synchronization is not active
+2024-05-02 09:59:39 [DEBUG] o.s.jdbc.datasource.DataSourceUtils - Fetching JDBC Connection from DataSource
+2024-05-02 09:59:39 [DEBUG] o.m.s.t.SpringManagedTransaction - JDBC Connection [HikariProxyConnection@744508729 wrapping net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@535bcec8] will not be managed by Spring
+2024-05-02 09:59:39 [DEBUG] c.e.d.r.GameRepository.getGamelist - ==>  Preparing: SELECT * FROM `schedule`
+2024-05-02 09:59:39 [DEBUG] c.e.d.r.GameRepository.getGamelist - ==> Parameters: 
+2024-05-02 09:59:39 [DEBUG] jdbc.sqltiming -  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+71. SELECT *
+FROM `schedule`
+ {executed in 0 msec}
+2024-05-02 09:59:39 [INFO ] jdbc.resultsettable - 
+|---|----------|----|------|------|----------|-----------------------------|------------|---------------------|------------------|
+|id |date      |num |stype |time  |stadium   |broadcasting                 |round       |info                 |game              |
+|---|----------|----|------|------|----------|-----------------------------|------------|---------------------|------------------|
+|1  |10.17 (화) |6   |여자    |19:00 |대전충무체육관   |KBSN Sports SBS Sports NAVER |V-리그 1Round |하이라이트 상세결과           |정관장 3 : 0 IBK기업은행 |
+|2  |10.20 (금) |12  |여자    |19:00 |서울장충체육관   |SBS Sports NAVER             |V-리그 1Round |하이라이트 상세결과           |GS칼텍스 3 : 0 정관장   |
+|3  |10.26 (목) |22  |여자    |19:00 |인천삼산월드체육관 |KBSN Sports NAVER            |V-리그 1Round |하이라이트 상세결과           |흥국생명 2 : 3 정관장    |
+|4  |10.29 (일) |28  |여자    |16:00 |대전충무체육관   |SBS Sports NAVER             |V-리그 1Round |하이라이트 상세결과           |정관장 3 : 0 현대건설    |
+|5  |11.02 (목) |34  |여자    |19:00 |대전충무체육관   |SBS Sports NAVER             |V-리그 1Round |하이라이트 상세결과           |정관장 0 : 3 한국도로공사  |
+|6  |11.05 (일) |40  |여자    |16:00 |페퍼스타디움    |KBSN Sports NAVER            |V-리그 1Round |하이라이트 상세결과           |페퍼저축은행 0 : 3 정관장  |
+|7  |11.09 (목) |46  |여자    |19:00 |수원체육관     |SBS Sports NAVER             |V-리그 2Round |하이라이트 상세결과           |현대건설 3 : 1 정관장    |
+|8  |11.14 (화) |54  |여자    |19:00 |서울장충체육관   |SBS Sports NAVER             |V-리그 2Round |하이라이트 상세결과           |GS칼텍스 3 : 0 정관장   |
+|9  |11.18 (토) |62  |여자    |16:00 |김천실내체육관   |SBS Sports NAVER             |V-리그 2Round |하이라이트 상세결과           |한국도로공사 3 : 2 정관장  |
+|10 |11.21 (화) |66  |여자    |19:00 |대전충무체육관   |KBSN Sports NAVER            |V-리그 2Round |하이라이트 상세결과           |정관장 2 : 3 흥국생명    |
+|11 |11.24 (금) |72  |여자    |19:00 |화성종합실내체육관 |SBS Sports NAVER             |V-리그 2Round |하이라이트 상세결과           |IBK기업은행 3 : 1 정관장 |
+|12 |11.28 (화) |78  |여자    |19:00 |대전충무체육관   |SBS Sports NAVER             |V-리그 2Round |하이라이트 상세결과           |정관장 3 : 1 페퍼저축은행  |
+|13 |12.02 (토) |86  |여자    |16:00 |대전충무체육관   |SBS Sports NAVER             |V-리그 3Round |하이라이트 상세결과           |정관장 2 : 3 IBK기업은행 |
+|14 |12.08 (금) |96  |여자    |19:00 |페퍼스타디움    |SBS Sports NAVER             |V-리그 3Round |하이라이트 상세결과           |페퍼저축은행 1 : 3 정관장  |
+|15 |12.13 (수) |104 |여자    |19:00 |대전충무체육관   |KBSN Sports NAVER            |V-리그 3Round |하이라이트 상세결과           |정관장 3 : 0 한국도로공사  |
+|16 |12.16 (토) |110 |여자    |16:00 |대전충무체육관   |KBSN Sports NAVER            |V-리그 3Round |하이라이트 상세결과           |정관장 2 : 3 현대건설    |
+|17 |12.21 (목) |118 |여자    |19:00 |대전충무체육관   |KBSN Sports NAVER            |V-리그 3Round |하이라이트 상세결과           |정관장 1 : 3 GS칼텍스   |
+|18 |12.24 (일) |124 |여자    |16:00 |인천삼산월드체육관 |SBS Sports NAVER             |V-리그 3Round |하이라이트 상세결과           |흥국생명 3 : 1 정관장    |
+|19 |12.28 (목) |130 |여자    |19:00 |대전충무체육관   |KBSN Sports NAVER            |V-리그 4Round |하이라이트 상세결과           |정관장 0 : 3 흥국생명    |
+|20 |01.01 (월) |138 |여자    |16:00 |김천실내체육관   |KBSN Sports NAVER            |V-리그 4Round |하이라이트 상세결과           |한국도로공사 1 : 3 정관장  |
+|21 |01.06 (토) |146 |여자    |16:00 |대전충무체육관   |SBS Sports NAVER             |V-리그 4Round |하이라이트 상세결과           |정관장 3 : 0 GS칼텍스   |
+|22 |01.11 (목) |154 |여자    |19:00 |대전충무체육관   |KBSN Sports NAVER            |V-리그 4Round |하이라이트 상세결과           |정관장 3 : 1 페퍼저축은행  |
+|23 |01.14 (일) |160 |여자    |16:00 |수원체육관     |SBS Sports NAVER             |V-리그 4Round |하이라이트 상세결과           |현대건설 3 : 0 정관장    |
+|24 |01.18 (목) |166 |여자    |19:00 |화성종합실내체육관 |KBSN Sports NAVER            |V-리그 4Round |하이라이트 상세결과           |IBK기업은행 0 : 3 정관장 |
+|25 |02.01 (목) |174 |여자    |19:00 |대전충무체육관   |SBS Sports NAVER             |V-리그 5Round |하이라이트 상세결과           |정관장 3 : 1 IBK기업은행 |
+|26 |02.04 (일) |180 |여자    |16:00 |대전충무체육관   |KBSN Sports NAVER            |V-리그 5Round |하이라이트 상세결과           |정관장 3 : 2 현대건설    |
+|27 |02.08 (목) |186 |여자    |19:00 |인천삼산월드체육관 |SBS Sports NAVER             |V-리그 5Round |하이라이트 상세결과           |흥국생명 3 : 1 정관장    |
+|28 |02.11 (일) |192 |여자    |16:00 |대전충무체육관   |SBS Sports NAVER             |V-리그 5Round |하이라이트 상세결과           |정관장 3 : 1 한국도로공사  |
+|29 |02.16 (금) |200 |여자    |19:00 |페퍼스타디움    |KBSN Sports NAVER            |V-리그 5Round |하이라이트 상세결과           |페퍼저축은행 1 : 3 정관장  |
+|30 |02.21 (수) |208 |여자    |19:00 |서울장충체육관   |KBSN Sports NAVER            |V-리그 5Round |하이라이트 상세결과           |GS칼텍스 0 : 3 정관장   |
+|31 |02.24 (토) |214 |여자    |16:00 |대전충무체육관   |SBS Sports NAVER             |V-리그 6Round |하이라이트 상세결과           |정관장 3 : 1 흥국생명    |
+|32 |02.27 (화) |218 |여자    |19:00 |김천실내체육관   |KBSN Sports NAVER            |V-리그 6Round |하이라이트 상세결과           |한국도로공사 1 : 3 정관장  |
+|33 |03.02 (토) |226 |여자    |16:00 |수원체육관     |KBSN Sports NAVER            |V-리그 6Round |하이라이트 상세결과           |현대건설 2 : 3 정관장    |
+|34 |03.07 (목) |234 |여자    |19:00 |대전충무체육관   |KBSN Sports NAVER            |V-리그 6Round |하이라이트 상세결과           |정관장 3 : 0 GS칼텍스   |
+|35 |03.13 (수) |244 |여자    |19:00 |대전충무체육관   |SBS Sports NAVER             |V-리그 6Round |하이라이트 상세결과           |정관장 1 : 3 페퍼저축은행  |
+|36 |03.17 (일) |252 |여자    |16:00 |화성종합실내체육관 |KBSN Sports NAVER            |V-리그 6Round |관전 포인트 전력비교 하이라이트 상세 |IBK기업은행 3 : 0 정관장 |
+|37 |03.22 (금) |255 |여자    |19:00 |인천삼산월드체육관 |KBSN Sports SBS Sports NAVER |플레이오프       |                     |흥국생명 3 : 1 정관장    |
+|38 |03.24 (일) |257 |여자    |19:00 |대전충무체육관   |KBSN Sports SBS Sports NAVER |플레이오프       |                     |정관장 3 : 1 흥국생명    |
+|39 |03.26 (화) |259 |여자    |19:00 |인천삼산월드체육관 |KBSN Sports NAVER            |플레이오프       |                     |흥국생명 3 : 0 정관장    |
+|---|----------|----|------|------|----------|-----------------------------|------------|---------------------|------------------|
+
+2024-05-02 09:59:39 [DEBUG] c.e.d.r.GameRepository.getGamelist - <==      Total: 39
+2024-05-02 09:59:39 [DEBUG] org.mybatis.spring.SqlSessionUtils - Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@67a7466f]
+2024-05-02 09:59:39 [DEBUG] org.mybatis.spring.SqlSessionUtils - Creating a new SqlSession
+2024-05-02 09:59:39 [DEBUG] org.mybatis.spring.SqlSessionUtils - SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6ff97914] was not registered for synchronization because synchronization is not active
+2024-05-02 09:59:39 [DEBUG] o.s.jdbc.datasource.DataSourceUtils - Fetching JDBC Connection from DataSource
+2024-05-02 09:59:39 [DEBUG] o.m.s.t.SpringManagedTransaction - JDBC Connection [HikariProxyConnection@642103083 wrapping net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@535bcec8] will not be managed by Spring
+2024-05-02 09:59:39 [DEBUG] c.e.d.r.GameRepository.getTeamlist - ==>  Preparing: SELECT * FROM team
+2024-05-02 09:59:39 [DEBUG] c.e.d.r.GameRepository.getTeamlist - ==> Parameters: 
+2024-05-02 09:59:39 [DEBUG] jdbc.sqltiming -  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+71. SELECT *
+FROM team
+ {executed in 0 msec}
+2024-05-02 09:59:39 [INFO ] jdbc.resultsettable - 
+|---|--------|---------------|-----------------------|--------------------------------------------------------------------------------|-----------|------------|--------------------|--------------------|
+|id |tname   |stadium        |address                |timg                                                                            |latitude   |longitude   |regdate             |updatedate          |
+|---|--------|---------------|-----------------------|--------------------------------------------------------------------------------|-----------|------------|--------------------|--------------------|
+|1  |정관장     |대전충무체육관        |대전광역시 중구 대종로 373       |https://kovo.co.kr/assets/insam-BAyciEMJ.png                                    |36.3179809 |127.4304347 |2024-03-05 13:27:06 |2024-03-05 13:27:06 |
+|2  |흥국생명    |인천산삼월드체육관      |인천광역시 부평구 삼산동 체육관로 60  |https://kovo.co.kr/assets/pinkSpiders-DsceZi7a.png                              |37.5076162 |126.7376084 |2024-03-05 13:27:08 |2024-03-05 13:27:08 |
+|3  |현대건설    |수원실내체육관        |경기도 수원시 장안구 조원동 775    |https://kovo.co.kr/assets/hillState-tUWgqpq8.png                                |37.2983182 |127.0090137 |2024-03-05 14:42:31 |2024-03-05 14:42:31 |
+|4  |IBK기업은행 |화성종합경기타운 실내체육관 |경기도 화성시 향남읍 도이리 226-27 |https://kovo.co.kr/assets/altos-DIlqWnPY.png                                    |37.1382754 |126.9227018 |2024-03-05 14:42:31 |2024-03-05 14:42:31 |
+|5  |한국도로공사  |김천실내체육관        |경상북도 김천시 삼락동 운동장길 1    |https://kovo.co.kr/assets/hiPass-D4FOp-N9.png                                   |36.1430267 |128.0868359 |2024-03-05 14:42:31 |2024-03-05 14:42:31 |
+|6  |페퍼저축은행  |페퍼스타디움         |광주광역시 서구 화정동 금화로 278   |https://kovostoragedev.blob.core.windows.net/kovo-dev/emblem/emblem_peppers.png |35.1352826 |126.8789211 |2024-03-05 14:42:31 |2024-03-05 14:42:31 |
+|7  |GS칼텍스   |장충체육관          |서울특별시 중구 동호로 241       |https://kovo.co.kr/assets/kixx-v9Qwgj-i.png                                     |37.5581571 |127.0068191 |2024-03-05 14:42:31 |2024-03-05 14:42:31 |
+|---|--------|---------------|-----------------------|--------------------------------------------------------------------------------|-----------|------------|--------------------|--------------------|
+
+2024-05-02 09:59:39 [DEBUG] c.e.d.r.GameRepository.getTeamlist - <==      Total: 7
+2024-05-02 09:59:39 [DEBUG] org.mybatis.spring.SqlSessionUtils - Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6ff97914]
+2024-05-02 09:59:41 [DEBUG] com.zaxxer.hikari.pool.HikariPool - HikariPool-8 - Pool stats (total=10, active=0, idle=10, waiting=0)
+2024-05-02 09:59:41 [DEBUG] com.zaxxer.hikari.pool.HikariPool - HikariPool-8 - Fill pool skipped, pool has sufficient level or currently being filled (queueDepth=0).

@@ -24,7 +24,7 @@
 }
 
 .form {
-	width: 80%;
+	width: 60%;
 	height: 80%;
 	margin-top: 30px;
 	margin-bottom: 100px;

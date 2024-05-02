@@ -61,7 +61,7 @@ td {
 	height: 42px;
 }
 
-button {
+.mon {
 	width: 30px;
 	height: 30px;
 	padding: 3px 3px;
@@ -268,9 +268,9 @@ h2 {
 
 	<div class="form">
 		<div class="calendar-header">
-		    <button onclick="prevMonth()">◀</button>
+		    <button class="mon" onclick="prevMonth()">◀</button>
 		    <h2 id="currentMonth">간단한 달력</h2>
-		    <button onclick="nextMonth()">▶</button>
+		    <button class="mon" onclick="nextMonth()">▶</button>
   		</div>
   	
 		<table id="calendar">
