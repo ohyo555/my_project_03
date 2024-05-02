@@ -116,7 +116,7 @@ form > button:hover {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 320px;
+    width: 350px;
     padding: 35px;
     border: 1px solid #888;
     border-radius: 10px;
@@ -144,7 +144,7 @@ form > button:hover {
 	font-size: 12px;
 	height: 30px;
 	margin-right: 5px;
-	width: 70%;
+	width: 60%;
 }
 
 .password_btn {
@@ -194,6 +194,19 @@ form > button:hover {
             });
         });
     });
+    
+    function togglePasswordVisibility() {
+        var passwordField = document.getElementById("loginPw");
+        var toggleIcon = document.getElementById("toggleIcon");
+
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            toggleIcon.src = "https://github.com/ohyo555/my_project_03/assets/153146836/025eaaf9-aee2-483f-925a-bc884a7fe688";
+        } else {
+            passwordField.type = "password";
+            toggleIcon.src = "https://github.com/ohyo555/my_project_03/assets/153146836/665f7e05-f73f-4491-a7df-c1f9f8ff74c4";
+        }
+    }
 </script>
 
 
@@ -202,9 +215,12 @@ form > button:hover {
 		<input id ="id" type="hidden" name="id" value="" />
 	      <span class="modal_close_btn" onclick="closeModal()">&times;</span>
 	      <div class="pw_modal">
-	      	  <img  class="w-5 h-5 mr-1"src="https://github.com/ohyo555/my_project_03/assets/153146836/6ee187e0-bdeb-4920-96e6-1800fd12fe8b">
-		      <input id="loginPw" name="loginPw" type="text" placeholder="비밀번호를 입력해주세요." class="input input-bordered w-full max-w-xs" style=""/>
-		      <button class="password_btn" type="submit">입력</button>
+	      	  <img class="w-5 h-5 mr-1" src="https://github.com/ohyo555/my_project_03/assets/153146836/6ee187e0-bdeb-4920-96e6-1800fd12fe8b">
+		      <input id="loginPw" name="loginPw" type="password" placeholder="비밀번호를 입력해주세요." class="input input-bordered w-full max-w-xs" style=""/>
+		      <button class="password_btn mr-3" type="submit">입력</button>
+		      <button type="button" id="passwordToggleBtn" onclick="togglePasswordVisibility()">
+              <img id="toggleIcon" class="w-4 h-4" src="https://github.com/ohyo555/my_project_03/assets/153146836/025eaaf9-aee2-483f-925a-bc884a7fe688">
+              </button>
 	      </div>
 	</div>
 </form>
