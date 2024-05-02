@@ -183,7 +183,7 @@ h2 {
 	border: 1px solid #888;
 	border-radius: 10px;
 	font-size: 1rem;
-	background-image: linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.4)), url('https://github.com/ohyo555/my_project_03/assets/153146836/c4813f71-d123-43e4-a04a-c1f9fbd17e91');
+	background-image: linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.4)), url("/resource/modal_bg.png");
 	background-size: cover;
     background-position: center;
 }

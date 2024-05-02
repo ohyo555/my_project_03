@@ -98,14 +98,14 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doAction")
 	@ResponseBody
 	public String doAction(int id, String loginPw) {
-		System.out.println("#$$$$$$$");
+
 		String password = articleService.getMemberByLoginPw(id);
 
 		loginPw = Ut.sha256(loginPw);
 		
 		if (password.equals(loginPw)) {
 			System.err.println("성공!!!");
-			return "usr/article/detail?id=" + id;
+			return Ut.jsReplace("S-1", "비밀번호 일치", "../article/detail?id=" + id);
 		}
 		
 		return Ut.jsHistoryBack("F-1", "비밀번호가 일치하지 않습니다.");
@@ -272,7 +272,6 @@ public class UsrArticleController {
 	public String doWrite(HttpServletRequest req, int boardId, String title, String body, String replaceUri,
 			MultipartRequest multipartRequest) {
 
-		System.out.println("!!!!!!!" + body);
 		Rq rq = (Rq) req.getAttribute("rq");
 
 		if (Ut.isNullOrEmpty(title)) {

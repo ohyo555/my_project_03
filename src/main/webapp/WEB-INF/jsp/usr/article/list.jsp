@@ -116,8 +116,8 @@ form > button:hover {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 300px;
-    padding: 30px;
+    width: 320px;
+    padding: 35px;
     border: 1px solid #888;
     border-radius: 10px;
     background-color: #fff;
@@ -144,7 +144,7 @@ form > button:hover {
 	font-size: 12px;
 	height: 30px;
 	margin-right: 5px;
-	width: 80%;
+	width: 70%;
 }
 
 .password_btn {
@@ -157,10 +157,9 @@ form > button:hover {
 </style>
 
 <script>
-    // Function to open the modal
     function openModal(articleId) {
         var modal = document.getElementById('myModal');
-        var inputPassword = document.getElementById('inputPassword');
+        var inputPassword = document.getElementById('loginPw');
         inputPassword.value = ''; // 초기화
         inputPassword.dataset.articleId = articleId; // articleId 설정
         modal.style.display = 'block';
@@ -170,10 +169,9 @@ form > button:hover {
         a.value = articleId;
     }
 
-    // Function to close the modal
     function closeModal() {
         var modal = document.getElementById('myModal');
-        var inputPassword = document.getElementById('inputPassword');
+        var inputPassword = document.getElementById('loginPw');
         inputPassword.value = ''; // 초기화
         
         modal.style.display = 'none';
@@ -183,14 +181,11 @@ form > button:hover {
         var links = document.querySelectorAll('a[href^="detail?id="]');
         links.forEach(function(link) {
             link.addEventListener('click', function(event) {
-            	var articleId = this.getAttribute('href').match(/\d+$/)[0]; // Extract article ID from URL
-                console.log('Clicked link with article ID:', articleId);
-            	
+            	var articleId = this.getAttribute('href').match(/\d+$/)[0];
                 var boardId = this.getAttribute('data-boardId');
-                console.log('Clicked link with boardId:', boardId);
                 
-                var inputPassword = document.getElementById('inputPassword');
-                inputPassword.dataset.articleId = articleId;
+                var inputPassword = document.getElementById('loginPw');
+                //inputPassword.dataset.articleId = articleId;
                 
                 if (boardId === '3') {
                     event.preventDefault(); 
@@ -207,7 +202,8 @@ form > button:hover {
 		<input id ="id" type="hidden" name="id" value="" />
 	      <span class="modal_close_btn" onclick="closeModal()">&times;</span>
 	      <div class="pw_modal">
-		      <input id="inputPassword" type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" style=""/>
+	      	  <img  class="w-5 h-5 mr-1"src="https://github.com/ohyo555/my_project_03/assets/153146836/6ee187e0-bdeb-4920-96e6-1800fd12fe8b">
+		      <input id="loginPw" name="loginPw" type="text" placeholder="비밀번호를 입력해주세요." class="input input-bordered w-full max-w-xs" style=""/>
 		      <button class="password_btn" type="submit">입력</button>
 	      </div>
 	</div>
