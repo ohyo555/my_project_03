@@ -143,8 +143,8 @@ $(document).ready(function() { //DOM이 준비되지 않음 -> 해결!
 				<div class="mb-5">
 					<div class="option">
 						<select class="text-base h-8" name="boardId">
-							<option value="1">공지사항</option>
-							<option value="2">자유게시판</option>
+							<option value="1">자유게시판</option>
+							<option value="2">공지사항</option>
 							<option value="3">질의응답</option>
 						</select>
 					<button class="backbutton writebutton btn-outline" type="submit" value="작성">작성</button>

@@ -26,15 +26,6 @@
 	height: 20px;
 	padding-bottom: 3px;
 }
-/* 
-#calendar > span > .gold{
-	background-color: #fbf3ee;
-}
-
-#calendar > span > .silver{
-	background-color:fad8d7;
-}
- */
  
 #calendar > div.fc-view-harness.fc-view-harness-active > div > table > thead > tr {
  	overflow-y: hidden; 
