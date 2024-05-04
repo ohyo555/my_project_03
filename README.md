@@ -66,3 +66,11 @@
 - Tosspayments: 멤버쉽 가입 시 결제를 위한 API
 - Coolsms: 결제 후 완료 인증 문자 전송을 위한 API 
 - Daum postcode: 회원가입, 멤버쉽 가입 등 주소를 받기 위한 API
+
+<br>
+
+#### Platform
+<hr>
+
+- [Tistory](https://ohyohyo.tistory.com/category/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/My)
+- [Velog](https://velog.io/@ohyo555/series/myproject)
