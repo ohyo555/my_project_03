@@ -3,6 +3,8 @@
 [사진!!!]
 
 #### 주요기능
+<hr>
+
 - 회원
   * 회원가입
   * 로그인/로그아웃
@@ -27,22 +29,39 @@
   * 나의 게시판
 - 뉴스
   * 최신 네이버 기사
- 
-#### 개발환경
 
-##### 개발툴
+<br>
+
+#### 개발환경
+<hr>
+
+#####🛠 개발툴
 - SpringToolSuite4
 - XAMPP
 - SQLyog
 - Maven
   
-##### 기술스택
-- SpringToolSuite4
-- XAMPP
-- SQLyog
-- Maven
-  
-##### API
+#####🔥 기술스택
+- Lombok
+- mybatis
+- JSTL
+- Selenium
+- Guava: Google Core Libraries For Java
+- Spring Context Support
+- jakarta
+- HTML / CSS
+- JavaScript / AJAX
+- jQuery
+- tailwind
+- daisyui
+- toastUi
+- font-awesome
+
+<br>
+
+#### API
+<hr>
+
 - kakao 지도: 경기장 지도 및 편의시설 위치와 정보를 위한 API
 - tosspayments: 멤버쉽 가입 시 결제를 위한 API
 - coolsms: 결제 후 완료 인증 문자 전송을 위한 API 
