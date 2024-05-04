@@ -69,7 +69,7 @@
 
 <br>
 
-#### Platform
+#### Repository
 <hr>
 
 - [Tistory](https://ohyohyo.tistory.com/category/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/My)
