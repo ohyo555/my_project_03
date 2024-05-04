@@ -51,18 +51,18 @@
 - jakarta
 - HTML / CSS
 - JavaScript / AJAX
-- jQuery
-- tailwind
-- daisyui
-- toastUi
-- font-awesome
+- JQuery
+- Tailwind
+- Daisyui
+- ToastUi
+- Font-awesome
 
 <br>
 
 #### API
 <hr>
 
-- kakao 지도: 경기장 지도 및 편의시설 위치와 정보를 위한 API
-- tosspayments: 멤버쉽 가입 시 결제를 위한 API
-- coolsms: 결제 후 완료 인증 문자 전송을 위한 API 
-- daum postcode: 회원가입, 멤버쉽 가입 등 주소를 받기 위한 API
+- Kakao 지도: 경기장 지도 및 편의시설 위치와 정보를 위한 API
+- Tosspayments: 멤버쉽 가입 시 결제를 위한 API
+- Coolsms: 결제 후 완료 인증 문자 전송을 위한 API 
+- Daum postcode: 회원가입, 멤버쉽 가입 등 주소를 받기 위한 API
