@@ -35,13 +35,13 @@
 #### 개발환경
 <hr>
 
-#####🛠 개발툴
+##### 🛠 개발툴
 - SpringToolSuite4
 - XAMPP
 - SQLyog
 - Maven
   
-#####🔥 기술스택
+##### 🔥 기술스택
 - Lombok
 - mybatis
 - JSTL
