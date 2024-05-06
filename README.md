@@ -1,6 +1,7 @@
 ## 🏐 배구 커뮤니티 사이트
 
-[사진!!!]
+![12](https://github.com/ohyo555/my_project_03/assets/153146836/f53b2e1d-4e3f-4ff9-b12b-168283658922)
+![13](https://github.com/ohyo555/my_project_03/assets/153146836/4ed585ad-0c71-4a51-b746-a0195c17716c)
 
 #### 주요기능
 <hr>
