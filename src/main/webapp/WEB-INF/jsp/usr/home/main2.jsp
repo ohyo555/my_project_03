@@ -6,135 +6,171 @@
 <%@ include file="../common/head.jspf"%>
 
 <style>
-
 section {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 90%;
-  padding: 60px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 90%;
+	padding: 60px;
 }
 
 .swiper {
-  display: flex; /* 슬라이드를 한 줄로 표시 */
-  overflow-x: auto; /* 가로 스크롤 가능하도록 설정 */
-  width: 100%; /* 전체 너비 차지 */
-  height: 70%;
+	display: flex; /* 슬라이드를 한 줄로 표시 */
+	overflow-x: auto; /* 가로 스크롤 가능하도록 설정 */
+	overflow-y: hidden; /* 세로 스크롤 숨기기 */
+	width: 100%; /* 전체 너비 차지 */
+	height: 70%;
 }
 
 .swiper-wrapper {
-  display: flex; 
+	display: flex;
 }
 
 .swiper-slide {
-  flex: 0 0 auto;  /* 슬라이드가 축소되거나 확대되지 않도록 설정 */
+	flex: 0 0 auto; /* 슬라이드가 축소되거나 확대되지 않도록 설정 */
 }
 
 /* 목록 */
 .post {
-  max-width: 450px;
-  font-size: 1rem;
-  font-weight: 500;
-  max-height: 450px;
-  color: var(--clr-text);
-  background: rgba(251,243,238,0.8);
-  border-radius: 10px;
-  padding: 16px 16px 0;
-  margin-bottom: 16px;
-}                             
+	max-width: 450px;
+	font-size: 1rem;
+	font-weight: 500;
+	max-height: 450px;
+	color: var(--clr-text);
+	background: rgba(251, 243, 238, 0.8);
+	border-radius: 10px;
+	padding: 16px 16px 0;
+	margin-bottom: 16px;
+}
+
+.post-main {
+	width: 100%;
+	height: 60%;
+	position: relative;
+}
 
 .post-img {
-  width: 100%;
-  height: 70%;
-  object-fit: cover;
-  overflow: hidden;
-  aspect-ratio: 4/3;
-  border-radius: 6px;
-  user-select: none;
-  pointer-events: none;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	overflow: hidden;
+	aspect-ratio: 4/3;
+	border-radius: 6px;
+	user-select: none;
+	pointer-events: none;
 }
 
 .post-body {
-  display: grid;
-  grid-template-columns: 60% 40%;
-  align-items: center;
-  gap: 8px;
-  padding: 15px 0;
-  cursor: default;
+	width: 100%;
+	height: 30%;
+	align-items: center;
+	gap: 8px;
+	padding: 15px 0;
+	cursor: default;
 }
 
 .post-name {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 2px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+	font-size: 1.3rem;
+	font-weight: 600;
+	margin-bottom: 2px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .post-subname {
-  width: fit-content;
-  font-size: 1rem;
-  font-weight: 600;
-  opacity: 0.6;
-  color: var(--clr-text);
+	width: fit-content;
+	font-size: 1rem;
+	font-weight: 500;
+	opacity: 0.6;
+	color: var(--clr-text);
 }
 
 /* MEDIA QUERIES */
-
-@media (max-width: 1200px) { 
-  .swiper {
-      width: 80%;
-    }
+@media ( max-width : 1200px) {
+	.swiper {
+		width: 80%;
+	}
 }
 
-@media (max-width: 900px) {
-  #recipes {
-    padding: 60px 80px;
-  }
-
-  .swiper {
-    width: 50%;
-  }
+@media ( max-width : 900px) {
+	#recipes {
+		padding: 60px 80px;
+	}
+	.swiper {
+		width: 50%;
+	}
 }
 
-@media (max-width: 765px) {
-  .swiper {
-    width: 70%;
-  }
+@media ( max-width : 765px) {
+	.swiper {
+		width: 70%;
+	}
 }
 
-@media (max-width: 550px) {
-  #recipes {
-    padding: 40px 40px;
-  }
-
-  .swiper {
-    width: 80%;
-  }
+@media ( max-width : 550px) {
+	#recipes {
+		padding: 40px 40px;
+	}
+	.swiper {
+		width: 80%;
+	}
 }
 
 /* 스크롤바 */
- .swiper::-webkit-scrollbar-track {
-   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-   border-radius: 10px;
-   background-color: rgb(255, 255, 255);
+.swiper::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+	border-radius: 10px;
+	background-color: rgb(255, 255, 255);
 }
 
 .swiper::-webkit-scrollbar {
-    width: 12px;
-    background-color: #f2ede2;
+	width: 12px;
+	background-color: #f2ede2;
 }
 
 .swiper::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-    background-color: rgb(251, 243, 238);
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+	background-color: rgb(251, 243, 238);
 }
-
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var swiper = new Swiper(".swiper", {
+        direction: "horizontal",
+        // 다른 슬라이더 설정
+    });
+
+    // 스크롤 이벤트 감지
+    window.addEventListener('scroll', function () {
+        var scrollPos = window.scrollX || window.pageXOffset;
+        var scrollWidth = document.documentElement.scrollWidth - document.documentElement.clientWidth;
+        var scrollPercentage = (scrollPos / scrollWidth) * 100;
+
+        // 스크롤바 위치 업데이트
+        var scrollbar = document.querySelector('.swiper-scrollbar');
+        scrollbar.style.left = scrollPercentage + '%';
+    });
+
+    // swiper 슬라이더의 스크롤 이벤트 감지
+    swiper.on('scroll', function () {
+        var scrollPos = swiper.translate;
+        var maxTranslate = swiper.snapGrid[swiper.snapGrid.length - 1];
+
+        // 스크롤 위치 백분율 계산
+        var scrollPercentage = (scrollPos / maxTranslate) * 100;
+
+        // 스크롤바 위치 업데이트
+        var scrollbar = document.querySelector('.swiper-scrollbar');
+        scrollbar.style.left = scrollPercentage + '%';
+    });
+});
+</script>
 
 <script>
 
@@ -280,88 +316,85 @@ section {
 	}
 </script>
 
-  <body>
-    <section>
-        <div class="swiper">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide post">
-              <img
-                class="post-img"
-                src="https://github.com/ohyo555/my_project_03/assets/153146836/44dbf692-1729-4f7c-af64-b2164540ddfb"
-                alt="recipe" />
-                
-              <div class="post-body">
-                <div class="post-detail">
-                  <h2 class="post-name">경기일정 및 경기정보</h2>
-                  <p class="post-subname">Evelyn Taylor</p>
-                </div>
-              </div>
-            </div>
+<body>
+	<section>
+		<div class="swiper">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide post">
+					<div class="post-main">
+						<img class="post-img" src="/resource/calendar.gif" alt="recipe" />
+					</div>
+					<div class="post-body">
+						<div class="post-detail">
+							<h2 class="post-name">경기일정 및 경기정보</h2>
+							<p class="post-subname">정관장 V리그 경기일정 및 경기정보</p>
+						</div>
+					</div>
+				</div>
 
-            <div class="swiper-slide post">
-              <img class="post-img" src="https://github.com/ohyo555/my_project_03/assets/153146836/8c1cc718-e0b5-4132-a680-7fcfeafcf5c3" alt="recipe" />
+				<div class="swiper-slide post">
+					<div class="post-main">
+						<img class="post-img" src="/resource/ticket.png" alt="reservation" />
+					</div>
+					<div class="post-body">
+						<div class="post-detail">
+							<h2 class="post-name">등급별 예매일정</h2>
+							<p class="post-subname">등급별 경기 예매 일정</p>
+						</div>
+					</div>
+				</div>
 
-              <div class="post-body">
-                <div class="post-detail">
-                  <h2 class="post-name">등급별 예매일정</h2>
-                  <p class="post-subname">Ethan Wilson</p>
-                </div>
-              </div>
-            </div>
+				<div class="swiper-slide post">
+					<div class="post-main">
+						<img class="post-img" src="/resource/membership.png" alt="membership" />
+					</div>
+					<div class="post-body">
+						<div class="post-detail">
+							<h2 class="post-name">멤버쉽 가입</h2>
+							<p class="post-subname">골드, 실버 멤버쉽 가입</p>
+						</div>
+					</div>
+				</div>
 
-            <div class="swiper-slide post">
-              <img class="post-img" src="https://github.com/ecemgo/mini-samples-great-tricks/assets/13468728/24566dbf-61a2-4bd0-bb29-ef1773364eba" alt="recipe" />
+				<div class="swiper-slide post">
+					<div class="post-main">
+						<img class="post-img" src="/resource/map.png" alt="map" />
+					</div>
+					<div class="post-body">
+						<div class="post-detail">
+							<h2 class="post-name">경기장 및 편의시설</h2>
+							<p class="post-subname">구단 및 주변 시설 지도</p>
+						</div>
+					</div>
+				</div>
 
-              <div class="post-body">
-                <div class="post-detail">
-                  <h2 class="post-name">멤버쉽 가입</h2>
-                  <p class="post-subname">Bella Smith</p>
-                </div>
-              </div>
-            </div>
+				<div class="swiper-slide post">
+					<div class="post-main">
+						<img class="post-img" src="/resource/ball.gif" alt="article" />
+					</div>
+					<div class="post-body">
+						<div class="post-detail">
+							<h2 class="post-name">게시판</h2>
+							<p class="post-subname">자유게시판, 공지사항, 문의사항, 나의 게시판</p>
+						</div>
+					</div>
+				</div>
 
-            <div class="swiper-slide post">
-              <img
-                class="post-img"
-                src="https://github.com/ohyo555/my_project_03/assets/153146836/31c62d3a-2185-4085-b69f-879f861334f7"
-                alt="recipe" />
-
-              <div class="post-body">
-                <div class="post-detail">
-                  <h2 class="post-name">경기장 및 편의시설</h2>
-                  <p class="post-subname">Mia Dixon</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="swiper-slide post">
-              <img class="post-img" src="https://github.com/ohyo555/my_project_03/assets/153146836/8fc31d83-16be-44d0-98d1-fc985fb97cb3" alt="recipe" />
-
-              <div class="post-body">
-                <div class="post-detail">
-                  <h2 class="post-name">게시판</h2>
-                  <p class="post-subname">자유게시판, 공지사항, 문의사항, 나의 게시판</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="swiper-slide post">
-              <img
-                class="post-img"
-                src="https://github.com/ohyo555/my_project_03/assets/153146836/68bbb3d4-04d6-4a1a-8814-3039d90a79b8"
-                alt="recipe" />
-
-              <div class="post-body">
-                <div class="post-detail">
-                  <h2 class="post-name">뉴스 & SNS</h2>
-                  <p class="post-subname">네이버 뉴스, Youtube, Instagram 등</p>
-                </div>
-            </div>
-          </div>
-          <div class="swiper-scrollbar"></div>
-        </div>
-    </section>
-  </body>
+				<div class="swiper-slide post">
+					<div class="post-main">
+						<img class="post-img" src="/resource/news3.png" alt="news" />
+					</div>
+					<div class="post-body">
+						<div class="post-detail">
+							<h2 class="post-name">뉴스 & SNS</h2>
+							<p class="post-subname">네이버 뉴스, Youtube, Instagram 등</p>
+						</div>
+					</div>
+				</div>
+				<div class="swiper-scrollbar"></div>
+			</div>
+	</section>
+</body>
 
 
 

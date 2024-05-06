@@ -94,7 +94,7 @@ public class UsrMemberController {
 		
 		rq.login(member);
 
-		return Ut.jsReplace("S-1", Ut.f("%s님 환영합니다", member.getLoginId()), "/");
+		return Ut.jsReplace("S-1", Ut.f("%s님 환영합니다", member.getLoginId()), "/usr/home/main2");
 	}
 	
 	@RequestMapping("/usr/member/join")

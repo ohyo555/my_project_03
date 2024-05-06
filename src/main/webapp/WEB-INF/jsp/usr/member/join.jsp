@@ -13,7 +13,7 @@
 .signup-form {
 	max-width: 400px;
 	background-color: rgba(255, 255, 255, 0.4);
-	margin: 100px auto;
+	margin: 20px auto;
 	padding: 20px;
 	border-radius: 8px;
 }
