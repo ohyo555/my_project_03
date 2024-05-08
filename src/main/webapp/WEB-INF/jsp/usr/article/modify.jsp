@@ -73,7 +73,7 @@ body {
 			return;
 		}
 		$('#fileInput').attr('name', 'file__article__' + ${currentId} + '__extra__Img__1');
-		
+		   
 		form.body.value = markdown;
 		ArticleModify__submitFormDone = true;
 		form.submit();
