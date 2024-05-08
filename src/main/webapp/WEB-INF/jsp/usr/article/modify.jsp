@@ -85,6 +85,7 @@ body {
 		<button class="backbutton btn-outline" onclick="history.back();">뒤로가기</button>
 	</div>
 	<form action="../article/doModify" method="POST" onsubmit="ArticleModify__submit(this); return false;">
+		<input type="hidden" name="id" value="${article.id }">
 		<input type="hidden" name="body">
 		<div class="post-container">
 			<div style="display: flex; justify-content: space-between;">
