@@ -231,7 +231,7 @@ h2 {
 	const gamelist_silver = []; // game5일전 Date형 배열
 	const gamelist_normal = []; // game3일전 Date형 배열
 	
-	// 년도 포함한 경기 5일전 날짜 배열(2023-10-13)
+	// 예매일정 배열
 	const modifiedgameMinusDates = start_modifiedGameDates.map(date => {
 		const [yearStr, monthStr, dayStr] = date.split('-'); 
 	     

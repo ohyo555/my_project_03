@@ -219,7 +219,6 @@ body {
 	}
 
 	$(function() {
-		// 		ArticleDetail__doIncreaseHitCount();
 		setTimeout(ArticleDetail__doIncreaseHitCount, 2000);
 	});
 </script>
@@ -234,14 +233,7 @@ body {
 			var clikeButton = $('#clikeButton' + AlreadyreactionPointId[i].id);
 			clikeButton.html('♥');
 		}
-		
-	/* 	${reactionPoints}.forEach(function(reactionPoint) {
-		}
-			// $('#clikeButton'reactionPoint.id).html('♥');
-			console.log(reactionPoint.id);
-			//console.log($'#clikeButton'reactionPoint.id);
-		} */
-		
+
 		if(isAlreadyAddGoodRp == true){
 			$('#likeButton').html('♥');
 		} else {
@@ -355,22 +347,6 @@ function asc(articleId) {
             // 정렬된 댓글을 화면에 출력합니다.
 			commentContainer.innerHTML = "";
             console.log(data);
-            
-            
-            //$(".comment").html(data);
-            //commentContainer.innerHTML = "";
-            //var getdata = document.getElementById("commnets");
-            //getdata.append(data);
-            
-            /* data.forEach(function(comment) {
-            	
-				//var com = document.getElementById("commnets");
-				var com2 = document.getElementById("img");
-				var com3 = document.getElementById("c1");
-				com2.src = comment.image;
-				com3.src = comment.comment;
-			}); */
-            
         },
         error: function(error) {
             console.error("Error during sorting comments:", error);
@@ -404,18 +380,15 @@ function CommentWrite__submit(form) {
 	function resizeCommentInput(commentId) {
 		// 너비와 높이를 설정할 input 요소의 ID
 	    var widthInputId = 'comment-width-input-' + commentId;
-	    // var heightInputId = 'comment-height-input-' + commentId;
-
-	    // 입력된 값을 가져옵니다
+		
+	    // 입력된 값을 가져옴
 	    var newWidth = $('#' + widthInputId).val() || '100%'; // 값이 입력되지 않은 경우 기본값은 '100%'
-	    // var newHeight = $('#' + heightInputId).val() || '100%';
 
-	    // 댓글 편집 입력 창의 ID를 선택합니다
+	    // 댓글 편집 입력 창의 ID를 선택
 	    var inputElement = $('#modify-form-' + commentId).find('input[name="comment-text-' + commentId + '"]');
 
-	    // 댓글 편집 입력 창의 너비와 높이를 설정합니다
+	    // 댓글 편집 입력 창의 너비와 높이를 설정
 	    inputElement.width(newWidth);
-	    // inputElement.height(newHeight);
 	    
 	 	// 입력 창의 텍스트가 너비를 초과하면 다음 줄로 줄바꿈되도록 설정
 	    inputElement.css('white-space', 'normal');
@@ -423,7 +396,6 @@ function CommentWrite__submit(form) {
 
 	function toggleModifybtn(commentId) {
 		console.log(commentId);
-/* 		$('#comment-'+commentId).css('display', 'none'); */
 		$('#modify-btn-'+commentId).hide();
 		$('#save-btn-'+commentId).show();
 		$('#comment-'+commentId).hide();
@@ -436,18 +408,15 @@ function CommentWrite__submit(form) {
 	
 	function doModifyComment(commentId) {
 		 console.log(commentId); // 디버깅을 위해 replyId를 콘솔에 출력
-		    
-		    // form 요소를 정확하게 선택
+
 		    var form = $('#modify-form-' + commentId);
-		    console.log(form); // 디버깅을 위해 form을 콘솔에 출력
+		    //console.log(form); // 디버깅을 위해 form을 콘솔에 출력
 
-		    // form 내의 input 요소의 값을 가져옵니다
 		    var text = form.find('input[name="comment-text-' + commentId + '"]').val();
-		    console.log(text); // 디버깅을 위해 text를 콘솔에 출력
+		    //console.log(text); // 디버깅을 위해 text를 콘솔에 출력
 
-		    // form의 action 속성 값을 가져옵니다
 		    var action = form.attr('action');
-		    console.log(action); // 디버깅을 위해 action을 콘솔에 출력
+		    //console.log(action); // 디버깅을 위해 action을 콘솔에 출력
 		
 	    $.post({
 	    	url: '/usr/comment/doModify', // 수정된 URL
@@ -577,7 +546,7 @@ function CommentWrite__submit(form) {
 
 		<!-- 댓글 등록 -->
 		<c:if test="${rq.isLogined() }">
-			<form action="../comment/doWrite" method="POST" onsubmit="ReplyWrite__submit(this); return false;">
+			<form action="../comment/doWrite" method="POST" onsubmit="CommentWrite__submit(this); return false;">
 				<input type="hidden" name="relTypeCode" value="article" /> <input type="hidden" name="relId" value="${article.id }" />
 				<label class="form-control"> <!-- 회원정보 버튼 -->
 					<div class="flex-none gap-2 m-3 ">
