@@ -53,14 +53,13 @@
 - HTML / CSS
 - JavaScript / AJAX
 - JQuery
+- fullcalendar
 - Tailwind
 - Daisyui
 - ToastUi
 - Font-awesome
 
-<br>
-
-#### API
+##### 🌀 API
 <hr>
 
 - Kakao 지도: 경기장 지도 및 편의시설 위치와 정보를 위한 API
@@ -69,6 +68,15 @@
 - Daum postcode: 회원가입, 멤버쉽 가입 등 주소를 받기 위한 API
 
 <br>
+
+#### 설계과정
+<hr>
+
+- 화면설계
+- 기능설계
+- 테이블설계
+- 사용설명서
+  * [사용설명서.docx](https://github.com/ohyo555/my_project_03/files/15291458/default.docx)
 
 #### Repository
 <hr>
