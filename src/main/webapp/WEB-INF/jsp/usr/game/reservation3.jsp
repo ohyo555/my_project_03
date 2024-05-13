@@ -7,10 +7,8 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' />
-<!-- fullcalendar 사용 -->
+<!-- gi 사용 -->
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
-<!-- <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script> -->
-
 
 <style>
 /* 달력 */

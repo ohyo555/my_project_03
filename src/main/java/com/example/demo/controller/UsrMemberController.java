@@ -94,7 +94,7 @@ public class UsrMemberController {
 		
 		rq.login(member);
 
-		return Ut.jsReplace("S-1", Ut.f("%s님 환영합니다", member.getLoginId()), "/usr/home/main2");
+		return Ut.jsReplace("S-1", Ut.f("%s님 환영합니다", member.getLoginId()), "/usr/home/main");
 	}
 	
 	@RequestMapping("/usr/member/join")
@@ -347,7 +347,7 @@ public class UsrMemberController {
 			return Ut.jsHistoryBack(membershipRd.getResultCode(), membershipRd.getMsg());
 		}
 
-		return Ut.jsReplace(membershipRd.getResultCode(), membershipRd.getMsg(), "/usr/home/main2");
+		return Ut.jsReplace(membershipRd.getResultCode(), membershipRd.getMsg(), "/usr/home/main");
 	}
 	
 	//test ajax
