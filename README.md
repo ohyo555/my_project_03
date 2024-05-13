@@ -53,6 +53,7 @@
 - HTML / CSS
 - JavaScript / AJAX
 - JQuery
+- fullcalendar
 - Tailwind
 - Daisyui
 - ToastUi
