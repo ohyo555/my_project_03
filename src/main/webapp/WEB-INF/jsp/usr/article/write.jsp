@@ -153,7 +153,7 @@ $(document).ready(function() { //DOM이 준비되지 않음 -> 해결!
 						<input class="input input-bordered w-full max-w-xs mb-3" autocomplete="off" type="text"
 								placeholder="제목을 입력해주세요" name="title" style="height:40px"/>
 					</div>
-				<!-- 	<div class = "filebox ml-1 mb-1">첨부 이미지:
+					<!-- 	<div class = "filebox ml-1 mb-1">첨부 이미지:
 						    <input class="fileinput" value="첨부파일" placeholder="첨부파일">
 						    <label for="file" class="text-sm">파일찾기</label> 
 						    <input type="file" id="file">

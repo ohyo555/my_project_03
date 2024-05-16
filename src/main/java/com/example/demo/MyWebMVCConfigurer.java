@@ -38,16 +38,6 @@ public class MyWebMVCConfigurer implements WebMvcConfigurer {
 
 	// 인터셉터 등록(적용)
 	public void addInterceptors(InterceptorRegistry registry) {
-//		registry.addInterceptor(beforeActionInterceptor).addPathPatterns("/**").excludePathPatterns("/resource/**")
-//				.excludePathPatterns("/error");
-//
-//		registry.addInterceptor(needLoginInterceptor).addPathPatterns("/usr/article/write")
-//				.addPathPatterns("/usr/article/doWrite").addPathPatterns("/usr/article/modify")
-//				.addPathPatterns("/usr/article/doModify").addPathPatterns("/usr/article/doDelete");
-//
-//		registry.addInterceptor(needLogoutInterceptor).addPathPatterns("/usr/member/login")
-//				.addPathPatterns("/usr/member/doLogin").addPathPatterns("/usr/member/join")
-//				.addPathPatterns("/usr/member/doJoin");
 
 		InterceptorRegistration ir;
 
@@ -56,8 +46,10 @@ public class MyWebMVCConfigurer implements WebMvcConfigurer {
 		ir.addPathPatterns("/favicon.ico");
 		ir.excludePathPatterns("/resource/**");
 		ir.excludePathPatterns("/error");
-
+		
+// 		로그인이 필요한 서비스
 		ir = registry.addInterceptor(needLoginInterceptor);
+		
 //		게시글 관련
 		ir.addPathPatterns("/usr/article/write");
 		ir.addPathPatterns("/usr/article/doWrite");
@@ -65,6 +57,7 @@ public class MyWebMVCConfigurer implements WebMvcConfigurer {
 		ir.addPathPatterns("/usr/article/doModify");
 		ir.addPathPatterns("/usr/article/doDelete");
 		ir.addPathPatterns("/usr/article/detail");
+		ir.addPathPatterns("/usr/article/doAction");
 
 //		회원관련
 		ir.addPathPatterns("/usr/member/checkPw");
@@ -72,7 +65,6 @@ public class MyWebMVCConfigurer implements WebMvcConfigurer {
 		ir.addPathPatterns("/usr/member/modify");
 		ir.addPathPatterns("/usr/member/doModify");
 		ir.addPathPatterns("/usr/member/membership");
-
 
 //		댓글관련
 		ir.addPathPatterns("/usr/comment/doWrite");
@@ -82,8 +74,10 @@ public class MyWebMVCConfigurer implements WebMvcConfigurer {
 //		좋아요 관련
 		ir.addPathPatterns("/usr/reactionPoint/doGoodReaction");
 		ir.addPathPatterns("/usr/reactionPoint/doBadReaction");
-
+		
+// 		로그아웃이 필요한 서비스
 		ir = registry.addInterceptor(needLogoutInterceptor);
+		
 		ir.addPathPatterns("/usr/member/login");
 		ir.addPathPatterns("/usr/member/doLogin");
 		ir.addPathPatterns("/usr/member/join");

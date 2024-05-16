@@ -21,7 +21,6 @@ import com.example.demo.util.Ut;
 import com.example.demo.vo.Article;
 import com.example.demo.vo.Board;
 import com.example.demo.vo.Comment;
-import com.example.demo.vo.Member;
 import com.example.demo.vo.ReactionPoint;
 import com.example.demo.vo.ResultData;
 import com.example.demo.vo.Rq;
@@ -30,10 +29,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class UsrArticleController {
-	
-	@Autowired
-	private Rq rq;
-	
+
 	@Autowired
 	private BoardService boardService;
 	
@@ -62,6 +58,7 @@ public class UsrArticleController {
 
 		Rq rq = (Rq) req.getAttribute("rq");
 		Board board = boardService.getBoardById(boardId);
+		
 		int id = rq.getLoginedMemberId();
 		List<Article> articles = null;
 		int articlesCount = 0;
@@ -70,9 +67,11 @@ public class UsrArticleController {
 			return rq.historyBackOnView("없는 게시판이야");
 		}
 
+		// 페이지네이션 한 페이지 당 보여줄 게시글 수
 		int itemsInAPage = 15;
 		
 		if(boardId == 4) {
+			// 나의 게시판의 경우 게시글 리스트 조건을 설정
 			articles = articleService.getForPrintMyArticles(id, itemsInAPage, page, searchKeywordTypeCode, searchKeyword);
 			articlesCount = articleService.getMyArticlesCount(id, searchKeywordTypeCode, searchKeyword);
 		} else {
@@ -80,6 +79,7 @@ public class UsrArticleController {
 			articlesCount = articleService.getArticlesCount(boardId, searchKeywordTypeCode, searchKeyword);
 		}
 		
+		// 페이지의 총 개수
 		int pagesCount = (int) Math.ceil(articlesCount / (double) itemsInAPage);
 		
 		model.addAttribute("board", board);
@@ -94,13 +94,15 @@ public class UsrArticleController {
 		return "usr/article/list";
 	}
 
+	
 	@RequestMapping("/usr/article/doAction")
 	@ResponseBody
+	// 질의응답 페이지에서 비밀번호 검증을 하기위한 메서드
 	public String doAction(int id, String loginPw) {
 
 		String password = articleService.getMemberByLoginPw(id);
 
-		loginPw = Ut.sha256(loginPw);
+		loginPw = Ut.sha256(loginPw); // 비밀번호 암호화
 		
 		if (password.equals(loginPw)) {
 			System.err.println("성공!!!");
@@ -113,30 +115,20 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(HttpServletRequest req, Model model, int id) {
+		
 		Rq rq = (Rq) req.getAttribute("rq");
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 
+		// 좋아요를 이미 했는지 확인
 		ResultData usersReactionRd = reactionPointService.usersReaction(rq.getLoginedMemberId(), "article", id);
 		
 		if (usersReactionRd.isSuccess()) {
 			model.addAttribute("userCanMakeReaction", usersReactionRd.isSuccess());
 		}
 
-	    // order 값을 받아옵니다.
-	    // String order = req.getParameter("order");
-
 	    List<Comment> comments = commentService.getForPrintComments(rq.getLoginedMemberId(), "article", id);
 	    List<ReactionPoint> reactionPoints = reactionPointService.isAlreadyAddGoodComRp(rq.getLoginedMemberId(), id, "comment");
-		/*
-		 * for (Comment comment : comments) {
-		 * reactionPointService.isAlreadyAddGoodRp(rq.getLoginedMemberId(), id,
-		 * "comment"); System.out.println("Comment ID: " + comment.getId());
-		 * System.out.println("Comment Text: " + comment.getText()); // Add more actions
-		 * as needed }
-		 */
-	    
-	    // ResultData usersComme  ntReactionRd = reactionPointService.usersReaction(rq.getLoginedMemberId(), "comment", id);
-		// List<ReactionPoint> reactionPoints = reactionPointService.isAlreadyAddGoodComRp(rq.getLoginedMemberId(), id, "comment");
+
 		if (usersReactionRd.isSuccess()) {
 			model.addAttribute("userCanMakeReaction", usersReactionRd.isSuccess());
 		}
@@ -158,6 +150,7 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/doIncreaseHitCountRd")
 	@ResponseBody
+	// 조회수 증가
 	public ResultData doIncreaseHitCountRd(int id) {
 
 		ResultData increaseHitCountRd = articleService.increaseHitCount(id);
@@ -176,6 +169,7 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doIncreaseGoodCountRd")
 	@ResponseBody
+	// 좋아요 수 증가
 	public ResultData doIncreaseGoodCountRd(HttpServletRequest req, int id) {
 		
 		Rq rq = (Rq) req.getAttribute("rq");
@@ -239,12 +233,14 @@ public class UsrArticleController {
 
 		Article article = articleService.getArticle(id);
 
+		// 파일 업로드와 저장하는 로직
 		Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
 		
 		for (String fileInputName : fileMap.keySet()) {
 			MultipartFile multipartFile = fileMap.get(fileInputName);
 
 			if (multipartFile.isEmpty() == false) {
+				// 파일 저장
 				genFileService.save(multipartFile, id);
 			}
 		}
@@ -264,7 +260,8 @@ public class UsrArticleController {
 		if (article == null) {
 			return Ut.jsHistoryBack("F-1", Ut.f("%d번 글은 존재하지 않습니다", id));
 		}
-
+		
+		// 수정 권한을 확인
 		ResultData loginedMemberCanModifyRd = articleService.userCanModify(rq.getLoginedMemberId(), article);
 
 		if (loginedMemberCanModifyRd.isSuccess()) {
@@ -286,6 +283,7 @@ public class UsrArticleController {
 			return Ut.jsHistoryBack("F-1", Ut.f("%d번 글은 존재하지 않습니다", id));
 		}
 
+		// 삭제 권한을 확인
 		ResultData loginedMemberCanDeleteRd = articleService.userCanDelete(rq.getLoginedMemberId(), article);
 		
 		if (loginedMemberCanDeleteRd.isSuccess()) {
