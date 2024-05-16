@@ -136,7 +136,7 @@ $(document).ready(function() { //DOM이 준비되지 않음 -> 해결!
 	</div>
 		<form action="../article/doWrite" method="POST" onsubmit="ArticleWrite__submit(this); return false;"
 			enctype="multipart/form-data">
-			<input type="hidden" name=">${currentId }">
+			<input type="hidden" name="${currentId }">
 		<input type="hidden" name="body">
 		<div class="post-container">
 			<div style="display: flex; justify-content: space-between;">
@@ -153,10 +153,13 @@ $(document).ready(function() { //DOM이 준비되지 않음 -> 해결!
 						<input class="input input-bordered w-full max-w-xs mb-3" autocomplete="off" type="text"
 								placeholder="제목을 입력해주세요" name="title" style="height:40px"/>
 					</div>
-					<div class = "filebox ml-1 mb-1">첨부 이미지:
-						    <input class="upload-name" value="첨부파일" placeholder="첨부파일">
+				<!-- 	<div class = "filebox ml-1 mb-1">첨부 이미지:
+						    <input class="fileinput" value="첨부파일" placeholder="첨부파일">
 						    <label for="file" class="text-sm">파일찾기</label> 
 						    <input type="file" id="file">
+					</div> -->
+					<div class = "ml-1 mt-2 mb-1">첨부 이미지:
+						<input id="fileInput" placeholder="이미지를 선택해주세요" type="file" />
 					</div>
 					<div class="toast-ui-editor">
 						<script type="text/x-template">

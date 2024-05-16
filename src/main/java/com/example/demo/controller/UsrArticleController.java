@@ -240,7 +240,7 @@ public class UsrArticleController {
 		Article article = articleService.getArticle(id);
 
 		Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
-
+		
 		for (String fileInputName : fileMap.keySet()) {
 			MultipartFile multipartFile = fileMap.get(fileInputName);
 

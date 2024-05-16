@@ -258,10 +258,10 @@ document.addEventListener("DOMContentLoaded", function () {
 				<label for="email">*이메일:</label> <input type="email" id="email" name="email" autocomplete="off" value="${member.email }" required>
 			</div>
 			<div>
-				<label for="address">*주소:</label> <input type="text" class="w-20" id="postcode" name="postcode" placeholder="우편번호">
+				<label for="address">*주소:</label> <input type="text" class="w-20" id="postcode" name="postcode" placeholder="우편번호" required>
 				<input type="button" onclick="execDaumPostcode()" value="찾기"><br> <label for="address"></label> <input
-					type="text" id="address" name="address" placeholder="주소"><br> <label for="address"></label> <input
-					type="text" class="w-25" id="detailAddress" name="detailAddress" placeholder="상세주소"><br> <label
+					type="text" id="address" name="address" placeholder="주소" required ><br> <label for="address"></label> <input
+					type="text" class="w-25" id="detailAddress" name="detailAddress" placeholder="상세주소" required><br> <label
 					for="address"></label> <input type="text" class="w-20" id="extraAddress" name="extraAddress" placeholder="참고항목">
 
 				<script>

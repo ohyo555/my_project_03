@@ -543,26 +543,29 @@ function CommentWrite__submit(form) {
 				</div>
 			</c:forEach>
 		</div>
-
 		<!-- 댓글 등록 -->
-		<c:if test="${rq.isLogined() }">
-			<form action="../comment/doWrite" method="POST" onsubmit="CommentWrite__submit(this); return false;">
-				<input type="hidden" name="relTypeCode" value="article" /> <input type="hidden" name="relId" value="${article.id }" />
-				<label class="form-control"> <!-- 회원정보 버튼 -->
-					<div class="flex-none gap-2 m-3 ">
-						<div class="form-control">
-							<textarea name="comment" placeholder="댓글을 입력해주세요" class="textarea textarea-bordered h-24"></textarea>
-						</div>
-					</div>
-					<button class="btn btn-outline m-3"  type="submit">댓글등록</button>
-				</label>
-			</form>
-		</c:if>
-		<c:if test="${!rq.isLogined() }">
-			<div class = "backbutton_div">
-				<a class="loginbutton btn-outline"  href="${rq.loginUri }">LOGIN</a> 후 이용해주세요.
-			</div>
-		</c:if>
+		<c:choose>
+		    <c:when test="${not rq.isLogined()}">
+		        <div class="backbutton_div">
+		            <a class="loginbutton btn-outline" href="${rq.loginUri}">LOGIN</a> 후 이용해주세요.
+		        </div>
+		    </c:when>
+		
+		    <c:when test="${rq.loginedMember.authLevel != 7 && article.type == '질의응답'}">
+		        <div>&nbsp;&nbsp;&nbsp;관리자만 답변 가능합니다.</div>
+		    </c:when>
+		    
+		    <c:otherwise>
+		        <form action="../comment/doWrite" method="POST" onsubmit="ReplyWrite__submit(this); return false;">
+		            <input type="hidden" name="relTypeCode" value="article" />
+		            <input type="hidden" name="relId" value="${article.id}" />
+		            <div class="form-control">
+		                <textarea name="comment" placeholder="댓글을 입력해주세요" class="textarea textarea-bordered h-24"></textarea>
+		            </div>
+		            <button class="btn btn-outline mt-3" type="submit">댓글등록</button>
+		        </form>
+		    </c:otherwise>
+		</c:choose>
 	</div>
 
 
