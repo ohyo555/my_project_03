@@ -43,6 +43,7 @@
 - Maven
   
 ##### 🔥 기술스택
+- JDBC
 - Lombok
 - mybatis
 - JSTL
