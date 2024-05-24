@@ -36,7 +36,8 @@ public class UsrCrawlingController {
 
 	public void crawl() {
 
-		System.setProperty("webdriver.chrome.driver", "C:/work/chromedriver.exe"); // 크롬 드라이버 경로 설정
+		System.setProperty("webdriver.chrome.driver", "C:\\work\\sts-4.21.0.RELEASE-workspace\\myproject\\chromedriver.exe");
+		
 		ChromeOptions options = new ChromeOptions(); // 크롬 옵션 설정
 		options.addArguments("--headless");
 
@@ -69,8 +70,8 @@ public class UsrCrawlingController {
 
 	public void crawl2() {
 
-		System.setProperty("webdriver.chrome.driver", "C:/work/chromedriver.exe");
-
+		System.setProperty("webdriver.chrome.driver", "C:\\work\\sts-4.21.0.RELEASE-workspace\\myproject\\chromedriver.exe");
+		
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--headless");
 
@@ -87,7 +88,7 @@ public class UsrCrawlingController {
 			List<WebElement> elements = driver.findElements(By.cssSelector("tr"));
 
 			// CSV 파일에 데이터 쓰기
-			// saveToCSV(elements, "output.csv");
+			saveToCSV(elements, "result.csv");
 			saveToFile(elements, "result.txt");
 
 			for (WebElement element : elements) {
