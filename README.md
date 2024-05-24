@@ -84,7 +84,7 @@
    * [테이블정의서](https://docs.google.com/spreadsheets/d/1F4opj3PLpr22jlmu_YS9XtdkBE8jkTWn0vwvy8j5wd8/edit?usp=drive_link)
    * [ERD](https://www.erdcloud.com/d/uPMGyFY9MJmCfYmF4)
 - 사용설명서(관련가이드)
-  * [사용설명서_OHJ.pdf](https://github.com/ohyo555/my_project_03/files/15427442/_OHJ.pdf)
+  * [사용설명서_OHJ.pdf](https://github.com/ohyo555/my_project_03/files/15427817/_OHJ.pdf)
 
 #### 발표자료
 <hr>
