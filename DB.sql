@@ -122,8 +122,9 @@ CREATE TABLE `schedule`(
     `time` CHAR(20) NOT NULL,
     stadium CHAR(20) NOT NULL,
     boradcasting CHAR(100) NOT NULL,
-    `round` INT(10) NOT NULL,
-    info CHAR(20) NOT NULL
+    `round` CHAR(100) NOT NULL,
+    info CHAR(100) NOT NULL,
+    game CHAR(255)
 );
 
 #---------------------------------------------------------------------------
