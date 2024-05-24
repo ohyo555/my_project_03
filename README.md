@@ -1,5 +1,7 @@
 ## 🏐 배구 커뮤니티 사이트
 
+![L2024052111082181450](https://github.com/ohyo555/my_project_03/assets/153146836/8717c9c4-fd87-4c4c-9e58-d49fa111bf66)
+
 ![12](https://github.com/ohyo555/my_project_03/assets/153146836/f53b2e1d-4e3f-4ff9-b12b-168283658922)
 ![13](https://github.com/ohyo555/my_project_03/assets/153146836/4ed585ad-0c71-4a51-b746-a0195c17716c)
 
@@ -43,6 +45,7 @@
 - Maven
   
 ##### 🔥 기술스택
+- JDBC
 - Lombok
 - mybatis
 - JSTL
@@ -73,10 +76,22 @@
 <hr>
 
 - 화면설계
+   * [화면설계서](https://docs.google.com/spreadsheets/d/1Pe62rHtBZvIzzyuFnyZ1K9pe5wq7aQC-HU2Viig1F4c/edit?usp=drive_link)
+   * [Figma](https://www.figma.com/design/nEzihbBusIDO0m0D1qICiw/1%EC%B0%A8?node-id=8-22)
 - 기능설계
+   * [기능설계서](https://docs.google.com/spreadsheets/d/1_NO4-y3-rbH0oTAwMYHueVxapjoEAkXQMcp-kpvqwUs/edit?usp=drive_link)
 - 테이블설계
-- 사용설명서
+   * [테이블정의서](https://docs.google.com/spreadsheets/d/1F4opj3PLpr22jlmu_YS9XtdkBE8jkTWn0vwvy8j5wd8/edit?usp=drive_link)
+   * [ERD](https://www.erdcloud.com/d/uPMGyFY9MJmCfYmF4)
+- 사용설명서(관련가이드)
   * [사용설명서.docx](https://github.com/ohyo555/my_project_03/files/15291458/default.docx)
+
+#### 발표자료
+<hr>
+
+- PPT
+   * [개인프로젝트_오효주.pptx](https://github.com/ohyo555/my_project_03/files/15426480/_.pptx)
+
 
 #### Repository
 <hr>
