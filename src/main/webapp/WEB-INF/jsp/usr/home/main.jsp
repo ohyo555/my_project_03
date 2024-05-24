@@ -268,6 +268,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 <script>
+
 	document.addEventListener('DOMContentLoaded', function () {
 	    document.querySelectorAll('.swiper').forEach(function(swiperElement) {
 	        swiperElement.addEventListener('click', function(event) {

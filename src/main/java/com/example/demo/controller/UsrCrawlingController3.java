@@ -19,8 +19,8 @@ public class UsrCrawlingController3 {
 	public List<News> crawl() {
 		
 		// 크롬드라이버 경로 설정
-		// System.setProperty("webdriver.chrome.driver", "C:\\OHJ\\sts-4.22.0.RELEASE-workspace\\my_project_03\\chromedriver.exe");
-		System.setProperty("webdriver.chrome.driver", "C:\\work\\sts-4.21.0.RELEASE-workspace\\myproject\\chromedriver.exe");
+		//System.setProperty("webdriver.chrome.driver", "C:\\OHJ\\sts-4.22.0.RELEASE-workspace\\my_project_03\\chromedriver.exe");
+		 System.setProperty("webdriver.chrome.driver", "C:\\work\\sts-4.21.0.RELEASE-workspace\\myproject\\chromedriver.exe");
 		
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--headless"); // 브라우저를 표시하지 않고 실행할 경우

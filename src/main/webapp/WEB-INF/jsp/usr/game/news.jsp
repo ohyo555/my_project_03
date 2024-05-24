@@ -110,7 +110,8 @@
 	color: #800808;
 	display:block;
   	text-align: right;
-  	margin-left: 93%;
+  	margin-left: 90%;
+  	white-space: nowrap;
 } 
 
 .all:hover {
