@@ -270,11 +270,12 @@ document.addEventListener('DOMContentLoaded', function () {
 <script>
 
 	document.addEventListener('DOMContentLoaded', function () {
-	    document.querySelectorAll('.swiper').forEach(function(swiperElement) {
-	        swiperElement.addEventListener('click', function(event) {
-	            // 클릭된 .swiper의 post-name 요소의 텍스트 내용 가져오기
-	            var postName = event.target.querySelector('.post-name').textContent.trim();
-	            
+		document.querySelectorAll('.swiper-slide').forEach(function (slide) {
+	        slide.addEventListener('click', function (event) {
+	            // 클릭된 .swiper-slide의 post-name 요소의 텍스트 내용 가져오기
+	            var postNameElement = event.target.closest('.swiper-slide').querySelector('.post-name');
+	            var postName = postNameElement.textContent.trim();
+
 	            // postName에 기반한 URL 매핑 정의
 	            var urlMappings = {
 	                "경기일정 및 경기정보": "../game/calendar",
