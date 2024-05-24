@@ -76,15 +76,15 @@
 <hr>
 
 - 화면설계
-   * [화면설계서](https://docs.google.com/spreadsheets/d/1Pe62rHtBZvIzzyuFnyZ1K9pe5wq7aQC-HU2Viig1F4c/edit?usp=drive_link)
+   * [화면설계서.xlsx](https://github.com/ohyo555/my_project_03/files/15428004/default.xlsx)
    * [Figma](https://www.figma.com/design/nEzihbBusIDO0m0D1qICiw/1%EC%B0%A8?node-id=8-22)
 - 기능설계
-   * [기능설계서](https://docs.google.com/spreadsheets/d/1_NO4-y3-rbH0oTAwMYHueVxapjoEAkXQMcp-kpvqwUs/edit?usp=drive_link)
+   * [기능설계서.xlsx](https://github.com/ohyo555/my_project_03/files/15427998/default.xlsx)
 - 테이블설계
-   * [테이블정의서](https://docs.google.com/spreadsheets/d/1F4opj3PLpr22jlmu_YS9XtdkBE8jkTWn0vwvy8j5wd8/edit?usp=drive_link)
+   * [테이블정의서.xlsx](https://github.com/ohyo555/my_project_03/files/15428002/default.xlsx)
    * [ERD](https://www.erdcloud.com/d/uPMGyFY9MJmCfYmF4)
 - 사용설명서(관련가이드)
-  * [사용설명서_OHJ.pdf](https://github.com/ohyo555/my_project_03/files/15427442/_OHJ.pdf)
+  * [사용설명서_OHJ.pdf](https://github.com/ohyo555/my_project_03/files/15427986/_OHJ.pdf)
 
 #### 발표자료
 <hr>
